@@ -1,0 +1,109 @@
+#-------------------------------------------------------------------------------
+# Copyright (c) 2011 OBiBa. All rights reserved.
+#  
+# This program and the accompanying materials
+# are made available under the terms of the GNU Public License v3.0.
+#  
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+datashield.newSession <- function(opal) {
+  UseMethod('datashield.newSession');
+}
+
+datashield.newSession.opal <- function(opal) {
+  .extractJsonField(.post(opal, "datashield", "sessions"), c("id"), isArray=FALSE)
+}
+
+datashield.newSession.list <- function(opals) {
+  lapply(opals, FUN=datashield.newSession.opal)
+}
+
+datashield.setSession <- function(opal, ...) {
+  UseMethod('datashield.setSession');
+}
+
+datashield.setSession.opal <- function(opal, sessionId) {
+  .put(opal, "datashield", "session", sessionId, "current");
+}
+
+datashield.setSession.list <- function(opals, sessionId) {
+  lapply(opals, FUN=datashield.setSession.opal, sessionId)
+}
+
+datashield.aggregate=function(object, ...) {
+  UseMethod('datashield.aggregate');
+}
+
+# Inner methods that sends a script, and aggregates the result using the specified aggregation method
+datashield.aggregate.opal=function(opal, expr) {
+  expression = expr
+  # convert a call to a string
+  if(is.language(expr)) {
+    expression <- .deparse(expr)
+  } else if(! is.character(expr) ) {
+    return(print(paste("Invalid expression type: '", class(value), "'. Expected a call or character vector.", sep="")))
+  }
+  
+  .post(opal, "datashield", "session", "current", "aggregate", body=expression, contentType="application/x-rscript")
+}
+
+datashield.aggregate.list=function(opals, expr) {
+  lapply(opals, FUN=datashield.aggregate.opal, expr)
+}
+
+datashield.assign=function(object, ...) {
+  UseMethod('datashield.assign');
+}
+
+datashield.assign.opal=function(opal, symbol, value) {
+  if(is.language(value) || is.function(value)) {
+    contentType <- "application/x-rscript"
+    body <- .deparse(value)
+  } else if(is.character(value)) {
+    contentType <- "application/x-opal"
+    body <- value
+  } else {
+    return(print(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
+  }
+  
+  .put(opal, "datashield", "session", "current", "symbol", symbol, body=body, contentType=contentType)
+  # Return the new symbols length
+  datashield.length(opal, as.symbol(symbol))
+}
+
+datashield.assign.list=function(opals, ...) {
+  lapply(opals, FUN=datashield.assign.opal, ...)
+}
+
+datashield.symbols=function(object, ...) {
+  UseMethod('datashield.symbols');
+}
+
+datashield.symbols.opal=function(opal) {
+  .get(opal, "datashield", "session", "current", "symbols")
+}
+
+datashield.symbols.list=function(opals) {
+  lapply(opals, FUN=datashield.symbols.opal)
+}
+
+datashield.rm=function(object, ...) {
+  UseMethod('datashield.rm');
+}
+
+datashield.rm.list=function(opals, ...) {
+  lapply(opals, FUN=datashield.rm.opal, ...)
+}
+
+datashield.rm.opal=function(opal, symbol) {
+  .delete(opal, "datashield", "session", "current", "symbol", symbol)
+}
+
+.deparse <- function(expr) {
+  expression <- deparse(expr)
+  if(length(expression) > 1) {
+    expression = paste(expression, collapse='\n')
+  }
+  expression
+}
