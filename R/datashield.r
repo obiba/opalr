@@ -7,18 +7,44 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
+
+#' Create a new Datashield session in Opal(s).
+#' 
+#' @param opal opal object or list of opal objects
+#' @rdname datashield.newSession
+#' @export
+#' 
 datashield.newSession <- function(opal) {
   UseMethod('datashield.newSession');
 }
 
+#' Create a new Datashield session in Opal.
+#'
+#' @param opal opal object
+#' @rdname datashield.newSession
+#' @method datashield.newSession opal
+#' @S3method datashield.newSession opal
+#' 
 datashield.newSession.opal <- function(opal) {
   .extractJsonField(.post(opal, "datashield", "sessions"), c("id"), isArray=FALSE)
 }
 
+#' Create a new Datashield session in each Opal.
+#'
+#' @param opals opal objects list
+#' @rdname datashield.newSession
+#' @method datashield.newSession list
+#' @S3method datashield.newSession list
+#' 
 datashield.newSession.list <- function(opals) {
   lapply(opals, FUN=datashield.newSession.opal)
 }
 
+#' Set current Datashield session in Opal.
+#' 
+#' @param opal
+#' @export
+#' 
 datashield.setSession <- function(opal, ...) {
   UseMethod('datashield.setSession');
 }
@@ -31,6 +57,12 @@ datashield.setSession.list <- function(opals, sessionId) {
   lapply(opals, FUN=datashield.setSession.opal, sessionId)
 }
 
+#' Aggregate.
+#' 
+#' @param opal
+#' @param expr
+#' @export
+#' 
 datashield.aggregate=function(object, ...) {
   UseMethod('datashield.aggregate');
 }
@@ -52,6 +84,13 @@ datashield.aggregate.list=function(opals, expr) {
   lapply(opals, FUN=datashield.aggregate.opal, expr)
 }
 
+#' Assign a value to a symbol.
+#' 
+#' @param opal
+#' @param symbol
+#' @param value
+#' @export
+#' 
 datashield.assign=function(object, ...) {
   UseMethod('datashield.assign');
 }
@@ -69,13 +108,18 @@ datashield.assign.opal=function(opal, symbol, value) {
   
   .put(opal, "datashield", "session", "current", "symbol", symbol, body=body, contentType=contentType)
   # Return the new symbols length
-  datashield.length(opal, as.symbol(symbol))
+  #datashield.length(opal, as.symbol(symbol))
 }
 
 datashield.assign.list=function(opals, ...) {
   lapply(opals, FUN=datashield.assign.opal, ...)
 }
 
+#' Get symbols.
+#' 
+#' @param opal
+#' @export
+#' 
 datashield.symbols=function(object, ...) {
   UseMethod('datashield.symbols');
 }
@@ -88,6 +132,12 @@ datashield.symbols.list=function(opals) {
   lapply(opals, FUN=datashield.symbols.opal)
 }
 
+#' Remove a symbol.
+#' 
+#' @param opal
+#' @param symbol
+#' @export
+#' 
 datashield.rm=function(object, ...) {
   UseMethod('datashield.rm');
 }

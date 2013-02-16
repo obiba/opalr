@@ -7,12 +7,73 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
+
+
+#' Login Opal.
+#' 
+#' @param username
+#' @param password
+#' @param url
+#' @param opts
+#' @export
+#'
+opal.login <- function(username = NULL,password = NULL,url,opts=list()) {
+  if(is.list(url)){
+    lapply(url, function(u){opal.login(username, password, u, opts=opts)})
+  } else {
+    .opal.login(username, password, url, opts)
+  }
+}
+
+#' Create a new R session in Opal.
+#' 
+#' @param opal
+#' @export
+#'
+opal.newSession <- function(opal) {
+  .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)
+}
+
+#' Get datasources.
+#' 
+#' @param opal
+#' @param fields
+#' @export
+#'
+opal.datasources=function(opal, fields=NULL) {
+  .extractJsonField(.get(opal, "datasources"), fields)
+}
+
+#' Get tables of a datasource.
+#' 
+#' @param opal
+#' @param datasource
+#' @param fields
+#' @export
+#'
+opal.tables <- function(opal, datasource, fields=NULL) {
+  .extractJsonField(.get(opal, "datasource", datasource, "tables"), fields);
+}
+
+#' Get variables of a table.
+#' 
+#' @param opal
+#' @param datasource
+#' @param table
+#' @param fields
+#' @export
+#' 
+opal.variables <- function(opal, datasource, table, fields=NULL) {
+  .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variables"), fields)
+}
+
+#' Load dependencies.
 .onLoad <- function(libname, pkgname) {
   require(RCurl)
   require(rjson)
 }
 
-# Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
+#' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
 .url <- function(opal, ..., query=list()) {
 	.tmp <- paste(opal$url, "ws", paste(sapply(c(...), curlEscape), collapse="/"), sep="/")
 	if(length(query)) {
@@ -22,12 +83,12 @@
 	.tmp
 }
 
-# Constructs the value for the Authorization header
+#' Constructs the value for the Authorization header
 .authToken <- function(username, password) {
 	paste("X-Opal-Auth", base64(paste(username, password, sep=":")))
 }
 
-# Issues a request to opal for the specified resource
+#' Issues a request to opal for the specified resource
 .get <- function(opal, ..., query=list()) {
 	opts = curlOptions(httpget=TRUE, customrequest=NULL, .opts=opal$opts)
 	.perform(opal, .url(opal, ..., query=query), opts)
@@ -126,28 +187,4 @@
   class(opal) <- "opal"
 
   opal
-}
-
-opal.login <- function(username = NULL,password = NULL,url,opts=list()) {
-  if(is.list(url)){
-    lapply(url, function(u){opal.login(username, password, u, opts=opts)})
-  } else {
-    .opal.login(username, password, url, opts)
-  }
-}
-
-opal.newSession <- function(opal) {
-	.extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)
-}
-
-opal.datasources=function(opal, fields=NULL) {
-	.extractJsonField(.get(opal, "datasources"), fields)
-}
-
-opal.tables <- function(opal, datasource, fields=NULL) {
-	.extractJsonField(.get(opal, "datasource", datasource, "tables"), fields);
-}
-
-opal.variables <- function(opal, datasource, table, fields=NULL) {
-	.extractJsonField(.get(opal, "datasource", datasource, "table", table, "variables"), fields)
 }
