@@ -84,17 +84,27 @@ datashield.aggregate.list=function(opals, expr) {
   lapply(opals, FUN=datashield.aggregate.opal, expr)
 }
 
-#' Assign a value to a symbol.
+#' Assign a value to a symbol in Opal(s).
 #' 
 #' @param opal
 #' @param symbol
 #' @param value
+#' @rdname datashield.assign
 #' @export
 #' 
 datashield.assign=function(object, ...) {
   UseMethod('datashield.assign');
 }
 
+#' Assign a value to a symbol in Opal.
+#'
+#' @param opal opal object
+#' @param symbol
+#' @param value
+#' @rdname datashield.assign
+#' @method datashield.assign opal
+#' @S3method datashield.assign opal
+#'
 datashield.assign.opal=function(opal, symbol, value) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
@@ -111,23 +121,48 @@ datashield.assign.opal=function(opal, symbol, value) {
   #datashield.length(opal, as.symbol(symbol))
 }
 
+
+#' Assign a value to a symbol in each Opal.
+#'
+#' @param opals opal objects list
+#' @param symbol
+#' @param value
+#' @rdname datashield.assign
+#' @method datashield.assign list
+#' @S3method datashield.assign list
+#' 
 datashield.assign.list=function(opals, ...) {
   lapply(opals, FUN=datashield.assign.opal, ...)
 }
 
-#' Get symbols.
+#' Get symbols from Opal(s).
 #' 
 #' @param opal
+#' @rdname datashield.symbols
 #' @export
 #' 
 datashield.symbols=function(object, ...) {
   UseMethod('datashield.symbols');
 }
 
+#' Get symbols from Opal.
+#' 
+#' @param opal
+#' @rdname datashield.symbols
+#' @method datashield.symbols opal
+#' @S3method datashield.symbols opal
+#' 
 datashield.symbols.opal=function(opal) {
   .get(opal, "datashield", "session", "current", "symbols")
 }
 
+#' Get symbols from each Opal.
+#' 
+#' @param opal
+#' @rdname datashield.symbols
+#' @method datashield.symbols list
+#' @S3method datashield.symbols list
+#' 
 datashield.symbols.list=function(opals) {
   lapply(opals, FUN=datashield.symbols.opal)
 }
