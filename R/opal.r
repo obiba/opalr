@@ -38,6 +38,18 @@ opal.newSession <- function(opal) {
   .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)
 }
 
+#' Set current R session in Opal.
+#' 
+#' @title Set R session
+#' 
+#' @return The identifier of the session created.
+#' @param opal Opal object.
+#' @param sessionId The identifier of the session.
+#' @export
+opal.setSession <- function(opal, sessionId) {
+  .put(opal, "r", "session", sessionId, "current");
+}
+
 #' Get datasources from a opal.
 #' 
 #' @param opal Opal object.
@@ -66,6 +78,75 @@ opal.tables <- function(opal, datasource, fields=NULL) {
 #' @export
 opal.variables <- function(opal, datasource, table, fields=NULL) {
   .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variables"), fields)
+}
+
+#' Get a variable of a table from a opal.
+#' 
+#' @param opal Opal object.
+#' @param datasource Name of the datasource.
+#' @param table Name of the table in the datasource.
+#' @param variable Name of the variable in the table.
+#' @param fields
+#' @export
+opal.variable <- function(opal, datasource, table, variable, fields=NULL) {
+  .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variable", variable), fields)
+}
+
+#' Execute a R script.
+#'
+#' @param opal Opal object.
+#' @param script R script to execute.
+#' @param session Execute in current R session (default is TRUE).
+#' @export
+opal.execute <- function(opal, script, session=TRUE) {
+  if (session) {
+    .post(opal, "r", "session", "current", "execute", body=script, contentType="application/x-rscript")
+  } else {
+    .post(opal, "r", "execute", body=script, contentType="application/x-rscript")
+  }
+}
+
+#' Assign a Opal value to a R symbol in the current Datashield session.
+#' 
+#' @title Data assignment
+#' 
+#' @param opal Opal object.
+#' @param symbol Name of the R symbol.
+#' @param value Fully qualified name of a variable or a table in Opal (must be the same in each Opal).
+#' @export
+opal.assign <- function(opal, symbol, value) {
+  if(is.language(value) || is.function(value)) {
+    contentType <- "application/x-rscript"
+    body <- .deparse(value)
+  } else if(is.character(value)) {
+    contentType <- "application/x-opal"
+    body <- value
+  } else {
+    return(print(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
+  }
+  
+  .put(opal, "r", "session", "current", "symbol", symbol, body=body, contentType=contentType)
+}
+
+#' Get the R symbols available after the datashield.assign calls in the current Datashield session.
+#' 
+#' @title List R symbols
+#' 
+#' @param opal Opal object.
+#' @export
+opal.symbols <- function(opal) {
+  .get(opal, "r", "session", "current", "symbols")
+}
+
+#' Remove a symbol from the current Datashield session.
+#' 
+#' @title Remove a R symbol
+#' 
+#' @param opal Opal object.
+#' @param symbol Name of the R symbol.
+#' @export
+opal.rm <- function(opal, symbol) {
+  .delete(opal, "r", "session", "current", "symbol", symbol)
 }
 
 #' Load dependencies.
@@ -189,4 +270,13 @@ opal.variables <- function(opal, datasource, table, fields=NULL) {
   class(opal) <- "opal"
 
   opal
+}
+
+#
+.deparse <- function(expr) {
+  expression <- deparse(expr)
+  if(length(expression) > 1) {
+    expression = paste(expression, collapse='\n')
+  }
+  expression
 }

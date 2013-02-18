@@ -180,12 +180,3 @@ datashield.rm.opal=function(opal, symbol) {
 datashield.rm.list=function(opals, symbol) {
   lapply(opals, FUN=datashield.rm.opal, symbol)
 }
-
-
-.deparse <- function(expr) {
-  expression <- deparse(expr)
-  if(length(expression) > 1) {
-    expression = paste(expression, collapse='\n')
-  }
-  expression
-}

@@ -5,7 +5,7 @@
   opal.newSession(opal)
 }
 \arguments{
-  \item{opal}{}
+  \item{opal}{Opal object.}
 }
 \value{
   The identifier of the session created.
