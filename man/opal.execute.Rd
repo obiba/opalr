@@ -1,11 +1,11 @@
 \name{opal.execute}
 \alias{opal.execute}
-\title{Execute a R script.}
+\title{Execute a R script}
 \usage{
   opal.execute(opal, script, session = TRUE)
 }
 \arguments{
-  \item{opal}{Opal object.}
+  \item{opals}{Opal object or list of opal objects.}
 
   \item{script}{R script to execute.}
 
@@ -13,6 +13,6 @@
   TRUE).}
 }
 \description{
-  Execute a R script.
+  Execute a R script on Opal(s).
 }
 

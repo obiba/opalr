@@ -113,21 +113,27 @@ opal.variable <- function(opal, datasource, table, variable, fields=NULL) {
   .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variable", variable), fields)
 }
 
-#' Execute a R script.
+#' Execute a R script on Opal(s).
+#' 
+#' @title Execute a R script
 #'
-#' @param opal Opal object.
+#' @param opals Opal object or list of opal objects.
 #' @param script R script to execute.
 #' @param session Execute in current R session (default is TRUE).
 #' @export
 opal.execute <- function(opal, script, session=TRUE) {
-  if (session) {
-    .post(opal, "r", "session", "current", "execute", body=script, contentType="application/x-rscript")
+  if(is.list(opal)){
+    lapply(opal, function(o){opal.execute(o, script, session=session)})
   } else {
-    .post(opal, "r", "execute", body=script, contentType="application/x-rscript")
+    if (session) {
+      .post(opal, "r", "session", "current", "execute", body=script, contentType="application/x-rscript")
+    } else {
+      .post(opal, "r", "execute", body=script, contentType="application/x-rscript")
+    }
   }
 }
 
-#' Assign a Opal value to a R symbol in the current Datashield session.
+#' Assign a Opal value to a R symbol in the current R session.
 #' 
 #' @title Data assignment
 #' 
