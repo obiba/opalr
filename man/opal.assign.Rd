@@ -10,7 +10,7 @@
   \item{symbol}{Name of the R symbol.}
 
   \item{value}{Fully qualified name of a variable or a
-  table in Opal (must be the same in each Opal).}
+  table in Opal.}
 }
 \description{
   Assign a Opal value to a R symbol in the current

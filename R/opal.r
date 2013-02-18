@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2011 OBiBa. All rights reserved.
+# Copyright (c) 2013 OBiBa. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -59,6 +59,16 @@ opal.datasources=function(opal, fields=NULL) {
   .extractJsonField(.get(opal, "datasources"), fields)
 }
 
+#' Get a datasource from a opal.
+#' 
+#' @param opal Opal object.
+#' @param datasource Name of the datasource.
+#' @param fields
+#' @export
+opal.datasource=function(opal, datasource, fields=NULL) {
+  .extractJsonField(.get(opal, "datasource", datasource), fields)
+}
+
 #' Get tables of a datasource from a opal.
 #' 
 #' @param opal Opal object.
@@ -67,6 +77,17 @@ opal.datasources=function(opal, fields=NULL) {
 #' @export
 opal.tables <- function(opal, datasource, fields=NULL) {
   .extractJsonField(.get(opal, "datasource", datasource, "tables"), fields);
+}
+
+#' Get a table of a datasource from a opal.
+#' 
+#' @param opal Opal object.
+#' @param datasource Name of the datasource.
+#' @param table Name of the table in the datasource.
+#' @param fields
+#' @export
+opal.table <- function(opal, datasource, table, fields=NULL) {
+  .extractJsonField(.get(opal, "datasource", datasource, "table", table), fields);
 }
 
 #' Get variables of a table from a opal.
@@ -112,7 +133,7 @@ opal.execute <- function(opal, script, session=TRUE) {
 #' 
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
-#' @param value Fully qualified name of a variable or a table in Opal (must be the same in each Opal).
+#' @param value Fully qualified name of a variable or a table in Opal.
 #' @export
 opal.assign <- function(opal, symbol, value) {
   if(is.language(value) || is.function(value)) {
