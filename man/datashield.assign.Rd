@@ -2,38 +2,24 @@
 \alias{datashield.assign}
 \alias{datashield.assign.list}
 \alias{datashield.assign.opal}
-\title{Assign a value to a symbol in Opal(s).}
+\title{Data assignment}
 \usage{
-  datashield.assign(object, ...)
+  datashield.assign(opals, symbol, value)
 
   \method{datashield.assign}{opal} (opal, symbol, value)
 
   \method{datashield.assign}{list} (opals, ...)
 }
 \arguments{
-  \item{opal}{}
+  \item{opals}{Opal object or list of opal objects.}
 
-  \item{symbol}{}
+  \item{symbol}{Name of the R symbol.}
 
-  \item{value}{}
-
-  \item{opal}{opal object}
-
-  \item{symbol}{}
-
-  \item{value}{}
-
-  \item{opals}{opal objects list}
-
-  \item{symbol}{}
-
-  \item{value}{}
+  \item{value}{Fully qualified name of a variable or a
+  table in Opal (must be the same in each Opal).}
 }
 \description{
-  Assign a value to a symbol in Opal(s).
-
-  Assign a value to a symbol in Opal.
-
-  Assign a value to a symbol in each Opal.
+  Assign a Opal value to a R symbol in the current
+  Datashield session.
 }
 

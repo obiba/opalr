@@ -2,7 +2,7 @@
 \alias{datashield.symbols}
 \alias{datashield.symbols.list}
 \alias{datashield.symbols.opal}
-\title{Get symbols from Opal(s).}
+\title{List R symbols}
 \usage{
   datashield.symbols(object, ...)
 
@@ -11,17 +11,10 @@
   \method{datashield.symbols}{list} (opals)
 }
 \arguments{
-  \item{opal}{}
-
-  \item{opal}{}
-
-  \item{opal}{}
+  \item{opal}{Opal object or list of opal objects.}
 }
 \description{
-  Get symbols from Opal(s).
-
-  Get symbols from Opal.
-
-  Get symbols from each Opal.
+  Get the R symbols available after the datashield.assign
+  calls in the current Datashield session.
 }
 

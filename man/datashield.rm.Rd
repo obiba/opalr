@@ -1,15 +1,21 @@
 \name{datashield.rm}
 \alias{datashield.rm}
-\title{Remove a symbol.}
+\alias{datashield.rm.list}
+\alias{datashield.rm.opal}
+\title{Remove a R symbol}
 \usage{
-  datashield.rm(object, ...)
+  datashield.rm(opals, symbol)
+
+  \method{datashield.rm}{opal} (opal, symbol)
+
+  \method{datashield.rm}{list} (opals, symbol)
 }
 \arguments{
-  \item{opal}{}
+  \item{opals}{Opal object or list of opal objects.}
 
-  \item{symbol}{}
+  \item{symbol}{Name of the R symbol.}
 }
 \description{
-  Remove a symbol.
+  Remove a symbol from the current Datashield session.
 }
 

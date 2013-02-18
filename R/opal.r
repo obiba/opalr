@@ -9,14 +9,16 @@
 #-------------------------------------------------------------------------------
 
 
-#' Login Opal.
+#' Log in Opal(s).
 #' 
-#' @param username
-#' @param password
-#' @param url
-#' @param opts
+#' @title Opal login
+#' 
+#' @return A opal object or a list of opal objects.
+#' @param username User name in opal(s).
+#' @param password User password in opal(s).
+#' @param url Opal url or list of opal urls.
+#' @param opts Curl options
 #' @export
-#'
 opal.login <- function(username = NULL,password = NULL,url,opts=list()) {
   if(is.list(url)){
     lapply(url, function(u){opal.login(username, password, u, opts=opts)})
@@ -27,42 +29,41 @@ opal.login <- function(username = NULL,password = NULL,url,opts=list()) {
 
 #' Create a new R session in Opal.
 #' 
-#' @param opal
+#' @title New R session
+#' 
+#' @return The identifier of the session created.
+#' @param opal Opal object.
 #' @export
-#'
 opal.newSession <- function(opal) {
   .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)
 }
 
-#' Get datasources.
+#' Get datasources from a opal.
 #' 
-#' @param opal
+#' @param opal Opal object.
 #' @param fields
 #' @export
-#'
 opal.datasources=function(opal, fields=NULL) {
   .extractJsonField(.get(opal, "datasources"), fields)
 }
 
-#' Get tables of a datasource.
+#' Get tables of a datasource from a opal.
 #' 
-#' @param opal
-#' @param datasource
+#' @param opal Opal object.
+#' @param datasource Name of the datasource.
 #' @param fields
 #' @export
-#'
 opal.tables <- function(opal, datasource, fields=NULL) {
   .extractJsonField(.get(opal, "datasource", datasource, "tables"), fields);
 }
 
-#' Get variables of a table.
+#' Get variables of a table from a opal.
 #' 
-#' @param opal
-#' @param datasource
-#' @param table
+#' @param opal Opal object.
+#' @param datasource Name of the datasource.
+#' @param table Name of the table in the datasource.
 #' @param fields
 #' @export
-#' 
 opal.variables <- function(opal, datasource, table, fields=NULL) {
   .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variables"), fields)
 }
@@ -165,11 +166,12 @@ opal.variables <- function(opal, datasource, table, fields=NULL) {
 	}
 }
 
-# returns a list r such that r[[i]] == l[[i]][field] for all i:length(l)
+# Returns a list r such that r[[i]] == l[[i]][field] for all i:length(l)
 .select <- function(l, field) {
   lapply(l, function(obj) {obj[[field]]})
 }
 
+# Do the opal login
 .opal.login <- function(username,password,url,opts=list()) {
   opal <- new.env(parent=globalenv())
   
