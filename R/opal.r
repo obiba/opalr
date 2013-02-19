@@ -183,6 +183,7 @@ opal.rm <- function(opal, symbol) {
 }
 
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
+#' @keywords internal
 .url <- function(opal, ..., query=list()) {
 	.tmp <- paste(opal$url, "ws", paste(sapply(c(...), curlEscape), collapse="/"), sep="/")
 	if(length(query)) {
@@ -193,16 +194,20 @@ opal.rm <- function(opal, symbol) {
 }
 
 #' Constructs the value for the Authorization header
+#' @keywords internal
 .authToken <- function(username, password) {
 	paste("X-Opal-Auth", base64(paste(username, password, sep=":")))
 }
 
 #' Issues a request to opal for the specified resource
+#' @keywords internal
 .get <- function(opal, ..., query=list()) {
 	opts = curlOptions(httpget=TRUE, customrequest=NULL, .opts=opal$opts)
 	.perform(opal, .url(opal, ..., query=query), opts)
 }
 
+#' Post a request w/o body content
+#' @keywords internal
 .post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript') {
 	.nobody <- missing(body) || length(body) == 0
 	if(.nobody) {
@@ -214,6 +219,8 @@ opal.rm <- function(opal, symbol) {
 	.perform(opal, .url(opal, ..., query=query), opts)
 }
 
+#' Put a request w/o body content
+#' @keywords internal
 .put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript') {
 	.nobody <- missing(body) || length(body) == 0
 	if(.nobody) {
@@ -225,12 +232,16 @@ opal.rm <- function(opal, symbol) {
 	.perform(opal, .url(opal, ..., query=query), opts)
 }
 
+#' Delete a resource
+#' @keywords internal
 .delete <- function(opal, ..., query=list()) {
 	# Act like a GET, but send a DELETE.
 	opts = curlOptions(httpget=TRUE, customrequest="DELETE", .opts=opal$opts)
 	.perform(opal, .url(opal, ..., query=query), opts)
 }
 
+#' Perform the request
+#' @keywords internal
 .perform <- function(opal, url, opts) {
 	opal$reader <- dynCurlReader(opal$curl)
 
@@ -242,6 +253,8 @@ opal.rm <- function(opal, symbol) {
 	.handleResponse(list(code=info$response.code, content.type=info$content.type, cookielist=info$cookielist, content=content, headers=header))
 }
 
+#' Handle the request response
+#' @keywords internal
 .handleResponse <- function(response) {
 	if(response$code >= 400 && response$code < 500) {
 		print(paste("Invalid request(", response$code, "):", response$content))
@@ -262,6 +275,8 @@ opal.rm <- function(opal, symbol) {
 	}
 }
 
+#' Extract JSON
+#' @keywords internal
 .extractJsonField <- function(json, fields, isArray=TRUE) {
 	if(is.null(fields)) {
 	  json 
@@ -274,17 +289,22 @@ opal.rm <- function(opal, symbol) {
 	}
 }
 
-# Returns a list r such that r[[i]] == l[[i]][field] for all i:length(l)
+#' Returns a list r such that r[[i]] == l[[i]][field] for all i:length(l)
+#' @keywords internal
 .select <- function(l, field) {
   lapply(l, function(obj) {obj[[field]]})
 }
 
-# Do the opal login
+#' Create the opal object
+#' @keywords internal
 .opal.login <- function(username,password,url,opts=list()) {
   opal <- new.env(parent=globalenv())
   
   # Strip trailing slash
   opal$url <- sub("/$", "", url)
+  
+  # Domain name
+  opal$name <- gsub("[:/].*", "", gsub("http[s]*://", "", opal$url))
   
   # cookielist="" activates the cookie engine
   headers <- c(Accept="application/octet-stream, application/json");
@@ -299,7 +319,8 @@ opal.rm <- function(opal, symbol) {
   opal
 }
 
-#
+#' Turn expression into character strings.
+#' @keywords internal
 .deparse <- function(expr) {
   expression <- deparse(expr)
   if(length(expression) > 1) {

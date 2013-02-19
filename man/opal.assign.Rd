@@ -13,7 +13,7 @@
   table in Opal.}
 }
 \description{
-  Assign a Opal value to a R symbol in the current
-  Datashield session.
+  Assign a Opal value to a R symbol in the current R
+  session.
 }
 
