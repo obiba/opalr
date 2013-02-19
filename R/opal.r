@@ -185,108 +185,128 @@ opal.rm <- function(opal, symbol) {
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
 #' @keywords internal
 .url <- function(opal, ..., query=list()) {
-	.tmp <- paste(opal$url, "ws", paste(sapply(c(...), curlEscape), collapse="/"), sep="/")
-	if(length(query)) {
-		.params <- paste(sapply(names(query), function(id) paste(id, curlEscape(query[[id]]), sep = "="), simplify=FALSE), collapse = "&")
-		.tmp <- paste(.tmp, .params, sep="?")
-	}
-	.tmp
+  .tmp <- paste(opal$url, "ws", paste(sapply(c(...), curlEscape), collapse="/"), sep="/")
+  if(length(query)) {
+    .params <- paste(sapply(names(query), function(id) paste(id, curlEscape(query[[id]]), sep = "="), simplify=FALSE), collapse = "&")
+    .tmp <- paste(.tmp, .params, sep="?")
+  }
+  .tmp
 }
 
 #' Constructs the value for the Authorization header
 #' @keywords internal
 .authToken <- function(username, password) {
-	paste("X-Opal-Auth", base64(paste(username, password, sep=":")))
+  paste("X-Opal-Auth", base64(paste(username, password, sep=":")))
 }
 
 #' Issues a request to opal for the specified resource
 #' @keywords internal
-.get <- function(opal, ..., query=list()) {
-	opts = curlOptions(httpget=TRUE, customrequest=NULL, .opts=opal$opts)
-	.perform(opal, .url(opal, ..., query=query), opts)
+.get <- function(opal, ..., query=list(), callback=NULL) {
+  opts = curlOptions(httpget=TRUE, customrequest=NULL, .opts=opal$opts)
+  .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
 }
 
 #' Post a request w/o body content
 #' @keywords internal
-.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript') {
-	.nobody <- missing(body) || length(body) == 0
-	if(.nobody) {
-		# Act like a GET, but send a POST. This is required when posting without any body 
-		opts = curlOptions(httpget=TRUE, customrequest="POST", .opts=opal$opts)
-	} else {
-		opts = curlOptions(post=TRUE, customrequest=NULL, httpheader=c(opal$opts$httpheader, 'Content-Type'=contentType), postfields=body, .opts=opal$opts)
-	}
-	.perform(opal, .url(opal, ..., query=query), opts)
+.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
+  .nobody <- missing(body) || length(body) == 0
+  if(.nobody) {
+    # Act like a GET, but send a POST. This is required when posting without any body 
+    opts = curlOptions(httpget=TRUE, customrequest="POST", .opts=opal$opts)
+  } else {
+    opts = curlOptions(post=TRUE, customrequest=NULL, httpheader=c(opal$opts$httpheader, 'Content-Type'=contentType), postfields=body, .opts=opal$opts)
+  }
+  .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
 }
 
 #' Put a request w/o body content
 #' @keywords internal
-.put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript') {
-	.nobody <- missing(body) || length(body) == 0
-	if(.nobody) {
-		# Act like a GET, but send a PUT. This is required when posting without any body 
-		opts = curlOptions(httpget=TRUE, customrequest="PUT", .opts=opal$opts)
-	} else {
-		opts = curlOptions(post=TRUE, httpheader=c(opal$opts$httpheader, 'Content-Type'=contentType), postfields=body, customrequest="PUT", .opts=opal$opts)
-	}
-	.perform(opal, .url(opal, ..., query=query), opts)
+.put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
+  .nobody <- missing(body) || length(body) == 0
+  if(.nobody) {
+    # Act like a GET, but send a PUT. This is required when posting without any body 
+    opts = curlOptions(httpget=TRUE, customrequest="PUT", .opts=opal$opts)
+  } else {
+    opts = curlOptions(post=TRUE, httpheader=c(opal$opts$httpheader, 'Content-Type'=contentType), postfields=body, customrequest="PUT", .opts=opal$opts)
+  }
+  .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
 }
 
 #' Delete a resource
 #' @keywords internal
-.delete <- function(opal, ..., query=list()) {
-	# Act like a GET, but send a DELETE.
-	opts = curlOptions(httpget=TRUE, customrequest="DELETE", .opts=opal$opts)
-	.perform(opal, .url(opal, ..., query=query), opts)
+.delete <- function(opal, ..., query=list(), callback=NULL) {
+  # Act like a GET, but send a DELETE.
+  opts = curlOptions(httpget=TRUE, customrequest="DELETE", .opts=opal$opts)
+  .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
 }
 
 #' Perform the request
 #' @keywords internal
-.perform <- function(opal, url, opts) {
-	opal$reader <- dynCurlReader(opal$curl)
-
-	handle <- opal$curl
-	curlPerform(url=url, .opts=opts, writefunction=opal$reader$update,  curl=handle)
-	content <- opal$reader$value()
-	header <- parseHTTPHeader(opal$reader$header())
-	info <- getCurlInfo(handle)
-	.handleResponse(list(code=info$response.code, content.type=info$content.type, cookielist=info$cookielist, content=content, headers=header))
+.perform <- function(opal, url, opts, callback=NULL) {
+  opal$reader <- dynCurlReader(opal$curl)
+  
+  handle <- opal$curl
+  curlPerform(url=url, .opts=opts, writefunction=opal$reader$update,  curl=handle)
+  content <- opal$reader$value()
+  header <- parseHTTPHeader(opal$reader$header())
+  info <- getCurlInfo(handle)
+  response <- list(code=info$response.code, content.type=info$content.type, cookielist=info$cookielist, content=content, headers=header)
+  if (is.null(callback)) {
+    .handleResponse(response)  
+  } else {
+    handler <- match.fun(callback)
+    handler(response)
+  }
 }
 
-#' Handle the request response
+#' Default request response handler.
 #' @keywords internal
 .handleResponse <- function(response) {
-	if(response$code >= 400 && response$code < 500) {
-		print(paste("Invalid request(", response$code, "):", response$content))
-		NULL
-	}	else if(response$code >= 500) {
-		print(paste("Server error: ", response$code, " ", response$content))
-		NULL
-	} else {
-		if(length(grep("octet-stream", response$content.type))) {
-			unserialize(response$content)
-		} else if(length(grep("json", response$content.type))) {
-          if(is.raw(response$content)) {
-            fromJSON(readChar(response$content, length(response$content)));
-          } else {
-            fromJSON(response$content);
-          }
-		}
-	}
+  if(response$code >= 400) { 
+    msg <- ""
+    if(response$code < 500) {
+      msg <- paste("Invalid request (", response$code, ")", sep='')
+    } else {
+      msg <- paste("Server error (", response$code, ")", sep='')
+    }
+    if (!.isContentEmpty(response$content)) {
+      msg <- paste(msg, ":", response$content)
+    }
+    print(msg)
+    NULL
+  }	else {
+    if(length(grep("octet-stream", response$content.type))) {
+      unserialize(response$content)
+    } else if(length(grep("json", response$content.type))) {
+      if(is.raw(response$content)) {
+        fromJSON(readChar(response$content, length(response$content)));
+      } else {
+        fromJSON(response$content);
+      }
+    }
+  }
+}
+
+#' Check if response content is empty.
+#' @keywords internal
+.isContentEmpty <- function(content) {
+  return(is.null(content) 
+  || (is.raw(content) && nchar(rawToChar(content))==0)
+  || (is.character(content) && nchar(content)==0))
 }
 
 #' Extract JSON
 #' @keywords internal
 .extractJsonField <- function(json, fields, isArray=TRUE) {
-	if(is.null(fields)) {
-	  json 
-	} else {
-		if(isArray) {
-          lapply(l, function(obj) {obj[fields]})
-		} else {
-			json[fields]
-  		}
-	}
+  if(is.null(fields)) {
+    json 
+  } else {
+    if(isArray) {
+      lapply(l, function(obj) {obj[fields]})
+    } else {
+      json[fields]
+    }
+  }
 }
 
 #' Returns a list r such that r[[i]] == l[[i]][field] for all i:length(l)
@@ -315,7 +335,7 @@ opal.rm <- function(opal, symbol) {
   opal$curl <- curlSetOpt(.opts=opal$opts)
   opal$reader <- dynCurlReader(curl=opal$curl)
   class(opal) <- "opal"
-
+  
   opal
 }
 
