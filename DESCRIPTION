@@ -4,7 +4,7 @@ Title: Opal R API
 Author: OBiBa <info@obiba.org>
 Maintainer: OBiBa <info@obiba.org>
 Depends:
-    R (>= 2.9.0)
+    R (>= 2.9.0),
     RCurl (>= 1.6-6),
     rjson
 Description: Data integration Web application for biobanks by OBiBa. Opal is
