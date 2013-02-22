@@ -263,11 +263,11 @@ opal.rm <- function(opal, symbol) {
 #' @keywords internal
 .handleResponse <- function(response) {
   if(response$code >= 400) { 
-    msg <- ""
+    msg <- gsub("[\n\r]","",response$headers['statusMessage'])
     if(response$code < 500) {
-      msg <- paste("Invalid request (", response$code, ")", sep='')
+      msg <- paste(msg, " (", response$code, ")", sep='')
     } else {
-      msg <- paste("Server error (", response$code, ")", sep='')
+      msg <- paste(msg, " (", response$code, ")", sep='')
     }
     if (!.isContentEmpty(response$content)) {
       msg <- paste(msg, ":", response$content)
