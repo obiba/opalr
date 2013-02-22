@@ -121,14 +121,14 @@ datashield.assign.opal=function(opal, symbol, value) {
     return(print(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
   }
   
-  .put(opal, "datashield", "session", "current", "symbol", symbol, body=body, contentType=contentType)
+  resp <- .put(opal, "datashield", "session", "current", "symbol", symbol, body=body, contentType=contentType)
 }
 
 #' @rdname datashield.assign
 #' @method datashield.assign list
 #' @S3method datashield.assign list
 datashield.assign.list=function(opals, ...) {
-  lapply(opals, FUN=datashield.assign.opal, ...)
+  resp <- lapply(opals, FUN=datashield.assign.opal, ...)
 }
 
 #' Get the R symbols available after the datashield.assign calls in the current Datashield session.
