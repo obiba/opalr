@@ -252,21 +252,21 @@ opal.rm <- function(opal, symbol) {
   info <- getCurlInfo(handle)
   response <- list(code=info$response.code, content.type=info$content.type, cookielist=info$cookielist, content=content, headers=header)
   if (is.null(callback)) {
-    .handleResponse(response)  
+    .handleResponse(opal, response)  
   } else {
     handler <- match.fun(callback)
-    handler(response)
+    handler(opal, response)
   }
 }
 
 #' Default request response handler.
 #' @keywords internal
-.handleResponse <- function(response) {
+.handleResponse <- function(opal, response) {
   if(response$code >= 400) { 
     msg <- gsub("[\n\r]","",response$headers['statusMessage'])
-    msg <- paste(msg, " (", response$code, ")", sep='')
+    msg <- paste(opal$name, ": ", msg, " (", response$code, ")", sep='')
     if (!.isContentEmpty(response$content)) {
-      msg <- paste(msg, ":", response$content)
+      msg <- paste(msg, ": ", response$content, sep='')
     }
     message(msg)
     NULL
