@@ -149,7 +149,7 @@ opal.assign <- function(opal, symbol, value) {
     contentType <- "application/x-opal"
     body <- value
   } else {
-    return(print(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
+    return(message(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
   }
   
   .put(opal, "r", "session", "current", "symbol", symbol, body=body, contentType=contentType)
@@ -268,7 +268,7 @@ opal.rm <- function(opal, symbol) {
     if (!.isContentEmpty(response$content)) {
       msg <- paste(msg, ":", response$content)
     }
-    print(msg)
+    message(msg)
     NULL
   }	else {
     if(length(grep("octet-stream", response$content.type))) {
