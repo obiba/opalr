@@ -16,4 +16,6 @@ Usage:
     library('opal')
     os <- opal.login('username', 'passwd', list('http://opal1.org', 'http://opal2.org'))
     datashield.assign(os, 'VAR1', 'datasource.table:VAR1')
-    datashield.summary(os,'VAR1')
+    datashield.symbols(os)
+    datashield.rm(os, 'VAR1')
+    datashield.methods(os,type='assign')
