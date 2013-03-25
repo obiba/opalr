@@ -24,7 +24,7 @@ datashield.newSession <- function(opals) {
 #' @method datashield.newSession opal
 #' @S3method datashield.newSession opal
 datashield.newSession.opal <- function(opal) {
-  .extractJsonField(.post(opal, "datashield", "sessions"), c("id"), isArray=FALSE)
+  opal:::.extractJsonField(.post(opal, "datashield", "sessions"), c("id"), isArray=FALSE)
 }
 
 #' @rdname datashield.newSession
@@ -50,7 +50,7 @@ datashield.setSession <- function(opal, sessionId) {
 #' @method datashield.setSession opal
 #' @S3method datashield.setSession opal
 datashield.setSession.opal <- function(opal, sessionId) {
-  .put(opal, "datashield", "session", sessionId, "current");
+  opal:::.put(opal, "datashield", "session", sessionId, "current");
 }
 
 #' @rdname datashield.setSession
@@ -84,7 +84,7 @@ datashield.aggregate.opal=function(opal, expr) {
     return(print(paste("Invalid expression type: '", class(value), "'. Expected a call or character vector.", sep="")))
   }
   
-  .post(opal, "datashield", "session", "current", "aggregate", body=expression, contentType="application/x-rscript")
+  opal:::.post(opal, "datashield", "session", "current", "aggregate", body=expression, contentType="application/x-rscript")
 }
 
 #' @rdname datashield.aggregate
@@ -121,7 +121,7 @@ datashield.assign.opal=function(opal, symbol, value) {
     return(print(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
   }
   
-  resp <- .put(opal, "datashield", "session", "current", "symbol", symbol, body=body, contentType=contentType)
+  resp <- opal:::.put(opal, "datashield", "session", "current", "symbol", symbol, body=body, contentType=contentType)
 }
 
 #' @rdname datashield.assign
@@ -146,7 +146,7 @@ datashield.symbols=function(object, ...) {
 #' @method datashield.symbols opal
 #' @S3method datashield.symbols opal
 datashield.symbols.opal=function(opal) {
-  .get(opal, "datashield", "session", "current", "symbols")
+  opal:::.get(opal, "datashield", "session", "current", "symbols")
 }
 
 #' @rdname datashield.symbols
@@ -171,7 +171,7 @@ datashield.rm=function(opals, symbol) {
 #' @method datashield.rm opal
 #' @S3method datashield.rm opal
 datashield.rm.opal=function(opal, symbol) {
-  .delete(opal, "datashield", "session", "current", "symbol", symbol)
+  opal:::.delete(opal, "datashield", "session", "current", "symbol", symbol)
 }
 
 #' @rdname datashield.rm
@@ -179,4 +179,29 @@ datashield.rm.opal=function(opal, symbol) {
 #' @S3method datashield.rm list
 datashield.rm.list=function(opals, symbol) {
   lapply(opals, FUN=datashield.rm.opal, symbol)
+}
+
+#' Get available Datashield methods of a given type.
+#' 
+#' @title List Datashield methods
+#' 
+#' @param opals Opal object or list of opal objects.
+#' @param type Type of the method: "aggregate" (default) or "assign".
+#' @export
+datashield.methods=function(opals, type="aggregate") {
+  UseMethod('datashield.methods');
+}
+
+#' @rdname datashield.methods
+#' @method datashield.methods opal
+#' @S3method datashield.methods opal
+datashield.methods.opal=function(opal, type="aggregate") {
+  opal:::.get(opal, "datashield", "env", type, "methods")
+}
+
+#' @rdname datashield.methods
+#' @method datashield.methods list
+#' @S3method datashield.methods list
+datashield.methods.list=function(opals, type="aggregate") {
+  lapply(opals, FUN=datashield.methods.opal, type)
 }
