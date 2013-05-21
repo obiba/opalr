@@ -101,17 +101,18 @@ datashield.aggregate.list=function(opals, expr) {
 #' @param opals Opal object or list of opal objects.
 #' @param symbol Name of the R symbol.
 #' @param value Fully qualified name of a variable or a table in Opal (must be the same in each Opal) or a R expression with allowed assign functions calls.
+#' @param variableFilter Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
 #' @rdname datashield.assign
 #' @export
-datashield.assign=function(opals, symbol, value, missings=FALSE) {
+datashield.assign=function(opals, symbol, value, variableFilter=NULL, missings=FALSE) {
   UseMethod('datashield.assign');
 }
 
 #' @rdname datashield.assign
 #' @method datashield.assign opal
 #' @S3method datashield.assign opal
-datashield.assign.opal=function(opal, symbol, value, missings=FALSE) {
+datashield.assign.opal=function(opal, symbol, value, variableFilter=NULL, missings=FALSE) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
     body <- .deparse(value)
@@ -119,7 +120,7 @@ datashield.assign.opal=function(opal, symbol, value, missings=FALSE) {
   } else if(is.character(value)) {
     contentType <- "application/x-opal"
     body <- value
-    query <- list(missings=missings)
+    query <- list(missings=missings, variables=variableFilter)
   } else {
     return(print(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
   }

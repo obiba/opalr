@@ -190,9 +190,10 @@ opal.execute <- function(opal, script, session=TRUE) {
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
 #' @param value Fully qualified name of a variable or a table in Opal or a R expression.
+#' @param variableFilter Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
 #' @export
-opal.assign <- function(opal, symbol, value, missings=FALSE) {
+opal.assign <- function(opal, symbol, value, variableFilter=NULL, missings=FALSE) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
     body <- .deparse(value)
@@ -200,7 +201,7 @@ opal.assign <- function(opal, symbol, value, missings=FALSE) {
   } else if(is.character(value)) {
     contentType <- "application/x-opal"
     body <- value
-    query <- list(missings=missings)
+    query <- list(missings=missings, variables=variableFilter)
   } else {
     return(message(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
   }
