@@ -139,20 +139,23 @@ opal.execute <- function(opal, script, session=TRUE) {
 #' 
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
-#' @param value Fully qualified name of a variable or a table in Opal.
+#' @param value Fully qualified name of a variable or a table in Opal or a R expression.
+#' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
 #' @export
-opal.assign <- function(opal, symbol, value) {
+opal.assign <- function(opal, symbol, value, missings=FALSE) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
     body <- .deparse(value)
+    query <- list()
   } else if(is.character(value)) {
     contentType <- "application/x-opal"
     body <- value
+    query <- list(missings=missings)
   } else {
     return(message(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
   }
   
-  .put(opal, "r", "session", "current", "symbol", symbol, body=body, contentType=contentType)
+  .put(opal, "r", "session", "current", "symbol", symbol, body=body, contentType=contentType, query=query)
 }
 
 #' Get the R symbols available after the datashield.assign calls in the current Datashield session.

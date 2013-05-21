@@ -100,28 +100,31 @@ datashield.aggregate.list=function(opals, expr) {
 #' 
 #' @param opals Opal object or list of opal objects.
 #' @param symbol Name of the R symbol.
-#' @param value Fully qualified name of a variable or a table in Opal (must be the same in each Opal).
+#' @param value Fully qualified name of a variable or a table in Opal (must be the same in each Opal) or a R expression with allowed assign functions calls.
+#' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
 #' @rdname datashield.assign
 #' @export
-datashield.assign=function(opals, symbol, value) {
+datashield.assign=function(opals, symbol, value, missings=FALSE) {
   UseMethod('datashield.assign');
 }
 
 #' @rdname datashield.assign
 #' @method datashield.assign opal
 #' @S3method datashield.assign opal
-datashield.assign.opal=function(opal, symbol, value) {
+datashield.assign.opal=function(opal, symbol, value, missings=FALSE) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
     body <- .deparse(value)
+    query <- list()
   } else if(is.character(value)) {
     contentType <- "application/x-opal"
     body <- value
+    query <- list(missings=missings)
   } else {
     return(print(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
   }
   
-  resp <- opal:::.put(opal, "datashield", "session", "current", "symbol", symbol, body=body, contentType=contentType)
+  resp <- opal:::.put(opal, "datashield", "session", "current", "symbol", symbol, body=body, contentType=contentType, query=query)
 }
 
 #' @rdname datashield.assign
