@@ -27,6 +27,20 @@ opal.login <- function(username = NULL,password = NULL,url,opts=list()) {
   }
 }
 
+#' Clear the R sessions and logout from Opal(s).
+#' 
+#' @title Logout from Opal(s)
+#' 
+#' @param opals Opal object or a list of opals.
+#' @export
+opal.logout <- function(opals) {
+  if (is.list(opals)) {
+    lapply(opals, function(o){opal.logout(o)})  
+  } else {
+    opal.rmSessions(opals)
+  }
+}
+
 #' Create a new R session in Opal.
 #' 
 #' @title New R session
@@ -36,6 +50,17 @@ opal.login <- function(username = NULL,password = NULL,url,opts=list()) {
 #' @export
 opal.newSession <- function(opal) {
   .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)
+}
+
+#' Get all session identifiers in Opal.
+#' 
+#' @title Get R sessions
+#' 
+#' @return The list of session identifiers.
+#' @param opal Opal object.
+#' @export
+opal.getSessions <- function(opal) {
+  .extractJsonField(.get(opal, "r", "sessions"), c("id"))
 }
 
 #' Set current R session in Opal.
@@ -48,6 +73,31 @@ opal.newSession <- function(opal) {
 #' @export
 opal.setSession <- function(opal, sessionId) {
   .put(opal, "r", "session", sessionId, "current");
+}
+
+#' Remove R session from Opal.
+#' 
+#' @title Remove R session
+#' 
+#' @param opal Opal object.
+#' @param sessionId The identifier of the session to be removed. If omitted, current session is removed.
+#' @export
+opal.rmSession <- function(opal, sessionId=NULL) {
+  if (is.null(sessionId)) {
+    .delete(opal, "r", "session", "current");
+  } else {
+    .delete(opal, "r", "session", sessionId);
+  }
+}
+
+#' Remove all R sessions from Opal.
+#' 
+#' @title Remove all R sessions
+#' 
+#' @param opal Opal object.
+#' @export
+opal.rmSessions <- function(opal) {
+  .delete(opal, "r", "sessions");
 }
 
 #' Get datasources from a opal.
@@ -301,7 +351,7 @@ opal.rm <- function(opal, symbol) {
     json 
   } else {
     if(isArray) {
-      lapply(l, function(obj) {obj[fields]})
+      lapply(json, function(obj) {obj[fields]})
     } else {
       json[fields]
     }
