@@ -2,7 +2,7 @@
 \alias{opal.assign}
 \title{Data assignment}
 \usage{
-  opal.assign(opal, symbol, value, variableFilter = NULL,
+  opal.assign(opal, symbol, value, variables = NULL,
     missings = FALSE)
 }
 \arguments{
@@ -13,9 +13,10 @@
   \item{value}{Fully qualified name of a variable or a
   table in Opal or a R expression.}
 
-  \item{variableFilter}{Javascript expression that selects
-  the variables of a table (ignored if value does not
-  refere to a table). See javascript documentation:
+  \item{variables}{List of variable names or Javascript
+  expression that selects the variables of a table (ignored
+  if value does not refere to a table). See javascript
+  documentation:
   http://wiki.obiba.org/display/OPALDOC/Variable+Methods}
 
   \item{missings}{If TRUE, missing values will be pushed

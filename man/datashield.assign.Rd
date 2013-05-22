@@ -4,11 +4,11 @@
 \alias{datashield.assign.opal}
 \title{Data assignment}
 \usage{
-  datashield.assign(opals, symbol, value,
-    variableFilter = NULL, missings = FALSE)
+  datashield.assign(opals, symbol, value, variables = NULL,
+    missings = FALSE)
 
   \method{datashield.assign}{opal} (opal, symbol, value,
-    variableFilter = NULL, missings = FALSE)
+    variables = NULL, missings = FALSE)
 
   \method{datashield.assign}{list} (opals, ...)
 }
@@ -21,9 +21,10 @@
   table in Opal (must be the same in each Opal) or a R
   expression with allowed assign functions calls.}
 
-  \item{variableFilter}{Javascript expression that selects
-  the variables of a table (ignored if value does not
-  refere to a table). See javascript documentation:
+  \item{variables}{List of variable names or Javascript
+  expression that selects the variables of a table (ignored
+  if value does not refere to a table). See javascript
+  documentation:
   http://wiki.obiba.org/display/OPALDOC/Variable+Methods}
 
   \item{missings}{If TRUE, missing values will be pushed
