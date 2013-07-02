@@ -39,3 +39,26 @@ message("**** clean symbols:")
 opal.rm(o,'SEX')
 opal.rm(o,'BMI')
 opal.symbols(o)
+
+message("**** assign enumerated variables in a data.frame:")
+opal.assign(o,'HOP','opal-data.HOP',variables=list('GENDER','PM_BMI_CONTINUOUS'))
+opal.symbols(o)
+
+message("**** execute some operations on the data.frame:")
+opal.execute(o,'head(HOP)')
+opal.execute(o,'colnames(HOP)')
+opal.execute(o,'summary(HOP$GENDER)')
+opal.execute(o,'summary(HOP$PM_BMI_CONTINUOUS)')
+
+message("**** assign variables filtered by Magma javascript in a data.frame:")
+opal.assign(o,'HOP','opal-data.HOP',variables='name().matches("DIAB")')
+
+message("**** execute some operations on the data.frame:")
+opal.execute(o,'head(HOP)')
+vars <- opal.execute(o,'colnames(HOP)')
+vars
+lapply(vars, function(v) { opal.execute(o, paste0('summary(HOP$', v, ')'))  })
+
+message("**** clean symbols and logout:")
+opal.rm(o,'HOP')
+opal.logout(o)
