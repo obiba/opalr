@@ -3,7 +3,7 @@
 \title{Logs in and assigns variables to R}
 \usage{
   datashield.login(logins = NULL, symbol = NULL,
-    variables = NULL, dir = "~/.ssh")
+    variables = NULL, directory = "~/.ssh")
 }
 \arguments{
   \item{logins}{A dataframe table that holds login details.
@@ -27,8 +27,8 @@
   no variables are specified (default) the whole dataset is
   assigned.}
 
-  \item{dir}{Directory where to look for key pairs files
-  (certificate and private key). If key file path is
+  \item{directory}{Directory where to look for key pairs
+  files (certificate and private key). If key file path is
   relative, default is to look in user '.ssh' directory,
   then in current working directory.}
 }
