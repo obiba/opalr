@@ -23,7 +23,7 @@
 #' assignment is performed.
 #' @param variables Specific variables to assign. If \code{symbol} is not set this argument is ignored, otherwise the specified 
 #' variables are assigned to R. If no variables are specified (default) the whole dataset is assigned.
-#' @param dir Directory where to look for key pairs files (certificate and private key). If key file path is relative, default is to look in 
+#' @param directory Directory where to look for key pairs files (certificate and private key). If key file path is relative, default is to look in 
 #' user '.ssh' directory, then in current working directory.
 #' @return Object(s) of class opal
 #' @author Gaye, A.
@@ -53,7 +53,7 @@
 #' opals <- datashield.login(logins=logindata,symbol="D",variables=list("LAB_TSC"))
 #' }
 #' 
-datashield.login <- function(logins=NULL, symbol=NULL, variables=NULL, dir="~/.ssh"){
+datashield.login <- function(logins=NULL, symbol=NULL, variables=NULL, directory="~/.ssh"){
   
   # issue an alert and stop the process if no login table is provided
   if(is.null(logins)){
@@ -97,8 +97,8 @@ datashield.login <- function(logins=NULL, symbol=NULL, variables=NULL, dir="~/.s
     if(protocol=="https"){
       # pem files or username/password ?
       if (grepl("\\.pem$",userids[i])) {
-        cert <- .getPEMFilePath(userids[i], dir)
-        private <- .getPEMFilePath(pwds[i], dir)
+        cert <- .getPEMFilePath(userids[i], directory)
+        private <- .getPEMFilePath(pwds[i], directory)
         credentials <- list(sslcert=cert, sslkey=private, ssl.verifyhost=0, ssl.verifypeer=0, sslversion=3)
         opals[[i]] <- opal.login(url=urls[i], opts=credentials)
       } else {
@@ -158,17 +158,17 @@ datashield.logout <- function(opals) {
 
 #' Extract absolute path to the pem file
 #' @keywords internal
-.getPEMFilePath <- function(pem, dir="~/.ssh") {
+.getPEMFilePath <- function(pem, directory="~/.ssh") {
   path <- pem
   if (file.access(pem) == 0) {
     # file exists (absolute path)
     path <- path.expand(pem)
-  } else if (file.access(paste0(dir, pem)) == 0) {
+  } else if (file.access(paste0(directory, pem)) == 0) {
     # file relative to given dir
-    path <- path.expand(paste0(dir, pem))
-  } else if (file.access(paste0(getwd(), pem)) == 0) {
+    path <- path.expand(paste0(directory, "/", pem))
+  } else if (file.access(paste0(getwd(), "/", pem)) == 0) {
     # file relative to working directory
-    path <- paste0(getwd(), pem)
+    path <- paste0(getwd(), "/", pem)
   }
   
   path
