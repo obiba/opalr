@@ -13,6 +13,8 @@
 #' @param variables specific variables to assign. If \code{assign} is set to FALSE
 #' this argument is ignored otherwise the specified variables are assigned to R.
 #' If no variables are specified (default) the whole dataset is assigned.
+#' @param dir directory where to look for key pairs files. If key file path is relative, default is to look in 
+#' user .ssh directory, then in current working directory.
 #' @return object(s) of class opal
 #' @author Gaye, A.
 #' @export
@@ -34,7 +36,7 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' }
 #' 
-datashield.login <- function(logins=NULL, assign=NULL, variables=NULL){
+datashield.login <- function(logins=NULL, assign=NULL, variables=NULL, dir=NULL){
   
   # issue an alert and stop the process if no login table is provided
   if(is.null(logins)){
@@ -67,8 +69,16 @@ datashield.login <- function(logins=NULL, assign=NULL, variables=NULL){
     # if the connection is HTTPS use ssl options else they are not required
     protocol <- strsplit(urls[i], split="://")[[1]][1]
     if(protocol=="https"){
-      credentials <- list(sslcert=userids[i],sslkey=pwds[i],ssl.verifyhost=0,ssl.verifypeer=0,sslversion=3)
-      opals[[i]] <- opal.login(url=urls[i], opts=credentials)        
+      # pem files or username/password ?
+      if (grepl("\\.pem$",userids[i])) {
+        cert <- .getPEMFilePath(userids[i], dir)
+        private <- .getPEMFilePath(pwds[i], dir)
+        credentials <- list(sslcert=cert, sslkey=private, ssl.verifyhost=0, ssl.verifypeer=0, sslversion=3)
+        opals[[i]] <- opal.login(url=urls[i], opts=credentials)
+      } else {
+        options <- list(ssl.verifyhost=0, ssl.verifypeer=0, sslversion=3)
+        opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i], opts=options)
+      }
     } else {
       opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i])  
     }
@@ -77,7 +87,12 @@ datashield.login <- function(logins=NULL, assign=NULL, variables=NULL){
   # if argument 'assign' is true assign data to the opal server(s) you logged 
   # in to. If no variables are specified the whole dataset is assigned
   # i.e. all the variables in the opal database are assigned
-  if(!is.null(assign) && is.character(assign)) {
+  if(!is.null(assign)) {
+    symbol <- assign
+    # case of misusage
+    if (is.logical(assign)) {
+      symbol <- "D"
+    }
     if(is.null(variables)){
       # if the user does not specify variables (default behaviour)
       # display a message telling the user that the whole dataset
@@ -86,7 +101,7 @@ datashield.login <- function(logins=NULL, assign=NULL, variables=NULL){
       cat("\nAssigining data:\n")
       for(i in 1:length(opals)) {
         cat(stdnames[i],"\n")
-        datashield.assign(opals[[i]], assign, paths[i])
+        datashield.assign(opals[[i]], symbol, paths[i])
       }
       cat("\nVariables assigned:\n")
       varnames <- datashield.aggregate(opals[1], quote(colnames(D)))
@@ -95,7 +110,7 @@ datashield.login <- function(logins=NULL, assign=NULL, variables=NULL){
       cat("\nAssigining data:\n")
       for(i in 1:length(opals)) {
         cat(stdnames[i],"\n")
-        datashield.assign(opals[[i]], assign, paths[i], variables)
+        datashield.assign(opals[[i]], symbol, paths[i], variables)
       }
       cat("\nVariables assigned:\n")
       cat(paste(unlist(variables), collapse=", "), "\n\n")
@@ -104,4 +119,22 @@ datashield.login <- function(logins=NULL, assign=NULL, variables=NULL){
   
   # return the 'opal' object
   return(opals)
+}
+
+#' Extract absolute path to the pem file
+#' @keywords internal
+.getPEMFilePath <- function(pem, dir="~/.ssh") {
+  path <- pem
+  if (file.access(pem)) {
+    # file exists (absolute path)
+    path <- path.expand(pem)
+  } else if (file.access(paste0(dir, pem))) {
+    # file relative to given dir
+    path <- path.expand(paste0(dir, pem))
+  } else if (file.access(paste0(getwd(), pem))) {
+    # file relative to working directory
+    path <- paste0(getwd(), pem)
+  }
+  
+  path
 }
