@@ -1,0 +1,19 @@
+\name{datashield.rmSessions}
+\alias{datashield.rmSessions}
+\alias{datashield.rmSessions.list}
+\alias{datashield.rmSessions.opal}
+\title{Remove Datashield sessions}
+\usage{
+  datashield.rmSessions(opal)
+
+  \method{datashield.rmSessions}{opal} (opal)
+
+  \method{datashield.rmSessions}{list} (opals)
+}
+\arguments{
+  \item{opals}{Opal object or list of opal objects.}
+}
+\description{
+  Remove Datashield sessions in Opal(s).
+}
+

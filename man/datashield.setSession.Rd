@@ -8,7 +8,7 @@
 
   \method{datashield.setSession}{opal} (opal, sessionId)
 
-  \method{datashield.setession}{list} (opals, sessionId)
+  \method{datashield.setSession}{list} (opals, sessionId)
 }
 \arguments{
   \item{opals}{Opal object or list of opal objects.}

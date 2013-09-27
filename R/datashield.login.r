@@ -153,7 +153,11 @@ datashield.login <- function(logins=NULL, symbol=NULL, variables=NULL, directory
 #' @param opals Opal object or a list of opals.
 #' @export
 datashield.logout <- function(opals) {
-  opal.logout(opals)
+  if (is.list(opals)) {
+    lapply(opals, function(o){datashield.logout(o)})  
+  } else {
+    datashield.rmSessions(opals)
+  }
 }
 
 #' Extract absolute path to the pem file

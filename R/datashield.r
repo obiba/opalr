@@ -54,10 +54,35 @@ datashield.setSession.opal <- function(opal, sessionId) {
 }
 
 #' @rdname datashield.setSession
-#' @method datashield.setession list
+#' @method datashield.setSession list
 #' @S3method datashield.setSession list
 datashield.setSession.list <- function(opals, sessionId) {
   lapply(opals, FUN=datashield.setSession.opal, sessionId)
+}
+
+#' Remove Datashield sessions in Opal(s).
+#' 
+#' @title Remove Datashield sessions
+#' 
+#' @param opals Opal object or list of opal objects.
+#' @rdname datashield.rmSessions
+#' @export
+datashield.rmSessions <- function(opal) {
+  UseMethod('datashield.rmSessions');
+}
+
+#' @rdname datashield.rmSessions
+#' @method datashield.rmSessions opal
+#' @S3method datashield.rmSessions opal
+datashield.rmSessions.opal <- function(opal) {
+  opal:::.delete(opal, "datashield", "sessions");
+}
+
+#' @rdname datashield.rmSessions
+#' @method datashield.rmSessions list
+#' @S3method datashield.rmSessions list
+datashield.rmSessions.list <- function(opals) {
+  lapply(opals, FUN=datashield.rmSessions.opal)
 }
 
 #' Aggregates the expression result using the specified aggregation method in the current Datashield session.
