@@ -163,7 +163,7 @@ datashield.logout <- function(opals) {
   if (file.access(pem) == 0) {
     # file exists (absolute path)
     path <- path.expand(pem)
-  } else if (file.access(paste0(directory, pem)) == 0) {
+  } else if (file.access(paste0(directory, "/", pem)) == 0) {
     # file relative to given dir
     path <- path.expand(paste0(directory, "/", pem))
   } else if (file.access(paste0(getwd(), "/", pem)) == 0) {
