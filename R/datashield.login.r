@@ -171,5 +171,7 @@ datashield.logout <- function(opals) {
     path <- paste0(getwd(), "/", pem)
   }
   
+  warning(path)
+  
   path
 }
