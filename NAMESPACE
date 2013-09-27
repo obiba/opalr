@@ -1,6 +1,7 @@
 export(datashield.aggregate)
 export(datashield.assign)
 export(datashield.login)
+export(datashield.logout)
 export(datashield.methods)
 export(datashield.newSession)
 export(datashield.rm)

@@ -8,7 +8,7 @@ library(opal)
 # http login
 #o<-opal.login('ruser', 'password', 'http://localhost:8080')
 # https login with ssl options
-o<-opal.login('ruser', 'password', 'https://localhost:8443',opts=list(ssl.verifyhost=0,ssl.verifypeer=0,sslversion=3))
+o<-opal.login('administrator', 'password', 'https://localhost:8443',opts=list(ssl.verifyhost=0,ssl.verifypeer=0,sslversion=3))
 
 message("**** datasources:")
 opal.datasources(o)
