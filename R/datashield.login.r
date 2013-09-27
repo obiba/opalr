@@ -134,13 +134,13 @@ datashield.login <- function(logins=NULL, assign=NULL, variables=NULL, dir="~/.s
 #' @keywords internal
 .getPEMFilePath <- function(pem, dir="~/.ssh") {
   path <- pem
-  if (file.access(pem)) {
+  if (file.access(pem) == 0) {
     # file exists (absolute path)
     path <- path.expand(pem)
-  } else if (file.access(paste0(dir, pem))) {
+  } else if (file.access(paste0(dir, pem)) == 0) {
     # file relative to given dir
     path <- path.expand(paste0(dir, pem))
-  } else if (file.access(paste0(getwd(), pem))) {
+  } else if (file.access(paste0(getwd(), pem)) == 0) {
     # file relative to working directory
     path <- paste0(getwd(), pem)
   }
