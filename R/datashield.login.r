@@ -45,7 +45,7 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' }
 #' 
-datashield.login <- function(logins=NULL, assign=NULL, variables=NULL, dir=NULL){
+datashield.login <- function(logins=NULL, assign=NULL, variables=NULL, dir="~/.ssh"){
   
   # issue an alert and stop the process if no login table is provided
   if(is.null(logins)){
