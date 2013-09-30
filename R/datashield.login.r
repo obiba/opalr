@@ -132,14 +132,6 @@ datashield.login <- function(logins=NULL, symbol=NULL, variables=NULL, directory
         datashield.assign(opals[[i]], symbol, paths[i], variables=variables)
       }
     }
-    # colnames function might not be available
-    try({
-      varnames <- datashield.aggregate(opals[1], paste0('colnames(',symbol,')'))
-      if (length(unlist(varnames))>0) {
-        cat("Variables assigned:\n")
-        cat(paste0(" ", paste(unlist(varnames), collapse=", ")), "\n")
-      }
-    }, silent=TRUE)
   }
   
   # return the 'opal' object
