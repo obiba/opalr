@@ -21,10 +21,19 @@
 
   \item{missings}{If TRUE, missing values will be pushed
   from Opal to R, default is FALSE. Ignored if value is an
-  R expression.}
+  R expression. #'}
 }
 \description{
   Assign a Opal value to a R symbol in the current R
   session.
+}
+\examples{
+{
+# assign a list of variables from table HOP of opal object o
+opal.assign(o, symbol="D", value"demo.HOP", variables=list("GENDER","LAB_GLUC"))
+
+# assign all the variables matching 'LAB' from table HOP of opal object o
+opal.assign(o, symbol="D", value"demo.HOP", variables="name().matches('LAB_')")
+}
 }
 

@@ -192,6 +192,13 @@ opal.execute <- function(opal, script, session=TRUE) {
 #' @param value Fully qualified name of a variable or a table in Opal or a R expression.
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
+#' #' @examples {
+#' # assign a list of variables from table HOP of opal object o
+#' opal.assign(o, symbol="D", value"demo.HOP", variables=list("GENDER","LAB_GLUC"))
+#' 
+#' # assign all the variables matching 'LAB' from table HOP of opal object o
+#' opal.assign(o, symbol="D", value"demo.HOP", variables="name().matches('LAB_')")
+#' }
 #' @export
 opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE) {
   if(is.language(value) || is.function(value)) {
@@ -201,9 +208,23 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE) {
   } else if(is.character(value)) {
     contentType <- "application/x-opal"
     body <- value
-    variableFilter <- variables
-    if (is.list(variables)) {
-      variableFilter <- paste("name().any('", paste(variables, sep="", collapse="','"), "')", sep="")
+    variableFilter <- NULL
+    if (is.character(variables)) {
+      if (length(variables) > 1) {
+        # case variables is a char vector of variable names
+        variableFilter <- as.list(variables)
+      } else {  
+        # case variables is a magma script
+        variableFilter <- variables
+      }
+    } else if (is.list(variables)) {
+      # case variables is a list of variable names
+      variableFilter <- variables
+    }
+    
+    # make a script from a list of variable names
+    if (is.list(variableFilter)) {
+      variableFilter <- paste("name().any('", paste(variableFilter, sep="", collapse="','"), "')", sep="")
     }
     query <- list(missings=missings, variables=variableFilter)
   } else {
