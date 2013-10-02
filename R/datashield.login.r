@@ -12,20 +12,23 @@
 #'@title Logs in and assigns variables to R
 #'@description This function allows for clients to login to opal servers 
 #'and (optionaly) assign all the data or specific variables from Opal 
-#'datasources to R. The assigned dataframes (one for each opal server) 
-#'are named 'D'.
-#'@param logins a dataframe table that holds login details. This table holds five elements 
-#'required to login to the servers where the data to analyse is stored. 
-#'See the documentation of the examplar input table \code{logindata} for details of the login 
+#'tables to R dataframes. The assigned dataframes (one for each opal server) 
+#'are named 'D' (by default).
+#'@param logins A dataframe table that holds login details. This table holds five elements 
+#'required to login to the servers where the data to analyse is stored. The expected column names are 'server' (the server name),
+#''url' (the opal url), 'user' (the user name or the certificate file path), 'password' (the user password or the private key file path),
+#''table' (the fully qualified name of the table in opal).
+#'See also the documentation of the examplar input table \code{logindata} for details of the login 
 #'elements.
-#'@param assign a boolean which tells whether or not data should be assigned from the opal 
-#'datasource to R after login into the server(s).
-#'@param variables specific variables to assign. If \code{assign} is set to FALSE
+#'@param assign A boolean which tells whether or not data should be assigned from the opal 
+#'table to R after login into the server(s).
+#'@param variables Specific variables to assign. If \code{assign} is set to FALSE
 #'this argument is ignored otherwise the specified variables are assigned to R.
-#'If no variables are specified (default) the whole dataset is assigned.
-#'@param symbol a character, the name of the dataframe to which the opal's dataset will be assigned after login 
+#'If no variables are specified (default) the whole opal's table is assigned.
+#'@param symbol A character, the name of the dataframe to which the opal's table will be assigned after login 
 #'into the server(s).
-#'@param directory a character that indicates the location of the key pairs files (certificate and private key). If #'the default location is the users '.ssh' directory.
+#'@param directory A character that indicates the location of the key pairs files (certificate and private key). If 
+#'the default location is the users '.ssh' directory.
 #'@return object(s) of class opal
 #'@author Gaye, A.
 #'@export
@@ -33,8 +36,16 @@
 #'
 #'#### The below examples illustrate an analysises that use test/simulated data ####
 #'
-#'# load that contains the login details
+#'# load the data.frame that contains the login details
 #'data(logindata)
+#'
+#'# or build your data.frame
+#'server <- c("study1", "study2")
+#'url <- c("https://some.opal.host:8443","https://another.opal.host")
+#'user <- c("user1", "datashield-certificate.pem")
+#'password <- c("user1pwd", "datashield-private.pem")
+#'table <- c("store.Dataset","foo.DS")
+#'logindata <- data.frame(server,url,user,password,table)
 #'
 #'# Example 1: just login (default)
 #'opals <- datashield.login(logins=logindata)
@@ -66,7 +77,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
   # passwords
   pwds <- as.character(logins$password)
   
-  # opal directories where the microdata is stored
+  # opal table fully qualified name
   paths <- as.character(logins$table)
   
   # name of the assigned dataframe - check the user gave a character string as name
@@ -111,7 +122,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       # if the user does not specify variables (default behaviour)
       # display a message telling the user that the whole dataset
       # will be assigned since he did not specify variables
-      cat("\n  No variables have been specified. \n  All the variables in the opal datasource \n  (the whole dataset) will be assigned to R!\n\n")
+      cat("\n  No variables have been specified. \n  All the variables in the opal table \n  (the whole dataset) will be assigned to R!\n\n")
       cat("\nAssigining data:\n")
       for(i in 1:length(opals)) {
         cat(stdnames[i],"\n")
@@ -121,7 +132,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       for(i in 1:length(stdnames)){
         varnames <- datashield.aggregate(opals[i], paste0('colnames(',symbol,')'))
         if(length(varnames) > 0){
-          cat(stdnames[i],"--",paste(unlist(varnames), collapse=", "), "\n\n")
+          cat(stdnames[i],"--",paste(unlist(varnames), collapse=", "), "\n")
         }else{
           cat(stdnames[i],"--No variables assigned. \nPlease check connection and verify that the variables are available!\n\n")
         }
@@ -136,7 +147,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       for(i in 1:length(stdnames)){
         varnames <- datashield.aggregate(opals[i], paste0('colnames(',symbol,')'))
         if(length(varnames) > 0){
-          cat(stdnames[i],"--",paste(unlist(varnames), collapse=", "), "\n\n")
+          cat(stdnames[i],"--",paste(unlist(varnames), collapse=", "), "\n")
         }else{
           cat(stdnames[i],"--No variables assigned. \nPlease check connection and verify that the variables are available!\n\n")
         }
@@ -146,7 +157,6 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
   
   # return the 'opal' object
   return(opals)
-  
 } 
 
 #' Clear the Datashield R sessions and logout from Opal(s).
