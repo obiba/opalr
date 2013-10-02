@@ -37,14 +37,14 @@
 #'data(logindata)
 #'
 #'# Example 1: just login (default)
-#'opals <- ds.login(logins=logindata)
+#'opals <- datashield.login(logins=logindata)
 #'
 #'# Example 2: login and assign the whole dataset
-#'opals <- ds.login(logins=logindata,assign=TRUE)
+#'opals <- datashield.login(logins=logindata,assign=TRUE)
 #'
 #'# Example 3: login and assign specific variable(s)
 #'myvar <- list("LAB_TSC")
-#'opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
+#'opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #'}
 #'
 datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="D", directory="~/.ssh"){
