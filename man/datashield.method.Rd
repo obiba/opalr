@@ -1,0 +1,26 @@
+\name{datashield.method}
+\alias{datashield.method}
+\alias{datashield.method.list}
+\alias{datashield.method.opal}
+\title{Get Datashield method by its name}
+\usage{
+  datashield.method(opals, name, type = "aggregate")
+
+  \method{datashield.method}{opal} (opal, name,
+    type = "aggregate")
+
+  \method{datashield.method}{list} (opals, name,
+    type = "aggregate")
+}
+\arguments{
+  \item{opals}{Opal object or list of opal objects.}
+
+  \item{name}{Name of the method}
+
+  \item{type}{Type of the method: "aggregate" (default) or
+  "assign".}
+}
+\description{
+  Get a Datashield method of a given type by its name.
+}
+

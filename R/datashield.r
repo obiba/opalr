@@ -250,7 +250,30 @@ datashield.methods=function(opals, type="aggregate") {
 #' @method datashield.methods opal
 #' @S3method datashield.methods opal
 datashield.methods.opal=function(opal, type="aggregate") {
-  opal:::.get(opal, "datashield", "env", type, "methods")
+  rlist <- opal:::.get(opal, "datashield", "env", type, "methods")
+  name <- lapply(rlist,function(m){
+    m$name
+  })
+  t <- lapply(rlist,function(m){
+    type
+  })
+  class <- lapply(rlist,function(m){
+    if (is.null(m$DataShield.RFunctionDataShieldMethodDto.method$func)) {
+      "script"
+    } else {
+      "function"
+    }
+  })
+  value <- lapply(rlist,function(m){
+    val <- m$DataShield.RFunctionDataShieldMethodDto.method$func
+    if (is.null(val)) {
+      val <- m$DataShield.RScriptDataShieldMethodDto.method$script
+    }
+    val
+  })
+  rval <- data.frame(unlist(name), unlist(t), unlist(class), unlist(value))
+  colnames(rval) <- c("name","type", "class", "value")
+  rval
 }
 
 #' @rdname datashield.methods
@@ -258,4 +281,70 @@ datashield.methods.opal=function(opal, type="aggregate") {
 #' @S3method datashield.methods list
 datashield.methods.list=function(opals, type="aggregate") {
   lapply(opals, FUN=datashield.methods.opal, type)
+}
+
+
+#' Get a Datashield method of a given type by its name.
+#' 
+#' @title Get Datashield method by its name
+#' 
+#' @param opals Opal object or list of opal objects.
+#' @param name Name of the method
+#' @param type Type of the method: "aggregate" (default) or "assign".
+#' @export
+datashield.method=function(opals, name, type="aggregate") {
+  UseMethod('datashield.method');
+}
+
+#' @rdname datashield.method
+#' @method datashield.method opal
+#' @S3method datashield.method opal
+datashield.method.opal=function(opal, name, type="aggregate") {
+  # TODO this request is currently not accessible to ds user
+  #opal:::.get(opal, "datashield", "env", type, "method", name)
+  ms <- datashield.methods(opal, type);
+  rval <- ms[ms$name == name,]
+  if (nrow(rval) > 0) {
+    # TODO there is certainly a simpler way to this... 
+    rval <- list(name=as.character(rval$name), type=as.character(rval$type), class=as.character(rval$class), value=as.character(rval$value))
+  } else {
+    rval <- NULL
+  }
+  rval
+}
+
+#' @rdname datashield.method
+#' @method datashield.method list
+#' @S3method datashield.method list
+datashield.method.list=function(opals, name, type="aggregate") {
+  lapply(opals, FUN=datashield.method.opal, name, type)
+}
+
+#' Check existence of a Datashield method of any type by its name.
+#' 
+#' @title Check existence of a Datashield method by its name
+#' 
+#' @param opals Opal object or list of opal objects.
+#' @param name Name of the method
+#' @export
+datashield.has_method=function(opals, name) {
+  UseMethod('datashield.has_method');
+}
+
+#' @rdname datashield.has_method
+#' @method datashield.has_method opal
+#' @S3method datashield.has_method opal
+datashield.has_method.opal=function(opal, name) {
+  rval <- !is.null(datashield.method(opal,name, type="aggregate"))
+  if (!rval) {
+    rval <- !is.null(datashield.method(opal,name, type="assign"))
+  }
+  rval
+}
+
+#' @rdname datashield.has_method
+#' @method datashield.has_method list
+#' @S3method datashield.has_method list
+datashield.has_method.list=function(opals, name) {
+  lapply(opals, FUN=datashield.has_method.opal, name)
 }
