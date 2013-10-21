@@ -49,7 +49,7 @@
 
 #### The below examples illustrate an analysises that use test/simulated data ####
 
-# or build your data.frame
+# build your data.frame
 server <- c("study1", "study2")
 url <- c("https://some.opal.host:8443","https://another.opal.host")
 user <- c("user1", "datashield-certificate.pem")
