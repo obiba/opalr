@@ -36,16 +36,16 @@
 #'
 #'#### The below examples illustrate an analysises that use test/simulated data ####
 #'
-#'# load the data.frame that contains the login details
-#'data(logindata)
-#'
-#'# or build your data.frame
+#'# build your data.frame
 #'server <- c("study1", "study2")
 #'url <- c("https://some.opal.host:8443","https://another.opal.host")
 #'user <- c("user1", "datashield-certificate.pem")
 #'password <- c("user1pwd", "datashield-private.pem")
 #'table <- c("store.Dataset","foo.DS")
 #'logindata <- data.frame(server,url,user,password,table)
+#'
+#'# or load the data.frame that contains the login details
+#'data(logindata)
 #'
 #'# Example 1: just login (default)
 #'opals <- datashield.login(logins=logindata)
