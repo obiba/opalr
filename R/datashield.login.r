@@ -158,9 +158,9 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
 #' @export
 datashield.logout <- function(opals) {
   if (is.list(opals)) {
-    lapply(opals, function(o){datashield.logout(o)})
+    res <- lapply(opals, function(o){datashield.logout(o)})
   } else {
-    datashield.rmSessions(opals)
+    res <- datashield.rmSessions(opals)
   }
 }
 

@@ -35,9 +35,9 @@ opal.login <- function(username = NULL,password = NULL,url,opts=list()) {
 #' @export
 opal.logout <- function(opals) {
   if (is.list(opals)) {
-    lapply(opals, function(o){opal.logout(o)})  
+    res <- lapply(opals, function(o){opal.logout(o)})  
   } else {
-    opal.rmSessions(opals)
+    res <- opal.rmSessions(opals)
   }
 }
 
