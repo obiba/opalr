@@ -225,14 +225,14 @@ datashield.rm=function(opals, symbol) {
 #' @method datashield.rm opal
 #' @S3method datashield.rm opal
 datashield.rm.opal=function(opal, symbol) {
-  opal:::.delete(opal, "datashield", "session", "current", "symbol", symbol)
+  res <- opal:::.delete(opal, "datashield", "session", "current", "symbol", symbol)
 }
 
 #' @rdname datashield.rm
 #' @method datashield.rm list
 #' @S3method datashield.rm list
 datashield.rm.list=function(opals, symbol) {
-  lapply(opals, FUN=datashield.rm.opal, symbol)
+  res <- lapply(opals, FUN=datashield.rm.opal, symbol)
 }
 
 #' Get available Datashield methods of a given type.
