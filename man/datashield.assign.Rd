@@ -10,7 +10,8 @@
   \method{datashield.assign}{opal} (opal, symbol, value,
     variables = NULL, missings = FALSE)
 
-  \method{datashield.assign}{list} (opals, ...)
+  \method{datashield.assign}{list} (opals, symbol, value,
+    variables = NULL, missings = FALSE)
 }
 \arguments{
   \item{opals}{Opal object or list of opal objects.}

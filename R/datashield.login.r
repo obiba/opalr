@@ -87,7 +87,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
   }
   
   # put the server names in a list
-  opals <- as.list(stdnames)  
+  opals <- as.list(stdnames)
   
   # login to the opals keeping the server names as specified in the login file
   message("\nLogging into the collaborating servers")
@@ -126,22 +126,22 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     }
     
     message("\nAssigining data:")
-    for(i in 1:length(opals)) {
-      message(stdnames[i])
-      datashield.assign(opals[[i]], symbol, paths[i], variables)
-    }
+    lapply(opals, function(o) {
+      message(o$name)
+      path <- as.character(subset(logins, server == o$name)$table)
+      datashield.assign.opal(o, symbol, path, variables)
+    })
     
     message("\nVariables assigned:")
-    for(i in 1:length(stdnames)){
-      if (datashield.has_method(opals[i],"colnames")[[1]]) {
-        varnames <- datashield.aggregate(opals[i], paste0('colnames(',symbol,')'))
-        if(length(varnames[[1]]) > 0){
-          message(stdnames[i],"--",paste(unlist(varnames), collapse=", "))
-        } else {
-          message(stdnames[i],"-- No variables assigned. \nPlease check connection and verify that the variables are available!")
-        }
+    hascolnames <- unlist(datashield.has_method(opals,"colnames"))
+    varnames <- datashield.aggregate(opals[hascolnames], paste0('colnames(',symbol,')'))
+    varnames <- lapply(varnames, function(x) paste(unlist(x), collapse=", "))
+    for(n in stdnames) {
+      vnames <- varnames[n]
+      if (is.null(vnames) | vnames== "NULL") {
+        message(n," -- No variables assigned. Please check connection and verify that the variables are available!")
       } else {
-        warning(paste0(stdnames[i], " -- Cannot list assigned dataframe column names"), call.=FALSE, immediate.=TRUE)
+        message(n," -- ",vnames)
       }
     }
   }
@@ -157,11 +157,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
 #' @param opals Opal object or a list of opals.
 #' @export
 datashield.logout <- function(opals) {
-  if (is.list(opals)) {
-    res <- lapply(opals, function(o){datashield.logout(o)})
-  } else {
-    res <- datashield.rmSessions(opals)
-  }
+  res <- datashield.rmSessions(opals)
 }
 
 #' Extract absolute path to the pem file

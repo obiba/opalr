@@ -343,11 +343,11 @@ opal.rm <- function(opal, symbol) {
 .handleResponse <- function(opal, response) {
   if(response$code >= 400) { 
     msg <- gsub("[\n\r]","",response$headers['statusMessage'])
-    msg <- paste(opal$name, ": ", msg, " (", response$code, ")", sep='')
+    msg <- paste0(opal$name, ": ", msg, " (", response$code, ")")
     if (!.isContentEmpty(response$content)) {
-      msg <- paste(msg, ": ", response$content, sep='')
+      msg <- paste0(msg, ": ", response$content)
     }
-    message(msg)
+    stop(msg)
     NULL
   }	else {
     if(length(grep("octet-stream", response$content.type))) {
