@@ -31,7 +31,7 @@ datashield.newSession.opal <- function(opal) {
 #' @method datashield.newSession list
 #' @S3method datashield.newSession list
 datashield.newSession.list <- function(opals) {
-  mclapply(opals, FUN=datashield.newSession.opal, mc.preschedule=FALSE)
+  lapply(opals, FUN=datashield.newSession.opal)
 }
 
 #' Set current Datashield session in Opal(s).
@@ -57,7 +57,7 @@ datashield.setSession.opal <- function(opal, sessionId) {
 #' @method datashield.setSession list
 #' @S3method datashield.setSession list
 datashield.setSession.list <- function(opals, sessionId) {
-  mclapply(opals, FUN=datashield.setSession.opal, sessionId, mc.preschedule=FALSE)
+  lapply(opals, FUN=datashield.setSession.opal, sessionId)
 }
 
 #' Remove Datashield sessions in Opal(s).
@@ -82,7 +82,7 @@ datashield.rmSessions.opal <- function(opal) {
 #' @method datashield.rmSessions list
 #' @S3method datashield.rmSessions list
 datashield.rmSessions.list <- function(opals) {
-  mclapply(opals, FUN=datashield.rmSessions.opal, mc.preschedule=FALSE)
+  lapply(opals, FUN=datashield.rmSessions.opal)
 }
 
 #' Aggregates the expression result using the specified aggregation method in the current Datashield session.
@@ -116,7 +116,7 @@ datashield.aggregate.opal=function(opal, expr) {
 #' @method datashield.aggregate list
 #' @S3method datashield.aggregate list
 datashield.aggregate.list=function(opals, expr) {
-  mclapply(opals, FUN=datashield.aggregate.opal, expr, mc.preschedule=FALSE)
+  lapply(opals, FUN=datashield.aggregate.opal, expr)
 }
 
 #' Assign a Opal value to a R symbol in the current Datashield session.
@@ -182,7 +182,7 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
 #' @method datashield.assign list
 #' @S3method datashield.assign list
 datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=FALSE) {
-  res <- mclapply(opals, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, mc.preschedule=FALSE)
+  res <- lapply(opals, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings)
 }
 
 #' Get the R symbols available after the datashield.assign calls in the current Datashield session.
@@ -207,7 +207,7 @@ datashield.symbols.opal=function(opal) {
 #' @method datashield.symbols list
 #' @S3method datashield.symbols list
 datashield.symbols.list=function(opals) {
-  mclapply(opals, FUN=datashield.symbols.opal, mc.preschedule=FALSE)
+  lapply(opals, FUN=datashield.symbols.opal)
 }
 
 #' Remove a symbol from the current Datashield session.
@@ -281,7 +281,7 @@ datashield.methods.opal=function(opal, type="aggregate") {
 #' @method datashield.methods list
 #' @S3method datashield.methods list
 datashield.methods.list=function(opals, type="aggregate") {
-  mclapply(opals, FUN=datashield.methods.opal, type, mc.preschedule=FALSE)
+  lapply(opals, FUN=datashield.methods.opal, type)
 }
 
 
@@ -318,7 +318,7 @@ datashield.method.opal=function(opal, name, type="aggregate") {
 #' @method datashield.method list
 #' @S3method datashield.method list
 datashield.method.list=function(opals, name, type="aggregate") {
-  mclapply(opals, FUN=datashield.method.opal, name, type, mc.preschedule=FALSE)
+  lapply(opals, FUN=datashield.method.opal, name, type)
 }
 
 #' Check existence of a Datashield method of any type by its name.
@@ -347,5 +347,5 @@ datashield.has_method.opal=function(opal, name) {
 #' @method datashield.has_method list
 #' @S3method datashield.has_method list
 datashield.has_method.list=function(opals, name) {
-  mclapply(opals, FUN=datashield.has_method.opal, name, mc.preschedule=FALSE)
+  lapply(opals, FUN=datashield.has_method.opal, name)
 }

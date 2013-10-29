@@ -6,8 +6,7 @@ Maintainer: OBiBa <info@obiba.org>
 Depends:
     R (>= 2.15.0),
     RCurl (>= 1.6-6),
-    rjson,
-    parallel
+    rjson
 Description: Data integration Web application for biobanks by OBiBa. Opal is
     OBiBa's core database application for biobanks. Participant data, once
     collected from any data source, must be integrated and stored in a central
