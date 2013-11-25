@@ -272,8 +272,22 @@ datashield.methods.opal=function(opal, type="aggregate") {
     }
     val
   })
-  rval <- data.frame(unlist(name), unlist(t), unlist(class), unlist(value))
-  colnames(rval) <- c("name","type", "class", "value")
+  pkg <- lapply(rlist,function(m){
+    val <- m$DataShield.RFunctionDataShieldMethodDto.method$rPackage
+    if (is.null(val)) {
+      val <- NA
+    }
+    val
+  })
+  version <- lapply(rlist,function(m){
+    val <- m$DataShield.RFunctionDataShieldMethodDto.method$version
+    if (is.null(val)) {
+      val <- NA
+    }
+    val
+  })
+  rval <- data.frame(unlist(name), unlist(t), unlist(class), unlist(value), unlist(pkg), unlist(version))
+  colnames(rval) <- c("name","type", "class", "value","package","version")
   rval
 }
 
