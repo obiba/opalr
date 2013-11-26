@@ -325,7 +325,7 @@ opal.rm <- function(opal, symbol) {
   opal$reader <- dynCurlReader(opal$curl)
   
   handle <- opal$curl
-  curlPerform(url=url, .opts=opts, writefunction=opal$reader$update,  curl=handle)
+  curlPerform(url=url, .opts=opts, writefunction=opal$reader$update,  curl=handle, verbose=getOption("verbose", FALSE))
   content <- opal$reader$value()
   header <- parseHTTPHeader(opal$reader$header())
   info <- getCurlInfo(handle)
@@ -402,7 +402,7 @@ opal.rm <- function(opal, symbol) {
   opal$name <- gsub("[:/].*", "", gsub("http[s]*://", "", opal$url))
   
   # cookielist="" activates the cookie engine
-  headers <- c(Accept="application/octet-stream, application/json");
+  headers <- c(Accept="application/json, application/octet-stream");
   if(is.null(username) == FALSE) {
     headers <- c(headers, Authorization=.authToken(username, password));
   }
