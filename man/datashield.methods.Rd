@@ -4,13 +4,11 @@
 \alias{datashield.methods.opal}
 \title{List Datashield methods}
 \usage{
-  datashield.methods(opals, type = "aggregate")
+datashield.methods(opals, type = "aggregate")
 
-  \method{datashield.methods}{opal} (opal,
-    type = "aggregate")
+\method{datashield.methods}{opal}(opal, type = "aggregate")
 
-  \method{datashield.methods}{list} (opals,
-    type = "aggregate")
+\method{datashield.methods}{list}(opals, type = "aggregate")
 }
 \arguments{
   \item{opals}{Opal object or list of opal objects.}
@@ -19,6 +17,6 @@
   "assign".}
 }
 \description{
-  Get available Datashield methods of a given type.
+Get available Datashield methods of a given type.
 }
 

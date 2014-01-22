@@ -2,12 +2,12 @@
 \alias{opal.logout}
 \title{Logout from Opal(s)}
 \usage{
-  opal.logout(opals)
+opal.logout(opals)
 }
 \arguments{
   \item{opals}{Opal object or a list of opals.}
 }
 \description{
-  Clear the R sessions and logout from Opal(s).
+Clear the R sessions and logout from Opal(s).
 }
 

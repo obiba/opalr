@@ -2,8 +2,7 @@
 \alias{opal.login}
 \title{Opal login}
 \usage{
-  opal.login(username = NULL, password = NULL, url,
-    opts = list())
+opal.login(username = NULL, password = NULL, url, opts = list())
 }
 \arguments{
   \item{username}{User name in opal(s).}
@@ -15,9 +14,9 @@
   \item{opts}{Curl options}
 }
 \value{
-  A opal object or a list of opal objects.
+A opal object or a list of opal objects.
 }
 \description{
-  Log in Opal(s).
+Log in Opal(s).
 }
 

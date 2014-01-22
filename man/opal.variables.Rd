@@ -2,7 +2,7 @@
 \alias{opal.variables}
 \title{Get variables of a table from a opal.}
 \usage{
-  opal.variables(opal, datasource, table, fields = NULL)
+opal.variables(opal, datasource, table, fields = NULL)
 }
 \arguments{
   \item{opal}{Opal object.}
@@ -14,6 +14,6 @@
   \item{fields}{}
 }
 \description{
-  Get variables of a table from a opal.
+Get variables of a table from a opal.
 }
 

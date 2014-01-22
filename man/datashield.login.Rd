@@ -2,8 +2,8 @@
 \alias{datashield.login}
 \title{Logs in and assigns variables to R}
 \usage{
-  datashield.login(logins = NULL, assign = FALSE,
-    variables = NULL, symbol = "D", directory = "~/.ssh")
+datashield.login(logins = NULL, assign = FALSE, variables = NULL,
+  symbol = "D", directory = "~/.ssh")
 }
 \arguments{
   \item{logins}{A dataframe table that holds login details.
@@ -36,13 +36,16 @@
   the default location is the users '.ssh' directory.}
 }
 \value{
-  object(s) of class opal
+object(s) of class opal
 }
 \description{
-  This function allows for clients to login to opal servers
-  and (optionaly) assign all the data or specific variables
-  from Opal tables to R dataframes. The assigned dataframes
-  (one for each opal server) are named 'D' (by default).
+This function allows for clients to login to opal servers
+and (optionaly) assign all the data or specific variables
+from Opal tables to R dataframes. The assigned dataframes
+(one for each opal server) are named 'D' (by default).
+}
+\details{
+
 }
 \examples{
 {
@@ -72,6 +75,6 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

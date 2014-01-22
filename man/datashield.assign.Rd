@@ -4,14 +4,13 @@
 \alias{datashield.assign.opal}
 \title{Data assignment}
 \usage{
-  datashield.assign(opals, symbol, value, variables = NULL,
-    missings = FALSE)
+datashield.assign(opals, symbol, value, variables = NULL, missings = FALSE)
 
-  \method{datashield.assign}{opal} (opal, symbol, value,
-    variables = NULL, missings = FALSE)
+\method{datashield.assign}{opal}(opal, symbol, value, variables = NULL,
+  missings = FALSE)
 
-  \method{datashield.assign}{list} (opals, symbol, value,
-    variables = NULL, missings = FALSE)
+\method{datashield.assign}{list}(opals, symbol, value, variables = NULL,
+  missings = FALSE)
 }
 \arguments{
   \item{opals}{Opal object or list of opal objects.}
@@ -33,8 +32,8 @@
   R expression.}
 }
 \description{
-  Assign a Opal value to a R symbol in the current
-  Datashield session.
+Assign a Opal value to a R symbol in the current Datashield
+session.
 }
 \examples{
 {

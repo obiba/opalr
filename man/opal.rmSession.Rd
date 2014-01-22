@@ -2,7 +2,7 @@
 \alias{opal.rmSession}
 \title{Remove R session}
 \usage{
-  opal.rmSession(opal, sessionId = NULL)
+opal.rmSession(opal, sessionId = NULL)
 }
 \arguments{
   \item{opal}{Opal object.}
@@ -11,6 +11,6 @@
   removed. If omitted, current session is removed.}
 }
 \description{
-  Remove R session from Opal.
+Remove R session from Opal.
 }
 

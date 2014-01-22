@@ -2,8 +2,7 @@
 \alias{opal.assign}
 \title{Data assignment}
 \usage{
-  opal.assign(opal, symbol, value, variables = NULL,
-    missings = FALSE)
+opal.assign(opal, symbol, value, variables = NULL, missings = FALSE)
 }
 \arguments{
   \item{opal}{Opal object.}
@@ -24,8 +23,7 @@
   R expression. #'}
 }
 \description{
-  Assign a Opal value to a R symbol in the current R
-  session.
+Assign a Opal value to a R symbol in the current R session.
 }
 \examples{
 {

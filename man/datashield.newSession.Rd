@@ -4,19 +4,19 @@
 \alias{datashield.newSession.opal}
 \title{New Datashield session}
 \usage{
-  datashield.newSession(opals)
+datashield.newSession(opals)
 
-  \method{datashield.newSession}{opal} (opal)
+\method{datashield.newSession}{opal}(opal)
 
-  \method{datashield.newSession}{list} (opals)
+\method{datashield.newSession}{list}(opals)
 }
 \arguments{
   \item{opals}{Opal object or list of opal objects.}
 }
 \value{
-  The identifier of the session created.
+The identifier of the session created.
 }
 \description{
-  Create a new Datashield session in Opal(s).
+Create a new Datashield session in Opal(s).
 }
 

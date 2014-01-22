@@ -2,7 +2,7 @@
 \alias{opal.table}
 \title{Get a table of a datasource from a opal.}
 \usage{
-  opal.table(opal, datasource, table, fields = NULL)
+opal.table(opal, datasource, table, fields = NULL)
 }
 \arguments{
   \item{opal}{Opal object.}
@@ -14,6 +14,6 @@
   \item{fields}{}
 }
 \description{
-  Get a table of a datasource from a opal.
+Get a table of a datasource from a opal.
 }
 

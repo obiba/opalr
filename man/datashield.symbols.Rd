@@ -4,17 +4,17 @@
 \alias{datashield.symbols.opal}
 \title{List R symbols}
 \usage{
-  datashield.symbols(object, ...)
+datashield.symbols(object, ...)
 
-  \method{datashield.symbols}{opal} (opal)
+\method{datashield.symbols}{opal}(opal)
 
-  \method{datashield.symbols}{list} (opals)
+\method{datashield.symbols}{list}(opals)
 }
 \arguments{
   \item{opal}{Opal object or list of opal objects.}
 }
 \description{
-  Get the R symbols available after the datashield.assign
-  calls in the current Datashield session.
+Get the R symbols available after the datashield.assign
+calls in the current Datashield session.
 }
 

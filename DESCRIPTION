@@ -1,5 +1,5 @@
 Package: opal
-Version: 1.18
+Version: 2.0
 Title: Opal R and Datashield utils
 Author: OBiBa <info@obiba.org>
 Maintainer: OBiBa <info@obiba.org>
@@ -19,7 +19,3 @@ License: GPL-3
 OpalVersion: >= 1.15.0
 URL: http://www.obiba.org
 BugReports: http://jira.obiba.org
-Collate:
-    'datashield.r'
-    'opal.r'
-    'datashield.login.r'

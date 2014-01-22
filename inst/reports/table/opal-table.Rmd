@@ -1,0 +1,70 @@
+# Opal Data Dictionary with R
+
+This is an example of how to use **knitr** for producing a data dictionary on data stored in [Opal](http://wiki.obiba.org/display/OPALDOC).
+
+```{r configuration, echo=FALSE,message=FALSE,results='hide'}
+#
+# Global settings
+#
+url <- getOption("opal.url")
+username <- getOption("opal.username")
+password <- getOption("opal.password")
+datasource <- getOption("opal.datasource")
+table <- getOption("opal.table")
+withStatistics <- getOption("opal.withStatistics")
+```
+
+```{r set-up, echo=FALSE,message=FALSE,results='hide'}
+# set up dictionary and data
+library(opal)
+options <- NULL
+protocol <- strsplit(url, split="://")[[1]][1]
+if (protocol=="https") {
+  options <- list(ssl.verifyhost=0,ssl.verifypeer=0,sslversion=3)
+}
+o <- opal.login(username, password, url, opts=options)
+variables <- opal.variables(o, datasource, table)
+t <- opal.table(o, datasource, table)
+if (withStatistics) {
+  library(ggplot2)
+  opal.assign(o,'D', paste0(datasource, ".", table))
+  opal.execute(o, 'library(ggplot2)')
+}
+```
+
+The table **`r table`** is about "`r t$entityType`".
+
+```{r table-stats, results='asis', eval=withStatistics, echo=FALSE}
+cat(paste0("It has ", opal.execute(o, "ncol(D)"), " variables and ", opal.execute(o, "nrow(D)"), " entries.\n"))
+```
+
+
+## Variables
+
+```{r variables, results='asis', echo=FALSE}
+for (variable in variables) {
+  cat(paste0("* [", variable$name, "](#", gsub("\\.","_",variable$name),")\n"))
+}
+```
+
+
+```{r run-variable-md, include=FALSE}
+out <- NULL
+for (variable in variables) {
+  out <- c(out, knit_child('opal-variable.Rmd'), sep='\n')
+}
+```
+
+`r paste(out, collapse='\n')`
+
+```{r clean-up, results=FALSE,echo=FALSE}
+opal.logout(o)
+```
+
+<style type="text/css">
+
+
+h2, h3 {
+  page-break-before: always;
+}
+</style>
