@@ -16,8 +16,9 @@ opal.report(input, output = NULL, chooser = "boot", boot_style = "flatly",
   "code" adds the bootstrap code chooser.}
 
   \item{boot_style}{The bootstrap style to use if
-  character, if NULL uses the default, if TRUE a menu is
-  shown with the available styles.}
+  character, if NULL uses the default markdown to HTML
+  converter (no Bootstrap style), if TRUE a menu is shown
+  with the available styles.}
 
   \item{progress}{Knitr progress option}
 

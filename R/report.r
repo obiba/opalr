@@ -15,15 +15,12 @@
 #' @param input Path to the R markdown report file
 #' @param ouput Directory path where to ouput the html report file. Default is the current working directory.
 #' @param chooser A character vector, if contains "boot", adds a bootstrap style chooser to the HTML, if contains "code" adds the bootstrap code chooser.
-#' @param boot_style The bootstrap style to use if character, if NULL uses the default, if TRUE a menu is shown with the available styles.
+#' @param boot_style The bootstrap style to use if character, if NULL uses the default markdown to HTML converter (no Bootstrap style), if TRUE a menu is shown with the available styles.
 #' @param progress Knitr progress option
 #' @param verbose Knitr verbose option
 #' @export
 opal.report <- function(input, output=NULL, chooser="boot", boot_style="flatly", progress=FALSE, verbose=FALSE) {
-  require('knitr')
-  require('knitrBootstrap')
-  
-  if (is.null(input)) {
+  if (is.null(input) | !grepl(pattern="\\.Rmd$", input)) {
     stop("R markdown input file is required.")
   }
   
@@ -36,21 +33,33 @@ opal.report <- function(input, output=NULL, chooser="boot", boot_style="flatly",
   inputFile <- input
   if (outputDir != dirname(input)) {
     dir.create(outputDir, showWarnings=FALSE)
-    file.copy(from=dirname(input), to=outputDir, 
-              overwrite = TRUE, recursive = TRUE, 
-              copy.mode = TRUE)
-    inputFile <- file.path(file.path(outputDir, basename(dirname(input))), basename(input))
+    file.copy(from=list.files(dirname(input), full.names=TRUE), 
+              to=outputDir, 
+              overwrite = TRUE, recursive = TRUE, copy.mode = TRUE)
+    inputFile <- file.path(outputDir, basename(input))
   }
   message("output directory: ", dirname(inputFile))
   originalWd <- getwd()
   setwd(dirname(inputFile))
   
-  # make markdown, then make bootstraped html
-  opts_knit$set(progress=progress, verbose=verbose)
-  opts_chunk$set(tidy = FALSE, highlight = FALSE)
-  md_file = knit(inputFile)
-  knit_bootstrap_md(md_file, chooser=chooser, boot_style=boot_style)
+  # make markdown, then make html
+  opal.report_md(inputFile, chooser, boot_style, progress, verbose)
   
   # restore working directory
   setwd(originalWd)
+}
+
+#' Turn a R markdown file to html.
+#' @keywords internal
+opal.report_md <- function(inputFile, chooser, boot_style, progress, verbose) {
+  opts_knit$set(progress=progress, verbose=verbose)
+  opts_chunk$set(tidy = FALSE, highlight = FALSE)
+  mdFile = knit(inputFile)
+  message("output file: ", gsub("\\.md", "\\.html", mdFile))
+  if (is.null(boot_style)) {
+    require(markdown)
+    markdownToHTML(mdFile, gsub("\\.md", "\\.html", mdFile))
+  } else {
+    knit_bootstrap_md(mdFile, chooser="boot", boot_style=boot_style)
+  }
 }
