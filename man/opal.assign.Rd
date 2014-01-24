@@ -2,7 +2,8 @@
 \alias{opal.assign}
 \title{Data assignment}
 \usage{
-opal.assign(opal, symbol, value, variables = NULL, missings = FALSE)
+opal.assign(opal, symbol, value, variables = NULL, missings = FALSE,
+  identifiers = NULL)
 }
 \arguments{
   \item{opal}{Opal object.}
@@ -20,7 +21,10 @@ opal.assign(opal, symbol, value, variables = NULL, missings = FALSE)
 
   \item{missings}{If TRUE, missing values will be pushed
   from Opal to R, default is FALSE. Ignored if value is an
-  R expression. #'}
+  R expression.}
+
+  \item{identifiers}{Name of the identifiers mapping to use
+  when assigning entities to R (from Opal 2.0) #'}
 }
 \description{
 Assign a Opal value to a R symbol in the current R session.

@@ -213,6 +213,7 @@ opal.execute <- function(opal, script, session=TRUE) {
 #' @param value Fully qualified name of a variable or a table in Opal or a R expression.
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
+#' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0) 
 #' #' @examples {
 #' # assign a list of variables from table HOP of opal object o
 #' opal.assign(o, symbol="D", value"demo.HOP", variables=list("GENDER","LAB_GLUC"))
@@ -221,7 +222,7 @@ opal.execute <- function(opal, script, session=TRUE) {
 #' opal.assign(o, symbol="D", value"demo.HOP", variables="name().matches('LAB_')")
 #' }
 #' @export
-opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE) {
+opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
     body <- .deparse(value)
@@ -248,6 +249,9 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE) {
       variableFilter <- paste("name().any('", paste(variableFilter, sep="", collapse="','"), "')", sep="")
     }
     query <- list(missings=missings, variables=variableFilter)
+    if (!is.null(identifiers)) {
+      query["identifiers"] <- identifiers
+    }
   } else {
     return(message(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
   }

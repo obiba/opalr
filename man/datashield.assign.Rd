@@ -4,13 +4,14 @@
 \alias{datashield.assign.opal}
 \title{Data assignment}
 \usage{
-datashield.assign(opals, symbol, value, variables = NULL, missings = FALSE)
+datashield.assign(opals, symbol, value, variables = NULL, missings = FALSE,
+  identifiers = NULL)
 
 \method{datashield.assign}{opal}(opal, symbol, value, variables = NULL,
-  missings = FALSE)
+  missings = FALSE, identifiers = NULL)
 
 \method{datashield.assign}{list}(opals, symbol, value, variables = NULL,
-  missings = FALSE)
+  missings = FALSE, identifiers = NULL)
 }
 \arguments{
   \item{opals}{Opal object or list of opal objects.}
@@ -30,6 +31,9 @@ datashield.assign(opals, symbol, value, variables = NULL, missings = FALSE)
   \item{missings}{If TRUE, missing values will be pushed
   from Opal to R, default is FALSE. Ignored if value is an
   R expression.}
+
+  \item{identifiers}{Name of the identifiers mapping to use
+  when assigning entities to R (from Opal 2.0)}
 }
 \description{
 Assign a Opal value to a R symbol in the current Datashield

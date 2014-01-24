@@ -128,6 +128,7 @@ datashield.aggregate.list=function(opals, expr) {
 #' @param value Fully qualified name of a variable or a table in Opal (must be the same in each Opal) or a R expression with allowed assign functions calls.
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
+#' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0) 
 #' @rdname datashield.assign
 #' @examples {
 #' # assign a list of variables from table HOP of opal object o
@@ -137,14 +138,14 @@ datashield.aggregate.list=function(opals, expr) {
 #' datashield.assign(o, symbol="D", value"demo.HOP", variables="name().matches('LAB_')")
 #' }
 #' @export
-datashield.assign=function(opals, symbol, value, variables=NULL, missings=FALSE) {
+datashield.assign=function(opals, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL) {
   UseMethod('datashield.assign');
 }
 
 #' @rdname datashield.assign
 #' @method datashield.assign opal
 #' @S3method datashield.assign opal
-datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FALSE) {
+datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
     body <- .deparse(value)
@@ -171,6 +172,9 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
       variableFilter <- paste("name().any('", paste(variableFilter, sep="", collapse="','"), "')", sep="")
     }
     query <- list(missings=missings, variables=variableFilter)
+    if (!is.null(identifiers)) {
+      query["identifiers"] <- identifiers
+    }
   } else {
     stop("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.")
   }
@@ -181,8 +185,8 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
 #' @rdname datashield.assign
 #' @method datashield.assign list
 #' @S3method datashield.assign list
-datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=FALSE) {
-  res <- lapply(opals, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings)
+datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL) {
+  res <- lapply(opals, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers)
 }
 
 #' Get the R symbols available after the datashield.assign calls in the current Datashield session.
