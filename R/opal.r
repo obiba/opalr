@@ -103,30 +103,27 @@ opal.rmSessions <- function(opal) {
 #' Get datasources from a opal.
 #' 
 #' @param opal Opal object.
-#' @param fields
 #' @export
-opal.datasources=function(opal, fields=NULL) {
-  .extractJsonField(.get(opal, "datasources"), fields)
+opal.datasources=function(opal) {
+  .extractJsonField(.get(opal, "datasources"))
 }
 
 #' Get a datasource from a opal.
 #' 
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
-#' @param fields
 #' @export
-opal.datasource=function(opal, datasource, fields=NULL) {
-  .extractJsonField(.get(opal, "datasource", datasource), fields)
+opal.datasource=function(opal, datasource) {
+  .extractJsonField(.get(opal, "datasource", datasource))
 }
 
 #' Get tables of a datasource from a opal.
 #' 
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
-#' @param fields
 #' @export
-opal.tables <- function(opal, datasource, fields=NULL) {
-  .extractJsonField(.get(opal, "datasource", datasource, "tables"), fields);
+opal.tables <- function(opal, datasource) {
+  .extractJsonField(.get(opal, "datasource", datasource, "tables"));
 }
 
 #' Get a table of a datasource from a opal.
@@ -134,10 +131,14 @@ opal.tables <- function(opal, datasource, fields=NULL) {
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
-#' @param fields
+#' @param counts Flag to get the number of variables and entities.
 #' @export
-opal.table <- function(opal, datasource, table, fields=NULL) {
-  .extractJsonField(.get(opal, "datasource", datasource, "table", table), fields);
+opal.table <- function(opal, datasource, table, counts=FALSE) {
+  if (counts) {
+    .extractJsonField(.get(opal, "datasource", datasource, "table", table, query=list(counts="true"))); 
+  } else {
+    .extractJsonField(.get(opal, "datasource", datasource, "table", table));  
+  }  
 }
 
 #' Get variables of a table from a opal.
@@ -145,10 +146,9 @@ opal.table <- function(opal, datasource, table, fields=NULL) {
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
-#' @param fields
 #' @export
-opal.variables <- function(opal, datasource, table, fields=NULL) {
-  .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variables"), fields)
+opal.variables <- function(opal, datasource, table) {
+  .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variables"))
 }
 
 #' Get a variable of a table from a opal.
@@ -157,10 +157,31 @@ opal.variables <- function(opal, datasource, table, fields=NULL) {
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
 #' @param variable Name of the variable in the table.
-#' @param fields
 #' @export
-opal.variable <- function(opal, datasource, table, variable, fields=NULL) {
-  .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variable", variable), fields)
+opal.variable <- function(opal, datasource, table, variable) {
+  .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variable", variable))
+}
+
+#' Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.
+#' 
+#' @param attributes A list of attributes, usually variable or category attributes.
+#' @param namespace Optional attribute namespace.
+#' @param name Required attribute name.
+#' @export
+opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
+  rval <- c()
+  if (length(attributes) == 0) return(rval)
+  
+  for (attr in attributes) {
+    if (identical(attr$name, name) && identical(attr$namespace, namespace) && nchar(attr$value)>0) {
+      if (is.null(attr$locale)) {
+        rval <- append(rval, attr$value)
+      } else {
+        rval <- append(rval, paste0("[", attr$locale, "] ", attr$value))  
+      }
+    }
+  }
+  rval
 }
 
 #' Execute a R script on Opal(s).
@@ -372,7 +393,7 @@ opal.rm <- function(opal, symbol) {
 
 #' Extract JSON
 #' @keywords internal
-.extractJsonField <- function(json, fields, isArray=TRUE) {
+.extractJsonField <- function(json, fields=NULL, isArray=TRUE) {
   if(is.null(fields)) {
     json 
   } else {
@@ -406,7 +427,13 @@ opal.rm <- function(opal, symbol) {
   if(is.null(username) == FALSE) {
     headers <- c(headers, Authorization=.authToken(username, password));
   }
-  opal$opts <- curlOptions(header=TRUE, httpheader=headers, cookielist="", .opts=opts)
+  # set default ssl options if https
+  protocol <- strsplit(url, split="://")[[1]][1]
+  options <- opts
+  if (protocol=="https" & length(opts) == 0) {
+    options <- list(ssl.verifyhost=0,ssl.verifypeer=0,sslversion=3)
+  }
+  opal$opts <- curlOptions(header=TRUE, httpheader=headers, cookielist="", .opts=options)
   opal$curl <- curlSetOpt(.opts=opal$opts)
   opal$reader <- dynCurlReader(curl=opal$curl)
   class(opal) <- "opal"

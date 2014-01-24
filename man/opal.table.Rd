@@ -2,7 +2,7 @@
 \alias{opal.table}
 \title{Get a table of a datasource from a opal.}
 \usage{
-opal.table(opal, datasource, table, fields = NULL)
+opal.table(opal, datasource, table, counts = FALSE)
 }
 \arguments{
   \item{opal}{Opal object.}
@@ -11,7 +11,8 @@ opal.table(opal, datasource, table, fields = NULL)
 
   \item{table}{Name of the table in the datasource.}
 
-  \item{fields}{}
+  \item{counts}{Flag to get the number of variables and
+  entities.}
 }
 \description{
 Get a table of a datasource from a opal.

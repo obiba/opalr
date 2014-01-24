@@ -1,0 +1,20 @@
+\name{opal.attribute_values}
+\alias{opal.attribute_values}
+\title{Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.}
+\usage{
+opal.attribute_values(attributes, namespace = NULL, name = "label")
+}
+\arguments{
+  \item{attributes}{A list of attributes, usually variable
+  or category attributes.}
+
+  \item{namespace}{Optional attribute namespace.}
+
+  \item{name}{Required attribute name.}
+}
+\description{
+Get a vector of values (for each locale) matching the given
+attribute namespace and name. Vector is null if no such
+attribute is found.
+}
+
