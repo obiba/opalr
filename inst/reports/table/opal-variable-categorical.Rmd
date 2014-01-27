@@ -1,0 +1,32 @@
+#### Statistics
+
+`r summary <- opal.execute(o, paste0("summary(D$", variable$name, ")"))`
+`r length <- opal.execute(o, paste0("length(D$", variable$name, ")"))`
+
+Descriptive Statistic | Value
+--------------------- | ----------------
+N                     | `r length`
+Mode                  | `r names(summary[order(as.numeric(summary), decreasing=TRUE)[[1]]])`
+
+```{r, results='asis', echo=FALSE}
+cat("Category | Frequency | %\n")
+cat("---------------- | ---------------- | ----------------\n")
+for (category in variable$categories) {
+  freq <- as.numeric(summary[category$name])
+  pct <- (freq/length)*100
+  cat(paste0(category$name, " | ", freq," | ", pct,"| \n"))
+}
+freq <- as.numeric(summary["NA's"])
+if (is.na(freq)) {
+  cat(paste0("NA's | 0  | 0\n"))
+} else {
+  pct <- (freq/length)*100
+  cat(paste0("NA's | ", freq," | ", pct,"| \n"))
+}
+```
+
+```{r, echo=FALSE, eval=withGraphs & !allIsNA}
+# see http://docs.ggplot2.org/current/geom_bar.html
+#opal.execute(o, paste0("qplot(", variable$name,", data=D)"))
+opal.execute(o, paste0("ggplot(D, aes(", variable$name, ")) + geom_bar(width=.3)"))
+```

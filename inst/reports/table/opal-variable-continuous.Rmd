@@ -1,0 +1,22 @@
+#### Statistics
+
+Descriptive Statistic | Value
+--------------------- | ----------------
+N                     | `r opal.execute(o, paste0("length(D$", variable$name, ")"))`
+Min                   | `r opal.execute(o, paste0("min(D$", variable$name, ")"))`
+Max                   | `r opal.execute(o, paste0("max(D$", variable$name, ")"))`
+Mean                  | `r opal.execute(o, paste0("mean(D$", variable$name, ")"))`
+Median                | `r opal.execute(o, paste0("median(D$", variable$name, ")"))`
+Standard Deviation    | `r opal.execute(o, paste0("sd(D$", variable$name, ")"))`
+Variance              | `r opal.execute(o, paste0("var(D$", variable$name, ")"))`
+Skewness              | `r opal.execute(o, paste0("skewness(D$", variable$name, ")"))`
+Kurtosis              | `r opal.execute(o, paste0("kurtosis(D$", variable$name, ")"))`
+Sum                   | `r opal.execute(o, paste0("sum(D$", variable$name, ")"))`
+Sum of squares        | `r opal.execute(o, paste0("sum(D$", variable$name, " * D$", variable$name, ")"))`
+
+
+```{r, echo=FALSE, eval=withGraphs & isNumerical & !allIsNA}
+# see http://docs.ggplot2.org/current/geom_histogram.html
+#plot(opal.execute(o, paste0("hist(D$", variable$name,")")))
+opal.execute(o, paste0("qplot(", variable$name,", data=D, geom='histogram', binwidth=1)"))
+```

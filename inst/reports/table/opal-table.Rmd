@@ -1,7 +1,3 @@
-# Opal Data Dictionary with R
-
-This is an example of how to use **knitr** for producing a data dictionary on data stored in [Opal](http://wiki.obiba.org/display/OPALDOC).
-
 ```{r configuration, echo=FALSE,message=FALSE,results='hide'}
 #
 # Global settings
@@ -12,32 +8,36 @@ password <- getOption("opal.password")
 datasource <- getOption("opal.datasource")
 table <- getOption("opal.table")
 withStatistics <- getOption("opal.withStatistics")
+withGraphs <- getOption("opal.withGraphs")
 ```
 
 ```{r set-up, echo=FALSE,message=FALSE,results='hide'}
 # set up dictionary and data
 library(opal)
-options <- NULL
-protocol <- strsplit(url, split="://")[[1]][1]
-if (protocol=="https") {
-  options <- list(ssl.verifyhost=0,ssl.verifypeer=0,sslversion=3)
-}
-o <- opal.login(username, password, url, opts=options)
+o <- opal.login(username, password, url)
 variables <- opal.variables(o, datasource, table)
-t <- opal.table(o, datasource, table)
-if (withStatistics) {
-  library(ggplot2)
+t <- opal.table(o, datasource, table, counts=TRUE)
+if (withStatistics | withGraphs) {
+  opal.execute(o, 'require(e1071)')
   opal.assign(o,'D', paste0(datasource, ".", table))
-  opal.execute(o, 'library(ggplot2)')
+}
+if (withGraphs) {
+  require(ggplot2)
+  opal.execute(o, 'require(ggplot2)')
 }
 ```
 
-The table **`r table`** is about "`r t$entityType`".
+# `r table` Data Dictionary
 
-```{r table-stats, results='asis', eval=withStatistics, echo=FALSE}
-cat(paste0("It has ", opal.execute(o, "ncol(D)"), " variables and ", opal.execute(o, "nrow(D)"), " entries.\n"))
-```
+<br/>
 
+Name of the report     | Data Dictionary for `r table`
+---------------------- | -------------------
+Project                | `r datasource`
+Table                  | `r table`
+Number of variables    | `r t$variableCount`
+Number of participants | `r t$valueSetCount`
+Date                   | `r as.character(Sys.Date())`
 
 ## Variables
 
@@ -46,7 +46,6 @@ for (variable in variables) {
   cat(paste0("* [", variable$name, "](#", gsub("\\.","_",variable$name),")\n"))
 }
 ```
-
 
 ```{r run-variable-md, include=FALSE}
 out <- NULL
@@ -62,9 +61,37 @@ opal.logout(o)
 ```
 
 <style type="text/css">
-
-
-h2, h3 {
-  page-break-before: always;
+@media print{
+  body {
+    font-size: 12px;
+  }
+  h2, h3 {
+    page-break-before: always;
+  }
 }
+
+@media screen{
+  h3 {
+    border-top: solid 1px #ccc;
+    padding-top: 20px;
+  }
+}
+
+.navbar {
+  display: none;
+}
+
+#toc {
+  overflow: overlay;
+  max-height: 500px;
+}
+
+.table {
+  width: 0%;
+}
+
+.table td {
+  min-width: 200px;
+}
+
 </style>

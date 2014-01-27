@@ -3,7 +3,6 @@
 ```{r results=FALSE,echo=FALSE}
 hasCategories <- (length(variable$categories) > 0)
 hasAttributes <- (length(variable$attributes) > 0)
-isNumerical <- (variable$valueType == 'integer' | variable$valueType == 'decimal')
 hasNonMissingCategory <- FALSE
 if (hasCategories) {
   for (category in variable$categories) {
@@ -14,25 +13,10 @@ if (hasCategories) {
   }
 }
 isCategorical <- (hasCategories & hasNonMissingCategory) | variable$valueType == 'boolean'
+isNumerical <- (variable$valueType == 'integer' | variable$valueType == 'decimal') & !isCategorical
 allIsNA <- TRUE
 if (withStatistics) {
   allIsNA <- opal.execute(o, paste0("all(is.na(D$", variable$name, "))"))
-}
-
-extractValues <- function(attributes, name="label") {
-  rval <- ""
-  if (length(attributes)>0) {
-    for (attr in attributes) {
-      if (attr$name == name) {
-        if (nchar(rval) == 0) {
-          rval <- paste0("[", attr$locale, "] ", attr$value)  
-        } else {
-          rval <- paste0(rval, "<br/>[", attr$locale, "] ", attr$value)  
-        }
-      }
-    }  
-  }
-  rval
 }
 ```
 
@@ -47,17 +31,6 @@ Mime Type        | `r variable$mimeType`
 Repeatable       | `r variable$isRepeatable`
 Occurrence Group | `r variable$occurrenceGroup`
 
-```{r, results='asis', eval=hasCategories, echo=FALSE}
-cat("#### Categories\n")
-```
-
-```{r, results='asis', eval=hasCategories, echo=FALSE}
-cat("Name | Label | Missing\n")
-cat("---------------- | ---------------- | ----------------\n")
-for (category in variable$categories) {
-  cat(paste0(category$name, " | ", extractValues(category$attributes, "label") ," | ", category$isMissing, "\n"))
-}
-```
 
 ```{r, results='asis', eval=hasAttributes, echo=FALSE}
 cat("#### Attributes\n")
@@ -66,34 +39,44 @@ cat("#### Attributes\n")
 ```{r, results='asis', eval=hasAttributes, echo=FALSE}
 cat("Name | Value\n")
 cat("---------------- | ----------------\n")
+added <- c()
 for (attribute in variable$attributes) {
-  name = attribute$name
-  if (length(attribute$namespace) > 0)
-    name = paste0("[", attribute$namespace, "] ", name)
-  value = attribute$value
-  if (length(attribute$locale) > 0)
-    value = paste0("[", attribute$locale,"] ", value)
-  cat(paste0(name, " | ", value, "\n"))
+  name <- attribute$name
+  if (length(attribute$namespace) > 0) {
+    name <- paste0("[", attribute$namespace, "] ", name)
+  }
+  if (length(grep(paste0("^", name, "$"), added)) == 0) {
+    values <- opal.attribute_values(variable$attributes, namespace=attribute$namespace, name=attribute$name)
+    cat(paste0(name, " | ", paste(values, collapse="<br/>"), "\n"))
+    added <- append(added, name)
+  }
 }
 ```
 
-```{r, results='asis', eval=withStatistics & (isNumerical | isCategorical), echo=FALSE}
-cat("#### Descriptive Statistics\n")
+
+```{r, results='asis', eval=hasCategories, echo=FALSE}
+cat("#### Categories\n")
 ```
 
-```{r, echo=FALSE, comment="", eval=withStatistics & (isNumerical | isCategorical)}
-opal.execute(o, paste0("summary(D$", variable$name, ")"))
+```{r, results='asis', eval=hasCategories, echo=FALSE}
+cat("Name | Label | Missing\n")
+cat("---------------- | ---------------- | ----------------\n")
+for (category in variable$categories) {
+  labels <- paste(opal.attribute_values(category$attributes, name="label"), collapse="<br/>")
+  row <- paste0(category$name, " | ", gsub("\\|","/", labels) ," | ")
+  if (category$isMissing) {
+    row <- paste0(row, "<span class='glyphicon glyphicon-ok'></span>")
+  }
+  cat(paste0(row, "\n"))
+}
 ```
 
-```{r, echo=FALSE, eval=withStatistics & isNumerical & !allIsNA}
-# see http://docs.ggplot2.org/current/geom_histogram.html
-#plot(opal.execute(o, paste0("hist(D$", variable$name,")")))
-opal.execute(o, paste0("qplot(", variable$name,", data=D, geom='histogram', binwidth=1)"))
+```{r, include=FALSE, eval=withStatistics & isCategorical}
+outsummary <- knit_child('opal-variable-categorical.Rmd')
 ```
 
-```{r, echo=FALSE, eval=withStatistics & isCategorical & !allIsNA}
-# see http://docs.ggplot2.org/current/geom_bar.html
-#opal.execute(o, paste0("qplot(", variable$name,", data=D)"))
-opal.execute(o, paste0("ggplot(D, aes(", variable$name, ")) + geom_bar(width=.3)"))
+```{r, include=FALSE, eval=withStatistics & isNumerical}
+outsummary <- knit_child('opal-variable-continuous.Rmd')
 ```
 
+`r if(withStatistics & (isNumerical | isCategorical)) paste(outsummary, collapse='\n')`
