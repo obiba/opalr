@@ -28,15 +28,16 @@ opal.report <- function(input, output=NULL, chooser="boot", boot_style="flatly",
   if (is.null(output)) {
     outputDir <- getwd()
   }
+  dir.create(outputDir, showWarnings=FALSE)
+  outputDir <- normalizePath(outputDir)
   
   # prepare working directory for knitr
-  inputFile <- input
-  if (outputDir != dirname(input)) {
-    dir.create(outputDir, showWarnings=FALSE)
-    file.copy(from=list.files(dirname(input), full.names=TRUE), 
+  inputFile <- normalizePath(input)
+  if (outputDir != dirname(inputFile)) {
+    file.copy(from=list.files(dirname(inputFile), full.names=TRUE), 
               to=outputDir, 
               overwrite = TRUE, recursive = TRUE, copy.mode = TRUE)
-    inputFile <- file.path(outputDir, basename(input))
+    inputFile <- file.path(outputDir, basename(inputFile))
   }
   message("output directory: ", dirname(inputFile))
   originalWd <- getwd()
