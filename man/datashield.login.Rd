@@ -13,9 +13,10 @@ datashield.login(logins = NULL, assign = FALSE, variables = NULL,
   opal url), 'user' (the user name or the certificate file
   path), 'password' (the user password or the private key
   file path), 'table' (the fully qualified name of the
-  table in opal). See also the documentation of the
-  examplar input table \code{logindata} for details of the
-  login elements.}
+  table in opal). An additional column 'identifiers' can be
+  specified for identifiers mapping (from Opal 2.0). See
+  also the documentation of the examplar input table
+  \code{logindata} for details of the login elements.}
 
   \item{assign}{A boolean which tells whether or not data
   should be assigned from the opal table to R after login

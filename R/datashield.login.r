@@ -17,7 +17,8 @@
 #'@param logins A dataframe table that holds login details. This table holds five elements 
 #'required to login to the servers where the data to analyse is stored. The expected column names are 'server' (the server name),
 #''url' (the opal url), 'user' (the user name or the certificate file path), 'password' (the user password or the private key file path),
-#''table' (the fully qualified name of the table in opal).
+#''table' (the fully qualified name of the table in opal). An additional column 'identifiers' can be specified for identifiers
+#'mapping (from Opal 2.0).
 #'See also the documentation of the examplar input table \code{logindata} for details of the login 
 #'elements.
 #'@param assign A boolean which tells whether or not data should be assigned from the opal 
@@ -80,6 +81,9 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
   # opal table fully qualified name
   paths <- as.character(logins$table)
   
+  # identifiers mapping
+  idmappings <- logins$identifiers
+  
   # name of the assigned dataframe - check the user gave a character string as name
   if(!(is.character(symbol))){
     message("\nWARNING: symbol has been set to 'D' because the provided value is not a valid character!")
@@ -128,7 +132,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     message("\nAssigining data:")
     for(i in 1:length(opals)) {
       message(stdnames[i])
-      datashield.assign(opals[[i]], symbol, paths[i], variables)
+      datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i])
     }
     
     message("\nVariables assigned:")
