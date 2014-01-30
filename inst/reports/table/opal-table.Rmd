@@ -2,13 +2,13 @@
 #
 # Global settings
 #
-url <- getOption("opal.url")
-username <- getOption("opal.username")
-password <- getOption("opal.password")
-datasource <- getOption("opal.datasource")
-table <- getOption("opal.table")
-withStatistics <- getOption("opal.withStatistics")
-withGraphs <- getOption("opal.withGraphs")
+url <- getOption("opal.url", "http://localhost:8080")
+username <- getOption("opal.username", "administrator")
+password <- getOption("opal.password", "password")
+datasource <- getOption("opal.datasource", "onyx")
+table <- getOption("opal.table", "StandingHeight")
+withStatistics <- getOption("opal.withStatistics", TRUE)
+withGraphs <- getOption("opal.withGraphs", TRUE)
 ```
 
 ```{r set-up, echo=FALSE,message=FALSE,results='hide'}
