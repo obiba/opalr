@@ -2,7 +2,7 @@
 \alias{opal.report_md}
 \title{Turn a R markdown file to html.}
 \usage{
-opal.report_md(inputFile, chooser, boot_style, progress, verbose)
+opal.report_md(inputFile, boot_style, progress, verbose)
 }
 \description{
 Turn a R markdown file to html.

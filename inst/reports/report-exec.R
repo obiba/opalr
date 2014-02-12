@@ -11,6 +11,7 @@ options(opal.url="http://demo.obiba.org:8080",
         opal.datasource="onyx",
         opal.table="StandingHeight",
         opal.withStatistics=TRUE,
-        opal.withGraphs=TRUE)
+        opal.withGraphs=TRUE,
+        opal.report.style="Flatly")
 
-opal.report(input, output, boot_style="flatly",progress=TRUE)
+opal.report(input, output, progress=TRUE)
