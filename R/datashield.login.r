@@ -103,8 +103,8 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     if(protocol=="https"){
       # pem files or username/password ?
       if (grepl("\\.pem$",userids[i])) {
-        cert <- .getPEMFilePath(userids[i], directory)
-        private <- .getPEMFilePath(pwds[i], directory)
+        cert <- opal:::.getPEMFilePath(userids[i], directory)
+        private <- opal:::.getPEMFilePath(pwds[i], directory)
         credentials <- list(sslcert=cert, sslkey=private, ssl.verifyhost=0, ssl.verifypeer=0, sslversion=3)
         opals[[i]] <- opal.login(url=urls[i], opts=credentials)
       } else {
@@ -168,20 +168,3 @@ datashield.logout <- function(opals) {
   }
 }
 
-#' Extract absolute path to the pem file
-#' @keywords internal
-.getPEMFilePath <- function(pem, directory="~/.ssh") {
-  path <- pem
-  if (file.access(pem) == 0) {
-    # file exists (absolute path)
-    path <- path.expand(pem)
-  } else if (file.access(paste0(directory, "/", pem)) == 0) {
-    # file relative to given dir
-    path <- path.expand(paste0(directory, "/", pem))
-  } else if (file.access(paste0(getwd(), "/", pem)) == 0) {
-    # file relative to working directory
-    path <- paste0(getwd(), "/", pem)
-  }
-  
-  path
-}

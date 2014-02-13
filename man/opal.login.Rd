@@ -2,21 +2,48 @@
 \alias{opal.login}
 \title{Opal login}
 \usage{
-opal.login(username = NULL, password = NULL, url, opts = list())
+opal.login(username = getOption("opal.username"),
+  password = getOption("opal.password"), url = getOption("opal.url"),
+  opts = getOption("opal.opts", list()))
 }
 \arguments{
-  \item{username}{User name in opal(s).}
+  \item{username}{User name in opal(s). Can be provided by
+  "opal.username" option.}
 
-  \item{password}{User password in opal(s).}
+  \item{password}{User password in opal(s). Can be provided
+  by "opal.password" option.}
 
-  \item{url}{Opal url or list of opal urls.}
+  \item{url}{Opal url or list of opal urls. Can be provided
+  by "opal.url" option.}
 
-  \item{opts}{Curl options}
+  \item{opts}{Curl options. Can be provided by "opal.opts"
+  option.}
 }
 \value{
 A opal object or a list of opal objects.
 }
 \description{
 Log in Opal(s).
+}
+\examples{
+{
+
+#### The below examples illustrate the different ways to login in opal ####
+
+# explicite username/password login
+o <- opal.login(username='administrator',password='password',url='https://demo.obiba.org:8443')
+
+# login using options
+options(opal.username='administrator',
+ opal.password='password',
+ opal.url='https://demo.obiba.org:8443')
+o <- opal.login()
+
+# login using ssl key pair
+options(opal.opts=list(
+   sslcert='my-publickey.pem',
+   sslkey='my-privatekey.pem'))
+o <- opal.login(url='https://demo.obiba.org:8443')
+}
 }
 

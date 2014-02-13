@@ -14,12 +14,32 @@
 #' @title Opal login
 #' 
 #' @return A opal object or a list of opal objects.
-#' @param username User name in opal(s).
-#' @param password User password in opal(s).
-#' @param url Opal url or list of opal urls.
-#' @param opts Curl options
+#' @param username User name in opal(s). Can be provided by "opal.username" option.
+#' @param password User password in opal(s). Can be provided by "opal.password" option.
+#' @param url Opal url or list of opal urls. Can be provided by "opal.url" option.
+#' @param opts Curl options. Can be provided by "opal.opts" option.
 #' @export
-opal.login <- function(username = NULL,password = NULL,url,opts=list()) {
+#'@examples {
+#'
+#'#### The below examples illustrate the different ways to login in opal ####
+#'
+#'# explicite username/password login
+#'o <- opal.login(username='administrator',password='password',url='https://demo.obiba.org:8443')
+#'
+#'# login using options
+#'options(opal.username='administrator',
+#'  opal.password='password',
+#'  opal.url='https://demo.obiba.org:8443')
+#'o <- opal.login()
+#'
+#'# login using ssl key pair
+#'options(opal.opts=list(
+#'    sslcert='my-publickey.pem',
+#'    sslkey='my-privatekey.pem'))
+#'o <- opal.login(url='https://demo.obiba.org:8443')
+#'}
+opal.login <- function(username=getOption("opal.username"), password=getOption("opal.password"), url=getOption("opal.url"), opts=getOption("opal.opts", list())) {
+  if (is.null(url)) stop("opal url is required")
   if(is.list(url)){
     lapply(url, function(u){opal.login(username, password, u, opts=opts)})
   } else {
@@ -417,7 +437,7 @@ opal.rm <- function(opal, symbol) {
 
 #' Create the opal object
 #' @keywords internal
-.opal.login <- function(username,password,url,opts=list()) {
+.opal.login <- function(username, password, url, opts=list()) {
   opal <- new.env(parent=globalenv())
   
   # Strip trailing slash
@@ -434,8 +454,22 @@ opal.rm <- function(opal, symbol) {
   # set default ssl options if https
   protocol <- strsplit(url, split="://")[[1]][1]
   options <- opts
-  if (protocol=="https" & length(opts) == 0) {
-    options <- list(ssl.verifyhost=0,ssl.verifypeer=0,sslversion=3)
+  if (protocol=="https") {
+    if (!is.null(options$sslcert)) {
+      options$sslcert <- .getPEMFilePath(options$sslcert)
+    }
+    if (!is.null(options$sslkey)) {
+      options$sslkey <- .getPEMFilePath(options$sslkey)
+    }
+    if (is.null(options$ssl.verifyhost)) {
+      options$ssl.verifyhost = 0
+    }
+    if (is.null(options$ssl.verifypeer)) {
+      options$ssl.verifypeer = 0
+    }
+    if (is.null(options$sslversion)) {
+      options$sslversion = 3
+    }
   }
   opal$opts <- curlOptions(header=TRUE, httpheader=headers, cookielist="", .opts=options)
   opal$curl <- curlSetOpt(.opts=opal$opts)
@@ -453,4 +487,22 @@ opal.rm <- function(opal, symbol) {
     expression = paste(expression, collapse='\n')
   }
   expression
+}
+
+#' Extract absolute path to the pem file
+#' @keywords internal
+.getPEMFilePath <- function(pem, directory="~/.ssh") {
+  path <- pem
+  if (file.access(pem) == 0) {
+    # file exists (absolute path)
+    path <- path.expand(pem)
+  } else if (file.access(paste0(directory, "/", pem)) == 0) {
+    # file relative to given dir
+    path <- path.expand(paste0(directory, "/", pem))
+  } else if (file.access(paste0(getwd(), "/", pem)) == 0) {
+    # file relative to working directory
+    path <- paste0(getwd(), "/", pem)
+  }
+  
+  path
 }
