@@ -52,6 +52,7 @@ opal.report <- function(input, output=NULL, boot_style=getOption("opal.report.st
 #' Turn a R markdown file to html.
 #' @keywords internal
 opal.report_md <- function(inputFile, boot_style, progress, verbose) {
+  require(knitr)
   opts_knit$set(progress=progress, verbose=verbose)
   opts_chunk$set(tidy = FALSE, highlight = FALSE)
   mdFile = knit(inputFile)
@@ -60,6 +61,7 @@ opal.report_md <- function(inputFile, boot_style, progress, verbose) {
     require(markdown)
     markdownToHTML(mdFile, gsub("\\.md", "\\.html", mdFile))
   } else {
+    require(knitrBootstrap)
     knit_bootstrap_md(mdFile, chooser="boot", boot_style=boot_style)
   }
 }

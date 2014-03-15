@@ -1,16 +1,16 @@
 Package: opal
-Version: 2.1
+Version: 2.0.1
 Title: Opal R and Datashield utils
 Author: OBiBa <info@obiba.org>
 Maintainer: OBiBa <info@obiba.org>
 Depends:
     R (>= 2.15.0),
     RCurl (>= 1.6-6),
-    rjson,
+    rjson
+Suggests:
+    e1071,
     knitr,
     knitrBootstrap
-Suggests:
-    e1071
 Description: Data integration Web application for biobanks by OBiBa. Opal is
     OBiBa's core database application for biobanks. Participant data, once
     collected from any data source, must be integrated and stored in a central
