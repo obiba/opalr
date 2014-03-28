@@ -210,14 +210,17 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
 #'
 #' @param opals Opal object or list of opal objects.
 #' @param script R script to execute.
+#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @param session Execute in current R session (default is TRUE).
 #' @export
-opal.execute <- function(opal, script, session=TRUE) {
+opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
   if(is.list(opal)){
     lapply(opal, function(o){opal.execute(o, script, session=session)})
   } else {
     if (session) {
-      .post(opal, "r", "session", "current", "execute", body=script, contentType="application/x-rscript")
+      query <- list()
+      if (async) query <- list(async="true")
+      .post(opal, "r", "session", "current", "execute", query=query, body=script, contentType="application/x-rscript")
     } else {
       .post(opal, "r", "execute", body=script, contentType="application/x-rscript")
     }
@@ -234,6 +237,7 @@ opal.execute <- function(opal, script, session=TRUE) {
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0) 
+#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' #' @examples {
 #' # assign a list of variables from table HOP of opal object o
 #' opal.assign(o, symbol="D", value"demo.HOP", variables=list("GENDER","LAB_GLUC"))
@@ -242,7 +246,7 @@ opal.execute <- function(opal, script, session=TRUE) {
 #' opal.assign(o, symbol="D", value"demo.HOP", variables="name().matches('LAB_')")
 #' }
 #' @export
-opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL) {
+opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=FALSE) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
     body <- .deparse(value)
@@ -271,6 +275,9 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
     query <- list(missings=missings, variables=variableFilter)
     if (!is.null(identifiers)) {
       query["identifiers"] <- identifiers
+    }
+    if (async) {
+      query["async"] <- "true"
     }
   } else {
     return(message(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
@@ -403,6 +410,8 @@ opal.rm <- function(opal, symbol) {
       } else {
         fromJSON(response$content);
       }
+    } else if (length(grep("text", response$content.type))) {
+      print(response$content)
     }
   }
 }

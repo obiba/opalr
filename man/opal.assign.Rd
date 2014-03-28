@@ -3,7 +3,7 @@
 \title{Data assignment}
 \usage{
 opal.assign(opal, symbol, value, variables = NULL, missings = FALSE,
-  identifiers = NULL)
+  identifiers = NULL, async = FALSE)
 }
 \arguments{
   \item{opal}{Opal object.}
@@ -24,7 +24,12 @@ opal.assign(opal, symbol, value, variables = NULL, missings = FALSE,
   R expression.}
 
   \item{identifiers}{Name of the identifiers mapping to use
-  when assigning entities to R (from Opal 2.0) #'}
+  when assigning entities to R (from Opal 2.0)}
+
+  \item{async}{R script is executed asynchronously within
+  the session (default is FALSE). If TRUE, the value
+  returned is the ID of the command to look for (from Opal
+  2.1). #'}
 }
 \description{
 Assign a Opal value to a R symbol in the current R session.

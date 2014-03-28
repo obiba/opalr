@@ -2,12 +2,17 @@
 \alias{opal.execute}
 \title{Execute a R script}
 \usage{
-opal.execute(opal, script, session = TRUE)
+opal.execute(opal, script, async = FALSE, session = TRUE)
 }
 \arguments{
   \item{opals}{Opal object or list of opal objects.}
 
   \item{script}{R script to execute.}
+
+  \item{async}{R script is executed asynchronously within
+  the session (default is FALSE). If TRUE, the value
+  returned is the ID of the command to look for (from Opal
+  2.1).}
 
   \item{session}{Execute in current R session (default is
   TRUE).}
