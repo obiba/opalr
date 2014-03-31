@@ -8,7 +8,6 @@ opal.symbols(opal)
   \item{opal}{Opal object.}
 }
 \description{
-Get the R symbols available after the datashield.assign
-calls in the current Datashield session.
+Get the R symbols available in the remote R session.
 }
 

@@ -1,0 +1,14 @@
+\name{opal.commands}
+\alias{opal.commands}
+\title{List the asynchronous commands}
+\usage{
+opal.commands(opal)
+}
+\arguments{
+  \item{opal}{Opal object.}
+}
+\description{
+Get the list of asynchronous R commands in the remote R
+session.
+}
+

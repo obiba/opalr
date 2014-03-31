@@ -215,7 +215,7 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
 #' @export
 opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
   if(is.list(opal)){
-    lapply(opal, function(o){opal.execute(o, script, session=session)})
+    lapply(opal, function(o){opal.execute(o, script, async=async, session=session)})
   } else {
     if (session) {
       query <- list()
@@ -276,17 +276,73 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
     if (!is.null(identifiers)) {
       query["identifiers"] <- identifiers
     }
-    if (async) {
-      query["async"] <- "true"
-    }
   } else {
     return(message(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
   }
   
+  if (async) {
+    query["async"] <- "true"
+  }
   .put(opal, "r", "session", "current", "symbol", symbol, body=body, contentType=contentType, query=query)
 }
 
-#' Get the R symbols available after the datashield.assign calls in the current Datashield session.
+#' Get the list of asynchronous R commands in the remote R session.
+#' 
+#' @title List the asynchronous commands
+#' 
+#' @param opal Opal object.
+#' @export
+opal.commands <- function(opal) {
+  .get(opal, "r", "session", "current", "commands")
+}
+
+#' Get an asynchronous R commands in the remote R session.
+#' 
+#' @title Get an asynchronous command
+#' 
+#' @param id R command ID
+#' @param opal Opal object.
+#' @export
+opal.command <- function(opal, id) {
+  .get(opal, "r", "session", "current", "command", id)
+}
+
+#' Remove an asynchronous R commands in the remote R session.
+#' 
+#' @title Remove an asynchronous command
+#' 
+#' @param id R command ID
+#' @param opal Opal object.
+#' @export
+opal.rm_command <- function(opal, id) {
+  .delete(opal, "r", "session", "current", "command", id)
+}
+
+#' Remove all asynchronous R commands in the remote R session.
+#' 
+#' @title Remove all asynchronous commands
+#' 
+#' @param opal Opal object.
+#' @export
+opal.rm_commands <- function(opal) {
+  res <- lapply(opal.commands(o), function(cmd) {
+    opal.rm_command(o,cmd$id)
+  })
+}
+
+#' Get the result of an asynchronous R commands in the remote R session. The command is removed from the
+#' remote R session after this call.
+#' 
+#' @title Get result of an asynchronous command
+#' 
+#' @param id R command ID
+#' @param opal Opal object.
+#' @export
+opal.command_result <- function(opal, id) {
+  .get(opal, "r", "session", "current", "command", id, "result")
+}
+
+#' Get the R symbols available in the remote R session.
 #' 
 #' @title List R symbols
 #' 
@@ -396,12 +452,13 @@ opal.rm <- function(opal, symbol) {
   if(response$code >= 400) { 
     msg <- gsub("[\n\r]","",response$headers['statusMessage'])
     msg <- paste0(opal$name, ": ", msg, " (", response$code, ")")
-    if (!.isContentEmpty(response$content)) {
-      msg <- paste0(msg, ": ", response$content)
+    if (!.isContentEmpty(as.character(response$content))) {
+      msg <- paste0(msg, ": ", as.character(response$content))
     }
     stop(msg)
     NULL
   }	else {
+    #print(paste0("content.type: ", response$content.type))
     if(length(grep("octet-stream", response$content.type))) {
       unserialize(response$content)
     } else if(length(grep("json", response$content.type))) {
@@ -411,7 +468,8 @@ opal.rm <- function(opal, symbol) {
         fromJSON(response$content);
       }
     } else if (length(grep("text", response$content.type))) {
-      print(response$content)
+      #print(paste0("content: ", response$content))
+      as.character(response$content)
     }
   }
 }
