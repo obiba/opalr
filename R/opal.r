@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2013 OBiBa. All rights reserved.
+# Copyright (c) 2014 OBiBa. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -300,19 +300,24 @@ opal.commands <- function(opal) {
 #' 
 #' @title Get an asynchronous command
 #' 
-#' @param id R command ID
 #' @param opal Opal object.
+#' @param id R command ID.
+#' @param wait Wait for the command to complete.
 #' @export
-opal.command <- function(opal, id) {
-  .get(opal, "r", "session", "current", "command", id)
+opal.command <- function(opal, id, wait=FALSE) {
+  query <- list()
+  if (wait) {
+    query["wait"] <- "true"
+  }
+  .get(opal, "r", "session", "current", "command", id, query=query)
 }
 
 #' Remove an asynchronous R commands in the remote R session.
 #' 
 #' @title Remove an asynchronous command
 #' 
-#' @param id R command ID
 #' @param opal Opal object.
+#' @param id R command ID.
 #' @export
 opal.command_rm <- function(opal, id) {
   tryCatch(.delete(opal, "r", "session", "current", "command", id), error=function(e){})
@@ -325,8 +330,8 @@ opal.command_rm <- function(opal, id) {
 #' @param opal Opal object.
 #' @export
 opal.commands_rm <- function(opal) {
-  res <- lapply(opal.commands(o), function(cmd) {
-    opal.rm_command(o,cmd$id)
+  res <- lapply(opal.commands(opal), function(cmd) {
+    opal.command_rm(opal, cmd$id)
   })
 }
 
@@ -336,8 +341,8 @@ opal.commands_rm <- function(opal) {
 #' @title Get result of an asynchronous command
 #' 
 #' @param opal Opal object.
-#' @param id R command ID
-#' @param wait Wait for the command to complete
+#' @param id R command ID.
+#' @param wait Wait for the command to complete.
 #' @export
 opal.command_result <- function(opal, id, wait=FALSE) {
   if (wait) {
@@ -347,7 +352,7 @@ opal.command_result <- function(opal, id, wait=FALSE) {
     if (cmd$status == "FAILED") {
       stop("Command '", cmd$script, "' failed: ", cmd$error)
     }
-    opal.rm_command(opal, id)
+    opal.command_rm(opal, id)
     res
   } else {
     .get(opal, "r", "session", "current", "command", id, "result")

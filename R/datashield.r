@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2013 OBiBa. All rights reserved.
+# Copyright (c) 2014 OBiBa. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -91,16 +91,17 @@ datashield.rmSessions.list <- function(opals) {
 #' 
 #' @param opals Opal object or list of opal objects.
 #' @param expr Expression to evaluate.
+#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @rdname datashield.aggregate
 #' @export
-datashield.aggregate=function(opals, expr) {
+datashield.aggregate=function(opals, expr, async=FALSE) {
   UseMethod('datashield.aggregate');
 }
 
 #' @rdname datashield.aggregate
 #' @method datashield.aggregate opal
 #' @S3method datashield.aggregate opal
-datashield.aggregate.opal=function(opal, expr) {
+datashield.aggregate.opal=function(opal, expr, async=FALSE) {
   expression = expr
   # convert a call to a string
   if(is.language(expr)) {
@@ -109,14 +110,19 @@ datashield.aggregate.opal=function(opal, expr) {
     stop("Invalid expression type: '", class(value), "'. Expected a call or character vector.")
   }
   
-  opal:::.post(opal, "datashield", "session", "current", "aggregate", body=expression, contentType="application/x-rscript")
+  query <- list()
+  if(async) {
+    query["async"] <- "true"
+  }
+  
+  opal:::.post(opal, "datashield", "session", "current", "aggregate", query=query, body=expression, contentType="application/x-rscript")
 }
 
 #' @rdname datashield.aggregate
 #' @method datashield.aggregate list
 #' @S3method datashield.aggregate list
-datashield.aggregate.list=function(opals, expr) {
-  lapply(opals, FUN=datashield.aggregate.opal, expr)
+datashield.aggregate.list=function(opals, expr, async=FALSE) {
+  lapply(opals, FUN=datashield.aggregate.opal, expr, async=async)
 }
 
 #' Assign a Opal value to a R symbol in the current Datashield session.
@@ -128,24 +134,25 @@ datashield.aggregate.list=function(opals, expr) {
 #' @param value Fully qualified name of a variable or a table in Opal (must be the same in each Opal) or a R expression with allowed assign functions calls.
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
-#' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0) 
+#' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).
+#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @rdname datashield.assign
 #' @examples {
 #' # assign a list of variables from table HOP of opal object o
-#' datashield.assign(o, symbol="D", value"demo.HOP", variables=list("GENDER","LAB_GLUC"))
+#' datashield.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
 #' 
 #' # assign all the variables matching 'LAB' from table HOP of opal object o
-#' datashield.assign(o, symbol="D", value"demo.HOP", variables="name().matches('LAB_')")
+#' datashield.assign(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
 #' }
 #' @export
-datashield.assign=function(opals, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL) {
+datashield.assign=function(opals, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=FALSE) {
   UseMethod('datashield.assign');
 }
 
 #' @rdname datashield.assign
 #' @method datashield.assign opal
 #' @S3method datashield.assign opal
-datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL) {
+datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=FALSE) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
     body <- .deparse(value)
@@ -179,191 +186,18 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
     stop("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.")
   }
   
-  res <- opal:::.put(opal, "datashield", "session", "current", "symbol", symbol, body=body, contentType=contentType, query=query)
+  if(async) {
+    query["async"] <- "true"
+  }
+  
+  res <- opal:::.put(opal, "datashield", "session", "current", "symbol", symbol, query=query, body=body, contentType=contentType)
 }
 
 #' @rdname datashield.assign
 #' @method datashield.assign list
 #' @S3method datashield.assign list
-datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL) {
-  res <- lapply(opals, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers)
-}
-
-#' Get the R symbols available after the datashield.assign calls in the current Datashield session.
-#' 
-#' @title List R symbols
-#' 
-#' @param opal Opal object or list of opal objects.
-#' @rdname datashield.symbols
-#' @export
-datashield.symbols=function(object, ...) {
-  UseMethod('datashield.symbols');
-}
-
-#' @rdname datashield.symbols
-#' @method datashield.symbols opal
-#' @S3method datashield.symbols opal
-datashield.symbols.opal=function(opal) {
-  opal:::.get(opal, "datashield", "session", "current", "symbols")
-}
-
-#' @rdname datashield.symbols
-#' @method datashield.symbols list
-#' @S3method datashield.symbols list
-datashield.symbols.list=function(opals) {
-  lapply(opals, FUN=datashield.symbols.opal)
-}
-
-#' Remove a symbol from the current Datashield session.
-#' 
-#' @title Remove a R symbol
-#' 
-#' @param opals Opal object or list of opal objects.
-#' @param symbol Name of the R symbol.
-#' @export
-datashield.rm=function(opals, symbol) {
-  if (missing(symbol) || length(symbol) == 0) stop("symbol to remove is required")
-  UseMethod('datashield.rm');
-}
-
-#' @rdname datashield.rm
-#' @method datashield.rm opal
-#' @S3method datashield.rm opal
-datashield.rm.opal=function(opal, symbol) {
-  res <- opal:::.delete(opal, "datashield", "session", "current", "symbol", symbol)
-}
-
-#' @rdname datashield.rm
-#' @method datashield.rm list
-#' @S3method datashield.rm list
-datashield.rm.list=function(opals, symbol) {
-  res <- lapply(opals, FUN=datashield.rm.opal, symbol)
-}
-
-#' Get available Datashield methods of a given type.
-#' 
-#' @title List Datashield methods
-#' 
-#' @param opals Opal object or list of opal objects.
-#' @param type Type of the method: "aggregate" (default) or "assign".
-#' @export
-datashield.methods=function(opals, type="aggregate") {
-  UseMethod('datashield.methods');
-}
-
-#' @rdname datashield.methods
-#' @method datashield.methods opal
-#' @S3method datashield.methods opal
-datashield.methods.opal=function(opal, type="aggregate") {
-  rlist <- opal:::.get(opal, "datashield", "env", type, "methods")
-  name <- lapply(rlist,function(m){
-    m$name
-  })
-  t <- lapply(rlist,function(m){
-    type
-  })
-  class <- lapply(rlist,function(m){
-    if (is.null(m$DataShield.RFunctionDataShieldMethodDto.method$func)) {
-      "script"
-    } else {
-      "function"
-    }
-  })
-  value <- lapply(rlist,function(m){
-    val <- m$DataShield.RFunctionDataShieldMethodDto.method$func
-    if (is.null(val)) {
-      val <- m$DataShield.RScriptDataShieldMethodDto.method$script
-    }
-    val
-  })
-  pkg <- lapply(rlist,function(m){
-    val <- m$DataShield.RFunctionDataShieldMethodDto.method$rPackage
-    if (is.null(val)) {
-      val <- NA
-    }
-    val
-  })
-  version <- lapply(rlist,function(m){
-    val <- m$DataShield.RFunctionDataShieldMethodDto.method$version
-    if (is.null(val)) {
-      val <- NA
-    }
-    val
-  })
-  rval <- data.frame(unlist(name), unlist(t), unlist(class), unlist(value), unlist(pkg), unlist(version))
-  colnames(rval) <- c("name","type", "class", "value","package","version")
-  rval
-}
-
-#' @rdname datashield.methods
-#' @method datashield.methods list
-#' @S3method datashield.methods list
-datashield.methods.list=function(opals, type="aggregate") {
-  lapply(opals, FUN=datashield.methods.opal, type)
+datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=FALSE) {
+  res <- lapply(opals, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, async=async)
 }
 
 
-#' Get a Datashield method of a given type by its name.
-#' 
-#' @title Get Datashield method by its name
-#' 
-#' @param opals Opal object or list of opal objects.
-#' @param name Name of the method
-#' @param type Type of the method: "aggregate" (default) or "assign".
-#' @export
-datashield.method=function(opals, name, type="aggregate") {
-  UseMethod('datashield.method');
-}
-
-#' @rdname datashield.method
-#' @method datashield.method opal
-#' @S3method datashield.method opal
-datashield.method.opal=function(opal, name, type="aggregate") {
-  # TODO this request is currently not accessible to ds user
-  #opal:::.get(opal, "datashield", "env", type, "method", name)
-  ms <- datashield.methods(opal, type);
-  rval <- ms[ms$name == name,]
-  if (nrow(rval) > 0) {
-    # TODO there is certainly a simpler way to this... 
-    rval <- list(name=as.character(rval$name), type=as.character(rval$type), class=as.character(rval$class), value=as.character(rval$value))
-  } else {
-    rval <- NULL
-  }
-  rval
-}
-
-#' @rdname datashield.method
-#' @method datashield.method list
-#' @S3method datashield.method list
-datashield.method.list=function(opals, name, type="aggregate") {
-  lapply(opals, FUN=datashield.method.opal, name, type)
-}
-
-#' Check existence of a Datashield method of any type by its name.
-#' 
-#' @title Check existence of a Datashield method by its name
-#' 
-#' @param opals Opal object or list of opal objects.
-#' @param name Name of the method
-#' @export
-datashield.has_method=function(opals, name) {
-  UseMethod('datashield.has_method');
-}
-
-#' @rdname datashield.has_method
-#' @method datashield.has_method opal
-#' @S3method datashield.has_method opal
-datashield.has_method.opal=function(opal, name) {
-  rval <- !is.null(datashield.method(opal,name, type="aggregate"))
-  if (!rval) {
-    rval <- !is.null(datashield.method(opal,name, type="assign"))
-  }
-  rval
-}
-
-#' @rdname datashield.has_method
-#' @method datashield.has_method list
-#' @S3method datashield.has_method list
-datashield.has_method.list=function(opals, name) {
-  lapply(opals, FUN=datashield.has_method.opal, name)
-}

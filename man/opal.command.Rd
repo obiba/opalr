@@ -2,12 +2,14 @@
 \alias{opal.command}
 \title{Get an asynchronous command}
 \usage{
-opal.command(opal, id)
+opal.command(opal, id, wait = FALSE)
 }
 \arguments{
-  \item{id}{R command ID}
-
   \item{opal}{Opal object.}
+
+  \item{id}{R command ID.}
+
+  \item{wait}{Wait for the command to complete.}
 }
 \description{
 Get an asynchronous R commands in the remote R session.

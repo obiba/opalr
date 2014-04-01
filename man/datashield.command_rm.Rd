@@ -1,0 +1,23 @@
+\name{datashield.command_rm}
+\alias{datashield.command_rm}
+\alias{datashield.command_rm.list}
+\alias{datashield.command_rm.opal}
+\title{Remove an asynchronous command}
+\usage{
+datashield.command_rm(opal, id)
+
+\method{datashield.command_rm}{opal}(opal, id)
+
+\method{datashield.command_rm}{list}(opals, ids)
+}
+\arguments{
+  \item{opal}{Opal object or list of opal objects.}
+
+  \item{id}{R command ID or list of R command IDs (one for
+  each opal object).}
+}
+\description{
+Remove an asynchronous R commands in the remote Datashield
+session.
+}
+

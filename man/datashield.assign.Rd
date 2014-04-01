@@ -5,13 +5,13 @@
 \title{Data assignment}
 \usage{
 datashield.assign(opals, symbol, value, variables = NULL, missings = FALSE,
-  identifiers = NULL)
+  identifiers = NULL, async = FALSE)
 
 \method{datashield.assign}{opal}(opal, symbol, value, variables = NULL,
-  missings = FALSE, identifiers = NULL)
+  missings = FALSE, identifiers = NULL, async = FALSE)
 
 \method{datashield.assign}{list}(opals, symbol, value, variables = NULL,
-  missings = FALSE, identifiers = NULL)
+  missings = FALSE, identifiers = NULL, async = FALSE)
 }
 \arguments{
   \item{opals}{Opal object or list of opal objects.}
@@ -33,7 +33,12 @@ datashield.assign(opals, symbol, value, variables = NULL, missings = FALSE,
   R expression.}
 
   \item{identifiers}{Name of the identifiers mapping to use
-  when assigning entities to R (from Opal 2.0)}
+  when assigning entities to R (from Opal 2.0).}
+
+  \item{async}{R script is executed asynchronously within
+  the session (default is FALSE). If TRUE, the value
+  returned is the ID of the command to look for (from Opal
+  2.1).}
 }
 \description{
 Assign a Opal value to a R symbol in the current Datashield
@@ -42,10 +47,10 @@ session.
 \examples{
 {
 # assign a list of variables from table HOP of opal object o
-datashield.assign(o, symbol="D", value"demo.HOP", variables=list("GENDER","LAB_GLUC"))
+datashield.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
 
 # assign all the variables matching 'LAB' from table HOP of opal object o
-datashield.assign(o, symbol="D", value"demo.HOP", variables="name().matches('LAB_')")
+datashield.assign(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
 }
 }
 

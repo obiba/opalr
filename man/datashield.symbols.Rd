@@ -4,7 +4,7 @@
 \alias{datashield.symbols.opal}
 \title{List R symbols}
 \usage{
-datashield.symbols(object, ...)
+datashield.symbols(opal, ...)
 
 \method{datashield.symbols}{opal}(opal)
 

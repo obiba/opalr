@@ -5,9 +5,9 @@
 opal.command_rm(opal, id)
 }
 \arguments{
-  \item{id}{R command ID}
-
   \item{opal}{Opal object.}
+
+  \item{id}{R command ID.}
 }
 \description{
 Remove an asynchronous R commands in the remote R session.

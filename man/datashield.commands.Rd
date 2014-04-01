@@ -1,0 +1,20 @@
+\name{datashield.commands}
+\alias{datashield.commands}
+\alias{datashield.commands.list}
+\alias{datashield.commands.opal}
+\title{List the asynchronous commands}
+\usage{
+datashield.commands(opal)
+
+\method{datashield.commands}{opal}(opal)
+
+\method{datashield.commands}{list}(opals)
+}
+\arguments{
+  \item{opal}{Opal object or list of opal objects.}
+}
+\description{
+Get the list of asynchronous R commands in the remote
+Datashield session.
+}
+

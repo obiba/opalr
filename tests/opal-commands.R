@@ -5,8 +5,11 @@ library(opal)
 options(opal.username='administrator', 
         opal.password='password', 
         opal.url='http://localhost:8080') 
+table <- "test.Drugs"
 
+#
 # start a R session
+#
 o <- opal.login()
 
 # execute a command synchronously
@@ -21,21 +24,29 @@ opal.command_result(o, rid)
 opal.commands(o)
 
 # assign a large table asynchronously and wait for it to complete
-rid <- opal.assign(o, "D", "test.Drugs", async=TRUE)
+rid <- opal.assign(o, "D", table, async=TRUE)
 opal.command_result(o, rid, wait=TRUE)
+opal.commands(o)
+opal.symbols(o)
+opal.execute(o, "head(D)")
+opal.symbol_rm(o, "D")
+rid <- opal.assign(o, "D", table, async=TRUE)
+opal.command(o, rid, wait=TRUE)
 opal.commands(o)
 opal.symbols(o)
 opal.execute(o, "head(D)")
 opal.logout(o)
 
+#
 # start 2 R sessions in parallel
+#
 o1 <- opal.login()
 o2 <- opal.login()
 os <- list(o1,o2)
 
 # assign a large table asynchronously in each R session (=in parallel) and wait for them to complete
-rid1 <- opal.assign(o1, "D", "test.Drugs", async=TRUE)
-rid2 <- opal.assign(o2, "D", "test.Drugs", async=TRUE)
+rid1 <- opal.assign(o1, "D", table, async=TRUE)
+rid2 <- opal.assign(o2, "D", table, async=TRUE)
 rids <- list(rid1,rid2)
 res <- lapply(1:length(os), function(i) {
   opal.command_result(os[[i]], rids[[i]], wait=TRUE)
@@ -43,3 +54,18 @@ res <- lapply(1:length(os), function(i) {
 opal.symbols(o1)
 opal.symbols(o2)
 opal.logout(os)
+
+#
+# start a Datashield session
+#
+o <- opal.login()
+
+rid <- datashield.assign(o,"D",table, async=TRUE)
+datashield.command(o, rid, wait=TRUE)
+rid <- datashield.aggregate(o, quote(colnames(D)), async=TRUE)
+datashield.command(o, rid, wait=TRUE)
+datashield.command_result(o, rid)
+datashield.commands(o)
+datashield.commands_rm(o)
+
+datashield.logout(o)

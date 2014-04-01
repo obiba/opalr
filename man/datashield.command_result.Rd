@@ -1,0 +1,26 @@
+\name{datashield.command_result}
+\alias{datashield.command_result}
+\alias{datashield.command_result.list}
+\alias{datashield.command_result.opal}
+\title{Get result of an asynchronous command}
+\usage{
+datashield.command_result(opal, id, wait = FALSE)
+
+\method{datashield.command_result}{opal}(opal, id, wait = FALSE)
+
+\method{datashield.command_result}{list}(opals, ids, wait = FALSE)
+}
+\arguments{
+  \item{opal}{Opal object or list of opal objects.}
+
+  \item{id}{R command ID or list of R command IDs (one for
+  each opal object).}
+
+  \item{wait}{Wait for the command to complete.}
+}
+\description{
+Get the result of an asynchronous R commands in the remote
+Datashield session. The command is removed from the remote
+Datashield session after this call.
+}
+

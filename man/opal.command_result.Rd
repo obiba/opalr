@@ -7,9 +7,9 @@ opal.command_result(opal, id, wait = FALSE)
 \arguments{
   \item{opal}{Opal object.}
 
-  \item{id}{R command ID}
+  \item{id}{R command ID.}
 
-  \item{wait}{Wait for the command to complete}
+  \item{wait}{Wait for the command to complete.}
 }
 \description{
 Get the result of an asynchronous R commands in the remote
