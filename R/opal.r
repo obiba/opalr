@@ -314,8 +314,8 @@ opal.command <- function(opal, id) {
 #' @param id R command ID
 #' @param opal Opal object.
 #' @export
-opal.rm_command <- function(opal, id) {
-  .delete(opal, "r", "session", "current", "command", id)
+opal.command_rm <- function(opal, id) {
+  tryCatch(.delete(opal, "r", "session", "current", "command", id), error=function(e){})
 }
 
 #' Remove all asynchronous R commands in the remote R session.
@@ -324,7 +324,7 @@ opal.rm_command <- function(opal, id) {
 #' 
 #' @param opal Opal object.
 #' @export
-opal.rm_commands <- function(opal) {
+opal.commands_rm <- function(opal) {
   res <- lapply(opal.commands(o), function(cmd) {
     opal.rm_command(o,cmd$id)
   })
@@ -335,11 +335,23 @@ opal.rm_commands <- function(opal) {
 #' 
 #' @title Get result of an asynchronous command
 #' 
-#' @param id R command ID
 #' @param opal Opal object.
+#' @param id R command ID
+#' @param wait Wait for the command to complete
 #' @export
-opal.command_result <- function(opal, id) {
-  .get(opal, "r", "session", "current", "command", id, "result")
+opal.command_result <- function(opal, id, wait=FALSE) {
+  if (wait) {
+    query=list(wait="true", rm="false")
+    res <- .get(opal, "r", "session", "current", "command", id, "result", query=query)
+    cmd <- opal.command(opal, id)
+    if (cmd$status == "FAILED") {
+      stop("Command '", cmd$script, "' failed: ", cmd$error)
+    }
+    opal.rm_command(opal, id)
+    res
+  } else {
+    .get(opal, "r", "session", "current", "command", id, "result")
+  }
 }
 
 #' Get the R symbols available in the remote R session.
@@ -352,15 +364,26 @@ opal.symbols <- function(opal) {
   .get(opal, "r", "session", "current", "symbols")
 }
 
-#' Remove a symbol from the current Datashield session.
+#' Remove a symbol from the current R session.
 #' 
 #' @title Remove a R symbol
 #' 
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
 #' @export
+opal.symbol_rm <- function(opal, symbol) {
+  tryCatch(.delete(opal, "r", "session", "current", "symbol", symbol), error=function(e){})
+}
+
+#' Remove a symbol from the current R session. Deprecated: see opal.symbol_rm function instead.
+#' 
+#' @title Remove a R symbol (deprecated)
+#' 
+#' @param opal Opal object.
+#' @param symbol Name of the R symbol.
+#' @export
 opal.rm <- function(opal, symbol) {
-  .delete(opal, "r", "session", "current", "symbol", symbol)
+  opal.symbol_rm(opal, symbol)
 }
 
 #' Load dependencies.
@@ -449,16 +472,21 @@ opal.rm <- function(opal, symbol) {
 #' Default request response handler.
 #' @keywords internal
 .handleResponse <- function(opal, response) {
+  #print(paste0("content.type: ", response$content.type))
   if(response$code >= 400) { 
     msg <- gsub("[\n\r]","",response$headers['statusMessage'])
     msg <- paste0(opal$name, ": ", msg, " (", response$code, ")")
     if (!.isContentEmpty(as.character(response$content))) {
-      msg <- paste0(msg, ": ", as.character(response$content))
+      error <- response$content
+      if(is.raw(error)) {
+        error <- readChar(response$content, length(response$content))
+      }
+      msg <- paste0(msg, ": ", error)
     }
     stop(msg)
     NULL
   }	else {
-    #print(paste0("content.type: ", response$content.type))
+    
     if(length(grep("octet-stream", response$content.type))) {
       unserialize(response$content)
     } else if(length(grep("json", response$content.type))) {

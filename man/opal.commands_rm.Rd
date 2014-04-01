@@ -1,0 +1,13 @@
+\name{opal.commands_rm}
+\alias{opal.commands_rm}
+\title{Remove all asynchronous commands}
+\usage{
+opal.commands_rm(opal)
+}
+\arguments{
+  \item{opal}{Opal object.}
+}
+\description{
+Remove all asynchronous R commands in the remote R session.
+}
+

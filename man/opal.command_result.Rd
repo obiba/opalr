@@ -2,12 +2,14 @@
 \alias{opal.command_result}
 \title{Get result of an asynchronous command}
 \usage{
-opal.command_result(opal, id)
+opal.command_result(opal, id, wait = FALSE)
 }
 \arguments{
+  \item{opal}{Opal object.}
+
   \item{id}{R command ID}
 
-  \item{opal}{Opal object.}
+  \item{wait}{Wait for the command to complete}
 }
 \description{
 Get the result of an asynchronous R commands in the remote

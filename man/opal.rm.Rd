@@ -1,6 +1,6 @@
 \name{opal.rm}
 \alias{opal.rm}
-\title{Remove a R symbol}
+\title{Remove a R symbol (deprecated)}
 \usage{
 opal.rm(opal, symbol)
 }
@@ -10,6 +10,7 @@ opal.rm(opal, symbol)
   \item{symbol}{Name of the R symbol.}
 }
 \description{
-Remove a symbol from the current Datashield session.
+Remove a symbol from the current R session. Deprecated: see
+opal.symbol_rm function instead.
 }
 
