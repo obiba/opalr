@@ -77,7 +77,11 @@ opal.command_result <- function(opal, id, wait=FALSE) {
     res <- .get(opal, "r", "session", "current", "command", id, "result", query=query)
     cmd <- opal.command(opal, id)
     if (cmd$status == "FAILED") {
-      stop("Command '", cmd$script, "' failed: ", cmd$error)
+      msg <- cmd$error
+      if (is.null(cmd$error)) {
+        msg <- "<unknown reason>"
+      }
+      stop("Command '", cmd$script, "' failed on '", opal$name,"': ", msg, call.=FALSE)
     }
     opal.command_rm(opal, id)
     res

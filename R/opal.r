@@ -39,7 +39,7 @@
 #'o <- opal.login(url='https://demo.obiba.org:8443')
 #'}
 opal.login <- function(username=getOption("opal.username"), password=getOption("opal.password"), url=getOption("opal.url"), opts=getOption("opal.opts", list())) {
-  if (is.null(url)) stop("opal url is required")
+  if (is.null(url)) stop("opal url is required", call.=FALSE)
   if(is.list(url)){
     lapply(url, function(u){opal.login(username, password, u, opts=opts)})
   } else {
@@ -79,7 +79,7 @@ print.opal <- function(opal) {
 #' @export
 opal.version_compare <- function(opal, version) {
   if (is.null(opal$version)) {
-    stop("opal version is not set")
+    stop("opal version is not set", call.=FALSE)
   }
   ov <- strsplit(opal$version, "-")[[1]][1]
   if (ov == version) return(0)
@@ -405,18 +405,16 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
   #print(paste0("content.type: ", response$content.type))
   if(response$code >= 400) { 
     msg <- gsub("[\n\r]","",response$headers['statusMessage'])
-    msg <- paste0(opal$name, ": ", msg, " (", response$code, ")")
-    if (!.isContentEmpty(as.character(response$content))) {
+    msg <- paste0(opal$name, ": ", msg, " (", response$code, ")")  
+    if (!.isContentEmpty(response$content)) {
       error <- response$content
       if(is.raw(error)) {
         error <- readChar(response$content, length(response$content))
       }
       msg <- paste0(msg, ": ", error)
     }
-    stop(msg)
-    NULL
+    stop(msg, call.=FALSE)
   }	else {
-    
     if(length(grep("octet-stream", response$content.type))) {
       unserialize(response$content)
     } else if(length(grep("json", response$content.type))) {
@@ -426,7 +424,6 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
         fromJSON(response$content);
       }
     } else if (length(grep("text", response$content.type))) {
-      #print(paste0("content: ", response$content))
       as.character(response$content)
     }
   }

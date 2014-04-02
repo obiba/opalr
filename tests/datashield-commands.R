@@ -8,7 +8,7 @@ options(opal.username='administrator',
 drugs <- "test.Drugs"
 fnac <- "large.FNAC"
 
-options(verbose=FALSE)
+options(verbose=TRUE)
 
 #
 # start a Datashield session
@@ -77,5 +77,17 @@ datashield.command(os, rids, wait=TRUE)
 rids <- datashield.aggregate(os,quote(table1d.ds(D$SUKUP)), async=TRUE)
 res <- datashield.command_result(os, rids, wait=TRUE)
 print(res)
+
+datashield.logout(os)
+
+server <- c("local", "demo")
+url <- c(getOption("opal.url"),"http://demo.obiba.org:8080")
+user <- c("administrator", "administrator")
+password <- c("password", "password")
+table <- c(fnac,"mica_demo.FNAC")
+logindata <- data.frame(server,url,user,password,table)
+
+os <- datashield.login(logins=logindata, assign=TRUE, variables=list("SUKUP","PITUUS"))
+print(os)
 
 datashield.logout(os)

@@ -63,7 +63,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
   
   # issue an alert and stop the process if no login table is provided
   if(is.null(logins)){
-    stop("Provide valid login details!")
+    stop("Provide valid login details!", call.=FALSE)
   }
   
   # studies names
@@ -128,26 +128,35 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       # will be assigned since he did not specify variables
       message("\n  No variables have been specified. \n  All the variables in the opal table \n  (the whole dataset) will be assigned to R!")
     }
-    
+  
+    # Assign data in parallel
     message("\nAssigining data:")
-    for(i in 1:length(opals)) {
-      message(stdnames[i])
-      rid <- datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=TRUE)
-    }
+    rids <- lapply(1:length(opals), function(i) {
+      message(stdnames[i],"...")
+      datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=TRUE)
+    })
+    datashield.command(opals, rids, wait=TRUE)
     
+    # Get column names in parallel
     message("\nVariables assigned:")
-    for(i in 1:length(stdnames)){
+    rids <- lapply(1:length(stdnames), function(i){
+      rid <- NULL
       if (datashield.has_method(opals[i],"colnames")[[1]]) {
-        varnames <- datashield.aggregate(opals[i], paste0('colnames(',symbol,')'))
-        if(length(varnames[[1]]) > 0){
-          message(stdnames[i],"--",paste(unlist(varnames), collapse=", "))
-        } else {
-          message(stdnames[i],"-- No variables assigned. \nPlease check connection and verify that the variables are available!")
-        }
+        rid <- datashield.aggregate(opals[i], paste0('colnames(',symbol,')'), async=TRUE)
       } else {
         warning(paste0(stdnames[i], " -- Cannot list assigned dataframe column names"), call.=FALSE, immediate.=TRUE)
       }
-    }
+      return(rid)
+    })
+    res <- datashield.command_result(opals, rids, wait=TRUE)
+    lapply(1:length(stdnames), function(i) {
+      varnames <- res[[i]]
+      if(length(varnames[[1]]) > 0) {
+        message(stdnames[i],"--",paste(unlist(varnames), collapse=", "))
+      } else {
+        message(stdnames[i],"-- No variables assigned. \nPlease check connection and verify that the variables are available!")
+      }
+    })
   }
   
   # return the 'opal' object

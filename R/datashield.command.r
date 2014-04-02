@@ -149,7 +149,11 @@ datashield.command_result.opal <- function(opal, id, wait=FALSE) {
     res <- .get(opal, "datashield", "session", "current", "command", id, "result", query=query)
     cmd <- datashield.command(opal, id)
     if (cmd$status == "FAILED") {
-      stop("Command '", cmd$script, "' failed: ", cmd$error)
+      msg <- cmd$error
+      if (is.null(cmd$error)) {
+        msg <- "<unknown reason>"
+      }
+      stop("Command '", cmd$script, "' failed on '", opal$name,"': ", msg, call.=FALSE)
     }
     datashield.command_rm(opal, id)
     res
