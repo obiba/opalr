@@ -23,6 +23,7 @@ datashield.commands <- function(opal) {
 #' @method datashield.commands opal
 #' @S3method datashield.commands opal
 datashield.commands.opal <- function(opal) {
+  if (opal.version_compare(opal,"2.1")<0) return(NULL)
   opal:::.get(opal, "datashield", "session", "current", "commands")
 }
 
@@ -50,6 +51,7 @@ datashield.command <- function(opal, id, wait=FALSE) {
 #' @method datashield.command opal
 #' @S3method datashield.command opal
 datashield.command.opal <- function(opal, id, wait=FALSE) {
+  if (is.null(id) || opal.version_compare(opal,"2.1")<0) return(NULL)
   query <- list()
   if (wait) {
     query["wait"] <- "true"
@@ -82,6 +84,7 @@ datashield.command_rm <- function(opal, id) {
 #' @method datashield.command_rm opal
 #' @S3method datashield.command_rm opal
 datashield.command_rm.opal <- function(opal, id) {
+  if (is.null(id) || opal.version_compare(opal,"2.1")<0) return()
   tryCatch(opal:::.delete(opal, "datashield", "session", "current", "command", id), error=function(e){})
 }
 
@@ -109,6 +112,7 @@ datashield.commands_rm <- function(opal) {
 #' @method datashield.commands_rm opal
 #' @S3method datashield.commands_rm opal
 datashield.commands_rm.opal <- function(opal) {
+  if (opal.version_compare(opal,"2.1")<0) return()
   res <- lapply(datashield.commands(opal), function(cmd) {
     datashield.command_rm(opal, cmd$id)
   })
@@ -139,6 +143,7 @@ datashield.command_result <- function(opal, id, wait=FALSE) {
 #' @method datashield.command_result opal
 #' @S3method datashield.command_result opal
 datashield.command_result.opal <- function(opal, id, wait=FALSE) {
+  if (is.null(id) || opal.version_compare(opal,"2.1")<0) return(id)
   if (wait) {
     query=list(wait="true", rm="false")
     res <- .get(opal, "datashield", "session", "current", "command", id, "result", query=query)

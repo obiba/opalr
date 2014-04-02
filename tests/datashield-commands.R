@@ -62,3 +62,20 @@ res <- datashield.command_result(os, rids, wait=TRUE)
 print(res)
 
 datashield.logout(os)
+
+o1 <- opal.login()
+o2 <- opal.login(url="http://demo.obiba.org:8080")
+os <- list(o1,o2)
+print(os)
+
+rid1 <- datashield.assign(o1, "D", fnac, variables=list("SUKUP","PITUUS"), async=TRUE)
+rid2 <- datashield.assign(o2, "D", "mica_demo.FNAC", variables=list("SUKUP","PITUUS"), async=TRUE)
+rids <- list(rid1,rid2)
+datashield.commands(os)
+datashield.command(os, rids, wait=TRUE)
+
+rids <- datashield.aggregate(os,quote(table1d.ds(D$SUKUP)), async=TRUE)
+res <- datashield.command_result(os, rids, wait=TRUE)
+print(res)
+
+datashield.logout(os)

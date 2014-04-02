@@ -40,6 +40,10 @@ datashield.assign(opals, symbol, value, variables = NULL, missings = FALSE,
   returned is the ID of the command to look for (from Opal
   2.1).}
 }
+\value{
+The R command ID if the async flag is TRUE and if Opal
+version is at least 2.1, NULL otherwise.
+}
 \description{
 Assign a Opal value to a R symbol in the current Datashield
 session.

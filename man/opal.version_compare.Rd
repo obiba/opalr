@@ -1,0 +1,22 @@
+\name{opal.version_compare}
+\alias{opal.version_compare}
+\title{Compare}
+\usage{
+opal.version_compare(opal, version)
+}
+\arguments{
+  \item{opal}{Opal object.}
+
+  \item{version}{The semantic version string to be
+  compared.}
+}
+\value{
+>0 if Opal version is more recent, 0 if equals, <0
+otherwise.
+}
+\description{
+Compare Opal version with the provided one. Note that a
+request must have been done in order to have a non-null
+Opal version.
+}
+

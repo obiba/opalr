@@ -61,6 +61,32 @@ opal.logout <- function(opals) {
   }
 }
 
+#' @export
+print.opal <- function(opal) {
+  cat("url:", opal$url, "\n")
+  cat("name:", opal$name, "\n")
+  cat("version:", opal$version, "\n")
+}
+
+#' Compare Opal version with the provided one. Note that a request must have been done 
+#' in order to have a non-null Opal version.
+#' 
+#' @title Compare 
+#' 
+#' @return >0 if Opal version is more recent, 0 if equals, <0 otherwise.
+#' @param opal Opal object.
+#' @param version The semantic version string to be compared.
+#' @export
+opal.version_compare <- function(opal, version) {
+  if (is.null(opal$version)) {
+    stop("opal version is not set")
+  }
+  ov <- strsplit(opal$version, "-")[[1]][1]
+  if (ov == version) return(0)
+  if (ov > version) return(1)
+  return(-1)
+}
+
 #' Create a new R session in Opal.
 #' 
 #' @title New R session
@@ -477,6 +503,10 @@ opal.rm <- function(opal, symbol) {
 #' Default request response handler.
 #' @keywords internal
 .handleResponse <- function(opal, response) {
+  if (is.null(opal$version)) {
+    opal$version <- as.character(response$headers['X-Opal-Version'])
+  }
+  #print(response$headers)
   #print(paste0("content.type: ", response$content.type))
   if(response$code >= 400) { 
     msg <- gsub("[\n\r]","",response$headers['statusMessage'])

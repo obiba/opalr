@@ -91,7 +91,8 @@ datashield.rmSessions.list <- function(opals) {
 #' 
 #' @param opals Opal object or list of opal objects.
 #' @param expr Expression to evaluate.
-#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
+#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1, older versions will return the result).
+#' @return The result of the aggregation or the R command ID if the async flag is TRUE and if Opal version is at least 2.1.
 #' @rdname datashield.aggregate
 #' @export
 datashield.aggregate=function(opals, expr, async=FALSE) {
@@ -136,6 +137,7 @@ datashield.aggregate.list=function(opals, expr, async=FALSE) {
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
+#' @return The R command ID if the async flag is TRUE and if Opal version is at least 2.1, NULL otherwise.
 #' @rdname datashield.assign
 #' @examples {
 #' # assign a list of variables from table HOP of opal object o
@@ -199,5 +201,3 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
 datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=FALSE) {
   res <- lapply(opals, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, async=async)
 }
-
-

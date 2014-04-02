@@ -18,7 +18,11 @@ datashield.aggregate(opals, expr, async = FALSE)
   \item{async}{R script is executed asynchronously within
   the session (default is FALSE). If TRUE, the value
   returned is the ID of the command to look for (from Opal
-  2.1).}
+  2.1, older versions will return the result).}
+}
+\value{
+The result of the aggregation or the R command ID if the
+async flag is TRUE and if Opal version is at least 2.1.
 }
 \description{
 Aggregates the expression result using the specified
