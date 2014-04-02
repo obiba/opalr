@@ -132,7 +132,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     message("\nAssigining data:")
     for(i in 1:length(opals)) {
       message(stdnames[i])
-      datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i])
+      rid <- datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=TRUE)
     }
     
     message("\nVariables assigned:")

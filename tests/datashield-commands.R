@@ -57,9 +57,9 @@ rid1 <- datashield.assign(o1, "D", fnac, variables=list("SUKUP","PITUUS"), async
 rid2 <- datashield.assign(o2, "D", fnac, variables=list("SUKUP","PITUUS"), async=TRUE)
 rids <- list(rid1,rid2)
 datashield.command(os, rids, wait=TRUE)
-rids <- datashield.aggregate(os, quote(table2d.ds(D$SUKUP,D$PITUUS)), async=TRUE)
-res <- datashield.command_result(os, rids, wait=TRUE)
-print(res)
+#rids <- datashield.aggregate(os, quote(table2d.ds(D$SUKUP,D$PITUUS)), async=TRUE)
+#res <- datashield.command_result(os, rids, wait=TRUE)
+#print(res)
 
 datashield.logout(os)
 

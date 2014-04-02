@@ -54,18 +54,3 @@ res <- lapply(1:length(os), function(i) {
 opal.symbols(o1)
 opal.symbols(o2)
 opal.logout(os)
-
-#
-# start a Datashield session
-#
-o <- opal.login()
-
-rid <- datashield.assign(o,"D",table, async=TRUE)
-datashield.command(o, rid, wait=TRUE)
-rid <- datashield.aggregate(o, quote(colnames(D)), async=TRUE)
-datashield.command(o, rid, wait=TRUE)
-datashield.command_result(o, rid)
-datashield.commands(o)
-datashield.commands_rm(o)
-
-datashield.logout(o)
