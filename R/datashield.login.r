@@ -149,7 +149,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       if (datashield.has_method(opals[i],"colnames")[[1]]) {
         rid <- datashield.aggregate(opals[i], paste0('colnames(',symbol,')'), async=TRUE)
       } else {
-        warning(paste0(stdnames[i], " -- Cannot list assigned dataframe column names"), call.=FALSE, immediate.=TRUE)
+        warning(stdnames[i], " -- Cannot list assigned dataframe column names", call.=FALSE, immediate.=TRUE)
       }
       return(rid)
     })
