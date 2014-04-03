@@ -8,7 +8,7 @@ options(opal.username='administrator',
 drugs <- "test.Drugs"
 fnac <- "large.FNAC"
 
-options(verbose=TRUE)
+options(verbose=FALSE)
 
 #
 # start a Datashield session

@@ -145,21 +145,16 @@ datashield.command_result <- function(opal, id, wait=FALSE) {
 datashield.command_result.opal <- function(opal, id, wait=FALSE) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return(id)
   if (wait) {
-    query=list(wait="true", rm="false")
-    res <- .get(opal, "datashield", "session", "current", "command", id, "result", query=query)
-    cmd <- datashield.command(opal, id)
+    cmd <- datashield.command(opal, id, wait=TRUE)
     if (cmd$status == "FAILED") {
       msg <- cmd$error
       if (is.null(cmd$error)) {
-        msg <- "<unknown reason>"
+        msg <- "<no message>"
       }
       stop("Command '", cmd$script, "' failed on '", opal$name,"': ", msg, call.=FALSE)
     }
-    datashield.command_rm(opal, id)
-    res
-  } else {
-    .get(opal, "datashield", "session", "current", "command", id, "result")
   }
+  .get(opal, "datashield", "session", "current", "command", id, "result")
 }
 
 #' @rdname datashield.command_result

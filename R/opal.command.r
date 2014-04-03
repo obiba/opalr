@@ -73,19 +73,14 @@ opal.commands_rm <- function(opal) {
 opal.command_result <- function(opal, id, wait=FALSE) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return(id)
   if (wait) {
-    query=list(wait="true", rm="false")
-    res <- .get(opal, "r", "session", "current", "command", id, "result", query=query)
-    cmd <- opal.command(opal, id)
+    cmd <- opal.command(opal, id, wait=TRUE)
     if (cmd$status == "FAILED") {
       msg <- cmd$error
       if (is.null(cmd$error)) {
-        msg <- "<unknown reason>"
+        msg <- "<no message>"
       }
       stop("Command '", cmd$script, "' failed on '", opal$name,"': ", msg, call.=FALSE)
     }
-    opal.command_rm(opal, id)
-    res
-  } else {
-    .get(opal, "r", "session", "current", "command", id, "result")
   }
+  .get(opal, "r", "session", "current", "command", id, "result")
 }
