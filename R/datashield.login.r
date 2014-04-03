@@ -135,7 +135,12 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       message(stdnames[i],"...")
       datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=TRUE)
     })
-    datashield.command(opals, rids, wait=TRUE)
+    rcmds <- datashield.command(opals, rids, wait=TRUE)
+    lapply(1:length(stdnames), function(i) {
+      if (!is.null(rcmds[[i]]) && rcmds[[i]]$status == "FAILED") {
+        warning("Data assignment of '", paths[i],"' failed for '", stdnames[i],"'", call.=FALSE, immediate.=TRUE)
+      }
+    })
     
     # Get column names in parallel
     message("\nVariables assigned:")
@@ -154,7 +159,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       if(length(varnames[[1]]) > 0) {
         message(stdnames[i],"--",paste(unlist(varnames), collapse=", "))
       } else {
-        message(stdnames[i],"-- No variables assigned. \nPlease check connection and verify that the variables are available!")
+        message(stdnames[i],"-- No variables assigned. Please check login details for this study and verify that the variables are available!")
       }
     })
   }

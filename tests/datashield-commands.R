@@ -84,7 +84,7 @@ server <- c("local", "demo")
 url <- c(getOption("opal.url"),"http://demo.obiba.org:8080")
 user <- c("administrator", "administrator")
 password <- c("password", "password")
-table <- c(fnac,"mica_demo.FNAC")
+table <- c("mica_demo.FNAC","mica_demo.FNAC")
 logindata <- data.frame(server,url,user,password,table)
 
 os <- datashield.login(logins=logindata, assign=TRUE, variables=list("SUKUP","PITUUS"))
