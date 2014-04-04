@@ -63,9 +63,11 @@ datashield.command.opal <- function(opal, id, wait=FALSE) {
 #' @method datashield.command list
 #' @S3method datashield.command list
 datashield.command.list <- function(opals, ids, wait=FALSE) {
-  lapply(1:length(opals), function(i) {
+  res <- lapply(1:length(opals), function(i) {
     datashield.command(opals[[i]], ids[[i]], wait=wait)
   })
+  names(res) <- names(opals)
+  res
 }
 
 #' Remove an asynchronous R commands in the remote Datashield session.
@@ -164,4 +166,6 @@ datashield.command_result.list <- function(opals, ids, wait=FALSE) {
   res <- lapply(1:length(opals), function(i) {
     datashield.command_result(opals[[i]], ids[[i]], wait=wait)
   })
+  names(res) <- names(opals)
+  res
 }
