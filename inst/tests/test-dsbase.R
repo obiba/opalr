@@ -20,8 +20,7 @@ source("setup.R")
 
 context("dsbase::meandDS")
 
-rids <- datashield.aggregate(opals, quote(meanDS(D$LAB_TSC)), async=TRUE)
-stat.mean <- datashield.command_result(opals, rids, wait=TRUE)
+stat.mean <- datashield.aggregate(opals, quote(meanDS(D$LAB_TSC)), async=TRUE)
 #print(stat.mean)
 
 test_that("mean values", { 
@@ -35,8 +34,7 @@ test_that("mean values", {
 
 context("dsbase::quantilemean.ds")
 
-rids <- datashield.aggregate(opals, quote(quantilemean.ds(D$LAB_TSC)), async=TRUE)
-quantiles <- datashield.command_result(opals, rids, wait=TRUE)
+quantiles <- datashield.aggregate(opals, quote(quantilemean.ds(D$LAB_TSC)), async=TRUE)
 #print(quantiles)
 
 test_that("quantile mean values", { 

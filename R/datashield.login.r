@@ -133,7 +133,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     message("\nAssigining data:")
     rids <- lapply(1:length(opals), function(i) {
       message(stdnames[i],"...")
-      datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=TRUE)
+      datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=TRUE, wait=FALSE)
     })
     rcmds <- datashield.command(opals, rids, wait=TRUE)
     lapply(1:length(stdnames), function(i) {
@@ -147,7 +147,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     rids <- lapply(1:length(stdnames), function(i){
       rid <- NULL
       if (datashield.has_method(opals[i],"colnames")[[1]]) {
-        rid <- datashield.aggregate(opals[i], paste0('colnames(',symbol,')'), async=TRUE)
+        rid <- datashield.aggregate(opals[i], paste0('colnames(',symbol,')'), async=TRUE, wait=FALSE)
       } else {
         warning(stdnames[i], " -- Cannot list assigned dataframe column names", call.=FALSE, immediate.=TRUE)
       }
