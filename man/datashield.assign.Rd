@@ -5,13 +5,13 @@
 \title{Data assignment}
 \usage{
 datashield.assign(opals, symbol, value, variables = NULL, missings = FALSE,
-  identifiers = NULL, async = FALSE, wait = TRUE)
+  identifiers = NULL, async = TRUE, wait = TRUE)
 
 \method{datashield.assign}{opal}(opal, symbol, value, variables = NULL,
-  missings = FALSE, identifiers = NULL, async = FALSE, wait = TRUE)
+  missings = FALSE, identifiers = NULL, async = TRUE, wait = TRUE)
 
 \method{datashield.assign}{list}(opals, symbol, value, variables = NULL,
-  missings = FALSE, identifiers = NULL, async = FALSE, wait = TRUE)
+  missings = FALSE, identifiers = NULL, async = TRUE, wait = TRUE)
 }
 \arguments{
   \item{opals}{Opal object or list of opal objects.}
@@ -36,9 +36,7 @@ datashield.assign(opals, symbol, value, variables = NULL, missings = FALSE,
   when assigning entities to R (from Opal 2.0).}
 
   \item{async}{R script is executed asynchronously within
-  the session (default is FALSE). If TRUE, the value
-  returned is the ID of the command to look for (from Opal
-  2.1).}
+  the session (default is TRUE).}
 
   \item{wait}{Wait for the R script asynchronously executed
   to complete (makes sense only with async=TRUE).}

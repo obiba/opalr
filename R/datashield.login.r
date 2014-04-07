@@ -144,16 +144,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     
     # Get column names in parallel
     message("\nVariables assigned:")
-    rids <- lapply(1:length(stdnames), function(i){
-      rid <- NULL
-      if (datashield.has_method(opals[i],"colnames")[[1]]) {
-        rid <- datashield.aggregate(opals[i], paste0('colnames(',symbol,')'), async=TRUE, wait=FALSE)
-      } else {
-        warning(stdnames[i], " -- Cannot list assigned dataframe column names", call.=FALSE, immediate.=TRUE)
-      }
-      return(rid)
-    })
-    res <- datashield.command_result(opals, rids, wait=TRUE)
+    res <- datashield.aggregate(opals, paste0('colnames(',symbol,')'))
     lapply(1:length(stdnames), function(i) {
       varnames <- res[[i]]
       if(length(varnames[[1]]) > 0) {
