@@ -138,7 +138,12 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     rcmds <- datashield.command(opals, rids, wait=TRUE)
     lapply(1:length(stdnames), function(i) {
       if (!is.null(rcmds[[i]]) && rcmds[[i]]$status == "FAILED") {
-        warning("Data assignment of '", paths[i],"' failed for '", stdnames[i],"'", call.=FALSE, immediate.=TRUE)
+        if (!is.null(rcmds[[i]]$error) && rcmds[[i]]$error == "Unable to locate current JTA transaction") {
+          # second chance because of a bug in opal 2.1.0 (OPAL-2583)
+          datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=FALSE, wait=TRUE)
+        } else {
+          warning("Data assignment of '", paths[i],"' failed for '", stdnames[i],"': ", rcmds[[i]]$error, call.=FALSE, immediate.=TRUE)
+        }
       }
     })
     
