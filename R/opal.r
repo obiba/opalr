@@ -230,7 +230,7 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
   rval
 }
 
-#' Get a file form path in Opal file system
+#' Get a file from its path in the Opal file system
 #' 
 #' @title Get a file
 #' 

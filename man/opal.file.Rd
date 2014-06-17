@@ -9,6 +9,6 @@ opal.file(opal, path)
 \item{path}{Path to the file in the Opal file system.}
 }
 \description{
-Get a file form path in Opal file system
+Get a file from its path in the Opal file system
 }
 
