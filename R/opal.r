@@ -230,6 +230,17 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
   rval
 }
 
+#' Get a file form path in Opal file system
+#' 
+#' @title Get a file
+#' 
+#' @param path Path to the file in the Opal file system.
+#' @export
+opal.file <- function(opal, path) {
+  p <- strsplit(substring(path, 2), "/")[[1]]
+  .get(opal, append("files", p))
+}
+
 #' Execute a R script on Opal(s).
 #' 
 #' @title Execute a R script
@@ -425,6 +436,8 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
       }
     } else if (length(grep("text", response$content.type))) {
       as.character(response$content)
+    } else {
+      response$content
     }
   }
 }
