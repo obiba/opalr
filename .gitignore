@@ -4,3 +4,6 @@
 *.dll
 *.Rproj
 .Rproj.user
+*.md
+*.html
+figure
