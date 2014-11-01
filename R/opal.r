@@ -489,9 +489,6 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
     if (is.null(options$ssl.verifypeer)) {
       options$ssl.verifypeer = 0
     }
-    if (is.null(options$sslversion)) {
-      options$sslversion = 3
-    }
   }
   opal$opts <- curlOptions(header=TRUE, httpheader=headers, cookielist="", .opts=options)
   opal$curl <- curlSetOpt(.opts=opal$opts)
