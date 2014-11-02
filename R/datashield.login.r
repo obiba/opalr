@@ -105,12 +105,12 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       if (grepl("\\.pem$",userids[i])) {
         cert <- opal:::.getPEMFilePath(userids[i], directory)
         private <- opal:::.getPEMFilePath(pwds[i], directory)
-        credentials <- list(sslcert=cert, sslkey=private, ssl.verifyhost=0, ssl.verifypeer=0, sslversion=3)
+        credentials <- list(sslcert=cert, sslkey=private, ssl.verifyhost=0, ssl.verifypeer=0)
         opals[[i]] <- opal.login(url=urls[i], opts=credentials)
       } else {
-        options <- list(ssl.verifyhost=0, ssl.verifypeer=0, sslversion=3)
+        options <- list(ssl.verifyhost=0, ssl.verifypeer=0)
         opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i], opts=options)
-      }      
+      }
     } else {
       opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i])  
     }
