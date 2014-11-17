@@ -1,0 +1,4 @@
+server,url,username,password,table,options
+server1,https://localhost:8443,datashield-publickey.pem,datashield-privatekey.pem,ds.CNSIM1,NULL
+server2,https://localhost:8443,datashield-publickey.pem,datashield-privatekey.pem,ds.CNSIM2,c(sslversion=3)
+server3,https://localhost:8443,datashield-publickey.pem,datashield-privatekey.pem,ds.CNSIM3,
