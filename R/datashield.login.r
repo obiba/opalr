@@ -202,7 +202,7 @@ datashield.logout <- function(opals) {
     if (is.list(opals)) {
       res <- lapply(opals, function(o){datashield.logout(o)})
     } else {
-      res <- datashield.rmSessions(opals)
+      res <- try(datashield.rmSessions(opals), silent=TRUE)
     }  
   }
 }
