@@ -86,7 +86,6 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
   
   # opal specific options
   options <- logins$options
-  print(options)
   
   # name of the assigned dataframe - check the user gave a character string as name
   if(!(is.character(symbol))){
@@ -123,10 +122,29 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     opals[[i]]$name <- stdnames[i]
   }
   
+  # sanity check: server availability and table path is valid 
+  excluded <- c()
+  for(i in 1:length(opals)) {
+    p <- strsplit(paths[i], split='\\.')[[1]]
+    res <- try(opal.table(opals[[i]], datasource=p[1], table=p[2]), silent=TRUE)
+    excluded <- append(excluded, inherits(res, "try-error"))
+    if (inherits(res, "try-error")) {
+      warning(stdnames[i], " will be excluded: ", res[1], call.=FALSE, immediate.=TRUE)
+    }
+  }
+  ropals <- c()
+  for (i in 1:length(opals)) {
+    if(!excluded[i]) {
+      x <- list(opals[[i]])
+      names(x) <- stdnames[[i]]
+      ropals <- append(ropals, x)
+    }
+  }
+  
   # if argument 'assign' is true assign data to the opal server(s) you logged 
   # in to. If no variables are specified the whole dataset is assigned
   # i.e. all the variables in the opal database are assigned
-  if(assign){
+  if(assign && length(ropals) > 0){
     if(is.null(variables)){
       # if the user does not specify variables (default behaviour)
       # display a message telling the user that the whole dataset
@@ -135,10 +153,12 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     }
   
     # Assign data in parallel
-    message("\nAssigining data:")
+    message("\nAssigning data:")
     rids <- lapply(1:length(opals), function(i) {
-      message(stdnames[i],"...")
-      datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=TRUE, wait=FALSE)
+      if(!excluded[i]) {
+        message(stdnames[i],"...")
+        datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=TRUE, wait=FALSE)
+      }
     })
     rcmds <- datashield.command(opals, rids, wait=TRUE)
     lapply(1:length(stdnames), function(i) {
@@ -154,19 +174,21 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     
     # Get column names in parallel
     message("\nVariables assigned:")
-    res <- datashield.aggregate(opals, paste0('colnames(',symbol,')'))
+    
     lapply(1:length(stdnames), function(i) {
-      varnames <- res[[i]]
-      if(length(varnames[[1]]) > 0) {
-        message(stdnames[i],"--",paste(unlist(varnames), collapse=", "))
-      } else {
-        message(stdnames[i],"-- No variables assigned. Please check login details for this study and verify that the variables are available!")
+      if (!excluded[i]) {
+        varnames <- datashield.aggregate(opals[[i]], paste0('colnames(',symbol,')'), async=FALSE)
+        if(length(varnames[[1]]) > 0) {
+          message(stdnames[i],"--",paste(unlist(varnames), collapse=", "))
+        } else {
+          message(stdnames[i],"-- No variables assigned. Please check login details for this study and verify that the variables are available!")
+        }
       }
     })
   }
   
   # return the 'opal' object
-  return(opals)
+  return(ropals)
 } 
 
 #' Clear the Datashield R sessions and logout from Opal(s).
@@ -176,10 +198,12 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
 #' @param opals Opal object or a list of opals.
 #' @export
 datashield.logout <- function(opals) {
-  if (is.list(opals)) {
-    res <- lapply(opals, function(o){datashield.logout(o)})
-  } else {
-    res <- datashield.rmSessions(opals)
+  if (!is.null(opals)) {
+    if (is.list(opals)) {
+      res <- lapply(opals, function(o){datashield.logout(o)})
+    } else {
+      res <- datashield.rmSessions(opals)
+    }  
   }
 }
 
