@@ -84,6 +84,10 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
   # identifiers mapping
   idmappings <- logins$identifiers
   
+  # opal specific options
+  options <- logins$options
+  print(options)
+  
   # name of the assigned dataframe - check the user gave a character string as name
   if(!(is.character(symbol))){
     message("\nWARNING: symbol has been set to 'D' because the provided value is not a valid character!")
@@ -101,15 +105,16 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     # if the connection is HTTPS use ssl options else they are not required
     protocol <- strsplit(urls[i], split="://")[[1]][1]
     if(protocol=="https"){
+      opal.opts <- eval(parse(text=as.character(options[[i]])))
       # pem files or username/password ?
       if (grepl("\\.pem$",userids[i])) {
         cert <- opal:::.getPEMFilePath(userids[i], directory)
         private <- opal:::.getPEMFilePath(pwds[i], directory)
-        credentials <- list(sslcert=cert, sslkey=private, ssl.verifyhost=0, ssl.verifypeer=0)
-        opals[[i]] <- opal.login(url=urls[i], opts=credentials)
+        opal.opts <- append(opal.opts, list(sslcert=cert, sslkey=private, ssl.verifyhost=0, ssl.verifypeer=0))
+        opals[[i]] <- opal.login(url=urls[i], opts=opal.opts)
       } else {
-        options <- list(ssl.verifyhost=0, ssl.verifypeer=0)
-        opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i], opts=options)
+        opal.opts <- append(opal.opts, list(ssl.verifyhost=0, ssl.verifypeer=0))
+        opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i], opts=opal.opts)
       }
     } else {
       opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i])  
