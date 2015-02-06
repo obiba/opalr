@@ -16,7 +16,7 @@
 #' @export
 opal.commands <- function(opal) {
   if (opal.version_compare(opal,"2.1")<0) return(NULL)
-  .get(opal, "r", "session", "current", "commands")
+  .get(opal, "r", "session", opal:::.getRSessionId(opal), "commands")
 }
 
 #' Get an asynchronous R commands in the remote R session.
@@ -33,7 +33,7 @@ opal.command <- function(opal, id, wait=FALSE) {
   if (wait) {
     query["wait"] <- "true"
   }
-  .get(opal, "r", "session", "current", "command", id, query=query)
+  .get(opal, "r", "session", opal:::.getRSessionId(opal), "command", id, query=query)
 }
 
 #' Remove an asynchronous R commands in the remote R session.
@@ -45,7 +45,7 @@ opal.command <- function(opal, id, wait=FALSE) {
 #' @export
 opal.command_rm <- function(opal, id) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return()
-  tryCatch(.delete(opal, "r", "session", "current", "command", id), error=function(e){})
+  tryCatch(.delete(opal, "r", "session", opal:::.getRSessionId(opal), "command", id), error=function(e){})
 }
 
 #' Remove all asynchronous R commands in the remote R session.
@@ -82,5 +82,5 @@ opal.command_result <- function(opal, id, wait=FALSE) {
       stop("Command '", cmd$script, "' failed on '", opal$name,"': ", msg, call.=FALSE)
     }
   }
-  .get(opal, "r", "session", "current", "command", id, "result")
+  .get(opal, "r", "session", opal:::.getRSessionId(opal), "command", id, "result")
 }

@@ -57,7 +57,8 @@ opal.logout <- function(opals) {
   if (is.list(opals)) {
     res <- lapply(opals, function(o){opal.logout(o)})  
   } else {
-    res <- opal.rmSessions(opals)
+    tryCatch(opal.rmSession(opals, opals$rid), error = function(e) {})
+    opals$rid <- NULL
   }
 }
 
@@ -66,6 +67,9 @@ print.opal <- function(opal) {
   cat("url:", opal$url, "\n")
   cat("name:", opal$name, "\n")
   cat("version:", opal$version, "\n")
+  if (!is.null(opal$rid)) {
+    cat("rid:", opal$rid, "\n")  
+  }
 }
 
 #' Compare Opal version with the provided one. Note that a request must have been done 
@@ -95,7 +99,7 @@ opal.version_compare <- function(opal, version) {
 #' @param opal Opal object.
 #' @export
 opal.newSession <- function(opal) {
-  .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)
+  .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)$id
 }
 
 #' Get all session identifiers in Opal.
@@ -143,7 +147,7 @@ opal.rmSession <- function(opal, sessionId=NULL) {
 #' @param opal Opal object.
 #' @export
 opal.rmSessions <- function(opal) {
-  .delete(opal, "r", "sessions");
+  tryCatch(.delete(opal, "r", "sessions"), error = function(e) {})
 }
 
 #' Get datasources from a opal.
@@ -257,7 +261,7 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
     if (session) {
       query <- list()
       if (async) query <- list(async="true")
-      .post(opal, "r", "session", "current", "execute", query=query, body=script, contentType="application/x-rscript")
+      .post(opal, "r", "session", .getRSessionId(opal), "execute", query=query, body=script, contentType="application/x-rscript")
     } else {
       .post(opal, "r", "execute", body=script, contentType="application/x-rscript")
     }
@@ -320,7 +324,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
   if (async) {
     query["async"] <- "true"
   }
-  .put(opal, "r", "session", "current", "symbol", symbol, body=body, contentType=contentType, query=query)
+  res <- .put(opal, "r", "session", .getRSessionId(opal), "symbol", symbol, body=body, contentType=contentType, query=query)
 }
 
 #' Load dependencies.
@@ -412,6 +416,10 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
   if (is.null(opal$version)) {
     opal$version <- as.character(response$headers['X-Opal-Version'])
   }
+  if (is.null(opal$sid)) {
+    opal$sid <- .extractOpalSessionId(response$cookielist)
+  }
+  #print(response)
   #print(response$headers)
   #print(paste0("content.type: ", response$content.type))
   if(response$code >= 400) { 
@@ -440,6 +448,18 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
       response$content
     }
   }
+}
+
+#' Extract opalsid from cookie list.
+#' @keywords internal
+.extractOpalSessionId <- function(cookielist) {
+  for (cookieStr in cookielist) {
+    cookie <- unlist(strsplit(cookieStr, '\t'))
+    if (cookie[6] == "opalsid") {
+      return(cookie[7])
+    }
+  }
+  return(NULL)
 }
 
 #' Check if response content is empty.
@@ -506,6 +526,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
   opal$opts <- curlOptions(header=TRUE, httpheader=headers, cookielist="", .opts=options)
   opal$curl <- curlSetOpt(.opts=opal$opts)
   opal$reader <- dynCurlReader(curl=opal$curl)
+  opal$rid <- NULL
   class(opal) <- "opal"
   
   opal
@@ -537,4 +558,16 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
   }
   
   path
+}
+
+#' Extract R session Id from opal object
+#' @keywords internal
+.getRSessionId <- function(opal) {
+  if(is.null(opal$rid)) {
+    opal$rid <- opal.newSession(opal)
+  }
+  if(is.null(opal$rid)) {
+    stop("Remote R session not available")
+  }
+  return(opal$rid)
 }

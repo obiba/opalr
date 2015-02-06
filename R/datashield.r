@@ -117,7 +117,7 @@ datashield.aggregate.opal=function(opal, expr, async=TRUE, wait=TRUE) {
     query["async"] <- "true"
   }
   
-  res <- opal:::.post(opal, "datashield", "session", "current", "aggregate", query=query, body=expression, contentType="application/x-rscript")
+  res <- opal:::.post(opal, "datashield", "session", opal:::.getRSessionId(opal), "aggregate", query=query, body=expression, contentType="application/x-rscript")
   
   if (async && wait) {
     res <- datashield.command_result(opals, res, wait=TRUE)
@@ -203,7 +203,7 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
     query["async"] <- "true"
   }
   
-  res <- opal:::.put(opal, "datashield", "session", "current", "symbol", symbol, query=query, body=body, contentType=contentType)
+  res <- opal:::.put(opal, "datashield", "session", opal:::.getRSessionId(opal), "symbol", symbol, query=query, body=body, contentType=contentType)
   
   if (async) {
     if (wait) {
