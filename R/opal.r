@@ -266,7 +266,8 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
   if (async) {
     query["async"] <- "true"
   }
-  res <- .put(opal, "r", "session", .getRSessionId(opal), "symbol", symbol, body=body, contentType=contentType, query=query)
+  ignore <- .getRSessionId(opal)
+  res <- .put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
 }
 
 #' Load dependencies.
@@ -502,7 +503,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
   path
 }
 
-#' Extract R session Id from opal object
+#' Extract R session Id from opal object, create a new R session if not found.
 #' @keywords internal
 .getRSessionId <- function(opal) {
   if(is.null(opal$rid)) {
@@ -517,7 +518,8 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' Create a new R session in Opal.
 #' @keywords internal
 .newSession <- function(opal) {
-  .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)$id
+  res <- .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)
+  return(res$id)
 }
 
 #' Remove a R session from Opal.

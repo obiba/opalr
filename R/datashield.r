@@ -39,8 +39,8 @@ datashield.aggregate.opal=function(opal, expr, async=TRUE, wait=TRUE) {
   if(async) {
     query["async"] <- "true"
   }
-  
-  res <- opal:::.post(opal, "datashield", "session", .getDatashieldSessionId(opal), "aggregate", query=query, body=expression, contentType="application/x-rscript")
+  ignore <- .getDatashieldSessionId(opal)
+  res <- opal:::.post(opal, "datashield", "session", opal$rid, "aggregate", query=query, body=expression, contentType="application/x-rscript")
   
   if (async && wait) {
     res <- datashield.command_result(opals, res, wait=TRUE)
@@ -146,7 +146,7 @@ datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=F
   }
 }
 
-#' Extract R session Id from opal object
+#' Extract R session Id from opal object, create a new Datashield R session if not found.
 #' @keywords internal
 .getDatashieldSessionId <- function(opal) {
   if(is.null(opal$rid)) {
@@ -161,7 +161,8 @@ datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=F
 #' Create a new Datashield R session in Opal.
 #' @keywords internal
 .newDatashieldSession <- function(opal) {
-  opal:::.extractJsonField(opal:::.post(opal, "datashield", "sessions"), c("id"), isArray=FALSE)$id
+  res <- opal:::.extractJsonField(opal:::.post(opal, "datashield", "sessions"), c("id"), isArray=FALSE)
+  return(res$id)
 }
 
 #' Remove a Datashield R session in Opal.

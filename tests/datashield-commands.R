@@ -91,3 +91,4 @@ os <- datashield.login(logins=logindata, assign=TRUE, variables=list("SUKUP","PI
 print(os)
 
 datashield.logout(os)
+
