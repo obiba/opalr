@@ -8,83 +8,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Create a new Datashield session in Opal(s).
-#' 
-#' @title New Datashield session
-#' 
-#' @param opals Opal object or list of opal objects.
-#' @return The identifier of the session created.
-#' @rdname datashield.newSession
-#' @export
-datashield.newSession <- function(opals) {
-  UseMethod('datashield.newSession');
-}
-
-#' @rdname datashield.newSession
-#' @method datashield.newSession opal
-#' @S3method datashield.newSession opal
-datashield.newSession.opal <- function(opal) {
-  opal:::.extractJsonField(.post(opal, "datashield", "sessions"), c("id"), isArray=FALSE)
-}
-
-#' @rdname datashield.newSession
-#' @method datashield.newSession list
-#' @S3method datashield.newSession list
-datashield.newSession.list <- function(opals) {
-  lapply(opals, FUN=datashield.newSession.opal)
-}
-
-#' Set current Datashield session in Opal(s).
-#' 
-#' @title Set Datashield session
-#' 
-#' @param opals Opal object or list of opal objects.
-#' @param sessionId The identifier of the session.
-#' @rdname datashield.setSession
-#' @export
-datashield.setSession <- function(opal, sessionId) {
-  UseMethod('datashield.setSession');
-}
-
-#' @rdname datashield.setSession
-#' @method datashield.setSession opal
-#' @S3method datashield.setSession opal
-datashield.setSession.opal <- function(opal, sessionId) {
-  opal:::.put(opal, "datashield", "session", sessionId, "current");
-}
-
-#' @rdname datashield.setSession
-#' @method datashield.setSession list
-#' @S3method datashield.setSession list
-datashield.setSession.list <- function(opals, sessionId) {
-  lapply(opals, FUN=datashield.setSession.opal, sessionId)
-}
-
-#' Remove Datashield sessions in Opal(s).
-#' 
-#' @title Remove Datashield sessions
-#' 
-#' @param opals Opal object or list of opal objects.
-#' @rdname datashield.rmSessions
-#' @export
-datashield.rmSessions <- function(opal) {
-  UseMethod('datashield.rmSessions');
-}
-
-#' @rdname datashield.rmSessions
-#' @method datashield.rmSessions opal
-#' @S3method datashield.rmSessions opal
-datashield.rmSessions.opal <- function(opal) {
-  opal:::.delete(opal, "datashield", "sessions");
-}
-
-#' @rdname datashield.rmSessions
-#' @method datashield.rmSessions list
-#' @S3method datashield.rmSessions list
-datashield.rmSessions.list <- function(opals) {
-  lapply(opals, FUN=datashield.rmSessions.opal)
-}
-
 #' Aggregates the expression result using the specified aggregation method in the current Datashield session.
 #' 
 #' @title Data aggregation
@@ -117,7 +40,7 @@ datashield.aggregate.opal=function(opal, expr, async=TRUE, wait=TRUE) {
     query["async"] <- "true"
   }
   
-  res <- opal:::.post(opal, "datashield", "session", opal:::.getRSessionId(opal), "aggregate", query=query, body=expression, contentType="application/x-rscript")
+  res <- opal:::.post(opal, "datashield", "session", .getDatashieldSessionId(opal), "aggregate", query=query, body=expression, contentType="application/x-rscript")
   
   if (async && wait) {
     res <- datashield.command_result(opals, res, wait=TRUE)
@@ -202,8 +125,8 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
   if(async) {
     query["async"] <- "true"
   }
-  
-  res <- opal:::.put(opal, "datashield", "session", opal:::.getRSessionId(opal), "symbol", symbol, query=query, body=body, contentType=contentType)
+  ignore <- .getDatashieldSessionId(opal)
+  res <- opal:::.put(opal, "datashield", "session", opal$rid, "symbol", symbol, query=query, body=body, contentType=contentType)
   
   if (async) {
     if (wait) {
@@ -221,4 +144,28 @@ datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=F
   if (async && wait) {
     res <- datashield.command_result(opals, res, wait=TRUE)
   }
+}
+
+#' Extract R session Id from opal object
+#' @keywords internal
+.getDatashieldSessionId <- function(opal) {
+  if(is.null(opal$rid)) {
+    opal$rid <- .newDatashieldSession(opal)
+  }
+  if(is.null(opal$rid)) {
+    stop("Remote Datashield R session not available")
+  }
+  return(opal$rid)
+}
+
+#' Create a new Datashield R session in Opal.
+#' @keywords internal
+.newDatashieldSession <- function(opal) {
+  opal:::.extractJsonField(opal:::.post(opal, "datashield", "sessions"), c("id"), isArray=FALSE)$id
+}
+
+#' Remove a Datashield R session in Opal.
+#' @keywords internal
+.rmDatashieldSession <- function(opal) {
+  try(opal:::.delete(opal, "datashield", "session", opal$rid), silent=TRUE)
 }

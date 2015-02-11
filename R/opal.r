@@ -19,7 +19,7 @@
 #' @param url Opal url or list of opal urls. Can be provided by "opal.url" option.
 #' @param opts Curl options. Can be provided by "opal.opts" option.
 #' @export
-#'@examples {
+#' @examples {
 #'
 #'#### The below examples illustrate the different ways to login in opal ####
 #'
@@ -57,7 +57,7 @@ opal.logout <- function(opals) {
   if (is.list(opals)) {
     res <- lapply(opals, function(o){opal.logout(o)})  
   } else {
-    tryCatch(opal.rmSession(opals, opals$rid), error = function(e) {})
+    try(.rmSession(opals), silent=TRUE)
     opals$rid <- NULL
   }
 }
@@ -89,65 +89,6 @@ opal.version_compare <- function(opal, version) {
   if (ov == version) return(0)
   if (ov > version) return(1)
   return(-1)
-}
-
-#' Create a new R session in Opal.
-#' 
-#' @title New R session
-#' 
-#' @return The identifier of the session created.
-#' @param opal Opal object.
-#' @export
-opal.newSession <- function(opal) {
-  .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)$id
-}
-
-#' Get all session identifiers in Opal.
-#' 
-#' @title Get R sessions
-#' 
-#' @return The list of session identifiers.
-#' @param opal Opal object.
-#' @export
-opal.getSessions <- function(opal) {
-  .extractJsonField(.get(opal, "r", "sessions"), c("id"))
-}
-
-#' Set current R session in Opal.
-#' 
-#' @title Set R session
-#' 
-#' @return The identifier of the session created.
-#' @param opal Opal object.
-#' @param sessionId The identifier of the session.
-#' @export
-opal.setSession <- function(opal, sessionId) {
-  .put(opal, "r", "session", sessionId, "current");
-}
-
-#' Remove R session from Opal.
-#' 
-#' @title Remove R session
-#' 
-#' @param opal Opal object.
-#' @param sessionId The identifier of the session to be removed. If omitted, current session is removed.
-#' @export
-opal.rmSession <- function(opal, sessionId=NULL) {
-  if (is.null(sessionId)) {
-    .delete(opal, "r", "session", "current");
-  } else {
-    .delete(opal, "r", "session", sessionId);
-  }
-}
-
-#' Remove all R sessions from Opal.
-#' 
-#' @title Remove all R sessions
-#' 
-#' @param opal Opal object.
-#' @export
-opal.rmSessions <- function(opal) {
-  tryCatch(.delete(opal, "r", "sessions"), error = function(e) {})
 }
 
 #' Get datasources from a opal.
@@ -261,7 +202,8 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
     if (session) {
       query <- list()
       if (async) query <- list(async="true")
-      .post(opal, "r", "session", .getRSessionId(opal), "execute", query=query, body=script, contentType="application/x-rscript")
+      ignore <- .getRSessionId(opal)
+      .post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript")
     } else {
       .post(opal, "r", "execute", body=script, contentType="application/x-rscript")
     }
@@ -564,10 +506,30 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' @keywords internal
 .getRSessionId <- function(opal) {
   if(is.null(opal$rid)) {
-    opal$rid <- opal.newSession(opal)
+    opal$rid <- .newSession(opal)
   }
   if(is.null(opal$rid)) {
     stop("Remote R session not available")
   }
   return(opal$rid)
+}
+
+#' Create a new R session in Opal.
+#' @keywords internal
+.newSession <- function(opal) {
+  .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)$id
+}
+
+#' Remove a R session from Opal.
+#' @keywords internal
+.rmSession <- function(opal) {
+  if (!is.null(opal$rid)) {
+    .delete(opal, "r", "session", opal$rid);
+  }
+}
+
+#' Get all R session in Opal.
+#' @keywords internal
+.getSessions <- function(opal) {
+  .extractJsonField(.get(opal, "r", "sessions"))
 }

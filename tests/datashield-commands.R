@@ -15,9 +15,9 @@ options(verbose=FALSE)
 #
 o <- opal.login()
 
-rid <- datashield.assign(o,"D",drugs, async=TRUE)
+rid <- datashield.assign(o,"D",fnac, async=TRUE, wait=FALSE)
 datashield.command(o, rid, wait=TRUE)
-rid <- datashield.aggregate(o, quote(colnames(D)), async=TRUE)
+rid <- datashield.aggregate(o, quote(colnames(D)), async=TRUE, wait=FALSE)
 datashield.command(o, rid, wait=TRUE)
 datashield.command_result(o, rid)
 datashield.commands(o)
@@ -33,8 +33,8 @@ o2 <- opal.login()
 os <- list(o1,o2)
 
 # assign a large table asynchronously in each Datashield session (=in parallel) and wait for them to complete
-rid1 <- datashield.assign(o1, "D", drugs, async=TRUE)
-rid2 <- datashield.assign(o2, "D", drugs, async=TRUE)
+rid1 <- datashield.assign(o1, "D", fnac, async=TRUE, wait=FALSE)
+rid2 <- datashield.assign(o2, "D", fnac, async=TRUE, wait=FALSE)
 rids <- list(rid1,rid2)
 datashield.commands(os)
 datashield.command(os, rids, wait=TRUE)
@@ -42,22 +42,22 @@ datashield.symbols(os)
 
 
 # assign a large variable asynchronously in each Datashield session (=in parallel) and wait for them to complete
-rid1 <- datashield.assign(o1, "V", paste0(fnac, ":SUKUP"), async=TRUE)
-rid2 <- datashield.assign(o2, "V", paste0(fnac, ":SUKUP"), async=TRUE)
+rid1 <- datashield.assign(o1, "V", paste0(fnac, ":SUKUP"), async=TRUE, wait=FALSE)
+rid2 <- datashield.assign(o2, "V", paste0(fnac, ":SUKUP"), async=TRUE, wait=FALSE)
 rids <- list(rid1,rid2)
 datashield.commands(os)
 datashield.command(os, rids, wait=TRUE)
 datashield.symbols(os)
-rids <- datashield.aggregate(os,quote(table1d.ds(V)), async=TRUE)
+rids <- datashield.aggregate(os,quote(table1dDS(V)), async=TRUE, wait=FALSE)
 res <- datashield.command_result(os, rids, wait=TRUE)
 print(res)
 
 # assign a large table asynchronously in each Datashield session (=in parallel) and wait for them to complete
-rid1 <- datashield.assign(o1, "D", fnac, variables=list("SUKUP","PITUUS"), async=TRUE)
-rid2 <- datashield.assign(o2, "D", fnac, variables=list("SUKUP","PITUUS"), async=TRUE)
+rid1 <- datashield.assign(o1, "D", fnac, variables=list("SUKUP","PITUUS"), async=TRUE, wait=FALSE)
+rid2 <- datashield.assign(o2, "D", fnac, variables=list("SUKUP","PITUUS"), async=TRUE, wait=FALSE)
 rids <- list(rid1,rid2)
 datashield.command(os, rids, wait=TRUE)
-#rids <- datashield.aggregate(os, quote(table2d.ds(D$SUKUP,D$PITUUS)), async=TRUE)
+#rids <- datashield.aggregate(os, quote(table2dDS(D$SUKUP,D$PITUUS)), async=TRUE)
 #res <- datashield.command_result(os, rids, wait=TRUE)
 #print(res)
 
@@ -68,13 +68,13 @@ o2 <- opal.login(url="http://demo.obiba.org:8080")
 os <- list(o1,o2)
 print(os)
 
-rid1 <- datashield.assign(o1, "D", fnac, variables=list("SUKUP","PITUUS"), async=TRUE)
-rid2 <- datashield.assign(o2, "D", "mica_demo.FNAC", variables=list("SUKUP","PITUUS"), async=TRUE)
+rid1 <- datashield.assign(o1, "D", fnac, variables=list("SUKUP","PITUUS"), async=TRUE, wait=FALSE)
+rid2 <- datashield.assign(o2, "D", "mica_demo.FNAC", variables=list("SUKUP","PITUUS"), async=TRUE, wait=FALSE)
 rids <- list(rid1,rid2)
 datashield.commands(os)
 datashield.command(os, rids, wait=TRUE)
 
-rids <- datashield.aggregate(os,quote(table1d.ds(D$SUKUP)), async=TRUE)
+rids <- datashield.aggregate(os,quote(table1dDS(D$SUKUP)), async=TRUE, wait=FALSE)
 res <- datashield.command_result(os, rids, wait=TRUE)
 print(res)
 

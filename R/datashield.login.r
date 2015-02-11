@@ -189,7 +189,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
   
   # return the 'opal' object
   return(ropals)
-} 
+}
 
 #' Clear the Datashield R sessions and logout from Opal(s).
 #'
@@ -201,9 +201,10 @@ datashield.logout <- function(opals) {
   if (!is.null(opals)) {
     if (is.list(opals)) {
       res <- lapply(opals, function(o){datashield.logout(o)})
-    } else {
-      res <- try(datashield.rmSessions(opals), silent=TRUE)
-    }  
+    } else if(!is.null(opals$rid)) {
+      try(opal:::.rmDatashieldSession(opals), silent=TRUE)
+      opals$rid <- NULL
+    }
   }
 }
 

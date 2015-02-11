@@ -24,6 +24,9 @@ opal.command_result(o, rid)
 opal.commands(o)
 
 # assign a large table asynchronously and wait for it to complete
+opal.assign(o, "V", paste0(table,':STRENGTH'))
+opal.execute(o, "head(V)")
+V <- opal.execute(o, "V")
 rid <- opal.assign(o, "D", table, async=TRUE)
 opal.command_result(o, rid, wait=TRUE)
 opal.commands(o)

@@ -8,13 +8,13 @@ library(opal)
 
 message("**** datashield logins and assignments:")
 server <- c("demo")
-url <- c("http://demo.obiba.org:8080")
+url <- c("http://localhost:8080")
 user <- c("administrator")
 password <- c("password")
-table <- c("mica_demo.FNAC")
+table <- c("large.FNAC")
 logindata <- data.frame(server,url,user,password,table)
 opals<-datashield.login(logindata, assign=TRUE, variables=c("SUKUP","PITUUS"))
-
+print(opals)
 message("**** check assigned variables:")
 datashield.symbols(opals)
 
