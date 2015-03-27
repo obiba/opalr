@@ -47,6 +47,9 @@ o1 <- opal.login()
 o2 <- opal.login()
 os <- list(o1,o2)
 
+opal.assign(o1, "V", paste0(table,':STRENGTH'))
+opal.assign(o2, "V", paste0(table,':STRENGTH'))
+
 # assign a large table asynchronously in each R session (=in parallel) and wait for them to complete
 rid1 <- opal.assign(o1, "D", table, async=TRUE)
 rid2 <- opal.assign(o2, "D", table, async=TRUE)
