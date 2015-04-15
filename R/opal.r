@@ -82,7 +82,7 @@ print.opal <- function(opal) {
 #' @param version The semantic version string to be compared.
 #' @export
 opal.version_compare <- function(opal, version) {
-  if (is.null(opal$version)) {
+  if (is.null(opal$version) || is.na(opal$version)) {
     stop("opal version is not set", call.=FALSE)
   }
   ov <- strsplit(opal$version, "-")[[1]][1]
@@ -356,7 +356,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' Default request response handler.
 #' @keywords internal
 .handleResponse <- function(opal, response) {
-  if (is.null(opal$version)) {
+  if (is.null(opal$version) || is.na(opal$version)) {
     opal$version <- as.character(response$headers['X-Opal-Version'])
   }
   if (is.null(opal$sid)) {

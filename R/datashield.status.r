@@ -121,10 +121,14 @@ datashield.status <- function(logins=NULL,study=NULL, directory="~/.ssh"){
   
   # check status
   table_status <- datashield.table_status(opals,logins)
-  pkg_status<-datashield.pkg_status(opals)
+  
+  # filter out the opal servers that did not respond
+  valid_opals <- Filter(function(o) {!is.na(o$version)},opals)
+  
+  pkg_status<-datashield.pkg_status(valid_opals)
   
   type_fctn =  list(aggregate_status = 'aggregate',assign_status = 'assign')
-  fctn_status<-lapply(type_fctn,function(x) datashield.method_status(opals,x))
+  fctn_status<-lapply(type_fctn,function(x) datashield.method_status(valid_opals,x))
   
   whole_status<-c(list(table_status = table_status),pkg_status,fctn_status)
   
