@@ -181,7 +181,8 @@ datashield.table_status<-function(opals,logins){
       warning(stdname,':table ' ,tbl_name, ' is not accessible or does not exist... Please check table name ',call.=F,immediate.=T)
       accessibility<-F
     }
-    df<-data.frame(study = stdname,url = urls[i],table_name=tbl_full_name[i],accessibility = accessibility)
+    o<-opals[[stdname]]
+    df<-data.frame(study = stdname,url = urls[i],version=o$version,table_name=tbl_full_name[i],accessibility = accessibility)
     info_df<-rbind(info_df,df)
     
   }
