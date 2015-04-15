@@ -11,7 +11,7 @@
 #'Get the status of the table(s), method(s), and packgage(s) in differents Opals servers.
 #'
 #'@title Check Datashield configuration status
-#'@description TODO
+#'@description This function allows for clients to check each server for data access, configuration and versions.
 #'@param logins A dataframe table that holds login details. This table holds five elements 
 #'required to login to the servers where the data to analyse is stored. The expected column names are 'server' (the server name),
 #''url' (the opal url), 'user' (the user name or the certificate file path), 'password' (the user password or the private key file path),
@@ -19,7 +19,7 @@
 #'mapping (from Opal 2.0).
 #'See also the documentation of the examplar input table \code{logindata} for details of the login 
 #'elements.
-#'@return TODO
+#'@return A list of various system status
 #'@author Mbatchou, S.
 #'@export
 #'@examples {
@@ -37,15 +37,12 @@
 #'# or load the data.frame that contains the login details
 #'data(logindata)
 #'
-#'# Example 1: just login (default)
-#'opals <- datashield.login(logins=logindata)
+#'# Example 1: check all servers (default)
+#'datashield.status(logins=logindata)
 #'
-#'# Example 2: login and assign the whole dataset
-#'opals <- datashield.login(logins=logindata,assign=TRUE)
+#'# Example 2: check a list of named servers
+#'datashield.status(logins=logindata,study=c("study1"))
 #'
-#'# Example 3: login and assign specific variable(s)
-#'myvar <- list("LAB_TSC")
-#'opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #'}
 #'
 datashield.status <- function(logins=NULL,study=NULL, directory="~/.ssh"){
@@ -97,7 +94,7 @@ datashield.status <- function(logins=NULL,study=NULL, directory="~/.ssh"){
   opals <- as.list(stdnames)  
   
   # login to the opals keeping the server names as specified in the login file
-  message("\nLogging into the collaborating servers")
+  message("\nChecking status of the collaborating servers")
   opals <- vector("list", length(urls))
   names(opals) <- as.character(logins[,1])
   for(i in 1:length(opals)) {
@@ -145,7 +142,9 @@ datashield.status <- function(logins=NULL,study=NULL, directory="~/.ssh"){
 #'
 #' @title Status of table(s) in Opal(s)
 #'
-#' @param TODO.
+#' @param opals A list of opal objects.
+#' @param logins A dataframe table that holds login details.
+#' @return Servers and tables accessibility status
 #' @export
 datashield.table_status<-function(opals,logins){
   if(is.null(opals)){
@@ -167,8 +166,7 @@ datashield.table_status<-function(opals,logins){
   # opal specific options
   options <- logins$options
   
-  #verify table accessibility and validity
-  accessibility<-T
+  # verify table accessibility and validity
   info_df<-data.frame(NULL)
   for(i in seq(length(opals))){
     stdname<-stdnames[i]
@@ -177,11 +175,12 @@ datashield.table_status<-function(opals,logins){
     tbl_name<-tbl_full_name_split[2]
     login_info<-try(opal.table(opals[[stdname]],datasource=datasource,table=tbl_name),silent=T)
     is_error<-inherits(login_info,what='try-error')
+    o<-opals[[stdname]]
+    accessibility<-T
     if (is_error){
-      warning(stdname,':table ' ,tbl_name, ' is not accessible or does not exist... Please check table name ',call.=F,immediate.=T)
+      warning(stdname,': table ' ,tbl_full_name[i], ' is not accessible or does not exist...',call.=F,immediate.=T)
       accessibility<-F
     }
-    o<-opals[[stdname]]
     df<-data.frame(study = stdname,url = urls[i],version=o$version,table_name=tbl_full_name[i],accessibility = accessibility)
     info_df<-rbind(info_df,df)
     
@@ -194,7 +193,9 @@ datashield.table_status<-function(opals,logins){
 #'
 #' @title Status of datashield method(s) in Opal(s)
 #'
-#' @param TODO.
+#' @param opals A list of opal objects.
+#' @param type Type of the method: "aggregate" (default) or "assign".
+#' @return Methods availability on each server.
 #' @export
 
 datashield.method_status<-function(opals,type='aggregate'){
@@ -220,10 +221,11 @@ datashield.method_status<-function(opals,type='aggregate'){
 #'
 #' @title Status of datashield package(s) in Opal(s)
 #'
-#' @param TODO.
+#' @param opals A list of opal objects.
+#' @return Packages status for each server.
 #' @export
 
-datashield.pkg_status<-function (opals){
+datashield.pkg_status<-function(opals){
   if(is.null(opals)){
     stop("Provide valid opals object!", call.=FALSE)
   }
@@ -231,7 +233,7 @@ datashield.pkg_status<-function (opals){
   df_pkges<-data.frame(NULL)
   df_verses<-data.frame(NULL)
   pkg_checked<-NULL
-  
+    
   for(type in types){
     res<-datashield.methods(opals,type)
     #package names by type

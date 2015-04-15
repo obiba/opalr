@@ -1,0 +1,3 @@
+server,url,username,password,table
+local,https://localhost:8443,datashield-publickey.pem,datashield-privatekey.pem,ds.CNSIM1
+demo,http://opal-demo.obiba.org,administrator,password,ds.CNSIM2

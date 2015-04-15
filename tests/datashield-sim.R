@@ -14,3 +14,6 @@ ds.summary(x='D$DIS_AMI')
 ds.summary(x='D$GENDER')
 ds.summary(x='D$PM_BMI_CATEGORICAL')
 datashield.logout(opals)
+
+logindata <- read.csv("./tests/logindata2.csv")
+datashield.status(logindata)

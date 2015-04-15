@@ -444,6 +444,9 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
   # Domain name
   opal$name <- gsub("[:/].*", "", gsub("http[s]*://", "", opal$url))
   
+  # Version default value
+  opal$version <- NA
+  
   # cookielist="" activates the cookie engine
   headers <- c(Accept="application/json, application/octet-stream");
   if(is.null(username) == FALSE) {
