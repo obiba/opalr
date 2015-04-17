@@ -260,7 +260,7 @@ datashield.pkg_status<-function(opals){
       })
     })
     
-    df_vers<-data.frame(name = pkg_tocheck, vers)
+    df_vers<-data.frame(package = pkg_tocheck, vers)
     df_verses<-rbind(df_verses,df_vers)
     
     #update already checked package

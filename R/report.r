@@ -49,6 +49,38 @@ opal.report <- function(input, output=NULL, boot_style=getOption("opal.report.st
   setwd(originalWd)
 }
 
+#' Helper function for turning an array into its Markdown representation.
+#' 
+#' @title Array to Markdown
+#' 
+#' @param table An array, including a matrix or a data.frame.
+#' @param icons Turn logicals to icons (requires bootstrap style). Default is TRUE.
+#' @param digits The maximum number of digits for numeric columns (passed to round()); it can also be a vector of length ncol(table) to set the number of digits for individual columns.
+#' @param col.names A character vector of column names to be used in the table
+#' @param align The alignment of columns: a character vector consisting of 'l' (left), 'c' (center) and/or 'r' (right); by default, numeric columns are right-aligned, and other columns are left-aligned; if align = NULL, the default alignment is used.
+#' @param caption	The table caption.
+#' @export
+opal.as_md_table <- function(table, icons=TRUE, digits=getOption("digits"), col.names=colnames(table), align, caption=NULL) {
+  require(knitr)
+  if (!icons) {
+    return(kable(table, format="markdown", digits=digits, col.names=col.names, align=align, caption=caption))
+  }
+  asIcons <- function(x) {
+    unlist(lapply(x, function(a) {
+      if(is.logical(a) || a == "TRUE" || a == "FALSE") {
+        if(as.logical(a)) {
+          return('<span class="glyphicon glyphicon-ok alert-success"></span>')
+        }
+        else {
+          return('<span class="glyphicon glyphicon-remove alert-error"></span>')
+        }
+      }
+      return(a)
+    }))
+  }
+  return(kable(apply(table,2,function(col) {asIcons(col)}), format="markdown", digits=digits, col.names=col.names, align=align, caption=caption))
+}
+
 #' Turn a R markdown file to html.
 #' @keywords internal
 opal.report_md <- function(inputFile, boot_style, progress, verbose) {
