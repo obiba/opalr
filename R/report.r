@@ -67,18 +67,18 @@ opal.as_md_table <- function(table, icons=TRUE, digits=getOption("digits"), col.
   }
   asIcons <- function(x) {
     unlist(lapply(x, function(a) {
-      if(is.logical(a) || a == "TRUE" || a == "FALSE") {
-        if(as.logical(a)) {
-          return('<span class="glyphicon glyphicon-ok alert-success"></span>')
-        }
-        else {
+      if(a %in% c("TRUE","FALSE") || is.na(a)) {
+        if(is.na(a) || !as.logical(a)) {
           return('<span class="glyphicon glyphicon-remove alert-error"></span>')
+        }
+        else if(as.logical(a)){
+          return('<span class="glyphicon glyphicon-ok alert-success"></span>')
         }
       }
       return(a)
     }))
   }
-  return(kable(apply(table,2,function(col) {asIcons(col)}), format="markdown", digits=digits, col.names=col.names, align=align, caption=caption))
+  return(kable(as.data.frame(lapply(table,asIcons)), format="markdown", digits=digits, col.names=col.names, align=align, caption=caption))
 }
 
 #' Turn a R markdown file to html.
