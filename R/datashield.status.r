@@ -19,6 +19,9 @@
 #'mapping (from Opal 2.0).
 #'See also the documentation of the examplar input table \code{logindata} for details of the login 
 #'elements.
+#'@param study Limit the status inspection to one or more studies which name is specified by this parameter.
+#'@param directory Where to look for certificate and private key. Default is user's .ssh folder.
+#'@param timeout Time in seconds after which a request must have been completed. 0 (zero) means it never times out during transfer. Default is 20 seconds.
 #'@return A list of various system status
 #'@author Mbatchou, S.
 #'@export
@@ -45,7 +48,7 @@
 #'
 #'}
 #'
-datashield.status <- function(logins=NULL,study=NULL, directory="~/.ssh"){
+datashield.status <- function(logins=NULL, study=NULL, directory="~/.ssh", timeout=20){
   
   # issue an alert and stop the process if no login table is provided
   if(missing(logins)){
@@ -102,6 +105,7 @@ datashield.status <- function(logins=NULL,study=NULL, directory="~/.ssh"){
     protocol <- strsplit(urls[i], split="://")[[1]][1]
     if(protocol=="https"){
       opal.opts <- eval(parse(text=as.character(options[[i]])))
+      opal.opts$timeout <- 10
       # pem files or username/password ?
       if (grepl("\\.pem$",userids[i])) {
         cert <- opal:::.getPEMFilePath(userids[i], directory)
