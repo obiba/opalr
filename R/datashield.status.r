@@ -100,12 +100,18 @@ datashield.status <- function(logins=NULL, study=NULL, directory="~/.ssh", timeo
   message("\nChecking status of the collaborating servers")
   opals <- vector("list", length(urls))
   names(opals) <- as.character(logins[,1])
+  default.opts <- c(timeout=timeout)
   for(i in 1:length(opals)) {
+    # connection options
+    opal.opts <- eval(parse(text=as.character(options[[i]])))
+    if (!is.null(opal.opts)) {
+      opal.opts <- append(default.opts, opal.opts)
+    } else {
+      opal.opts <- default.opts
+    }
     # if the connection is HTTPS use ssl options else they are not required
     protocol <- strsplit(urls[i], split="://")[[1]][1]
     if(protocol=="https"){
-      opal.opts <- eval(parse(text=as.character(options[[i]])))
-      opal.opts$timeout <- 10
       # pem files or username/password ?
       if (grepl("\\.pem$",userids[i])) {
         cert <- opal:::.getPEMFilePath(userids[i], directory)
@@ -117,7 +123,7 @@ datashield.status <- function(logins=NULL, study=NULL, directory="~/.ssh", timeo
         opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i], opts=opal.opts)
       }
     } else {
-      opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i])  
+      opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i], opts=opal.opts)
     }
     # set the study name to corresponding opal object
     opals[[i]]$name <- stdnames[i]
