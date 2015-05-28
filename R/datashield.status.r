@@ -237,7 +237,7 @@ datashield.pkg_status<-function(opals){
   df_pkges<-data.frame(NULL)
   df_verses<-data.frame(NULL)
   pkg_checked<-NULL
-    
+  
   for(type in types){
     res<-datashield.methods(opals,type)
     #package names by type
@@ -255,20 +255,21 @@ datashield.pkg_status<-function(opals){
     vers <-sapply(res,function(x){   
       sapply(pkg_tocheck,function(y){
         pkg.in.study<-as.character(x$package) #avoid problem with different factor levels (e.g: one study has less levels than pkg_tocheck)
-        idx<-which(y == as.character(pkg.in.study))
+        idx<-which(y == pkg.in.study)
         idx<-idx[1]
         return (x$version[idx])
       })
     })
     
-    df_vers<-data.frame(package = pkg_tocheck, vers)
+    df_vers<-data.frame(package = pkg_tocheck, vers)    
     df_verses<-rbind(df_verses,df_vers)
     
     #update already checked package
     pkg_checked<-c(pkg_checked, pkg_tocheck)
   }
   
-  df_verses<-subset(df_verses,complete.cases(df_verses))
+  df_pkges<-subset(df_pkges,!is.na(df_pkges$package)) #take only valid packages (eg: <NA> is not package)
+  df_verses<-subset(df_verses,!is.na(df_verses$package)) #take only valid packages (eg: <NA> is not package)
   
   pkg_status_list<-list(package_status = unique(df_pkges), version_status = unique(df_verses))
   return(pkg_status_list)
