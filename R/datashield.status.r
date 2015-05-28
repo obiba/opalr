@@ -264,7 +264,8 @@ datashield.pkg_status<-function(opals){
     #pkg_vers
     vers <-sapply(res,function(x){   
       sapply(pkg_tocheck,function(y){
-        idx<-which(y == x$package)
+        pkg.in.study<-as.character(x$package) #avoid problem with different factor levels (e.g: one study has less levels than pkg_tocheck)
+        idx<-which(y == as.character(pkg.in.study))
         idx<-idx[1]
         return (x$version[idx])
       })
