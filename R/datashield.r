@@ -128,12 +128,11 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
   ignore <- .getDatashieldSessionId(opal)
   res <- opal:::.put(opal, "datashield", "session", opal$rid, "symbol", symbol, query=query, body=body, contentType=contentType)
   
-  if (async) {
-    if (wait) {
-      res <- datashield.command_result(opal, res, wait=TRUE)
-    }
-    return(res)
+  if (async && wait) {
+    datashield.command_result(opal, res, wait=TRUE)
+    res <- raw(0)
   }
+  invisible(res)
 }
 
 #' @rdname datashield.assign
@@ -142,8 +141,9 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
 datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE) {
   res <- lapply(opals, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, async=async, wait=FALSE)
   if (async && wait) {
-    res <- datashield.command_result(opals, res, wait=TRUE)
+    datashield.command_result(opals, res, wait=TRUE)
   }
+  invisible(raw(0))
 }
 
 #' Extract R session Id from opal object, create a new Datashield R session if not found.

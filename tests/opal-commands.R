@@ -38,6 +38,10 @@ opal.command(o, rid, wait=TRUE)
 opal.commands(o)
 opal.symbols(o)
 opal.execute(o, "head(D)")
+opal.assign(o, "CLASS", as.symbol("D$CLASS"), async=FALSE)
+rid <- opal.assign(o, "CLASS", as.symbol("D$CLASS"), async=TRUE)
+opal.command_result(o, rid, wait=TRUE)
+opal.execute(o, "summary(CLASS)")
 opal.logout(o)
 
 #
