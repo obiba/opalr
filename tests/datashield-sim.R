@@ -18,6 +18,7 @@ ds.summary(x='G')
 datashield.assign(opals$server1, 'G2', as.symbol('D$GENDER'))
 ds.summary(x='G2', datasources=c(opals$server1))
 datashield.symbols(opals)
+datashield.commands(opals)
 datashield.logout(opals)
 
 logindata <- read.csv("./tests/logindata2.csv")
