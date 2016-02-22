@@ -5,7 +5,10 @@
 \title{Logs in and assigns variables to R}
 \usage{
 datashield.login(logins = NULL, assign = FALSE, variables = NULL,
-  symbol = "D", directory = "~/.ssh")
+  symbol = "D", directory = "~/.ssh",
+  username = getOption("datashield.username"),
+  password = getOption("datashield.password"),
+  opts = getOption("datashield.opts", list()))
 }
 \arguments{
 \item{logins}{A dataframe table that holds login details. This table holds five elements
@@ -28,6 +31,12 @@ into the server(s).}
 
 \item{directory}{A character that indicates the location of the key pairs files (certificate and private key). If
 the default location is the users '.ssh' directory.}
+
+\item{username}{Default user name to be used in case it is not specified in the logins structure.}
+
+\item{password}{Default user password to be used in case it is not specified in the logins structure.}
+
+\item{opts}{Default SSL options to be used in case it is not specified in the logins structure.}
 }
 \value{
 object(s) of class opal

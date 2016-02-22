@@ -17,7 +17,7 @@
 #'@param logins A dataframe table that holds login details. This table holds five elements 
 #'required to login to the servers where the data to analyse is stored. The expected column names are 'server' (the server name),
 #''url' (the opal url), 'user' (the user name or the certificate file path), 'password' (the user password or the private key file path),
-#''table' (the fully qualified name of the table in opal). An additional column 'identifiers' can be specified for identifiers
+#''table' (the fully qualified name of the table in opal), 'options' (the SSL options). An additional column 'identifiers' can be specified for identifiers
 #'mapping (from Opal 2.0).
 #'See also the documentation of the examplar input table \code{logindata} for details of the login 
 #'elements.
@@ -30,6 +30,9 @@
 #'into the server(s).
 #'@param directory A character that indicates the location of the key pairs files (certificate and private key). If 
 #'the default location is the users '.ssh' directory.
+#'@param username Default user name to be used in case it is not specified in the logins structure.
+#'@param password Default user password to be used in case it is not specified in the logins structure.
+#'@param opts Default SSL options to be used in case it is not specified in the logins structure.
 #'@return object(s) of class opal
 #'@author Gaye, A.
 #'@export
@@ -43,6 +46,7 @@
 #'user <- c("user1", "datashield-certificate.pem")
 #'password <- c("user1pwd", "datashield-private.pem")
 #'table <- c("store.Dataset","foo.DS")
+#'options <- c("","c(ssl.verifyhost=2,ssl.verifypeer=1)")
 #'logindata <- data.frame(server,url,user,password,table)
 #'
 #'# or load the data.frame that contains the login details
@@ -59,7 +63,8 @@
 #'opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #'}
 #'
-datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="D", directory="~/.ssh"){
+datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="D", directory="~/.ssh", 
+                             username=getOption("datashield.username"), password=getOption("datashield.password"), opts=getOption("datashield.opts", list())){
   
   # issue an alert and stop the process if no login table is provided
   if(is.null(logins)){
@@ -102,7 +107,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
   names(opals) <- as.character(logins[,1])
   for(i in 1:length(opals)) {
     # connection options
-    opal.opts <- eval(parse(text=as.character(options[[i]])))
+    opal.opts <- append(opts, eval(parse(text=as.character(options[[i]]))))
     # if the connection is HTTPS use ssl options else they are not required
     protocol <- strsplit(urls[i], split="://")[[1]][1]
     if(protocol=="https"){
@@ -110,14 +115,29 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       if (grepl("\\.pem$",userids[i])) {
         cert <- opal:::.getPEMFilePath(userids[i], directory)
         private <- opal:::.getPEMFilePath(pwds[i], directory)
-        opal.opts <- append(opal.opts, list(sslcert=cert, sslkey=private, ssl.verifyhost=0, ssl.verifypeer=0))
+        opal.opts <- append(opal.opts, list(sslcert=cert, sslkey=private))
         opals[[i]] <- opal.login(url=urls[i], opts=opal.opts)
       } else {
-        opal.opts <- append(opal.opts, list(ssl.verifyhost=0, ssl.verifypeer=0))
-        opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i], opts=opal.opts)
+        u <- userids[i];
+        if(is.null(u) || is.na(u)) {
+          u <- username;
+        }
+        p <- pwds[i];
+        if(is.null(p) || is.na(p)) {
+          p <- password;
+        }
+        opals[[i]] <- opal.login(username=u, password=p, url=urls[i], opts=opal.opts)
       }
     } else {
-      opals[[i]] <- opal.login(username=userids[i], password=pwds[i], url=urls[i], opts=opal.opts)
+      u <- userids[i];
+      if(is.null(u) || is.na(u)) {
+        u <- username;
+      }
+      p <- pwds[i];
+      if(is.null(p) || is.na(p)) {
+        p <- password;
+      }
+      opals[[i]] <- opal.login(username=u, password=p, url=urls[i], opts=opal.opts)
     }
     # set the study name to corresponding opal object
     opals[[i]]$name <- stdnames[i]

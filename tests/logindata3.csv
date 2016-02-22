@@ -1,0 +1,4 @@
+server,url,username,password,table,options
+demo1,https://localhost:8443,,,ds.CNSIM1,"c(ssl.verifyhost=0,ssl.verifypeer=0)"
+demo2,https://localhost:8443,,,ds.CNSIM2,
+demo3,https://localhost:8443,,,ds.CNSIM3,

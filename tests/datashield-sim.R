@@ -23,3 +23,8 @@ datashield.logout(opals)
 
 logindata <- read.csv("./tests/logindata2.csv")
 datashield.status(logindata)
+
+logindata <- read.csv("./tests/logindata3.csv")
+library(datashieldclient)
+opals<-datashield.login(logindata, assign=T,username="user1",password="password",opts=list(ssl.verifypeer=1,ssl.verifyhost=2))
+datashield.logout(opals)
