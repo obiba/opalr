@@ -363,8 +363,12 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
     opal$sid <- .extractOpalSessionId(response$cookielist)
   }
   #print(response)
-  #print(response$headers)
-  #print(paste0("content.type: ", response$content.type))
+  headers <- strsplit(response$headers, "\n")
+  disposition <- headers['Content-Disposition']
+  attachment <- FALSE
+  if(!is.na(disposition) && length(grep("attachment", disposition))) {
+    attachment <- TRUE
+  }
   if(response$code >= 400) { 
     msg <- gsub("[\n\r]","",response$headers['statusMessage'])
     msg <- paste0(opal$name, ": ", msg, " (", response$code, ")")  
@@ -376,20 +380,47 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
       msg <- paste0(msg, ": ", error)
     }
     stop(msg, call.=FALSE)
-  }	else {
-    if(length(grep("octet-stream", response$content.type))) {
-      unserialize(response$content)
-    } else if(length(grep("json", response$content.type))) {
-      if(is.raw(response$content)) {
-        fromJSON(readChar(response$content, length(response$content)));
-      } else {
-        fromJSON(response$content);
-      }
-    } else if (length(grep("text", response$content.type))) {
-      as.character(response$content)
+  }	else if(attachment) {
+    .handleAttachment(opal, response, as.character(disposition))
+  } else {
+    .handleContent(opal, response)
+  }
+}
+
+.handleAttachment <- function(opal, response, disposition) {
+  #print(is.raw(response$content))
+  #print(response$content.type)
+  filename <- strsplit(disposition,"\"")[[1]][2]
+  filetype <- guess_type(filename)
+  #print(filename)
+  #print(filetype)
+  if(is.raw(response$content)) {
+    if (length(grep("text/", response$content.type)) 
+        || (length(grep("application/", response$content.type)) && length(grep("text/", filetype)))) {
+      as.character(readChar(response$content, length(response$content)))
     } else {
       response$content
     }
+  } else if (length(grep("text/", response$content.type))) {
+    as.character(response$content)
+  } else {
+    response$content
+  }
+}
+
+.handleContent <- function(opal, response) {
+  if(length(grep("octet-stream", response$content.type))) {
+    unserialize(response$content)
+  } else if(length(grep("json", response$content.type))) {
+    if(is.raw(response$content)) {
+      fromJSON(readChar(response$content, length(response$content)));
+    } else {
+      fromJSON(response$content);
+    }
+  } else if (length(grep("text", response$content.type))) {
+    as.character(response$content)
+  } else {
+    response$content
   }
 }
 

@@ -6,7 +6,8 @@ Maintainer: OBiBa <info@obiba.org>
 Depends:
     R (>= 2.15.0),
     RCurl (>= 1.6-6),
-    rjson
+    rjson,
+    mime
 Suggests:
     e1071,
     knitr
