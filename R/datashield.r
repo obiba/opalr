@@ -152,7 +152,7 @@ datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=F
 #' @keywords internal
 .getDatashieldSessionId <- function(opal) {
   if(is.null(opal$rid)) {
-    opal$rid <- .newDatashieldSession(opal)
+    opal$rid <- .newDatashieldSession(opal, restor=opal$restore)
   }
   if(is.null(opal$rid)) {
     stop("Remote Datashield R session not available")
@@ -162,13 +162,21 @@ datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=F
 
 #' Create a new Datashield R session in Opal.
 #' @keywords internal
-.newDatashieldSession <- function(opal) {
-  res <- opal:::.extractJsonField(opal:::.post(opal, "datashield", "sessions"), c("id"), isArray=FALSE)
+.newDatashieldSession <- function(opal, restore=NULL) {
+  query <- list()
+  if (!is.null(restore)) {
+    query <- list(restore=restore)  
+  }
+  res <- opal:::.extractJsonField(opal:::.post(opal, "datashield", "sessions", query=query), c("id"), isArray=FALSE)
   return(res$id)
 }
 
 #' Remove a Datashield R session in Opal.
 #' @keywords internal
-.rmDatashieldSession <- function(opal) {
-  try(opal:::.delete(opal, "datashield", "session", opal$rid), silent=TRUE)
+.rmDatashieldSession <- function(opal, save=NULL) {
+  query <- list()
+  if (is.character(save)) {
+    query <- list(save=save)
+  }
+  try(opal:::.delete(opal, "datashield", "session", opal$rid, query=query), silent=TRUE)
 }

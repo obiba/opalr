@@ -64,7 +64,8 @@
 #'}
 #'
 datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="D", directory="~/.ssh", 
-                             username=getOption("datashield.username"), password=getOption("datashield.password"), opts=getOption("datashield.opts", list())){
+                             username=getOption("datashield.username"), password=getOption("datashield.password"), 
+                             opts=getOption("datashield.opts", list()), restore=NULL){
   
   # issue an alert and stop the process if no login table is provided
   if(is.null(logins)){
@@ -116,7 +117,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
         cert <- opal:::.getPEMFilePath(userids[i], directory)
         private <- opal:::.getPEMFilePath(pwds[i], directory)
         opal.opts <- append(opal.opts, list(sslcert=cert, sslkey=private))
-        opals[[i]] <- opal.login(url=urls[i], opts=opal.opts)
+        opals[[i]] <- opal.login(url=urls[i], opts=opal.opts, restore=restore)
       } else {
         u <- userids[i];
         if(is.null(u) || is.na(u)) {
@@ -126,7 +127,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
         if(is.null(p) || is.na(p)) {
           p <- password;
         }
-        opals[[i]] <- opal.login(username=u, password=p, url=urls[i], opts=opal.opts)
+        opals[[i]] <- opal.login(username=u, password=p, url=urls[i], opts=opal.opts, restore=restore)
       }
     } else {
       u <- userids[i];
@@ -137,7 +138,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       if(is.null(p) || is.na(p)) {
         p <- password;
       }
-      opals[[i]] <- opal.login(username=u, password=p, url=urls[i], opts=opal.opts)
+      opals[[i]] <- opal.login(username=u, password=p, url=urls[i], opts=opal.opts, restore=restore)
     }
     # set the study name to corresponding opal object
     opals[[i]]$name <- stdnames[i]
@@ -217,13 +218,14 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
 #' @title Logout from Opal(s)
 #'
 #' @param opals Opal object or a list of opals.
+#' @param save Save datashield sessions on each opal with provided ID (must be a character string)
 #' @export
-datashield.logout <- function(opals) {
+datashield.logout <- function(opals, save=NULL) {
   if (!is.null(opals)) {
     if (is.list(opals)) {
-      res <- lapply(opals, function(o){datashield.logout(o)})
+      res <- lapply(opals, function(o){datashield.logout(o, save=save)})
     } else if(!is.null(opals$rid)) {
-      try(opal:::.rmDatashieldSession(opals), silent=TRUE)
+      try(opal:::.rmDatashieldSession(opals, save), silent=TRUE)
       opals$rid <- NULL
     }
   }
