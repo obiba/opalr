@@ -18,32 +18,33 @@
 #' @param password User password in opal(s). Can be provided by "opal.password" option.
 #' @param url Opal url or list of opal urls. Can be provided by "opal.url" option.
 #' @param opts Curl options. Can be provided by "opal.opts" option.
+#' @param restore Workspace ID to be restored (see also opal.logout)
 #' @export
 #' @examples {
 #'
 #'#### The below examples illustrate the different ways to login in opal ####
 #'
 #'# explicite username/password login
-#'o <- opal.login(username='administrator',password='password',url='https://demo.obiba.org:8443')
+#'o <- opal.login(username='administrator',password='password',url='https://opal-demo.obiba.org')
 #'
 #'# login using options
 #'options(opal.username='administrator',
 #'  opal.password='password',
-#'  opal.url='https://demo.obiba.org:8443')
+#'  opal.url='https://opal-demo.obiba.org')
 #'o <- opal.login()
 #'
 #'# login using ssl key pair
 #'options(opal.opts=list(
 #'    sslcert='my-publickey.pem',
 #'    sslkey='my-privatekey.pem'))
-#'o <- opal.login(url='https://demo.obiba.org:8443')
+#'o <- opal.login(url='https://opal-demo.obiba.org')
 #'}
-opal.login <- function(username=getOption("opal.username"), password=getOption("opal.password"), url=getOption("opal.url"), opts=getOption("opal.opts", list())) {
+opal.login <- function(username=getOption("opal.username"), password=getOption("opal.password"), url=getOption("opal.url"), opts=getOption("opal.opts", list()), restore=NULL) {
   if (is.null(url)) stop("opal url is required", call.=FALSE)
   if(is.list(url)){
-    lapply(url, function(u){opal.login(username, password, u, opts=opts)})
+    lapply(url, function(u){opal.login(username, password, u, opts=opts, restore=restore)})
   } else {
-    .opal.login(username, password, url, opts)
+    .opal.login(username, password, url, opts=opts, restore=restore)
   }
 }
 
@@ -52,13 +53,18 @@ opal.login <- function(username=getOption("opal.username"), password=getOption("
 #' @title Logout from Opal(s)
 #' 
 #' @param opals Opal object or a list of opals.
+#' @param save Save the workspace with given (default is FALSE, current session ID if TRUE)
 #' @export
-opal.logout <- function(opals) {
+opal.logout <- function(opals, save=FALSE) {
+  res <- NULL
   if (is.list(opals)) {
-    res <- lapply(opals, function(o){opal.logout(o)})  
+    res <- lapply(opals, function(o){opal.logout(o, save)})  
   } else {
-    try(.rmSession(opals), silent=TRUE)
+    res <- try(.rmSession(opals, save), silent=TRUE)
     opals$rid <- NULL
+  }
+  if (!is.null(res) && length(res) > 0) {
+    return(res)
   }
 }
 
@@ -69,6 +75,9 @@ print.opal <- function(opal) {
   cat("version:", opal$version, "\n")
   if (!is.null(opal$rid)) {
     cat("rid:", opal$rid, "\n")  
+  }
+  if (!is.null(opal$restore)) {
+    cat("restore:", opal$restore, "\n")  
   }
 }
 
@@ -388,12 +397,8 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 }
 
 .handleAttachment <- function(opal, response, disposition) {
-  #print(is.raw(response$content))
-  #print(response$content.type)
   filename <- strsplit(disposition,"\"")[[1]][2]
   filetype <- guess_type(filename)
-  #print(filename)
-  #print(filetype)
   if(is.raw(response$content)) {
     if (length(grep("text/", response$content.type)) 
         || (length(grep("application/", response$content.type)) && length(grep("text/", filetype)))) {
@@ -466,7 +471,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 
 #' Create the opal object
 #' @keywords internal
-.opal.login <- function(username, password, url, opts=list()) {
+.opal.login <- function(username, password, url, opts=list(), restore=NULL) {
   opal <- new.env(parent=globalenv())
   
   # Strip trailing slash
@@ -504,6 +509,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
   opal$curl <- curlSetOpt(.opts=opal$opts)
   opal$reader <- dynCurlReader(curl=opal$curl)
   opal$rid <- NULL
+  opal$restore <- restore
   class(opal) <- "opal"
   
   opal
@@ -541,7 +547,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' @keywords internal
 .getRSessionId <- function(opal) {
   if(is.null(opal$rid)) {
-    opal$rid <- .newSession(opal)
+    opal$rid <- .newSession(opal, restore=opal$restore)
   }
   if(is.null(opal$rid)) {
     stop("Remote R session not available")
@@ -551,16 +557,29 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 
 #' Create a new R session in Opal.
 #' @keywords internal
-.newSession <- function(opal) {
-  res <- .extractJsonField(.post(opal, "r", "sessions"), c("id"), isArray=FALSE)
+.newSession <- function(opal, restore=NULL) {
+  query <- list()
+  if (!is.null(restore)) {
+    query <- list(restore=restore)  
+  }
+  res <- .extractJsonField(.post(opal, "r", "sessions", query=query), c("id"), isArray=FALSE)
   return(res$id)
 }
 
 #' Remove a R session from Opal.
 #' @keywords internal
-.rmSession <- function(opal) {
+.rmSession <- function(opal, save=FALSE) {
   if (!is.null(opal$rid)) {
-    .delete(opal, "r", "session", opal$rid);
+    if ((is.logical(save) && save) || is.character(save)) {
+      saveId <- save
+      if(is.logical(save) && save) {
+        saveId <- opal$rid
+      }
+      .delete(opal, "r", "session", opal$rid, query=list(save=saveId));
+      return(saveId)
+    } else {
+      .delete(opal, "r", "session", opal$rid);
+    }
   }
 }
 

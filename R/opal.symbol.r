@@ -15,7 +15,8 @@
 #' @param opal Opal object.
 #' @export
 opal.symbols <- function(opal) {
-  .get(opal, "r", "session", opal:::.getRSessionId(opal), "symbols")
+  ignore <- opal:::.getRSessionId(opal)
+  .get(opal, "r", "session", opal$rid, "symbols")
 }
 
 #' Remove a symbol from the current R session.
@@ -26,7 +27,8 @@ opal.symbols <- function(opal) {
 #' @param symbol Name of the R symbol.
 #' @export
 opal.symbol_rm <- function(opal, symbol) {
-  tryCatch(.delete(opal, "r", "session", opal:::.getRSessionId(opal), "symbol", symbol), error=function(e){})
+  ignore <- opal:::.getRSessionId(opal)
+  tryCatch(.delete(opal, "r", "session", opal$rid, "symbol", symbol), error=function(e){})
 }
 
 #' Remove a symbol from the current R session. Deprecated: see opal.symbol_rm function instead.
