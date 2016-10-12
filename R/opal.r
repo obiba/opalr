@@ -225,7 +225,7 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
 #' 
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
-#' @param value Fully qualified name of a variable or a table in Opal, a R expression, a data.frame or a vector.
+#' @param value The value to assign evaluated in the following order: a R expression, a function, a fully qualified name of a variable or a table in Opal or any other R object (data.frame, vector).
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0) 
@@ -274,14 +274,39 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
     if (!is.null(identifiers)) {
       query["identifiers"] <- identifiers
     }
-  } else if (is.data.frame(value) || is.vector(value)) {
+  } else {
     contentType <- "application/x-rdata"
     body <- base64enc::base64encode(serialize(value, NULL))
     query <- list()
-  } else {
-    return(message(paste("Invalid value type: '", class(value), "'. Use quote() to protect from early evaluation.", sep="")))
   }
   
+  if (async) {
+    query["async"] <- "true"
+  }
+  ignore <- .getRSessionId(opal)
+  res <- .put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+}
+
+#' Assign a R object to a R symbol in the current R session.
+#' 
+#' @title Data assignment
+#' 
+#' @param opal Opal object.
+#' @param symbol Name of the R symbol.
+#' @param value The R object to assign (data.frame, vector).
+#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
+#' #' @examples {
+#' # push an arbitrary data frame to the R server
+#' opal.assign.data(o, "D", mtcars)
+#' 
+#' # push an arbitrary vector to the R server
+#' opal.assign.data(o, "C", mtcars$cyl)
+#' }
+#' @export
+opal.assign.data <- function(opal, symbol, value, async=FALSE) {
+  contentType <- "application/x-rdata"
+  body <- base64enc::base64encode(serialize(value, NULL))
+  query <- list()
   if (async) {
     query["async"] <- "true"
   }

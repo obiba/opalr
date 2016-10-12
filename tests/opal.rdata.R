@@ -30,4 +30,9 @@ summary(opal.execute(o, "CYL"))
 # compare with original
 summary(mtcars$cyl)
 
+# Push a string
+opal.assign.data(o,"str", "Hello!")
+opal.symbols(o)
+opal.execute(o, "str")
+
 opal.logout(o)
