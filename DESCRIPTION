@@ -7,8 +7,7 @@ Depends:
     R (>= 2.15.0),
     RCurl (>= 1.6-6),
     rjson,
-    mime,
-    base64enc
+    mime
 Suggests:
     e1071,
     knitr

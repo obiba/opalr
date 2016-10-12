@@ -276,7 +276,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
     }
   } else {
     contentType <- "application/x-rdata"
-    body <- base64enc::base64encode(serialize(value, NULL))
+    body <- RCurl::base64Encode(serialize(value, NULL))
     query <- list()
   }
   
