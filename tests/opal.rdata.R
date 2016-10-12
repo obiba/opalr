@@ -10,7 +10,7 @@ library(opal)
 o<-opal.login('administrator', 'password', 'http://localhost:8080')
 
 # Push an arbitrary data frame to the R server
-opal.assign(o, "D", mtcars)
+opal.assign.data(o, "D", mtcars)
 opal.symbols(o)
 opal.execute(o, "class(D)")
 opal.execute(o, "head(D)")

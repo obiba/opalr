@@ -219,9 +219,9 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
   }
 }
 
-#' Assign a Opal value to a R symbol in the current R session.
+#' Assign a Opal table, or a R expression or a R object to a R symbol in the current R session.
 #' 
-#' @title Data assignment
+#' @title Data or expression assignment
 #' 
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
@@ -230,7 +230,7 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0) 
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
-#' #' @examples {
+#' @examples {
 #' # assign a list of variables from table HOP of opal object o
 #' opal.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
 #' 
@@ -246,10 +246,34 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
 #' @export
 opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=FALSE) {
   if(is.language(value) || is.function(value)) {
-    contentType <- "application/x-rscript"
-    body <- .deparse(value)
-    query <- list()
+    opal.assign.script(opal, symbol, value, async=async)
   } else if(is.character(value)) {
+    opal.assign.table(opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, async=async)
+  } else {
+    opal.assign.data(opal, symbol, value, async=async)
+  }
+}
+
+#' Assign a Opal table to a R symbol in the current R session.
+#' 
+#' @title Data assignment
+#' 
+#' @param opal Opal object.
+#' @param symbol Name of the R symbol.
+#' @param value The value to assign evaluated in the following order: a R expression, a function, a fully qualified name of a variable or a table in Opal or any other R object (data.frame, vector).
+#' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
+#' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
+#' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0) 
+#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
+#' @examples {
+#' # assign a list of variables from table HOP of opal object o
+#' opal.assign.table(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
+#' 
+#' # assign all the variables matching 'LAB' from table HOP of opal object o
+#' opal.assign.table(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
+#' }
+#' @export
+opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=FALSE) {
     contentType <- "application/x-opal"
     body <- value
     variableFilter <- NULL
@@ -274,12 +298,31 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
     if (!is.null(identifiers)) {
       query["identifiers"] <- identifiers
     }
-  } else {
-    contentType <- "application/x-rdata"
-    body <- RCurl::base64Encode(serialize(value, NULL))
-    query <- list()
-  }
-  
+    
+    if (async) {
+      query["async"] <- "true"
+    }
+    ignore <- .getRSessionId(opal)
+    res <- .put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+}
+
+#' Assign a R script or expression to a R symbol in the current R session.
+#' 
+#' @title R script assignment
+#' 
+#' @param opal Opal object.
+#' @param symbol Name of the R symbol.
+#' @param value The R expression to assign.
+#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
+#' @examples {
+#' opal.assign.script(o, 'hello', quote(function(x) { print(paste0('Hello ', x , '!'))}))
+#' opal.execute(o, "hello('Mr Bean')")
+#' }
+#' @export
+opal.assign.script <- function(opal, symbol, value, async=FALSE) {
+  contentType <- "application/x-rscript"
+  body <- .deparse(value)
+  query <- list()
   if (async) {
     query["async"] <- "true"
   }
@@ -295,7 +338,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' @param symbol Name of the R symbol.
 #' @param value The R object to assign (data.frame, vector).
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
-#' #' @examples {
+#' @examples {
 #' # push an arbitrary data frame to the R server
 #' opal.assign.data(o, "D", mtcars)
 #' 
@@ -314,7 +357,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
     query["async"] <- "true"
   }
   ignore <- .getRSessionId(opal)
-  res <- .put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+  res <- .post(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
 }
 
 #' Load dependencies.
@@ -614,7 +657,9 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
         saveId <- opal$rid
       }
       .delete(opal, "r", "session", opal$rid, query=list(save=saveId));
-      return(saveId)
+      if(saveId != save) {
+        return(saveId)
+      }
     } else {
       .delete(opal, "r", "session", opal$rid);
     }

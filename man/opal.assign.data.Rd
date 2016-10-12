@@ -13,8 +13,13 @@ opal.assign.data(opal, symbol, value, async = FALSE)
 
 \item{value}{The R object to assign (data.frame, vector).}
 
-\item{async}{R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
-#' @examples {
+\item{async}{R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).}
+}
+\description{
+Assign a R object to a R symbol in the current R session.
+}
+\examples{
+{
 # push an arbitrary data frame to the R server
 opal.assign.data(o, "D", mtcars)
 
@@ -23,9 +28,6 @@ opal.assign.data(o, "C", mtcars$cyl)
 
 # push a string
 opal.assign.data(o, "S", "Hello!")
-}}
 }
-\description{
-Assign a R object to a R symbol in the current R session.
 }
 
