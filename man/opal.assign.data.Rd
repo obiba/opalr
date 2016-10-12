@@ -20,6 +20,9 @@ opal.assign.data(o, "D", mtcars)
 
 # push an arbitrary vector to the R server
 opal.assign.data(o, "C", mtcars$cyl)
+
+# push a string
+opal.assign.data(o, "S", "Hello!")
 }}
 }
 \description{

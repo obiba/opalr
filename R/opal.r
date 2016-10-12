@@ -301,6 +301,9 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' 
 #' # push an arbitrary vector to the R server
 #' opal.assign.data(o, "C", mtcars$cyl)
+#' 
+#' # push a string
+#' opal.assign.data(o, "S", "Hello!")
 #' }
 #' @export
 opal.assign.data <- function(opal, symbol, value, async=FALSE) {
