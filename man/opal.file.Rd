@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.r
 \name{opal.file}
 \alias{opal.file}
-\title{Get a file}
+\title{Get file content}
 \usage{
 opal.file(opal, path)
 }
@@ -10,6 +10,6 @@ opal.file(opal, path)
 \item{path}{Path to the file in the Opal file system.}
 }
 \description{
-Get a file from its path in the Opal file system
+Get file content from the Opal file system
 }
 

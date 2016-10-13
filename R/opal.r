@@ -184,15 +184,65 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
   rval
 }
 
-#' Get a file from its path in the Opal file system
+#' Get file content from the Opal file system
 #' 
-#' @title Get a file
+#' @title Get file content
 #' 
 #' @param path Path to the file in the Opal file system.
 #' @export
 opal.file <- function(opal, path) {
   p <- strsplit(substring(path, 2), "/")[[1]]
   .get(opal, append("files", p))
+}
+
+#' Download a file from the Opal file system
+#' 
+#' @title Download a file
+#' 
+#' @param source Path to the file in the Opal file system.
+#' @param destination Path to the file to be written. If ommitted, file with same name in the working directory will be written.
+#' @export
+opal.file.download <- function(opal, source, destination=NULL) {
+  content <- opal.file(opal, source)
+  # TODO
+}
+
+#' Write a file from the Opal file system into the R session workspace
+#' 
+#' @title Write a file
+#' 
+#' @param source Path to the file in the Opal file system (must exists and be accessible for the user).
+#' @param destination Path to the destination file, relative to the R session workspace. Any required sub-folders will be created. If ommitted, file with same name will be written.
+#' @export
+opal.file.write <- function(opal, source, destination=NULL) {
+  query <- list()
+  if (!is.null(source)) {
+    query["source"] <- source
+  }
+  if (!is.null(destination)) {
+    query["destination"] <- destination
+  }
+  ignore <- .getRSessionId(opal)
+  res <- .put(opal, "r", "session", opal$rid, "file", "_push", query=query)
+}
+
+#' Read a file from the R session workspace into the Opal file system 
+#' 
+#' @title Read a file
+#' 
+#' @param source Path to the file in the R session workspace (must exists).
+#' @param destination Path to the destination file or folder. Any required sub-folders will be created.
+#' @export
+opal.file.read <- function(opal, source, destination) {
+  query <- list()
+  if (!is.null(source)) {
+    query["source"] <- source
+  }
+  if (!is.null(destination)) {
+    query["destination"] <- destination
+  }
+  ignore <- .getRSessionId(opal)
+  res <- .put(opal, "r", "session", opal$rid, "file", "_pull", query=query)
 }
 
 #' Execute a R script on Opal(s).
