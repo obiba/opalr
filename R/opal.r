@@ -205,6 +205,31 @@ opal.file <- function(opal, path) {
 opal.file.download <- function(opal, source, destination=NULL) {
   content <- opal.file(opal, source)
   # TODO
+  
+  #-------- .zip files -----------------
+  #IF ZIP FILES
+  #F_zip <- file("DESTINATIONFILE.zip", "wb")
+  #writeBin(content,con= F_zip,length(content))
+  #close(F_zip)
+  
+  
+  #------- .R files -------------------
+  #IF .R FILES
+  #F_R<- file('DESTINATIONFILE.R','')
+  #writeChar(content,nchar(content))
+  #close(F_R)
+  
+
+  #--------- .bin files -----------------
+  #IF .BIN FILES
+  #F_bin <- file('DESTINATIONFILE.bin','wb')
+  #writeBin(content,con = F_bin)
+  #close(F_bin)
+  
+  #------- .csv files ------------------
+  #IF .CSV FILES
+  #write(content,file = 'DESTINATIONFILE.csv')
+  
 }
 
 #' Write a file from the Opal file system into the R session workspace
@@ -551,13 +576,23 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 .handleAttachment <- function(opal, response, disposition) {
   filename <- strsplit(disposition,"\"")[[1]][2]
   filetype <- guess_type(filename)
+  
   if(is.raw(response$content)) {
-    if (length(grep("text/", response$content.type)) 
-        || (length(grep("application/", response$content.type)) && length(grep("text/", filetype)))) {
-      as.character(readChar(response$content, length(response$content)))
+    
+    if (length(grep("text/", response$content.type)) || (length(grep("application/", response$content.type)))){
+      
+      if (grepl("text/",filetype)){
+        as.character(readChar(response$content, length(response$content)))
+      }else if (grepl("/zip",filetype)){
+        readBin(response$content,what = character(),length(response$content))
+      }else if(grepl('/octet-stream',filetype)){
+        readBin(response$content,what = raw(),length(response$content))
+      }
+      
     } else {
       response$content
     }
+    
   } else if (length(grep("text/", response$content.type))) {
     as.character(response$content)
   } else {
