@@ -8,7 +8,7 @@ opal.assign.table(opal, symbol, value, variables = NULL, missings = FALSE,
   identifiers = NULL, async = FALSE)
 }
 \arguments{
-\item{opal}{Opal object.}
+\item{opal}{Opal object or list of opal objects.}
 
 \item{symbol}{Name of the R symbol.}
 

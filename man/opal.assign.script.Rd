@@ -7,7 +7,7 @@
 opal.assign.script(opal, symbol, value, async = FALSE)
 }
 \arguments{
-\item{opal}{Opal object.}
+\item{opal}{Opal object or list of opal objects.}
 
 \item{symbol}{Name of the R symbol.}
 
@@ -20,6 +20,7 @@ Assign a R script or expression to a R symbol in the current R session.
 }
 \examples{
 {
+# assign a function and call it
 opal.assign.script(o, 'hello', quote(function(x) { print(paste0('Hello ', x , '!'))}))
 opal.execute(o, "hello('Mr Bean')")
 }

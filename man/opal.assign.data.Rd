@@ -7,7 +7,7 @@
 opal.assign.data(opal, symbol, value, async = FALSE)
 }
 \arguments{
-\item{opal}{Opal object.}
+\item{opal}{Opal object or list of opal objects.}
 
 \item{symbol}{Name of the R symbol.}
 

@@ -8,7 +8,7 @@ opal.assign(opal, symbol, value, variables = NULL, missings = FALSE,
   identifiers = NULL, async = FALSE)
 }
 \arguments{
-\item{opal}{Opal object.}
+\item{opal}{Opal object or list of opal objects.}
 
 \item{symbol}{Name of the R symbol.}
 
@@ -32,6 +32,10 @@ opal.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC")
 
 # assign all the variables matching 'LAB' from table HOP of opal object o
 opal.assign(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
+
+# assign a function and call it
+opal.assign.script(o, 'hello', quote(function(x) { print(paste0('Hello ', x , '!'))}))
+opal.execute(o, "hello('Mr Bean')")
 
 # push an arbitrary data frame to the R server
 opal.assign(o, "D", mtcars)
