@@ -58,10 +58,10 @@ opal.file.download <- function(opal, source, destination=NULL) {
   }
 }
 
-#' @export
+#'
 opal.file.upload <- function(opal, source, destination) {
-  fh <- file(source,'rb')
-  readChar(fh)
+  # TODO
+  #.post(opal, destination, query=list(), body='', contentType='multipart/form-data')
 }
 
 #' Write a file from the Opal file system into the R session workspace
