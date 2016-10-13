@@ -5,8 +5,8 @@ library(opal)
 options(opal.username='administrator', 
         opal.password='password', 
         opal.url='http://localhost:8080') 
-drugs <- "test.Drugs"
-fnac <- "large.FNAC"
+drugs <- "medications.Drugs"
+fnac <- "finrisk.FNAC"
 
 options(verbose=FALSE)
 
@@ -64,12 +64,12 @@ datashield.command(os, rids, wait=TRUE)
 datashield.logout(os)
 
 o1 <- opal.login()
-o2 <- opal.login(url="http://demo.obiba.org:8080")
+o2 <- opal.login(url="https://opal-demo.obiba.org")
 os <- list(o1,o2)
 print(os)
 
 rid1 <- datashield.assign(o1, "D", fnac, variables=list("SUKUP","PITUUS"), async=TRUE, wait=FALSE)
-rid2 <- datashield.assign(o2, "D", "mica_demo.FNAC", variables=list("SUKUP","PITUUS"), async=TRUE, wait=FALSE)
+rid2 <- datashield.assign(o2, "D", "FNAC.FNAC", variables=list("SUKUP","PITUUS"), async=TRUE, wait=FALSE)
 rids <- list(rid1,rid2)
 datashield.commands(os)
 datashield.command(os, rids, wait=TRUE)
@@ -81,10 +81,10 @@ print(res)
 datashield.logout(os)
 
 server <- c("local", "demo")
-url <- c(getOption("opal.url"),"http://demo.obiba.org:8080")
+url <- c(getOption("opal.url"),"https://opal-demo.obiba.org")
 user <- c("administrator", "administrator")
 password <- c("password", "password")
-table <- c(fnac,"mica_demo.FNAC")
+table <- c(fnac,"FNAC.FNAC")
 logindata <- data.frame(server,url,user,password,table)
 
 os <- datashield.login(logins=logindata, assign=TRUE, variables=list("SUKUP","PITUUS"))

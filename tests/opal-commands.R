@@ -5,7 +5,7 @@ library(opal)
 options(opal.username='administrator', 
         opal.password='password', 
         opal.url='http://localhost:8080') 
-table <- "test.Drugs"
+table <- "medications.Drugs"
 
 #
 # start a R session
