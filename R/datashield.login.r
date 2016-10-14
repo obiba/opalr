@@ -111,13 +111,17 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     opal.opts <- append(opts, eval(parse(text=as.character(options[[i]]))))
     # if the connection is HTTPS use ssl options else they are not required
     protocol <- strsplit(urls[i], split="://")[[1]][1]
+    restoreId <- restore
+    if (!is.null(restore)) {
+      restoreId <- paste0(restore, "-", stdnames[i])
+    }
     if(protocol=="https"){
       # pem files or username/password ?
       if (grepl("\\.pem$",userids[i])) {
         cert <- opal:::.getPEMFilePath(userids[i], directory)
         private <- opal:::.getPEMFilePath(pwds[i], directory)
         opal.opts <- append(opal.opts, list(sslcert=cert, sslkey=private))
-        opals[[i]] <- opal.login(url=urls[i], opts=opal.opts, restore=restore)
+        opals[[i]] <- opal.login(url=urls[i], opts=opal.opts, restore=restoreId)
       } else {
         u <- userids[i];
         if(is.null(u) || is.na(u)) {
@@ -127,7 +131,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
         if(is.null(p) || is.na(p)) {
           p <- password;
         }
-        opals[[i]] <- opal.login(username=u, password=p, url=urls[i], opts=opal.opts, restore=restore)
+        opals[[i]] <- opal.login(username=u, password=p, url=urls[i], opts=opal.opts, restore=restoreId)
       }
     } else {
       u <- userids[i];
@@ -138,7 +142,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       if(is.null(p) || is.na(p)) {
         p <- password;
       }
-      opals[[i]] <- opal.login(username=u, password=p, url=urls[i], opts=opal.opts, restore=restore)
+      opals[[i]] <- opal.login(username=u, password=p, url=urls[i], opts=opal.opts, restore=restoreId)
     }
     # set the study name to corresponding opal object
     opals[[i]]$name <- stdnames[i]
@@ -225,7 +229,11 @@ datashield.logout <- function(opals, save=NULL) {
     if (is.list(opals)) {
       res <- lapply(opals, function(o){datashield.logout(o, save=save)})
     } else if(!is.null(opals$rid)) {
-      try(opal:::.rmDatashieldSession(opals, save), silent=TRUE)
+      saveId <- save
+      if (!is.null(save)) {
+        saveId <- paste0(save, "-", opals$name)
+      }
+      try(opal:::.rmDatashieldSession(opals, saveId), silent=TRUE)
       opals$rid <- NULL
     }
   }
