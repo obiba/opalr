@@ -7,7 +7,7 @@
 library(opal)
 
 # https login
-o<-opal.login('administrator', 'password', 'https://opal-demo.obiba.org')
+o<-opal.login('user1', 'password', 'http://localhost:8080')
 
 message("**** datasources:")
 opal.datasources(o)

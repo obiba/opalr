@@ -36,3 +36,20 @@ o<-opal.login('administrator', 'password', 'http://localhost:8080', restore='tot
 opal.symbols(o)
 opal.execute(o,'summary(HOP)')
 opal.logout(o)
+
+# user specific workspaces
+o<-opal.login('user1', 'password', 'http://localhost:8080')
+opal.assign(o,'SEX','FNAC.FNAC:SUKUP')
+opal.logout(o, save='xxx')
+
+# list user workspaces and remove some
+o<-opal.login('user1', 'password', 'http://localhost:8080')
+opal.workspaces(o)
+opal.workspace_rm(o,'xxx')
+opal.logout(o)
+
+# administrator has access to all user workspaces
+o<-opal.login('administrator', 'password', 'http://localhost:8080')
+opal.workspaces(o)
+opal.logout(o)
+
