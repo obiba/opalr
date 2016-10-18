@@ -27,18 +27,18 @@ opal.file <- function(opal, path) {
 #' @param destination Path to the file to be written. If ommitted, file with same name in the working directory will be written.
 #' @examples {
 #' # download a file
-#' opal.file.download(o, '/home/administrator/joins/join-src-3.csv')
-#' opal.file.download(o, '/home/administrator/datashield/hop.R')
-#' opal.file.download(o, '/home/administrator/datashield/CNSIM1.zip')
+#' opal.file_download(o, '/home/administrator/joins/join-src-3.csv')
+#' opal.file_download(o, '/home/administrator/datashield/hop.R')
+#' opal.file_download(o, '/home/administrator/datashield/CNSIM1.zip')
 #' 
 #' # download, create destination folder and rename file
-#' opal.file.download(o, '/home/administrator/spss/DatabaseTest.sav', 'spss/test.sav')
+#' opal.file_download(o, '/home/administrator/spss/DatabaseTest.sav', 'spss/test.sav')
 #' 
 #' # download a folder
-#' opal.file.download(o, '/home/administrator/joins', 'joins.zip')
+#' opal.file_download(o, '/home/administrator/joins', 'joins.zip')
 #' }
 #' @export
-opal.file.download <- function(opal, source, destination=NULL) {
+opal.file_download <- function(opal, source, destination=NULL) {
   content <- opal.file(opal, source)
   name <- basename(source)
   dest <- destination
@@ -66,14 +66,14 @@ opal.file.download <- function(opal, source, destination=NULL) {
 #' @param destination Path to the destination file, relative to the R session workspace. Any required sub-folders will be created. If ommitted, file with same name will be written.
 #' @examples {
 #' # user home expansion
-#' opal.file.write(o, "~/spss/DatabaseTest.sav")
+#' opal.file_write(o, "~/spss/DatabaseTest.sav")
 #' # rename file
-#' opal.file.write(o, "/home/administrator/spss/DatabaseTest.sav", "x.sav")
+#' opal.file_write(o, "/home/administrator/spss/DatabaseTest.sav", "x.sav")
 #' # create sub-folder
-#' opal.file.write(o, "/home/administrator/spss/DatabaseTest.sav", "test/x.sav")
+#' opal.file_write(o, "/home/administrator/spss/DatabaseTest.sav", "test/x.sav")
 #' }
 #' @export
-opal.file.write <- function(opal, source, destination=NULL) {
+opal.file_write <- function(opal, source, destination=NULL) {
   query <- list()
   if (!is.null(source)) {
     query["source"] <- source
@@ -93,14 +93,14 @@ opal.file.write <- function(opal, source, destination=NULL) {
 #' @param destination Path to the destination file or folder. Any required sub-folders will be created.
 #' @examples {
 #' # read into folder
-#' opal.file.read(o,"DatabaseTest.sav", "/tmp")
+#' opal.file_read(o,"DatabaseTest.sav", "/tmp")
 #' # read and rename
-#' opal.file.read(o,"test/DatabaseTest.sav", "/tmp/Test.sav")
+#' opal.file_read(o,"test/DatabaseTest.sav", "/tmp/Test.sav")
 #' # user home expansion
-#' opal.file.read(o,"DatabaseTest.sav", "~/coucou/pwel.sav")
+#' opal.file_read(o,"DatabaseTest.sav", "~/coucou/pwel.sav")
 #' }
 #' @export
-opal.file.read <- function(opal, source, destination) {
+opal.file_read <- function(opal, source, destination) {
   query <- list()
   if (!is.null(source)) {
     query["source"] <- source
