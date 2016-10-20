@@ -29,14 +29,50 @@ datashield.workspaces.opal=function(opal) {
              return(ws)
            }
          })
-  res[lapply(res, is.null) != TRUE]
+  wss <- res[lapply(res, is.null) != TRUE]
+  if (length(wss)) {
+    server <- c()
+    name <- c()
+    user <- c()
+    context <- c()
+    lastAccessDate <- c()
+    size <- c()
+    for (i in 1:length(wss)) {
+      ws <- wss[i]
+      server <- c(server, opal$name)
+      name <- c(name, ws[[1]]$name)
+      user <- c(user, ws[[1]]$user)
+      context <- c(context, ws[[1]]$context)
+      lastAccessDate <- c(lastAccessDate, ws[[1]]$lastAccessDate)
+      size <- c(size, ws[[1]]$size)
+    }
+    data.frame(server=server, name=name, user=user, context=context, lastAccessDate=lastAccessDate, size=size)
+  }
 }
 
 #' @rdname datashield.workspaces
 #' @method datashield.workspaces list
 #' @S3method datashield.workspaces list
 datashield.workspaces.list=function(opals) {
-  lapply(opals, FUN=datashield.workspaces.opal)
+  res <- lapply(opals, FUN=datashield.workspaces.opal)
+  server <- c()
+  name <- c()
+  user <- c()
+  context <- c()
+  lastAccessDate <- c()
+  size <- c()
+  for (n in names(res)) {
+    wss <- res[[n]]
+    server <- c(server, as.vector(wss$server))
+    name <- c(name, as.vector(wss$name))
+    user <- c(user, as.vector(wss$user))
+    context <- c(context, as.vector(wss$context))
+    lastAccessDate <- c(lastAccessDate, as.vector(wss$lastAccessDate))
+    size <- c(size, as.vector(wss$size))
+  }
+  if (length(server)) {
+    data.frame(server=server, name=name, user=user, context=context, lastAccessDate=lastAccessDate, size=size) 
+  }
 }
 
 #' Remove a DataSHIELD workspace from a opal.

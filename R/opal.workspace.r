@@ -14,7 +14,23 @@
 #' @export
 opal.workspaces=function(opal) {
   query <- list(context='R')
-  opal:::.extractJsonField(opal:::.get(opal, "service", "r", "workspaces", query=query))
+  wss <- opal:::.extractJsonField(opal:::.get(opal, "service", "r", "workspaces", query=query))
+  if (length(wss)) {
+    name <- c()
+    user <- c()
+    context <- c()
+    lastAccessDate <- c()
+    size <- c()
+    for (i in 1:length(wss)) {
+      ws <- wss[i]
+      name <- c(name, ws[[1]]$name)
+      user <- c(user, ws[[1]]$user)
+      context <- c(context, ws[[1]]$context)
+      lastAccessDate <- c(lastAccessDate, ws[[1]]$lastAccessDate)
+      size <- c(size, ws[[1]]$size)
+    }
+    data.frame(name=name, user=user, context=context, lastAccessDate=lastAccessDate, size=size)
+  }
 }
 
 #' Remove a R workspace from a opal.

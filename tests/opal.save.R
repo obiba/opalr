@@ -9,6 +9,7 @@ library(opal)
 # Save ID is session ID
 o<-opal.login('administrator', 'password', 'http://localhost:8080')
 opal.assign(o,'HOP','datashield.CNSIM1',variables=list('GENDER','PM_BMI_CONTINUOUS'))
+opal.execute(o, 'head(HOP)')
 opal.assign(o,'SEX','datashield.CNSIM1:GENDER')
 opal.assign(o,'BMI','datashield.CNSIM1:PM_BMI_CONTINUOUS')
 opal.symbols(o)
