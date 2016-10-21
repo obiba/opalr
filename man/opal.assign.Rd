@@ -5,7 +5,8 @@
 \title{Data or expression assignment}
 \usage{
 opal.assign(opal, symbol, value, variables = NULL, missings = FALSE,
-  identifiers = NULL, async = FALSE)
+  identifiers = NULL, withIds = FALSE, withTimestamps = FALSE,
+  async = FALSE)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -18,7 +19,11 @@ opal.assign(opal, symbol, value, variables = NULL, missings = FALSE,
 
 \item{missings}{If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.}
 
-\item{identifiers}{Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0)}
+\item{identifiers}{Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).}
+
+\item{withIds}{Add a vector representing the entity identifiers (from Opal 2.6). Default is FALSE.}
+
+\item{withTimestamps}{Add a vector representing the creation and last update timestamps (from Opal 2.6). Default is FALSE.}
 
 \item{async}{R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).}
 }

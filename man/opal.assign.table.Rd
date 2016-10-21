@@ -5,7 +5,8 @@
 \title{Data assignment}
 \usage{
 opal.assign.table(opal, symbol, value, variables = NULL, missings = FALSE,
-  identifiers = NULL, async = FALSE)
+  identifiers = NULL, withIds = FALSE, withTimestamps = FALSE,
+  async = FALSE)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -18,7 +19,11 @@ opal.assign.table(opal, symbol, value, variables = NULL, missings = FALSE,
 
 \item{missings}{If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.}
 
-\item{identifiers}{Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0)}
+\item{identifiers}{Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).}
+
+\item{withIds}{Add a vector representing the entity identifiers (from Opal 2.6). Default is FALSE.}
+
+\item{withTimestamps}{Add a vector representing the creation and last update timestamps (from Opal 2.6). Default is FALSE.}
 
 \item{async}{R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).}
 }
@@ -29,6 +34,9 @@ Assign a Opal table to a R symbol in the current R session.
 {
 # assign a list of variables from table HOP of opal object o
 opal.assign.table(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
+
+# assign a table HOP with a identifiers column
+opal.assign.table(o, symbol="H", value="demo.HOP", withIds=TRUE)
 
 # assign all the variables matching 'LAB' from table HOP of opal object o
 opal.assign.table(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
