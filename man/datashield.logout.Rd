@@ -9,7 +9,7 @@ datashield.logout(opals, save = NULL)
 \arguments{
 \item{opals}{Opal object or a list of opals.}
 
-\item{save}{Save datashield sessions on each opal with provided ID (must be a character string)}
+\item{save}{Save datashield sessions on each opal with provided ID (must be a character string).}
 }
 \description{
 Clear the Datashield R sessions and logout from Opal(s).

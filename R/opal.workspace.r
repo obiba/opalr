@@ -53,3 +53,16 @@ opal.workspace_rm=function(opal, ws, user=NULL) {
   query <- list(context='R', name=ws, user=u)
   ignore <- opal:::.extractJsonField(opal:::.delete(opal, "service", "r", "workspaces", query=query))
 }
+
+#' Save the current session in a opal R workspace.
+#' 
+#' @param opal Opal object.
+#' @param save Save the workspace with given identifier (default is TRUE, current session ID if TRUE).
+#' @export
+opal.workspace_save=function(opal, save=TRUE) {
+  saveId <- save
+  if(is.logical(save) && save) {
+    saveId <- opal$rid
+  }
+  res <- opal:::.post(opal, "r", "session", opal$rid, "workspaces", query=list(save=saveId))
+}

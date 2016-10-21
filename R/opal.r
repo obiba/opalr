@@ -53,7 +53,7 @@ opal.login <- function(username=getOption("opal.username"), password=getOption("
 #' @title Logout from Opal(s)
 #' 
 #' @param opals Opal object or a list of opals.
-#' @param save Save the workspace with given (default is FALSE, current session ID if TRUE)
+#' @param save Save the workspace with given identifier (default value is FALSE, current session ID if TRUE).
 #' @export
 opal.logout <- function(opals, save=FALSE) {
   res <- NULL
@@ -586,12 +586,12 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
       if(is.logical(save) && save) {
         saveId <- opal$rid
       }
-      .delete(opal, "r", "session", opal$rid, query=list(save=saveId));
+      .delete(opal, "r", "session", opal$rid, query=list(save=saveId))
       if(saveId != save) {
         return(saveId)
       }
     } else {
-      .delete(opal, "r", "session", opal$rid);
+      .delete(opal, "r", "session", opal$rid)
     }
   }
 }

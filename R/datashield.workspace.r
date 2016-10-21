@@ -113,3 +113,42 @@ datashield.workspace_rm.list=function(opals, ws) {
     datashield.workspace_rm.opal(o, ws=wsname)
   })
 }
+
+#' Save current session in a DataSHIELD workspace.
+#' 
+#' @param opal Opal object or list of opal objects.
+#' @param save The workspace name
+#' @rdname datashield.workspace_save
+#' @export
+datashield.workspace_save=function(opal, ...) {
+  UseMethod('datashield.workspace_save');
+}
+
+#' @rdname datashield.workspace_save
+#' @method datashield.workspace_save opal
+#' @S3method datashield.workspace_save opal
+datashield.workspace_save.opal=function(opal, save) {
+  u <- opal$username
+  if (is.null(u) || length(u) == 0) {
+    stop("User name is missing or empty.")
+  }
+  if (length(save) == 0) {
+    stop("Workspace name is missing or empty.")
+  }
+  query <- list(save=save)
+  ignore <- opal:::.post(opal, "datashield", "session", opal$rid, "workspaces", query=query)
+}
+
+#' @rdname datashield.workspace_save
+#' @method datashield.workspace_save list
+#' @S3method datashield.workspace_save list
+datashield.workspace_save.list=function(opals, save) {
+  if (length(save) == 0) {
+    stop("Workspace name is missing or empty.")
+  }
+  res <- lapply(1:length(opals), function(i) {
+    o <- opals[[i]]
+    wsname <- paste0(save, '-', o$name)
+    datashield.workspace_save.opal(o, save=wsname)
+  })
+}

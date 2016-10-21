@@ -37,6 +37,8 @@ the default location is the users '.ssh' directory.}
 \item{password}{Default user password to be used in case it is not specified in the logins structure.}
 
 \item{opts}{Default SSL options to be used in case it is not specified in the logins structure.}
+
+\item{restore}{The workspace name to restore (optional).}
 }
 \value{
 object(s) of class opal

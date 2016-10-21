@@ -33,6 +33,7 @@
 #'@param username Default user name to be used in case it is not specified in the logins structure.
 #'@param password Default user password to be used in case it is not specified in the logins structure.
 #'@param opts Default SSL options to be used in case it is not specified in the logins structure.
+#'@param restore The workspace name to restore (optional).
 #'@return object(s) of class opal
 #'@author Gaye, A.
 #'@export
@@ -222,7 +223,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
 #' @title Logout from Opal(s)
 #'
 #' @param opals Opal object or a list of opals.
-#' @param save Save datashield sessions on each opal with provided ID (must be a character string)
+#' @param save Save datashield sessions on each opal with provided ID (must be a character string).
 #' @export
 datashield.logout <- function(opals, save=NULL) {
   if (!is.null(opals)) {

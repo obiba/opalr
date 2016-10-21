@@ -9,7 +9,7 @@ opal.logout(opals, save = FALSE)
 \arguments{
 \item{opals}{Opal object or a list of opals.}
 
-\item{save}{Save the workspace with given (default is FALSE, current session ID if TRUE)}
+\item{save}{Save the workspace with given identifier (default value is FALSE, current session ID if TRUE).}
 }
 \description{
 Clear the R sessions and logout from Opal(s).
