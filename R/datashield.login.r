@@ -114,7 +114,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     protocol <- strsplit(urls[i], split="://")[[1]][1]
     restoreId <- restore
     if (!is.null(restore)) {
-      restoreId <- paste0(restore, "-", stdnames[i])
+      restoreId <- paste0(stdnames[i], ":", restore)
     }
     if(protocol=="https"){
       # pem files or username/password ?
@@ -232,7 +232,7 @@ datashield.logout <- function(opals, save=NULL) {
     } else if(!is.null(opals$rid)) {
       saveId <- save
       if (!is.null(save)) {
-        saveId <- paste0(save, "-", opals$name)
+        saveId <- paste0(opals$name, ":", save)
       }
       try(opal:::.rmDatashieldSession(opals, saveId), silent=TRUE)
       opals$rid <- NULL

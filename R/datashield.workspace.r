@@ -22,10 +22,10 @@ datashield.workspaces=function(opal, ...) {
 #' @S3method datashield.workspaces opal
 datashield.workspaces.opal=function(opal) {
   query <- list(context='DataSHIELD')
-  suffix <- paste0('-', opal$name, '$')
+  prefix <- paste0('^', opal$name, ':')
   res <- lapply(opal:::.extractJsonField(opal:::.get(opal, "service", "r", "workspaces", query=query)),
          function(ws) {
-           if (grepl(suffix, ws$name)) {
+           if (grepl(prefix, ws$name)) {
              return(ws)
            }
          })
@@ -109,7 +109,7 @@ datashield.workspace_rm.list=function(opals, ws) {
   }
   res <- lapply(1:length(opals), function(i) {
     o <- opals[[i]]
-    wsname <- paste0(ws, '-', o$name)
+    wsname <- paste0(o$name, ':', ws)
     datashield.workspace_rm.opal(o, ws=wsname)
   })
 }
@@ -148,7 +148,7 @@ datashield.workspace_save.list=function(opals, save) {
   }
   res <- lapply(1:length(opals), function(i) {
     o <- opals[[i]]
-    wsname <- paste0(save, '-', o$name)
+    wsname <- paste0(o$name, ':', save)
     datashield.workspace_save.opal(o, save=wsname)
   })
 }

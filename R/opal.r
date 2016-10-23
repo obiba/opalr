@@ -136,8 +136,8 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).
-#' @param withIds Add a vector representing the entity identifiers (from Opal 2.6). Default is FALSE.
-#' @param withTimestamps Add a vector representing the creation and last update timestamps (from Opal 2.6). Default is FALSE.
+#' @param id.name Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is NULL.
+#' @param updated.name Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples {
 #' # assign a list of variables from table HOP of opal object o
@@ -157,14 +157,14 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
 #' opal.assign(o, "C", mtcars$cyl)
 #' }
 #' @export
-opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, withIds=FALSE, withTimestamps=FALSE, async=FALSE) {
+opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name=NULL, updated.name=NULL, async=FALSE) {
   if(is.list(opal)){
-    lapply(opal, function(o){opal.assign(o, symbol, value, variables=variables, missings=missings, identifiers=identifiers, withIds=withIds, withTimestamps=withTimestamps, async=async)})
+    lapply(opal, function(o){opal.assign(o, symbol, value, variables=variables, missings=missings, identifiers=identifiers, id.name=id.name, updated.name=updated.name, async=async)})
   } else {
     if(is.language(value) || is.function(value)) {
       opal.assign.script(opal, symbol, value, async=async)
     } else if(is.character(value)) {
-      opal.assign.table(opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, withIds=withIds, withTimestamps=withTimestamps, async=async)
+      opal.assign.table(opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, id.name=id.name, updated.name=updated.name, async=async)
     } else {
       opal.assign.data(opal, symbol, value, async=async)
     } 
@@ -181,23 +181,23 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).
-#' @param withIds Add a vector representing the entity identifiers (from Opal 2.6). Default is FALSE.
-#' @param withTimestamps Add a vector representing the creation and last update timestamps (from Opal 2.6). Default is FALSE.
+#' @param id.name Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is NULL.
+#' @param updated.name Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples {
 #' # assign a list of variables from table HOP of opal object o
 #' opal.assign.table(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
 #' 
 #' # assign a table HOP with a identifiers column
-#' opal.assign.table(o, symbol="H", value="demo.HOP", withIds=TRUE)
+#' opal.assign.table(o, symbol="H", value="demo.HOP", id.name="id")
 #' 
 #' # assign all the variables matching 'LAB' from table HOP of opal object o
 #' opal.assign.table(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
 #' }
 #' @export
-opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, withIds=FALSE, withTimestamps=FALSE, async=FALSE) {
+opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name=NULL, updated.name=NULL, async=FALSE) {
   if(is.list(opal)){
-    lapply(opal, function(o){opal.assign.table(o, symbol, value, variables=variables, missings=missings, identifiers=identifiers, withIds=withIds, withTimestamps=withTimestamps, async=async)})
+    lapply(opal, function(o){opal.assign.table(o, symbol, value, variables=variables, missings=missings, identifiers=identifiers, id.name=id.name, update.name=updated.name, async=async)})
   } else {
     contentType <- "application/x-opal"
     body <- value
@@ -223,11 +223,11 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
     if (!is.null(identifiers)) {
       query["identifiers"] <- identifiers
     }
-    if (!is.null(withIds)) {
-      query["withIdentifiers"] <- withIds
+    if (!is.null(id.name)) {
+      query["id"] <- id.name
     }
-    if (!is.null(withTimestamps)) {
-      query["withTimestamps"] <- withTimestamps
+    if (!is.null(updated.name)) {
+      query["updated"] <- updated.name
     }
     if (async) {
       query["async"] <- "true"
