@@ -13,23 +13,27 @@
 #' @param opal Opal object.
 #' @export
 opal.workspaces=function(opal) {
-  query <- list(context='R')
-  wss <- opal:::.extractJsonField(opal:::.get(opal, "service", "r", "workspaces", query=query))
-  if (length(wss)) {
-    name <- c()
-    user <- c()
-    context <- c()
-    lastAccessDate <- c()
-    size <- c()
-    for (i in 1:length(wss)) {
-      ws <- wss[i]
-      name <- c(name, ws[[1]]$name)
-      user <- c(user, ws[[1]]$user)
-      context <- c(context, ws[[1]]$context)
-      lastAccessDate <- c(lastAccessDate, ws[[1]]$lastAccessDate)
-      size <- c(size, ws[[1]]$size)
-    }
-    data.frame(name=name, user=user, context=context, lastAccessDate=lastAccessDate, size=size)
+  if (!is.na(opal$version) && opal.version_compare(opal,"2.6")<0) {
+    warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
+  } else {
+    query <- list(context='R')
+    wss <- opal:::.extractJsonField(opal:::.get(opal, "service", "r", "workspaces", query=query))
+    if (length(wss)) {
+      name <- c()
+      user <- c()
+      context <- c()
+      lastAccessDate <- c()
+      size <- c()
+      for (i in 1:length(wss)) {
+        ws <- wss[i]
+        name <- c(name, ws[[1]]$name)
+        user <- c(user, ws[[1]]$user)
+        context <- c(context, ws[[1]]$context)
+        lastAccessDate <- c(lastAccessDate, ws[[1]]$lastAccessDate)
+        size <- c(size, ws[[1]]$size)
+      }
+      data.frame(name=name, user=user, context=context, lastAccessDate=lastAccessDate, size=size)
+    }  
   }
 }
 
@@ -40,18 +44,22 @@ opal.workspaces=function(opal) {
 #' @param user The user name associated to the worskpace. If not provided, the current user is applied.
 #' @export
 opal.workspace_rm=function(opal, ws, user=NULL) {
-  u <- user
-  if (is.null(user)) {
-    u <- opal$username
+  if (!is.na(opal$version) && opal.version_compare(opal,"2.6")<0) {
+    warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
+  } else {
+    u <- user
+    if (is.null(user)) {
+      u <- opal$username
+    }
+    if (is.null(u) || length(u) == 0) {
+      stop("User name is missing or empty.")
+    }
+    if (length(ws) == 0) {
+      stop("Workspace name is missing or empty.")
+    }
+    query <- list(context='R', name=ws, user=u)
+    ignore <- opal:::.extractJsonField(opal:::.delete(opal, "service", "r", "workspaces", query=query))  
   }
-  if (is.null(u) || length(u) == 0) {
-    stop("User name is missing or empty.")
-  }
-  if (length(ws) == 0) {
-    stop("Workspace name is missing or empty.")
-  }
-  query <- list(context='R', name=ws, user=u)
-  ignore <- opal:::.extractJsonField(opal:::.delete(opal, "service", "r", "workspaces", query=query))
 }
 
 #' Save the current session in a opal R workspace.
@@ -60,9 +68,13 @@ opal.workspace_rm=function(opal, ws, user=NULL) {
 #' @param save Save the workspace with given identifier (default is TRUE, current session ID if TRUE).
 #' @export
 opal.workspace_save=function(opal, save=TRUE) {
-  saveId <- save
-  if(is.logical(save) && save) {
-    saveId <- opal$rid
+  if (!is.na(opal$version) && opal.version_compare(opal,"2.6")<0) {
+    warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
+  } else {
+    saveId <- save
+    if(is.logical(save) && save) {
+      saveId <- opal$rid
+    }
+    res <- opal:::.post(opal, "r", "session", opal$rid, "workspaces", query=list(save=saveId))
   }
-  res <- opal:::.post(opal, "r", "session", opal$rid, "workspaces", query=list(save=saveId))
 }

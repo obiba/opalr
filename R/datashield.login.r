@@ -232,6 +232,9 @@ datashield.logout <- function(opals, save=NULL) {
     } else if(!is.null(opals$rid)) {
       saveId <- save
       if (!is.null(save)) {
+        if (opal.version_compare(opals,"2.6")<0) {
+          warning(opals$name, ": Workspaces are not available for opal ", opals$version, " (2.6.0 or higher is required)")
+        }
         saveId <- paste0(opals$name, ":", save)
       }
       try(opal:::.rmDatashieldSession(opals, saveId), silent=TRUE)
