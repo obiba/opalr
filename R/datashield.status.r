@@ -114,8 +114,8 @@ datashield.status <- function(logins=NULL, study=NULL, directory="~/.ssh", timeo
     if(protocol=="https"){
       # pem files or username/password ?
       if (grepl("\\.pem$",userids[i])) {
-        cert <- opal:::.getPEMFilePath(userids[i], directory)
-        private <- opal:::.getPEMFilePath(pwds[i], directory)
+        cert <- .getPEMFilePath(userids[i], directory)
+        private <- .getPEMFilePath(pwds[i], directory)
         opal.opts <- append(opal.opts, list(sslcert=cert, sslkey=private, ssl.verifyhost=0, ssl.verifypeer=0))
         opals[[i]] <- opal.login(url=urls[i], opts=opal.opts)
       } else {
@@ -149,8 +149,6 @@ datashield.status <- function(logins=NULL, study=NULL, directory="~/.ssh", timeo
   #return status
   return(whole_status)
 }
-
-
 
 #' Get the status of the tables in differents Opals servers.
 #'
@@ -211,7 +209,6 @@ datashield.table_status<-function(opals,logins){
 #' @param type Type of the method: "aggregate" (default) or "assign".
 #' @return Methods availability on each server.
 #' @export
-
 datashield.method_status<-function(opals,type='aggregate'){
   
   if(is.null(opals)){
@@ -238,7 +235,6 @@ datashield.method_status<-function(opals,type='aggregate'){
 #' @param opals A list of opal objects.
 #' @return Packages status for each server.
 #' @export
-
 datashield.pkg_status<-function(opals){
   if(is.null(opals)){
     stop("Provide valid opals object!", call.=FALSE)

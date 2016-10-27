@@ -17,7 +17,7 @@ opal.workspaces=function(opal) {
     warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
   } else {
     query <- list(context='R')
-    wss <- opal:::.extractJsonField(opal:::.get(opal, "service", "r", "workspaces", query=query))
+    wss <- .extractJsonField(.get(opal, "service", "r", "workspaces", query=query))
     if (length(wss)) {
       name <- c()
       user <- c()
@@ -58,7 +58,7 @@ opal.workspace_rm=function(opal, ws, user=NULL) {
       stop("Workspace name is missing or empty.")
     }
     query <- list(context='R', name=ws, user=u)
-    ignore <- opal:::.extractJsonField(opal:::.delete(opal, "service", "r", "workspaces", query=query))  
+    ignore <- .extractJsonField(.delete(opal, "service", "r", "workspaces", query=query))  
   }
 }
 
@@ -75,6 +75,6 @@ opal.workspace_save=function(opal, save=TRUE) {
     if(is.logical(save) && save) {
       saveId <- opal$rid
     }
-    res <- opal:::.post(opal, "r", "session", opal$rid, "workspaces", query=list(save=saveId))
+    res <- .post(opal, "r", "session", opal$rid, "workspaces", query=list(save=saveId))
   }
 }

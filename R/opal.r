@@ -61,7 +61,7 @@ opal.logout <- function(opals, save=FALSE) {
     res <- lapply(opals, function(o){opal.logout(o, save)})  
   } else {
     if ((is.logical(save) && save) || is.character(save)) {
-      if (!is.na(opal$version) && opal.version_compare(opals,"2.6")<0) {
+      if (!is.na(opals$version) && opal.version_compare(opals,"2.6")<0) {
         warning("Workspaces are not available for opal ", opals$version, " (2.6.0 or higher is required)")
       }
     }

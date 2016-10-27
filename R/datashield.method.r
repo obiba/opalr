@@ -23,7 +23,7 @@ datashield.methods=function(opals, type="aggregate") {
 #' @method datashield.methods opal
 #' @S3method datashield.methods opal
 datashield.methods.opal=function(opal, type="aggregate") {
-  rlist <- opal:::.get(opal, "datashield", "env", type, "methods")
+  rlist <- .get(opal, "datashield", "env", type, "methods")
   name <- lapply(rlist,function(m){
     m$name
   })
@@ -87,12 +87,12 @@ datashield.method=function(opals, name, type="aggregate") {
 #' @method datashield.method opal
 #' @S3method datashield.method opal
 datashield.method.opal=function(opal, name, type="aggregate") {
-  # TODO this request is currently not accessible to ds user
-  #opal:::.get(opal, "datashield", "env", type, "method", name)
+  # this request is currently not accessible to ds user
+  #.get(opal, "datashield", "env", type, "method", name)
   ms <- datashield.methods(opal, type);
   rval <- ms[ms$name == name,]
   if (nrow(rval) > 0) {
-    # TODO there is certainly a simpler way to this... 
+    # there is certainly a simpler way to this... 
     rval <- list(name=as.character(rval$name), type=as.character(rval$type), class=as.character(rval$class), value=as.character(rval$value))
   } else {
     rval <- NULL

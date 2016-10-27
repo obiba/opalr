@@ -119,8 +119,8 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     if(protocol=="https"){
       # pem files or username/password ?
       if (grepl("\\.pem$",userids[i])) {
-        cert <- opal:::.getPEMFilePath(userids[i], directory)
-        private <- opal:::.getPEMFilePath(pwds[i], directory)
+        cert <- .getPEMFilePath(userids[i], directory)
+        private <- .getPEMFilePath(pwds[i], directory)
         opal.opts <- append(opal.opts, list(sslcert=cert, sslkey=private))
         opals[[i]] <- opal.login(url=urls[i], opts=opal.opts, restore=restoreId)
       } else {
@@ -237,7 +237,7 @@ datashield.logout <- function(opals, save=NULL) {
         }
         saveId <- paste0(opals$name, ":", save)
       }
-      try(opal:::.rmDatashieldSession(opals, saveId), silent=TRUE)
+      try(.rmDatashieldSession(opals, saveId), silent=TRUE)
       opals$rid <- NULL
     }
   }

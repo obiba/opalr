@@ -15,7 +15,7 @@
 #' @param opal Opal object.
 #' @export
 opal.symbols <- function(opal) {
-  ignore <- opal:::.getRSessionId(opal)
+  ignore <- .getRSessionId(opal)
   .get(opal, "r", "session", opal$rid, "symbols")
 }
 
@@ -27,7 +27,7 @@ opal.symbols <- function(opal) {
 #' @param symbol Name of the R symbol.
 #' @export
 opal.symbol_rm <- function(opal, symbol) {
-  ignore <- opal:::.getRSessionId(opal)
+  ignore <- .getRSessionId(opal)
   tryCatch(.delete(opal, "r", "session", opal$rid, "symbol", symbol), error=function(e){})
 }
 

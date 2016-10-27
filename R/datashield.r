@@ -40,7 +40,7 @@ datashield.aggregate.opal=function(opal, expr, async=TRUE, wait=TRUE) {
     query["async"] <- "true"
   }
   ignore <- .getDatashieldSessionId(opal)
-  res <- opal:::.post(opal, "datashield", "session", opal$rid, "aggregate", query=query, body=expression, contentType="application/x-rscript")
+  res <- .post(opal, "datashield", "session", opal$rid, "aggregate", query=query, body=expression, contentType="application/x-rscript")
   
   if (async && wait) {
     res <- datashield.command_result(opals, res, wait=TRUE)
@@ -126,7 +126,7 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
     query["async"] <- "true"
   }
   ignore <- .getDatashieldSessionId(opal)
-  res <- opal:::.put(opal, "datashield", "session", opal$rid, "symbol", symbol, query=query, body=body, contentType=contentType)
+  res <- .put(opal, "datashield", "session", opal$rid, "symbol", symbol, query=query, body=body, contentType=contentType)
   
   if (async && wait) {
     datashield.command(opal, res, wait=TRUE)
@@ -167,7 +167,7 @@ datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=F
   if (!is.null(restore)) {
     query <- list(restore=restore)  
   }
-  res <- opal:::.extractJsonField(opal:::.post(opal, "datashield", "sessions", query=query), c("id"), isArray=FALSE)
+  res <- .extractJsonField(.post(opal, "datashield", "sessions", query=query), c("id"), isArray=FALSE)
   return(res$id)
 }
 
@@ -178,5 +178,5 @@ datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=F
   if (is.character(save)) {
     query <- list(save=save)
   }
-  try(opal:::.delete(opal, "datashield", "session", opal$rid, query=query), silent=TRUE)
+  try(.delete(opal, "datashield", "session", opal$rid, query=query), silent=TRUE)
 }
