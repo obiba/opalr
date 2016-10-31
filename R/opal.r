@@ -8,7 +8,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-
 #' Log in Opal(s).
 #' 
 #' @title Opal login
@@ -295,7 +294,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
     lapply(opal, function(o){opal.assign.data(o, symbol, value, async=async)})
   } else {
     contentType <- "application/x-rdata"
-    body <- base64enc::base64encode(serialize(value, NULL))
+    body <- base64(serialize(value, NULL))
     query <- list()
     if (async) {
       query["async"] <- "true"
@@ -303,12 +302,6 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
     ignore <- .getRSessionId(opal)
     res <- .post(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
     }
-}
-
-#' Load dependencies.
-.onLoad <- function(libname, pkgname) {
-  require(RCurl)
-  require(rjson)
 }
 
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
@@ -617,4 +610,11 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @keywords internal
 .getSessions <- function(opal) {
   .extractJsonField(.get(opal, "r", "sessions"))
+}
+
+#' Load dependencies.
+.onLoad <- function(libname, pkgname) {
+  require(RCurl)
+  require(rjson)
+  require(mime)
 }

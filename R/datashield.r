@@ -152,7 +152,7 @@ datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=F
 #' @keywords internal
 .getDatashieldSessionId <- function(opal) {
   if(is.null(opal$rid)) {
-    opal$rid <- .newDatashieldSession(opal, restor=opal$restore)
+    opal$rid <- .newDatashieldSession(opal, restore=opal$restore)
   }
   if(is.null(opal$rid)) {
     stop("Remote Datashield R session not available")
