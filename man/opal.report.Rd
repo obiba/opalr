@@ -4,18 +4,17 @@
 \alias{opal.report}
 \title{Opal report}
 \usage{
-opal.report(input, output = NULL,
-  boot_style = getOption("opal.report.style"), progress = FALSE,
-  verbose = FALSE)
+opal.report(input, output = NULL, progress = FALSE, verbose = FALSE,
+  boot_style = NULL)
 }
 \arguments{
 \item{input}{Path to the R markdown report file}
 
-\item{boot_style}{The Bootstrap style to use if character, if NULL uses the default markdown to HTML converter (no Bootstrap style), if TRUE a menu is shown with the available styles.}
-
 \item{progress}{Knitr progress option}
 
 \item{verbose}{Knitr verbose option}
+
+\item{boot_style}{Deprecated, directives can be integrated in the YAML header of the R markdown document.}
 
 \item{ouput}{Directory path where to ouput the html report file. Default is the current working directory.}
 }

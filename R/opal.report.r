@@ -14,11 +14,11 @@
 #' 
 #' @param input Path to the R markdown report file
 #' @param ouput Directory path where to ouput the html report file. Default is the current working directory.
-#' @param boot_style The Bootstrap style to use if character, if NULL uses the default markdown to HTML converter (no Bootstrap style), if TRUE a menu is shown with the available styles.
 #' @param progress Knitr progress option
 #' @param verbose Knitr verbose option
+#' @param boot_style Deprecated, directives can be integrated in the YAML header of the R markdown document.
 #' @export
-opal.report <- function(input, output=NULL, boot_style=getOption("opal.report.style"), progress=FALSE, verbose=FALSE) {
+opal.report <- function(input, output=NULL, progress=FALSE, verbose=FALSE, boot_style=NULL) {
   if (is.null(input) | !grepl(pattern="\\.Rmd$", input)) {
     stop("R markdown input file is required.")
   }
@@ -43,7 +43,7 @@ opal.report <- function(input, output=NULL, boot_style=getOption("opal.report.st
   setwd(dirname(inputFile))
   
   # make markdown, then make html
-  opal.report_md(inputFile, boot_style, progress, verbose)
+  opal.report_md(inputFile, progress, verbose)
   
   # restore working directory
   setwd(originalWd)
@@ -83,17 +83,11 @@ opal.as_md_table <- function(table, icons=TRUE, digits=getOption("digits"), col.
 
 #' Turn a R markdown file to html.
 #' @keywords internal
-opal.report_md <- function(inputFile, boot_style, progress, verbose) {
+opal.report_md <- function(inputFile, progress, verbose) {
   require(knitr)
+  require(rmarkdown)
   opts_knit$set(progress=progress, verbose=verbose)
   opts_chunk$set(tidy = FALSE, highlight = FALSE)
-  mdFile = knit(inputFile)
-  message("output file: ", gsub("\\.md", "\\.html", mdFile))
-  if (is.null(boot_style)) {
-    require(markdown)
-    markdownToHTML(mdFile, gsub("\\.md", "\\.html", mdFile))
-  } else {
-    require(knitrBootstrap)
-    knit_bootstrap_md(mdFile, chooser="boot", boot_style=boot_style)
-  }
+  rmarkdown::render(inputFile)
+  message("output file: ", gsub("\\.Rmd", "\\.html", inputFile))
 }
