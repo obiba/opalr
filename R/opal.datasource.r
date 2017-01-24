@@ -97,7 +97,7 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
-#' @param identifier Entity identifier
+#' @param identifier Entity identifier.
 #' @export
 opal.valueset <- function(opal, datasource, table, identifier) {
   response <-.get(o, "datasource", datasource, "table", table, "valueSet", identifier)
