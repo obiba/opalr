@@ -13,7 +13,7 @@
 #' @param opal Opal object.
 #' @export
 opal.datasources=function(opal) {
-  .extractJsonField(.get(opal, "datasources"))
+  .get(opal, "datasources")
 }
 
 #' Get a datasource from a opal.
@@ -22,7 +22,7 @@ opal.datasources=function(opal) {
 #' @param datasource Name of the datasource.
 #' @export
 opal.datasource=function(opal, datasource) {
-  .extractJsonField(.get(opal, "datasource", datasource))
+  .get(opal, "datasource", datasource)
 }
 
 #' Get tables of a datasource from a opal.
@@ -31,7 +31,7 @@ opal.datasource=function(opal, datasource) {
 #' @param datasource Name of the datasource.
 #' @export
 opal.tables <- function(opal, datasource) {
-  .extractJsonField(.get(opal, "datasource", datasource, "tables"));
+  .get(opal, "datasource", datasource, "tables")
 }
 
 #' Get a table of a datasource from a opal.
@@ -43,9 +43,9 @@ opal.tables <- function(opal, datasource) {
 #' @export
 opal.table <- function(opal, datasource, table, counts=FALSE) {
   if (counts) {
-    .extractJsonField(.get(opal, "datasource", datasource, "table", table, query=list(counts="true"))); 
+    .get(opal, "datasource", datasource, "table", table, query=list(counts="true")); 
   } else {
-    .extractJsonField(.get(opal, "datasource", datasource, "table", table));  
+    .get(opal, "datasource", datasource, "table", table);
   }  
 }
 
@@ -56,7 +56,7 @@ opal.table <- function(opal, datasource, table, counts=FALSE) {
 #' @param table Name of the table in the datasource.
 #' @export
 opal.variables <- function(opal, datasource, table) {
-  .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variables"))
+  .get(opal, "datasource", datasource, "table", table, "variables")
 }
 
 #' Get a variable of a table from a opal.
@@ -67,7 +67,7 @@ opal.variables <- function(opal, datasource, table) {
 #' @param variable Name of the variable in the table.
 #' @export
 opal.variable <- function(opal, datasource, table, variable) {
-  .extractJsonField(.get(opal, "datasource", datasource, "table", table, "variable", variable))
+  .get(opal, "datasource", datasource, "table", table, "variable", variable)
 }
 
 #' Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.
@@ -90,4 +90,29 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
     }
   }
   rval
+}
+
+#' Get the values of an entity in a table.
+#'
+#' @param opal Opal object.
+#' @param datasource Name of the datasource.
+#' @param table Name of the table in the datasource.
+#' @param identifier Entity identifier
+#' @export
+opal.valueset <- function(opal, datasource, table, identifier) {
+  response <-.get(o, "datasource", datasource, "table", table, "valueSet", identifier)
+  valueset <- list()
+  i <- 1
+  for (variable in response$variables) {
+    value <- response$valueSets[[1]]$values[[i]]$value
+    if(is.list(value)) {
+      valueset[[variable]] <- lapply(value, function(val) {
+        val$value
+      })
+    } else {
+      valueset[[variable]] <- value  
+    }
+    i <- i + 1
+  }
+  valueset
 }
