@@ -13,7 +13,7 @@ opal.assign.table(opal, symbol, value, variables = NULL, missings = FALSE,
 
 \item{symbol}{Name of the R symbol.}
 
-\item{value}{The value to assign evaluated in the following order: a R expression, a function, a fully qualified name of a variable or a table in Opal or any other R object (data.frame, vector).}
+\item{value}{The value to assign evaluated in the following order: a fully qualified name of a variable or a table in Opal.}
 
 \item{variables}{List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods}
 

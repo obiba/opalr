@@ -7,6 +7,8 @@
 opal.file_read(opal, source, destination)
 }
 \arguments{
+\item{opal}{Opal object.}
+
 \item{source}{Path to the file in the R session workspace (must exists).}
 
 \item{destination}{Path to the destination file or folder. Any required sub-folders will be created.}

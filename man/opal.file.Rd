@@ -4,10 +4,14 @@
 \alias{opal.file}
 \title{Get file content}
 \usage{
-opal.file(opal, path)
+opal.file(opal, path, key = NULL)
 }
 \arguments{
+\item{opal}{Opal object.}
+
 \item{path}{Path to the file in the Opal file system.}
+
+\item{key}{File encryption key: downloaded file will be a zip file with content encrypted (use 7zip to decrypt).}
 }
 \description{
 Get file content from the Opal file system

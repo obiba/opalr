@@ -7,6 +7,8 @@
 opal.file_write(opal, source, destination = NULL)
 }
 \arguments{
+\item{opal}{Opal object.}
+
 \item{source}{Path to the file in the Opal file system (must exists and be accessible for the user).}
 
 \item{destination}{Path to the destination file, relative to the R session workspace. Any required sub-folders will be created. If ommitted, file with same name will be written.}

@@ -4,12 +4,16 @@
 \alias{opal.file_download}
 \title{Download a file}
 \usage{
-opal.file_download(opal, source, destination = NULL)
+opal.file_download(opal, source, destination = NULL, key = NULL)
 }
 \arguments{
+\item{opal}{Opal object.}
+
 \item{source}{Path to the file in the Opal file system.}
 
 \item{destination}{Path to the file to be written. If ommitted, file with same name in the working directory will be written.}
+
+\item{key}{File encryption key: downloaded file will be a zip file with content encrypted (use 7zip to decrypt).}
 }
 \description{
 Download a file or a folder from the Opal file system
