@@ -175,18 +175,19 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
   }
 }
 
-#' Assign a Opal table to a R symbol in the current R session.
+#' Assign a Opal table to a data.frame identified by a R symbol in the current R session.
 #' 
-#' @title Data assignment
+#' @title Data assignment to a data.frame
 #' 
 #' @param opal Opal object or list of opal objects.
 #' @param symbol Name of the R symbol.
 #' @param value The value to assign evaluated in the following order: a fully qualified name of a variable or a table in Opal.
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
-#' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.
+#' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE.
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).
 #' @param id.name Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is NULL.
 #' @param updated.name Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.
+#' @parma class The data frame class into which the table is written: can 'data.frame' (default and fallback) or 'tibble' (from Opal 2.6).
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples {
 #' # assign a list of variables from table HOP of opal object o
@@ -199,7 +200,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' opal.assign.table(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
 #' }
 #' @export
-opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name=NULL, updated.name=NULL, async=FALSE) {
+opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name=NULL, updated.name=NULL, class='data.frame', async=FALSE) {
   if(is.list(opal)){
     lapply(opal, function(o){opal.assign.table(o, symbol, value, variables=variables, missings=missings, identifiers=identifiers, id.name=id.name, update.name=updated.name, async=async)})
   } else {
@@ -233,11 +234,37 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
     if (!is.null(updated.name)) {
       query["updated"] <- updated.name
     }
+    if (!is.null(class)) {
+      query["class"] <- class
+    }
     if (async) {
       query["async"] <- "true"
     }
     ignore <- .getRSessionId(opal)
     res <- .put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+  }
+}
+
+#' Assign a Opal table to a tibble identified by a R symbol in the current R session.
+#' 
+#' @title Data assignment to a tibble
+#' 
+#' @param opal Opal object.
+#' @param symbol Name of the R symbol.
+#' @param value The fully qualified name of a table in Opal.
+#' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
+#' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE.
+#' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).
+#' @param id.name Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is 'id'.
+#' @param updated.name Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.
+#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
+#' @export
+opal.assign.table.tibble <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name='id', updated.name=NULL, async=FALSE) {
+  ignore <- .getRSessionId(opal)
+  if (!is.na(opal$version) && opal.version_compare(opal,"2.8")<0) {
+    warning("Export to tibble not available for opal ", opal$version, " (2.8.0 or higher is required)")
+  } else {
+    opal.assign.table(opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, id.name=id.name, updated.name=updated.name, class="tibble", async=async)
   }
 }
 

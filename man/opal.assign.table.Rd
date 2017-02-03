@@ -2,11 +2,11 @@
 % Please edit documentation in R/opal.r
 \name{opal.assign.table}
 \alias{opal.assign.table}
-\title{Data assignment}
+\title{Data assignment to a data.frame}
 \usage{
 opal.assign.table(opal, symbol, value, variables = NULL, missings = FALSE,
   identifiers = NULL, id.name = NULL, updated.name = NULL,
-  async = FALSE)
+  class = "data.frame", async = FALSE)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -17,7 +17,7 @@ opal.assign.table(opal, symbol, value, variables = NULL, missings = FALSE,
 
 \item{variables}{List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods}
 
-\item{missings}{If TRUE, missing values will be pushed from Opal to R, default is FALSE. Ignored if value is an R expression.}
+\item{missings}{If TRUE, missing values will be pushed from Opal to R, default is FALSE.}
 
 \item{identifiers}{Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).}
 
@@ -28,7 +28,7 @@ opal.assign.table(opal, symbol, value, variables = NULL, missings = FALSE,
 \item{async}{R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).}
 }
 \description{
-Assign a Opal table to a R symbol in the current R session.
+Assign a Opal table to a data.frame identified by a R symbol in the current R session.
 }
 \examples{
 {
