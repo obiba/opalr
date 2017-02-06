@@ -44,11 +44,11 @@ opal.rm <- function(opal, symbol) {
 
 #' Save the tibble identified by the symbol in a file of the R session workspace 
 #' 
-#' @title Data assignment
+#' @title Save a tibble identified by symbol as a file of format SAS, SPSS, Stata, CSV or TSV.
 #' 
 #' @param opal Opal object.
-#' @param symbol Name of the R symbol.
-#' @param destination The path of the file in the Opal file system. Supported file extensions are: .sav (SPSS), .sas7bdat (SAS), .dta (Stata). 
+#' @param symbol Name of the R symbol representing a tibble.
+#' @param destination The path of the file in the R session workspace. Supported file extensions are: .sav (SPSS), .sas7bdat (SAS), .dta (Stata), .csv (comma separated values), .tsv (tab separated values). 
 #' @export
 opal.symbol_save <- function(opal, symbol, destination) {
   ignore <- .getRSessionId(opal)
@@ -60,5 +60,47 @@ opal.symbol_save <- function(opal, symbol, destination) {
     }
     query <- list(destination=destination)
     res <- .put(opal, "r", "session", opal$rid, "symbol", symbol, "_save", query=query)
+  }
+}
+
+#' Import the tibble identified by the symbol as a table in Opal.
+#' 
+#' @title Import a tibble as a table in Opal
+#' 
+#' @param opal Opal object.
+#' @param symbol Name of the R symbol representing a tibble.
+#' @param project Name of the project into which the data are to be imported.
+#' @param identifiers Name of the identifiers mapping to use when assigning entities to Opal.
+#' @param policy Identifiers policy: 'required' (each identifiers must be mapped prior importation (default)), 'ignore' (ignore unknown identifiers) and 'generate' (generate a system identifier for each unknown identifier). 
+#' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
+#' @param type Entity type (what the data are about). Default is 'Participant'.
+#' @export
+opal.symbol_import <- function(opal, symbol, project, identifiers=NULL, policy='required', id.name='id', type='Participant') {
+  rid <- .getRSessionId(opal)
+  if (!is.na(opal$version) && opal.version_compare(opal,"2.8")<0) {
+    warning("Importing tibble in a table not available for opal ", opal$version, " (2.8.0 or higher is required)")
+  } else {
+    # create a transient datasource
+    dsFactory <- list(session=rid, symbol=symbol, entityType=type, idColumn=id.name)
+    if (is.null(identifiers)) {
+      dsFactory <- paste0('{"Magma.RSessionDatasourceFactoryDto.params": ', .listToJson(dsFactory), '}') 
+    } else {
+      idConfig <- list(name=identifiers)
+      if (policy == 'required') {
+        idConfig["allowIdentifierGeneration"] <- TRUE
+        idConfig["ignoreUnknownIdentifier"] <- TRUE
+      } else if (policy == 'ignore') {
+        idConfig["allowIdentifierGeneration"] <- FALSE
+        idConfig["ignoreUnknownIdentifier"] <- TRUE
+      } else {
+        idConfig["allowIdentifierGeneration"] <- FALSE
+        idConfig["ignoreUnknownIdentifier"] <- FALSE
+      }
+      dsFactory <- paste0('{"Magma.RSessionDatasourceFactoryDto.params": ', .listToJson(dsFactory), ', "idConfig":', .listToJson(idConfig),'}')
+    }
+    created <- .post(opal, "project", project, "transient-datasources", body=dsFactory, contentType="application/json")
+    # launch a import task
+    importCmd <- list(destination=project, tables=list(paste0(created$name, '.', symbol)))
+    ignore <- .post(opal, "project", project, "commands", "_import", body=.listToJson(importCmd), contentType="application/json")
   }
 }

@@ -573,6 +573,44 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
   expression
 }
 
+#' Simple transformation function of a list into a JSON object/array.
+#' @keywords internal
+.listToJson <- function(l) {
+  str <- ''
+  valueToString <- function(v) {
+    if (is.list(v)) {
+      .listToJson(v)
+    } else if (is.logical(v)) {
+      if (v) {
+        'true'
+      } else {
+        'false'
+      }
+    } else {
+      paste0('"', v, '"')
+    }
+  }
+  if (is.null(names(l))) {
+    # array
+    for (value in l) {
+      if (nchar(str)>0) {
+        str <- paste0(str,',')
+      }
+      str <- paste0(str, valueToString(value))
+    }
+    paste0('[', str, ']') 
+  } else {
+    # object
+    for (name in names(l)) {
+      if (nchar(str)>0) {
+        str <- paste0(str,',')
+      }
+      str <- paste0(str, '"', name, '": ', valueToString(l[[name]]))
+    }
+    paste0('{', str, '}') 
+  }
+}
+
 #' Extract absolute path to the pem file
 #' @keywords internal
 .getPEMFilePath <- function(pem, directory="~/.ssh") {
