@@ -4,9 +4,8 @@ library(opal)
 
 options(opal.username='administrator', 
         opal.password='password', 
-        opal.url='http://localhost:8080') 
-drugs <- "medications.Drugs"
-fnac <- "finrisk.FNAC"
+        opal.url='https://opal-demo.obiba.org') 
+fnac <- "FNAC.FNAC"
 
 options(verbose=FALSE)
 

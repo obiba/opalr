@@ -10,7 +10,7 @@ server <- c("cnsim1", "cnsim2", "cnsim3")
 url <- c("http://localhost:8080", "http://localhost:8080", "http://localhost:8080")
 user <- c("administrator", "administrator", "administrator")
 password <- c("password", "password", "password")
-table <- c("datashield.CNSIM1", "datashield.CNSIM2", "datashield.CNSIM3")
+table <- c("ds.CNSIM1", "ds.CNSIM2", "ds.CNSIM3")
 logindata <- data.frame(server,url,user,password,table)
 
 # assign data and save in a workspace
