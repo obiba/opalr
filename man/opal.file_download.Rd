@@ -25,6 +25,9 @@ opal.file_download(o, '/home/administrator/joins/join-src-3.csv')
 opal.file_download(o, '/home/administrator/datashield/hop.R')
 opal.file_download(o, '/home/administrator/datashield/CNSIM1.zip')
 
+# download a file encrypted by a key: resulting file is a zip with an encrypted content
+opal.file_download(o, '/home/administrator/export/some-data.csv', destination='some-data.zip', key='AZF57893FBDE')
+
 # download, create destination folder and rename file
 opal.file_download(o, '/home/administrator/spss/DatabaseTest.sav', 'spss/test.sav')
 

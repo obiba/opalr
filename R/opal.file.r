@@ -17,12 +17,12 @@
 #' @param key File encryption key: downloaded file will be a zip file with content encrypted (use 7zip to decrypt).
 #' @export
 opal.file <- function(opal, path, key=NULL) {
-  p <- strsplit(substring(path, 2), "/")[[1]]
+  p <- append("files", strsplit(substring(path, 2), "/")[[1]])
   if (is.null(key)) {
-    .get(opal, append("files", p)) 
+    .get(opal, p) 
   } else {
     body <- paste0("key=", key)
-    .post(opal, append("files", p), body=body, contentType="application/x-www-form-urlencoded")
+    .post(opal, p, body=body, contentType="application/x-www-form-urlencoded")
   }
 }
 
@@ -39,6 +39,9 @@ opal.file <- function(opal, path, key=NULL) {
 #' opal.file_download(o, '/home/administrator/joins/join-src-3.csv')
 #' opal.file_download(o, '/home/administrator/datashield/hop.R')
 #' opal.file_download(o, '/home/administrator/datashield/CNSIM1.zip')
+#' 
+#' # download a file encrypted by a key: resulting file is a zip with an encrypted content
+#' opal.file_download(o, '/home/administrator/export/some-data.csv', destination='some-data.zip', key='AZF57893FBDE')
 #' 
 #' # download, create destination folder and rename file
 #' opal.file_download(o, '/home/administrator/spss/DatabaseTest.sav', 'spss/test.sav')
@@ -68,6 +71,85 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
     writeChar(content, fh)
     close(fh)
   }
+}
+
+#' Move and/or rename a file or a folder in the Opal file system
+#' 
+#' @title Move and/or rename a file
+#' 
+#' @param opal Opal object.
+#' @param source Path to the file in the Opal file system.
+#' @param destination New path to the file in the Opal file system.
+#' @examples {
+#' # move a file to another folder
+#' opal.file_mv(o, '/home/administrator/export/some-data.csv', '/home/userx/deliverables')
+#' 
+#' # rename a file
+#' opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv', '/home/administrator/export/some-data.csv')
+#' 
+#' # move and rename a file
+#' opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv', '/home/userx/deliverables/some-data.csv')
+#' }
+#' @export
+opal.file_mv <- function(opal, source, destination) {
+  query <- list(action='move', file=source)
+  location <- append("files", strsplit(substring(destination, 2), "/")[[1]])
+  res <- .put(opal, location, query=query)
+}
+
+#' Copy a file or a folder to another location in the Opal file system
+#' 
+#' @title Copy a file
+#' 
+#' @param opal Opal object.
+#' @param source Path to the file in the Opal file system.
+#' @param destination New path to the file in the Opal file system.
+#' @examples {
+#' # copy a file to another folder
+#' opal.file_cp(o, '/home/administrator/export/some-data.csv', '/home/userx/deliverables')
+#' 
+#' # copy recursively a folder to another folder
+#' opal.file_cp(o, '/home/administrator/export', '/home/userx/deliverables')
+#' }
+#' @export
+opal.file_cp <- function(opal, source, destination) {
+  query <- list(action='copy', file=source)
+  location <- append("files", strsplit(substring(destination, 2), "/")[[1]])
+  res <- .put(opal, location, query=query)
+}
+
+#' Make a folder in the Opal file system
+#' 
+#' @title Make a folder
+#' 
+#' @param opal Opal object.
+#' @param path Path to the new folder in the Opal file system.
+#' @examples {
+#' # make a folder
+#' opal.file_mkdir(o, '/home/userx/deliverables')
+#' }
+#' @export
+opal.file_mkdir <- function(opal, path) {
+  res <- .post(opal, 'files', body=path, contentType='text/plain')
+}
+
+#' Remove a file or a folder from the Opal file system
+#' 
+#' @title Remove a file
+#' 
+#' @param opal Opal object.
+#' @param path Path to the file in the Opal file system.
+#' @examples {
+#' # remove a file
+#' opal.file_rm(o, '/home/administrator/export/some-data.csv')
+#' 
+#' # remove recursively a folder
+#' opal.file_rm(o, '/home/administrator/export')
+#' }
+#' @export
+opal.file_rm <- function(opal, path) {
+  location <- append("files", strsplit(substring(path, 2), "/")[[1]])
+  res <- tryCatch(.delete(opal, location), error=function(e){})
 }
 
 #' Write a file from the Opal file system into the R session workspace
