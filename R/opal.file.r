@@ -34,14 +34,16 @@ opal.file <- function(opal, path, key=NULL) {
 #' @param source Path to the file in the Opal file system.
 #' @param destination Path to the file to be written. If ommitted, file with same name in the working directory will be written.
 #' @param key File encryption key: downloaded file will be a zip file with content encrypted (use 7zip to decrypt).
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # download a file
 #' opal.file_download(o, '/home/administrator/joins/join-src-3.csv')
 #' opal.file_download(o, '/home/administrator/datashield/hop.R')
 #' opal.file_download(o, '/home/administrator/datashield/CNSIM1.zip')
 #' 
 #' # download a file encrypted by a key: resulting file is a zip with an encrypted content
-#' opal.file_download(o, '/home/administrator/export/some-data.csv', destination='some-data.zip', key='AZF57893FBDE')
+#' opal.file_download(o, '/home/administrator/export/some-data.csv', 
+#'                       destination='some-data.zip', key='AZF57893FBDE')
 #' 
 #' # download, create destination folder and rename file
 #' opal.file_download(o, '/home/administrator/spss/DatabaseTest.sav', 'spss/test.sav')
@@ -80,15 +82,18 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
 #' @param opal Opal object.
 #' @param source Path to the file in the Opal file system.
 #' @param destination New path to the file in the Opal file system.
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # move a file to another folder
 #' opal.file_mv(o, '/home/administrator/export/some-data.csv', '/home/userx/deliverables')
 #' 
 #' # rename a file
-#' opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv', '/home/administrator/export/some-data.csv')
+#' opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv', 
+#'                 '/home/administrator/export/some-data.csv')
 #' 
 #' # move and rename a file
-#' opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv', '/home/userx/deliverables/some-data.csv')
+#' opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv', 
+#'                 '/home/userx/deliverables/some-data.csv')
 #' }
 #' @export
 opal.file_mv <- function(opal, source, destination) {
@@ -104,7 +109,8 @@ opal.file_mv <- function(opal, source, destination) {
 #' @param opal Opal object.
 #' @param source Path to the file in the Opal file system.
 #' @param destination New path to the file in the Opal file system.
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # copy a file to another folder
 #' opal.file_cp(o, '/home/administrator/export/some-data.csv', '/home/userx/deliverables')
 #' 
@@ -124,7 +130,8 @@ opal.file_cp <- function(opal, source, destination) {
 #' 
 #' @param opal Opal object.
 #' @param path Path to the new folder in the Opal file system.
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # make a folder
 #' opal.file_mkdir(o, '/home/userx/deliverables')
 #' }
@@ -139,7 +146,8 @@ opal.file_mkdir <- function(opal, path) {
 #' 
 #' @param opal Opal object.
 #' @param path Path to the file in the Opal file system.
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # remove a file
 #' opal.file_rm(o, '/home/administrator/export/some-data.csv')
 #' 
@@ -159,7 +167,8 @@ opal.file_rm <- function(opal, path) {
 #' @param opal Opal object.
 #' @param source Path to the file in the Opal file system (must exists and be accessible for the user).
 #' @param destination Path to the destination file, relative to the R session workspace. Any required sub-folders will be created. If ommitted, file with same name will be written.
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # user home expansion
 #' opal.file_write(o, "~/spss/DatabaseTest.sav")
 #' # rename file
@@ -187,7 +196,8 @@ opal.file_write <- function(opal, source, destination=NULL) {
 #' @param opal Opal object.
 #' @param source Path to the file in the R session workspace (must exists).
 #' @param destination Path to the destination file or folder. Any required sub-folders will be created.
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # read into folder
 #' opal.file_read(o,"DatabaseTest.sav", "/tmp")
 #' # read and rename

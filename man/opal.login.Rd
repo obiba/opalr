@@ -26,7 +26,7 @@ A opal object or a list of opal objects.
 Log in Opal(s).
 }
 \examples{
-{
+\dontrun{
 
 #### The below examples illustrate the different ways to login in opal ####
 

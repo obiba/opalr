@@ -15,4 +15,5 @@ if (!require('rjson', character.only=TRUE)) {
   install.packages('rjson', repos=c('http://cran.rstudio.com'), dependencies=TRUE)
 }
 # Install opal packages from github
+library(devtools)
 devtools::install_github('opal', username='datashield', ref='master')

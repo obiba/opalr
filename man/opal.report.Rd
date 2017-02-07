@@ -10,13 +10,13 @@ opal.report(input, output = NULL, progress = FALSE, verbose = FALSE,
 \arguments{
 \item{input}{Path to the R markdown report file}
 
+\item{output}{Directory path where to ouput the html report file. Default is the current working directory.}
+
 \item{progress}{Knitr progress option}
 
 \item{verbose}{Knitr verbose option}
 
 \item{boot_style}{Deprecated, directives can be integrated in the YAML header of the R markdown document.}
-
-\item{ouput}{Directory path where to ouput the html report file. Default is the current working directory.}
 }
 \description{
 Helper function for generating reports.

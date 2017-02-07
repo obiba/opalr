@@ -13,7 +13,7 @@
 #' @param opal Opal object or list of opal objects.
 #' @rdname datashield.workspaces
 #' @export
-datashield.workspaces=function(opal, ...) {
+datashield.workspaces=function(opal) {
   UseMethod('datashield.workspaces');
 }
 
@@ -57,8 +57,8 @@ datashield.workspaces.opal=function(opal) {
 #' @rdname datashield.workspaces
 #' @method datashield.workspaces list
 #' @S3method datashield.workspaces list
-datashield.workspaces.list=function(opals) {
-  res <- lapply(opals, FUN=datashield.workspaces.opal)
+datashield.workspaces.list=function(opal) {
+  res <- lapply(opal, FUN=datashield.workspaces.opal)
   server <- c()
   name <- c()
   user <- c()
@@ -87,7 +87,7 @@ datashield.workspaces.list=function(opals) {
 #' @param ws The workspace name
 #' @rdname datashield.workspace_rm
 #' @export
-datashield.workspace_rm=function(opal, ...) {
+datashield.workspace_rm=function(opal, ws) {
   UseMethod('datashield.workspace_rm');
 }
 
@@ -113,12 +113,12 @@ datashield.workspace_rm.opal=function(opal, ws) {
 #' @rdname datashield.workspace_rm
 #' @method datashield.workspace_rm list
 #' @S3method datashield.workspace_rm list
-datashield.workspace_rm.list=function(opals, ws) {
+datashield.workspace_rm.list=function(opal, ws) {
   if (length(ws) == 0) {
     stop("Workspace name is missing or empty.")
   }
-  res <- lapply(1:length(opals), function(i) {
-    o <- opals[[i]]
+  res <- lapply(1:length(opal), function(i) {
+    o <- opal[[i]]
     wsname <- paste0(o$name, ':', ws)
     datashield.workspace_rm.opal(o, ws=wsname)
   })
@@ -130,7 +130,7 @@ datashield.workspace_rm.list=function(opals, ws) {
 #' @param save The workspace name
 #' @rdname datashield.workspace_save
 #' @export
-datashield.workspace_save=function(opal, ...) {
+datashield.workspace_save=function(opal, save) {
   UseMethod('datashield.workspace_save');
 }
 
@@ -156,12 +156,12 @@ datashield.workspace_save.opal=function(opal, save) {
 #' @rdname datashield.workspace_save
 #' @method datashield.workspace_save list
 #' @S3method datashield.workspace_save list
-datashield.workspace_save.list=function(opals, save) {
+datashield.workspace_save.list=function(opal, save) {
   if (length(save) == 0) {
     stop("Workspace name is missing or empty.")
   }
-  res <- lapply(1:length(opals), function(i) {
-    o <- opals[[i]]
+  res <- lapply(1:length(opal), function(i) {
+    o <- opal[[i]]
     wsname <- paste0(o$name, ':', save)
     datashield.workspace_save.opal(o, save=wsname)
   })

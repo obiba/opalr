@@ -8,7 +8,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#'Get the status of the table(s), method(s), and packgage(s) in differents Opals servers.
+#'Get the status of the table(s), method(s), and packgage(s) in differents Opal servers.
 #'
 #'@title Check Datashield configuration status
 #'@description This function allows for clients to check each server for data access, configuration and versions.
@@ -25,7 +25,8 @@
 #'@return A list of various system status
 #'@author Mbatchou, S.
 #'@export
-#'@examples {
+#'@examples 
+#' \dontrun{
 #'
 #'#### The below examples illustrate an analysises that use test/simulated data ####
 #'
@@ -69,7 +70,7 @@ datashield.status <- function(logins=NULL, study=NULL, directory="~/.ssh", timeo
   
   #subset logins if study list is provided
   if(study_flag){
-    logins<-subset(logins,server %in% study)
+    logins<-subset(logins, server %in% study)
   }
   
   # studies names
@@ -154,13 +155,13 @@ datashield.status <- function(logins=NULL, study=NULL, directory="~/.ssh", timeo
 #'
 #' @title Status of table(s) in Opal(s)
 #'
-#' @param opals A list of opal objects.
+#' @param opal A list of opal objects.
 #' @param logins A dataframe table that holds login details.
 #' @return Servers and tables accessibility status
 #' @export
-datashield.table_status<-function(opals,logins){
-  if(is.null(opals)){
-    stop("Provide opals object!", call.=FALSE)
+datashield.table_status<-function(opal,logins){
+  if(is.null(opal)){
+    stop("Provide opal object!", call.=FALSE)
   }
   if(is.null(logins)){
     stop("Provide valid login details!", call.=FALSE)
@@ -180,14 +181,14 @@ datashield.table_status<-function(opals,logins){
   
   # verify table accessibility and validity
   info_df<-data.frame(NULL)
-  for(i in seq(length(opals))){
+  for(i in seq(length(opal))){
     stdname<-stdnames[i]
     tbl_full_name_split<-unlist(strsplit(tbl_full_name[i],'\\.'))
     datasource<-tbl_full_name_split[1]
     tbl_name<-tbl_full_name_split[2]
-    login_info<-try(opal.table(opals[[stdname]],datasource=datasource,table=tbl_name),silent=T)
+    login_info<-try(opal.table(opal[[stdname]],datasource=datasource,table=tbl_name),silent=T)
     is_error<-inherits(login_info,what='try-error')
-    o<-opals[[stdname]]
+    o<-opal[[stdname]]
     accessibility<-T
     if (is_error){
       warning(stdname,': table ' ,tbl_full_name[i], ' is not accessible or does not exist...',call.=F,immediate.=T)
@@ -205,17 +206,17 @@ datashield.table_status<-function(opals,logins){
 #'
 #' @title Status of datashield method(s) in Opal(s)
 #'
-#' @param opals A list of opal objects.
+#' @param opal A list of opal objects.
 #' @param type Type of the method: "aggregate" (default) or "assign".
 #' @return Methods availability on each server.
 #' @export
-datashield.method_status<-function(opals,type='aggregate'){
+datashield.method_status<-function(opal,type='aggregate'){
   
-  if(is.null(opals)){
-    stop("Provide valid opals object!", call.=FALSE)
+  if(is.null(opal)){
+    stop("Provide valid opal object!", call.=FALSE)
   }
   
-  res<-datashield.methods(opals,type)
+  res<-datashield.methods(opal,type)
   #unique method names 
   unique_name<-unique(unlist(lapply(res,function(x) x$name)))
   
@@ -232,12 +233,12 @@ datashield.method_status<-function(opals,type='aggregate'){
 #'
 #' @title Status of datashield package(s) in Opal(s)
 #'
-#' @param opals A list of opal objects.
+#' @param opal A list of opal objects.
 #' @return Packages status for each server.
 #' @export
-datashield.pkg_status<-function(opals){
-  if(is.null(opals)){
-    stop("Provide valid opals object!", call.=FALSE)
+datashield.pkg_status <- function(opal) {
+  if(is.null(opal)){
+    stop("Provide valid opal object!", call.=FALSE)
   }
   types = c('aggregate','assign')
   df_pkges<-data.frame(NULL)
@@ -245,7 +246,7 @@ datashield.pkg_status<-function(opals){
   pkg_checked<-NULL
   
   for(type in types){
-    res<-datashield.methods(opals,type)
+    res<-datashield.methods(opal,type)
     #package names by type
     unique_pkg<-unique(unlist(lapply(res,function(x) x$package)))
     

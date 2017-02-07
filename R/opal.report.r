@@ -13,7 +13,7 @@
 #' @title Opal report
 #' 
 #' @param input Path to the R markdown report file
-#' @param ouput Directory path where to ouput the html report file. Default is the current working directory.
+#' @param output Directory path where to ouput the html report file. Default is the current working directory.
 #' @param progress Knitr progress option
 #' @param verbose Knitr verbose option
 #' @param boot_style Deprecated, directives can be integrated in the YAML header of the R markdown document.
@@ -63,7 +63,7 @@ opal.report <- function(input, output=NULL, progress=FALSE, verbose=FALSE, boot_
 opal.as_md_table <- function(table, icons=TRUE, digits=getOption("digits"), col.names=colnames(table), align, caption=NULL) {
   require(knitr)
   if (!icons) {
-    return(kable(table, format="markdown", digits=digits, col.names=col.names, align=align, caption=caption))
+    return(knitr::kable(table, format="markdown", digits=digits, col.names=col.names, align=align, caption=caption))
   }
   asIcons <- function(x) {
     unlist(lapply(x, function(a) {
@@ -78,7 +78,7 @@ opal.as_md_table <- function(table, icons=TRUE, digits=getOption("digits"), col.
       return(a)
     }))
   }
-  return(kable(as.data.frame(lapply(table,asIcons)), format="markdown", digits=digits, col.names=col.names, align=align, caption=caption))
+  return(knitr::kable(as.data.frame(lapply(table,asIcons)), format="markdown", digits=digits, col.names=col.names, align=align, caption=caption))
 }
 
 #' Turn a R markdown file to html.
@@ -86,8 +86,8 @@ opal.as_md_table <- function(table, icons=TRUE, digits=getOption("digits"), col.
 opal.report_md <- function(inputFile, progress, verbose) {
   require(knitr)
   require(rmarkdown)
-  opts_knit$set(progress=progress, verbose=verbose)
-  opts_chunk$set(tidy = FALSE, highlight = FALSE)
+  knitr::opts_knit$set(progress=progress, verbose=verbose)
+  knitr::opts_chunk$set(tidy = FALSE, highlight = FALSE)
   rmarkdown::render(inputFile)
   message("output file: ", gsub("\\.Rmd", "\\.html", inputFile))
 }

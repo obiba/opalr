@@ -15,7 +15,7 @@ opal.file_rm(opal, path)
 Remove a file or a folder from the Opal file system
 }
 \examples{
-{
+\dontrun{
 # remove a file
 opal.file_rm(o, '/home/administrator/export/some-data.csv')
 

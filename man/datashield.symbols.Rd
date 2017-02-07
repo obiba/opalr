@@ -6,11 +6,11 @@
 \alias{datashield.symbols.opal}
 \title{List R symbols}
 \usage{
-datashield.symbols(opal, ...)
+datashield.symbols(opal)
 
 \method{datashield.symbols}{opal}(opal)
 
-\method{datashield.symbols}{list}(opals)
+\method{datashield.symbols}{list}(opal)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}

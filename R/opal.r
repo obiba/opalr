@@ -19,7 +19,8 @@
 #' @param opts Curl options. Can be provided by "opal.opts" option.
 #' @param restore Workspace ID to be restored (see also opal.logout)
 #' @export
-#' @examples {
+#' @examples 
+#' \dontrun{
 #'
 #'#### The below examples illustrate the different ways to login in opal ####
 #'
@@ -51,21 +52,21 @@ opal.login <- function(username=getOption("opal.username"), password=getOption("
 #' 
 #' @title Logout from Opal(s)
 #' 
-#' @param opals Opal object or a list of opals.
+#' @param opal Opal object or a list of opals.
 #' @param save Save the workspace with given identifier (default value is FALSE, current session ID if TRUE).
 #' @export
-opal.logout <- function(opals, save=FALSE) {
+opal.logout <- function(opal, save=FALSE) {
   res <- NULL
-  if (is.list(opals)) {
-    res <- lapply(opals, function(o){opal.logout(o, save)})  
+  if (is.list(opal)) {
+    res <- lapply(opal, function(o){opal.logout(o, save)})  
   } else {
     if ((is.logical(save) && save) || is.character(save)) {
-      if (!is.na(opals$version) && opal.version_compare(opals,"2.6")<0) {
-        warning("Workspaces are not available for opal ", opals$version, " (2.6.0 or higher is required)")
+      if (!is.na(opal$version) && opal.version_compare(opal,"2.6")<0) {
+        warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
       }
     }
-    res <- try(.rmSession(opals, save), silent=TRUE)
-    opals$rid <- NULL
+    res <- try(.rmSession(opal, save), silent=TRUE)
+    opal$rid <- NULL
   }
   if (!is.null(res) && length(res) > 0) {
     return(res)
@@ -73,16 +74,16 @@ opal.logout <- function(opals, save=FALSE) {
 }
 
 #' @export
-print.opal <- function(opal) {
-  cat("url:", opal$url, "\n")
-  cat("name:", opal$name, "\n")
-  cat("version:", opal$version, "\n")
-  cat("username:", opal$username, "\n")
-  if (!is.null(opal$rid)) {
-    cat("rid:", opal$rid, "\n")  
+print.opal <- function(x, ...) {
+  cat("url:", x$url, "\n")
+  cat("name:", x$name, "\n")
+  cat("version:", x$version, "\n")
+  cat("username:", x$username, "\n")
+  if (!is.null(x$rid)) {
+    cat("rid:", x$rid, "\n")  
   }
-  if (!is.null(opal$restore)) {
-    cat("restore:", opal$restore, "\n")  
+  if (!is.null(x$restore)) {
+    cat("restore:", x$restore, "\n")  
   }
 }
 
@@ -143,7 +144,8 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
 #' @param id.name Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is NULL.
 #' @param updated.name Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
-#' @examples {
+#' @examples
+#' \dontrun{
 #' # assign a list of variables from table HOP of opal object o
 #' opal.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
 #' 
@@ -187,9 +189,10 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).
 #' @param id.name Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is NULL.
 #' @param updated.name Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.
-#' @parma class The data frame class into which the table is written: can 'data.frame' (default and fallback) or 'tibble' (from Opal 2.6).
+#' @param class The data frame class into which the table is written: can 'data.frame' (default and fallback) or 'tibble' (from Opal 2.6).
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # assign a list of variables from table HOP of opal object o
 #' opal.assign.table(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
 #' 
@@ -202,7 +205,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' @export
 opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name=NULL, updated.name=NULL, class='data.frame', async=FALSE) {
   if(is.list(opal)){
-    lapply(opal, function(o){opal.assign.table(o, symbol, value, variables=variables, missings=missings, identifiers=identifiers, id.name=id.name, update.name=updated.name, async=async)})
+    lapply(opal, function(o){opal.assign.table(o, symbol, value, variables=variables, missings=missings, identifiers=identifiers, id.name=id.name, updated.name=updated.name, class=class, async=async)})
   } else {
     contentType <- "application/x-opal"
     body <- value
@@ -276,7 +279,8 @@ opal.assign.table.tibble <- function(opal, symbol, value, variables=NULL, missin
 #' @param symbol Name of the R symbol.
 #' @param value The R expression to assign.
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # assign a function and call it
 #' opal.assign.script(o, 'hello', quote(function(x) { print(paste0('Hello ', x , '!'))}))
 #' opal.execute(o, "hello('Mr Bean')")
@@ -305,7 +309,8 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
 #' @param symbol Name of the R symbol.
 #' @param value The R object to assign (data.frame, vector).
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # push an arbitrary data frame to the R server
 #' opal.assign.data(o, "D", mtcars)
 #' 

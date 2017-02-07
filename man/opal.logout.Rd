@@ -4,10 +4,10 @@
 \alias{opal.logout}
 \title{Logout from Opal(s)}
 \usage{
-opal.logout(opals, save = FALSE)
+opal.logout(opal, save = FALSE)
 }
 \arguments{
-\item{opals}{Opal object or a list of opals.}
+\item{opal}{Opal object or a list of opals.}
 
 \item{save}{Save the workspace with given identifier (default value is FALSE, current session ID if TRUE).}
 }

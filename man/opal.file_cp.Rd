@@ -17,7 +17,7 @@ opal.file_cp(opal, source, destination)
 Copy a file or a folder to another location in the Opal file system
 }
 \examples{
-{
+\dontrun{
 # copy a file to another folder
 opal.file_cp(o, '/home/administrator/export/some-data.csv', '/home/userx/deliverables')
 

@@ -29,10 +29,10 @@ A list of various system status
 This function allows for clients to check each server for data access, configuration and versions.
 }
 \details{
-Get the status of the table(s), method(s), and packgage(s) in differents Opals servers.
+Get the status of the table(s), method(s), and packgage(s) in differents Opal servers.
 }
 \examples{
-{
+\dontrun{
 
 #### The below examples illustrate an analysises that use test/simulated data ####
 

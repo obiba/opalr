@@ -6,11 +6,11 @@
 \alias{datashield.workspaces.opal}
 \title{Get the DataSHIELD workspaces.}
 \usage{
-datashield.workspaces(opal, ...)
+datashield.workspaces(opal)
 
 \method{datashield.workspaces}{opal}(opal)
 
-\method{datashield.workspaces}{list}(opals)
+\method{datashield.workspaces}{list}(opal)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}

@@ -25,13 +25,15 @@ opal.assign.table(opal, symbol, value, variables = NULL, missings = FALSE,
 
 \item{updated.name}{Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.}
 
+\item{class}{The data frame class into which the table is written: can 'data.frame' (default and fallback) or 'tibble' (from Opal 2.6).}
+
 \item{async}{R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).}
 }
 \description{
 Assign a Opal table to a data.frame identified by a R symbol in the current R session.
 }
 \examples{
-{
+\dontrun{
 # assign a list of variables from table HOP of opal object o
 opal.assign.table(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
 

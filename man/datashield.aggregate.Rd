@@ -6,14 +6,14 @@
 \alias{datashield.aggregate.opal}
 \title{Data aggregation}
 \usage{
-datashield.aggregate(opals, expr, async = TRUE, wait = TRUE)
+datashield.aggregate(opal, expr, async = TRUE, wait = TRUE)
 
 \method{datashield.aggregate}{opal}(opal, expr, async = TRUE, wait = TRUE)
 
-\method{datashield.aggregate}{list}(opals, expr, async = TRUE, wait = TRUE)
+\method{datashield.aggregate}{list}(opal, expr, async = TRUE, wait = TRUE)
 }
 \arguments{
-\item{opals}{Opal object or list of opal objects.}
+\item{opal}{Opal object or list of opal objects.}
 
 \item{expr}{Expression to evaluate.}
 

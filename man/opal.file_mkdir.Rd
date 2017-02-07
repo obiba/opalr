@@ -15,7 +15,7 @@ opal.file_mkdir(opal, path)
 Make a folder in the Opal file system
 }
 \examples{
-{
+\dontrun{
 # make a folder
 opal.file_mkdir(o, '/home/userx/deliverables')
 }

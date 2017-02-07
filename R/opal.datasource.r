@@ -100,7 +100,7 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
 #' @param identifier Entity identifier.
 #' @export
 opal.valueset <- function(opal, datasource, table, identifier) {
-  response <-.get(o, "datasource", datasource, "table", table, "valueSet", identifier)
+  response <-.get(opal, "datasource", datasource, "table", table, "valueSet", identifier)
   valueset <- list()
   i <- 1
   for (variable in response$variables) {

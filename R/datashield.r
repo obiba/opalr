@@ -12,14 +12,14 @@
 #' 
 #' @title Data aggregation
 #' 
-#' @param opals Opal object or list of opal objects.
+#' @param opal Opal object or list of opal objects.
 #' @param expr Expression to evaluate.
 #' @param async R script is executed asynchronously within the session (default is TRUE).
 #' @param wait Wait for the R script asynchronously executed to complete (makes sense only with async=TRUE).
 #' @return The result of the aggregation or the R command ID if the async flag is TRUE and if the wait flag is FALSE and if Opal version is at least 2.1.
 #' @rdname datashield.aggregate
 #' @export
-datashield.aggregate=function(opals, expr, async=TRUE, wait=TRUE) {
+datashield.aggregate=function(opal, expr, async=TRUE, wait=TRUE) {
   UseMethod('datashield.aggregate');
 }
 
@@ -32,7 +32,7 @@ datashield.aggregate.opal=function(opal, expr, async=TRUE, wait=TRUE) {
   if(is.language(expr)) {
     expression <- .deparse(expr)
   } else if(! is.character(expr) ) {
-    stop("Invalid expression type: '", class(value), "'. Expected a call or character vector.")
+    stop("Invalid expression type: '", class(expr), "'. Expected a call or character vector.")
   }
   
   query <- list()
@@ -43,7 +43,7 @@ datashield.aggregate.opal=function(opal, expr, async=TRUE, wait=TRUE) {
   res <- .post(opal, "datashield", "session", opal$rid, "aggregate", query=query, body=expression, contentType="application/x-rscript")
   
   if (async && wait) {
-    res <- datashield.command_result(opals, res, wait=TRUE)
+    res <- datashield.command_result(opal, res, wait=TRUE)
   }
   return(res)
 }
@@ -51,10 +51,10 @@ datashield.aggregate.opal=function(opal, expr, async=TRUE, wait=TRUE) {
 #' @rdname datashield.aggregate
 #' @method datashield.aggregate list
 #' @S3method datashield.aggregate list
-datashield.aggregate.list=function(opals, expr, async=TRUE, wait=TRUE) {
-  res <- lapply(opals, FUN=datashield.aggregate.opal, expr, async=async, wait=FALSE)
+datashield.aggregate.list=function(opal, expr, async=TRUE, wait=TRUE) {
+  res <- lapply(opal, FUN=datashield.aggregate.opal, expr, async=async, wait=FALSE)
   if (async && wait) {
-    res <- datashield.command_result(opals, res, wait=TRUE)
+    res <- datashield.command_result(opal, res, wait=TRUE)
   }
   return(res)
 }
@@ -63,7 +63,7 @@ datashield.aggregate.list=function(opals, expr, async=TRUE, wait=TRUE) {
 #' 
 #' @title Data assignment
 #' 
-#' @param opals Opal object or list of opal objects.
+#' @param opal Opal object or list of opal objects.
 #' @param symbol Name of the R symbol.
 #' @param value Fully qualified name of a variable or a table in Opal (must be the same in each Opal) or a R expression with allowed assign functions calls.
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
@@ -73,7 +73,8 @@ datashield.aggregate.list=function(opals, expr, async=TRUE, wait=TRUE) {
 #' @param wait Wait for the R script asynchronously executed to complete (makes sense only with async=TRUE).
 #' @return The R command ID if the async flag is TRUE and if the wait flag is FALSE and if Opal version is at least 2.1, NULL otherwise.
 #' @rdname datashield.assign
-#' @examples {
+#' @examples 
+#' \dontrun{
 #' # assign a list of variables from table HOP of opal object o
 #' datashield.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
 #' 
@@ -81,7 +82,7 @@ datashield.aggregate.list=function(opals, expr, async=TRUE, wait=TRUE) {
 #' datashield.assign(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
 #' }
 #' @export
-datashield.assign=function(opals, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE) {
+datashield.assign=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE) {
   UseMethod('datashield.assign');
 }
 
@@ -139,11 +140,11 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
 #' @rdname datashield.assign
 #' @method datashield.assign list
 #' @S3method datashield.assign list
-datashield.assign.list=function(opals, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE) {
-  res <- lapply(opals, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, async=async, wait=FALSE)
+datashield.assign.list=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE) {
+  res <- lapply(opal, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, async=async, wait=FALSE)
   if (async && wait) {
-    datashield.command(opals, res, wait=TRUE)
-    datashield.command_rm(opals, res)
+    datashield.command(opal, res, wait=TRUE)
+    datashield.command_rm(opal, res)
   }
   invisible(raw(0))
 }

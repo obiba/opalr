@@ -17,7 +17,7 @@ opal.file_read(opal, source, destination)
 Read a file from the R session workspace into the Opal file system
 }
 \examples{
-{
+\dontrun{
 # read into folder
 opal.file_read(o,"DatabaseTest.sav", "/tmp")
 # read and rename

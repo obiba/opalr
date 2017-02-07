@@ -15,7 +15,7 @@
 #' @param opal Opal object or list of opal objects.
 #' @rdname datashield.symbols
 #' @export
-datashield.symbols=function(opal, ...) {
+datashield.symbols=function(opal) {
   UseMethod('datashield.symbols');
 }
 
@@ -30,18 +30,18 @@ datashield.symbols.opal=function(opal) {
 #' @rdname datashield.symbols
 #' @method datashield.symbols list
 #' @S3method datashield.symbols list
-datashield.symbols.list=function(opals) {
-  lapply(opals, FUN=datashield.symbols.opal)
+datashield.symbols.list=function(opal) {
+  lapply(opal, FUN=datashield.symbols.opal)
 }
 
 #' Remove a symbol from the current Datashield session.
 #' 
 #' @title Remove a R symbol
 #' 
-#' @param opals Opal object or list of opal objects.
+#' @param opal Opal object or list of opal objects.
 #' @param symbol Name of the R symbol.
 #' @export
-datashield.rm=function(opals, symbol) {
+datashield.rm=function(opal, symbol) {
   if (missing(symbol) || length(symbol) == 0) stop("symbol to remove is required")
   UseMethod('datashield.rm');
 }
@@ -57,6 +57,6 @@ datashield.rm.opal=function(opal, symbol) {
 #' @rdname datashield.rm
 #' @method datashield.rm list
 #' @S3method datashield.rm list
-datashield.rm.list=function(opals, symbol) {
-  res <- lapply(opals, FUN=datashield.rm.opal, symbol)
+datashield.rm.list=function(opal, symbol) {
+  res <- lapply(opal, FUN=datashield.rm.opal, symbol)
 }

@@ -6,11 +6,11 @@
 \alias{datashield.workspace_save.opal}
 \title{Save current session in a DataSHIELD workspace.}
 \usage{
-datashield.workspace_save(opal, ...)
+datashield.workspace_save(opal, save)
 
 \method{datashield.workspace_save}{opal}(opal, save)
 
-\method{datashield.workspace_save}{list}(opals, save)
+\method{datashield.workspace_save}{list}(opal, save)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}

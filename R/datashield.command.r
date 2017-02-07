@@ -30,8 +30,8 @@ datashield.commands.opal <- function(opal) {
 #' @rdname datashield.commands
 #' @method datashield.commands list
 #' @S3method datashield.commands list
-datashield.commands.list <- function(opals) {
-  lapply(opals, FUN=datashield.commands)
+datashield.commands.list <- function(opal) {
+  lapply(opal, FUN=datashield.commands)
 }
 
 #' Get an asynchronous R commands in the remote Datashield session.
@@ -62,11 +62,11 @@ datashield.command.opal <- function(opal, id, wait=FALSE) {
 #' @rdname datashield.command
 #' @method datashield.command list
 #' @S3method datashield.command list
-datashield.command.list <- function(opals, ids, wait=FALSE) {
-  res <- lapply(1:length(opals), function(i) {
-    datashield.command(opals[[i]], ids[[i]], wait=wait)
+datashield.command.list <- function(opal, id, wait=FALSE) {
+  res <- lapply(1:length(opal), function(i) {
+    datashield.command(opal[[i]], id[[i]], wait=wait)
   })
-  names(res) <- names(opals)
+  names(res) <- names(opal)
   res
 }
 
@@ -93,9 +93,9 @@ datashield.command_rm.opal <- function(opal, id) {
 #' @rdname datashield.command_rm
 #' @method datashield.command_rm list
 #' @S3method datashield.command_rm list
-datashield.command_rm.list <- function(opals, ids) {
-  res <- lapply(1:length(opals), function(i) {
-    datashield.command_rm(opals[[i]], ids[[i]])
+datashield.command_rm.list <- function(opal, id) {
+  res <- lapply(1:length(opal), function(i) {
+    datashield.command_rm(opal[[i]], id[[i]])
   })
 }
 
@@ -123,8 +123,8 @@ datashield.commands_rm.opal <- function(opal) {
 #' @rdname datashield.commands_rm
 #' @method datashield.commands_rm list
 #' @S3method datashield.commands_rm list
-datashield.commands_rm.list <- function(opals) {
-  lapply(opals, FUN=datashield.commands_rm.opal)
+datashield.commands_rm.list <- function(opal) {
+  lapply(opal, FUN=datashield.commands_rm.opal)
 }
 
 #' Get the result of an asynchronous R commands in the remote Datashield session. The command is removed from the
@@ -162,10 +162,10 @@ datashield.command_result.opal <- function(opal, id, wait=FALSE) {
 #' @rdname datashield.command_result
 #' @method datashield.command_result list
 #' @S3method datashield.command_result list
-datashield.command_result.list <- function(opals, ids, wait=FALSE) {
-  res <- lapply(1:length(opals), function(i) {
-    datashield.command_result(opals[[i]], ids[[i]], wait=wait)
+datashield.command_result.list <- function(opal, id, wait=FALSE) {
+  res <- lapply(1:length(opal), function(i) {
+    datashield.command_result(opal[[i]], id[[i]], wait=wait)
   })
-  names(res) <- names(opals)
+  names(res) <- names(opal)
   res
 }

@@ -37,7 +37,8 @@
 #'@return object(s) of class opal
 #'@author Gaye, A.
 #'@export
-#'@examples {
+#'@examples 
+#'\dontrun{
 #'
 #'#### The below examples illustrate an analysises that use test/simulated data ####
 #'

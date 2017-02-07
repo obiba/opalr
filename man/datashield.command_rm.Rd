@@ -10,7 +10,7 @@ datashield.command_rm(opal, id)
 
 \method{datashield.command_rm}{opal}(opal, id)
 
-\method{datashield.command_rm}{list}(opals, ids)
+\method{datashield.command_rm}{list}(opal, id)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}

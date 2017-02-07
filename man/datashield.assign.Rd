@@ -6,17 +6,17 @@
 \alias{datashield.assign.opal}
 \title{Data assignment}
 \usage{
-datashield.assign(opals, symbol, value, variables = NULL, missings = FALSE,
+datashield.assign(opal, symbol, value, variables = NULL, missings = FALSE,
   identifiers = NULL, async = TRUE, wait = TRUE)
 
 \method{datashield.assign}{opal}(opal, symbol, value, variables = NULL,
   missings = FALSE, identifiers = NULL, async = TRUE, wait = TRUE)
 
-\method{datashield.assign}{list}(opals, symbol, value, variables = NULL,
+\method{datashield.assign}{list}(opal, symbol, value, variables = NULL,
   missings = FALSE, identifiers = NULL, async = TRUE, wait = TRUE)
 }
 \arguments{
-\item{opals}{Opal object or list of opal objects.}
+\item{opal}{Opal object or list of opal objects.}
 
 \item{symbol}{Name of the R symbol.}
 
@@ -39,7 +39,7 @@ The R command ID if the async flag is TRUE and if the wait flag is FALSE and if 
 Assign a Opal value to a R symbol in the current Datashield session.
 }
 \examples{
-{
+\dontrun{
 # assign a list of variables from table HOP of opal object o
 datashield.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
 

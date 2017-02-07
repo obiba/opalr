@@ -50,7 +50,7 @@ tables to R dataframes. The assigned dataframes (one for each opal server)
 are named 'D' (by default).
 }
 \examples{
-{
+\dontrun{
 
 #### The below examples illustrate an analysises that use test/simulated data ####
 

@@ -19,7 +19,7 @@ opal.assign.data(opal, symbol, value, async = FALSE)
 Assign a R object to a R symbol in the current R session.
 }
 \examples{
-{
+\dontrun{
 # push an arbitrary data frame to the R server
 opal.assign.data(o, "D", mtcars)
 

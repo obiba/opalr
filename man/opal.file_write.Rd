@@ -17,7 +17,7 @@ opal.file_write(opal, source, destination = NULL)
 Write a file from the Opal file system into the R session workspace
 }
 \examples{
-{
+\dontrun{
 # user home expansion
 opal.file_write(o, "~/spss/DatabaseTest.sav")
 # rename file

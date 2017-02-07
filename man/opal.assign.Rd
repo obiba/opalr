@@ -31,7 +31,7 @@ opal.assign(opal, symbol, value, variables = NULL, missings = FALSE,
 Assign a Opal table, or a R expression or a R object to a R symbol in the current R session.
 }
 \examples{
-{
+\dontrun{
 # assign a list of variables from table HOP of opal object o
 opal.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
 

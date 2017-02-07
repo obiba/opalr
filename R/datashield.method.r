@@ -12,10 +12,10 @@
 #' 
 #' @title List Datashield methods
 #' 
-#' @param opals Opal object or list of opal objects.
+#' @param opal Opal object or list of opal objects.
 #' @param type Type of the method: "aggregate" (default) or "assign".
 #' @export
-datashield.methods=function(opals, type="aggregate") {
+datashield.methods=function(opal, type="aggregate") {
   UseMethod('datashield.methods');
 }
 
@@ -66,8 +66,8 @@ datashield.methods.opal=function(opal, type="aggregate") {
 #' @rdname datashield.methods
 #' @method datashield.methods list
 #' @S3method datashield.methods list
-datashield.methods.list=function(opals, type="aggregate") {
-  lapply(opals, FUN=datashield.methods.opal, type)
+datashield.methods.list=function(opal, type="aggregate") {
+  lapply(opal, FUN=datashield.methods.opal, type)
 }
 
 
@@ -75,11 +75,11 @@ datashield.methods.list=function(opals, type="aggregate") {
 #' 
 #' @title Get Datashield method by its name
 #' 
-#' @param opals Opal object or list of opal objects.
+#' @param opal Opal object or list of opal objects.
 #' @param name Name of the method
 #' @param type Type of the method: "aggregate" (default) or "assign".
 #' @export
-datashield.method=function(opals, name, type="aggregate") {
+datashield.method=function(opal, name, type="aggregate") {
   UseMethod('datashield.method');
 }
 
@@ -103,18 +103,18 @@ datashield.method.opal=function(opal, name, type="aggregate") {
 #' @rdname datashield.method
 #' @method datashield.method list
 #' @S3method datashield.method list
-datashield.method.list=function(opals, name, type="aggregate") {
-  lapply(opals, FUN=datashield.method.opal, name, type)
+datashield.method.list=function(opal, name, type="aggregate") {
+  lapply(opal, FUN=datashield.method.opal, name, type)
 }
 
 #' Check existence of a Datashield method of any type by its name.
 #' 
 #' @title Check existence of a Datashield method by its name
 #' 
-#' @param opals Opal object or list of opal objects.
+#' @param opal Opal object or list of opal objects.
 #' @param name Name of the method
 #' @export
-datashield.has_method=function(opals, name) {
+datashield.has_method=function(opal, name) {
   UseMethod('datashield.has_method');
 }
 
@@ -132,6 +132,6 @@ datashield.has_method.opal=function(opal, name) {
 #' @rdname datashield.has_method
 #' @method datashield.has_method list
 #' @S3method datashield.has_method list
-datashield.has_method.list=function(opals, name) {
-  lapply(opals, FUN=datashield.has_method.opal, name)
+datashield.has_method.list=function(opal, name) {
+  lapply(opal, FUN=datashield.has_method.opal, name)
 }

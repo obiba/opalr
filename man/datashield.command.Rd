@@ -10,7 +10,7 @@ datashield.command(opal, id, wait = FALSE)
 
 \method{datashield.command}{opal}(opal, id, wait = FALSE)
 
-\method{datashield.command}{list}(opals, ids, wait = FALSE)
+\method{datashield.command}{list}(opal, id, wait = FALSE)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}

@@ -6,11 +6,11 @@
 \alias{datashield.workspace_rm.opal}
 \title{Remove a DataSHIELD workspace from a opal.}
 \usage{
-datashield.workspace_rm(opal, ...)
+datashield.workspace_rm(opal, ws)
 
 \method{datashield.workspace_rm}{opal}(opal, ws)
 
-\method{datashield.workspace_rm}{list}(opals, ws)
+\method{datashield.workspace_rm}{list}(opal, ws)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}

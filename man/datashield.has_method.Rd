@@ -6,14 +6,14 @@
 \alias{datashield.has_method.opal}
 \title{Check existence of a Datashield method by its name}
 \usage{
-datashield.has_method(opals, name)
+datashield.has_method(opal, name)
 
 \method{datashield.has_method}{opal}(opal, name)
 
-\method{datashield.has_method}{list}(opals, name)
+\method{datashield.has_method}{list}(opal, name)
 }
 \arguments{
-\item{opals}{Opal object or list of opal objects.}
+\item{opal}{Opal object or list of opal objects.}
 
 \item{name}{Name of the method}
 }

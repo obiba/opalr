@@ -10,7 +10,7 @@ datashield.commands(opal)
 
 \method{datashield.commands}{opal}(opal)
 
-\method{datashield.commands}{list}(opals)
+\method{datashield.commands}{list}(opal)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}

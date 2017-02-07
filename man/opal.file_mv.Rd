@@ -17,15 +17,17 @@ opal.file_mv(opal, source, destination)
 Move and/or rename a file or a folder in the Opal file system
 }
 \examples{
-{
+\dontrun{
 # move a file to another folder
 opal.file_mv(o, '/home/administrator/export/some-data.csv', '/home/userx/deliverables')
 
 # rename a file
-opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv', '/home/administrator/export/some-data.csv')
+opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv', 
+                '/home/administrator/export/some-data.csv')
 
 # move and rename a file
-opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv', '/home/userx/deliverables/some-data.csv')
+opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv', 
+                '/home/userx/deliverables/some-data.csv')
 }
 }
 
