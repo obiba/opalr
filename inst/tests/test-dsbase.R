@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2014 OBiBa. All rights reserved.
+# Copyright (c) 2017 OBiBa. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -34,7 +34,7 @@ test_that("mean values", {
 
 context("dsbase::quantilemean.ds")
 
-quantiles <- datashield.aggregate(opals, quote(quantilemean.ds(D$LAB_TSC)), async=TRUE)
+quantiles <- datashield.aggregate(opals, quote(quantileMeanDS(D$LAB_TSC)), async=TRUE)
 #print(quantiles)
 
 test_that("quantile mean values", { 
