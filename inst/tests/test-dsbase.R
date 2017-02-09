@@ -32,7 +32,7 @@ test_that("mean values", {
   expect_equal(stat.mean$sim3, 5.84630008623168, tolerance = .000000000000001)
 })
 
-context("dsbase::quantilemean.ds")
+context("dsbase::quantileMeanDS")
 
 quantiles <- datashield.aggregate(opals, quote(quantileMeanDS(D$LAB_TSC)), async=TRUE)
 #print(quantiles)
