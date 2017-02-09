@@ -16,4 +16,3 @@ opal.variables(opal, datasource, table)
 \description{
 Get variables of a table from a opal.
 }
-

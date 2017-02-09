@@ -23,4 +23,3 @@ opal.as_md_table(table, icons = TRUE, digits = getOption("digits"),
 \description{
 Helper function for turning an array into its Markdown representation.
 }
-

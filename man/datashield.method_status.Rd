@@ -17,4 +17,3 @@ Methods availability on each server.
 \description{
 Get the status of the datashield method(s) in different(s) Opal(s) server(s).
 }
-

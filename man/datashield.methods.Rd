@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.method.r
 \name{datashield.methods}
 \alias{datashield.methods}
-\alias{datashield.methods.list}
 \alias{datashield.methods.opal}
+\alias{datashield.methods.list}
 \title{List Datashield methods}
 \usage{
 datashield.methods(opal, type = "aggregate")
@@ -20,4 +20,3 @@ datashield.methods(opal, type = "aggregate")
 \description{
 Get available Datashield methods of a given type.
 }
-

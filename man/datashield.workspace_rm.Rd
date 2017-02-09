@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.workspace.r
 \name{datashield.workspace_rm}
 \alias{datashield.workspace_rm}
-\alias{datashield.workspace_rm.list}
 \alias{datashield.workspace_rm.opal}
+\alias{datashield.workspace_rm.list}
 \title{Remove a DataSHIELD workspace from a opal.}
 \usage{
 datashield.workspace_rm(opal, ws)
@@ -20,4 +20,3 @@ datashield.workspace_rm(opal, ws)
 \description{
 Remove a DataSHIELD workspace from a opal.
 }
-

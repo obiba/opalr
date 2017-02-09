@@ -12,4 +12,3 @@ opal.commands(opal)
 \description{
 Get the list of asynchronous R commands in the remote R session.
 }
-

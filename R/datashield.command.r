@@ -20,16 +20,14 @@ datashield.commands <- function(opal) {
 }
 
 #' @rdname datashield.commands
-#' @method datashield.commands opal
-#' @S3method datashield.commands opal
+#' @export
 datashield.commands.opal <- function(opal) {
   if (opal.version_compare(opal,"2.1")<0) return(NULL)
   .get(opal, "datashield", "session", .getDatashieldSessionId(opal), "commands")
 }
 
 #' @rdname datashield.commands
-#' @method datashield.commands list
-#' @S3method datashield.commands list
+#' @export
 datashield.commands.list <- function(opal) {
   lapply(opal, FUN=datashield.commands)
 }
@@ -48,8 +46,7 @@ datashield.command <- function(opal, id, wait=FALSE) {
 }
 
 #' @rdname datashield.command
-#' @method datashield.command opal
-#' @S3method datashield.command opal
+#' @export
 datashield.command.opal <- function(opal, id, wait=FALSE) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return(NULL)
   query <- list()
@@ -60,8 +57,7 @@ datashield.command.opal <- function(opal, id, wait=FALSE) {
 }
 
 #' @rdname datashield.command
-#' @method datashield.command list
-#' @S3method datashield.command list
+#' @export
 datashield.command.list <- function(opal, id, wait=FALSE) {
   res <- lapply(1:length(opal), function(i) {
     datashield.command(opal[[i]], id[[i]], wait=wait)
@@ -83,16 +79,14 @@ datashield.command_rm <- function(opal, id) {
 }
 
 #' @rdname datashield.command_rm
-#' @method datashield.command_rm opal
-#' @S3method datashield.command_rm opal
+#' @export
 datashield.command_rm.opal <- function(opal, id) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return()
   tryCatch(.delete(opal, "datashield", "session", .getDatashieldSessionId(opal), "command", id), error=function(e){})
 }
 
 #' @rdname datashield.command_rm
-#' @method datashield.command_rm list
-#' @S3method datashield.command_rm list
+#' @export
 datashield.command_rm.list <- function(opal, id) {
   res <- lapply(1:length(opal), function(i) {
     datashield.command_rm(opal[[i]], id[[i]])
@@ -111,8 +105,7 @@ datashield.commands_rm <- function(opal) {
 }
 
 #' @rdname datashield.commands_rm
-#' @method datashield.commands_rm opal
-#' @S3method datashield.commands_rm opal
+#' @export
 datashield.commands_rm.opal <- function(opal) {
   if (opal.version_compare(opal,"2.1")<0) return()
   res <- lapply(datashield.commands(opal), function(cmd) {
@@ -121,8 +114,7 @@ datashield.commands_rm.opal <- function(opal) {
 }
 
 #' @rdname datashield.commands_rm
-#' @method datashield.commands_rm list
-#' @S3method datashield.commands_rm list
+#' @export
 datashield.commands_rm.list <- function(opal) {
   lapply(opal, FUN=datashield.commands_rm.opal)
 }
@@ -142,8 +134,7 @@ datashield.command_result <- function(opal, id, wait=FALSE) {
 }
 
 #' @rdname datashield.command_result
-#' @method datashield.command_result opal
-#' @S3method datashield.command_result opal
+#' @export
 datashield.command_result.opal <- function(opal, id, wait=FALSE) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return(id)
   if (wait) {
@@ -160,8 +151,7 @@ datashield.command_result.opal <- function(opal, id, wait=FALSE) {
 }
 
 #' @rdname datashield.command_result
-#' @method datashield.command_result list
-#' @S3method datashield.command_result list
+#' @export
 datashield.command_result.list <- function(opal, id, wait=FALSE) {
   res <- lapply(1:length(opal), function(i) {
     datashield.command_result(opal[[i]], id[[i]], wait=wait)

@@ -18,8 +18,7 @@ datashield.workspaces=function(opal) {
 }
 
 #' @rdname datashield.workspaces
-#' @method datashield.workspaces opal
-#' @S3method datashield.workspaces opal
+#' @export
 datashield.workspaces.opal=function(opal) {
   if (opal.version_compare(opal,"2.6")<0) {
     warning(opal$name, ": Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
@@ -55,8 +54,7 @@ datashield.workspaces.opal=function(opal) {
 }
 
 #' @rdname datashield.workspaces
-#' @method datashield.workspaces list
-#' @S3method datashield.workspaces list
+#' @export
 datashield.workspaces.list=function(opal) {
   res <- lapply(opal, FUN=datashield.workspaces.opal)
   server <- c()
@@ -92,8 +90,7 @@ datashield.workspace_rm=function(opal, ws) {
 }
 
 #' @rdname datashield.workspace_rm
-#' @method datashield.workspace_rm opal
-#' @S3method datashield.workspace_rm opal
+#' @export
 datashield.workspace_rm.opal=function(opal, ws) {
   u <- opal$username
   if (is.null(u) || length(u) == 0) {
@@ -111,8 +108,7 @@ datashield.workspace_rm.opal=function(opal, ws) {
 }
 
 #' @rdname datashield.workspace_rm
-#' @method datashield.workspace_rm list
-#' @S3method datashield.workspace_rm list
+#' @export
 datashield.workspace_rm.list=function(opal, ws) {
   if (length(ws) == 0) {
     stop("Workspace name is missing or empty.")
@@ -135,8 +131,7 @@ datashield.workspace_save=function(opal, save) {
 }
 
 #' @rdname datashield.workspace_save
-#' @method datashield.workspace_save opal
-#' @S3method datashield.workspace_save opal
+#' @export
 datashield.workspace_save.opal=function(opal, save) {
   u <- opal$username
   if (is.null(u) || length(u) == 0) {
@@ -154,8 +149,7 @@ datashield.workspace_save.opal=function(opal, save) {
 }
 
 #' @rdname datashield.workspace_save
-#' @method datashield.workspace_save list
-#' @S3method datashield.workspace_save list
+#' @export
 datashield.workspace_save.list=function(opal, save) {
   if (length(save) == 0) {
     stop("Workspace name is missing or empty.")

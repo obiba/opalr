@@ -12,4 +12,3 @@ opal.datasources(opal)
 \description{
 Get datasources from a opal.
 }
-

@@ -81,4 +81,3 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 \author{
 Gaye, A.
 }
-

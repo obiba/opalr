@@ -14,4 +14,3 @@ datashield.logout(opals, save = NULL)
 \description{
 Clear the Datashield R sessions and logout from Opal(s).
 }
-

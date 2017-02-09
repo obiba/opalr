@@ -49,4 +49,3 @@ opal.assign(o, "D", mtcars)
 opal.assign(o, "C", mtcars$cyl)
 }
 }
-

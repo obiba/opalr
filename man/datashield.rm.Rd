@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.symbol.r
 \name{datashield.rm}
 \alias{datashield.rm}
-\alias{datashield.rm.list}
 \alias{datashield.rm.opal}
+\alias{datashield.rm.list}
 \title{Remove a R symbol}
 \usage{
 datashield.rm(opal, symbol)
@@ -20,4 +20,3 @@ datashield.rm(opal, symbol)
 \description{
 Remove a symbol from the current Datashield session.
 }
-

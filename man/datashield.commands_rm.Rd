@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.command.r
 \name{datashield.commands_rm}
 \alias{datashield.commands_rm}
-\alias{datashield.commands_rm.list}
 \alias{datashield.commands_rm.opal}
+\alias{datashield.commands_rm.list}
 \title{Remove all asynchronous commands}
 \usage{
 datashield.commands_rm(opal)
@@ -18,4 +18,3 @@ datashield.commands_rm(opal)
 \description{
 Remove all asynchronous R commands in the remote Datashield session.
 }
-

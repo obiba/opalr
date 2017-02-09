@@ -14,4 +14,3 @@ opal.workspace_save(opal, save = TRUE)
 \description{
 Save the current session in a opal R workspace.
 }
-

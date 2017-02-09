@@ -24,8 +24,7 @@ datashield.aggregate=function(opal, expr, async=TRUE, wait=TRUE) {
 }
 
 #' @rdname datashield.aggregate
-#' @method datashield.aggregate opal
-#' @S3method datashield.aggregate opal
+#' @export
 datashield.aggregate.opal=function(opal, expr, async=TRUE, wait=TRUE) {
   expression = expr
   # convert a call to a string
@@ -49,8 +48,7 @@ datashield.aggregate.opal=function(opal, expr, async=TRUE, wait=TRUE) {
 }
 
 #' @rdname datashield.aggregate
-#' @method datashield.aggregate list
-#' @S3method datashield.aggregate list
+#' @export
 datashield.aggregate.list=function(opal, expr, async=TRUE, wait=TRUE) {
   res <- lapply(opal, FUN=datashield.aggregate.opal, expr, async=async, wait=FALSE)
   if (async && wait) {
@@ -87,8 +85,7 @@ datashield.assign=function(opal, symbol, value, variables=NULL, missings=FALSE, 
 }
 
 #' @rdname datashield.assign
-#' @method datashield.assign opal
-#' @S3method datashield.assign opal
+#' @export
 datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
@@ -138,8 +135,7 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
 }
 
 #' @rdname datashield.assign
-#' @method datashield.assign list
-#' @S3method datashield.assign list
+#' @export
 datashield.assign.list=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE) {
   res <- lapply(opal, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, async=async, wait=FALSE)
   if (async && wait) {

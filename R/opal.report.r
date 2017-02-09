@@ -61,7 +61,6 @@ opal.report <- function(input, output=NULL, progress=FALSE, verbose=FALSE, boot_
 #' @param caption	The table caption.
 #' @export
 opal.as_md_table <- function(table, icons=TRUE, digits=getOption("digits"), col.names=colnames(table), align, caption=NULL) {
-  require(knitr)
   if (!icons) {
     return(knitr::kable(table, format="markdown", digits=digits, col.names=col.names, align=align, caption=caption))
   }
@@ -84,8 +83,6 @@ opal.as_md_table <- function(table, icons=TRUE, digits=getOption("digits"), col.
 #' Turn a R markdown file to html.
 #' @keywords internal
 opal.report_md <- function(inputFile, progress, verbose) {
-  require(knitr)
-  require(rmarkdown)
   knitr::opts_knit$set(progress=progress, verbose=verbose)
   knitr::opts_chunk$set(tidy = FALSE, highlight = FALSE)
   rmarkdown::render(inputFile)

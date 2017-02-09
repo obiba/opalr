@@ -9,7 +9,6 @@ datashield.status(logins = NULL, study = NULL, directory = "~/.ssh",
 }
 \arguments{
 \item{logins}{A dataframe table that holds login details. This table holds five elements 
-required to login to the servers where the data to analyse is stored. The expected column names are 'server' (the server name),
 'url' (the opal url), 'user' (the user name or the certificate file path), 'password' (the user password or the private key file path),
 'table' (the fully qualified name of the table in opal). An additional column 'identifiers' can be specified for identifiers
 mapping (from Opal 2.0).
@@ -59,4 +58,3 @@ datashield.status(logins=logindata,study=c("study1"))
 \author{
 Mbatchou, S.
 }
-

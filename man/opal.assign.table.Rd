@@ -44,4 +44,3 @@ opal.assign.table(o, symbol="H", value="demo.HOP", id.name="id")
 opal.assign.table(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
 }
 }
-

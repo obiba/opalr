@@ -321,12 +321,13 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
 #' opal.assign.data(o, "S", "Hello!")
 #' }
 #' @export
+#' @import RCurl
 opal.assign.data <- function(opal, symbol, value, async=FALSE) {
   if(is.list(opal)){
     lapply(opal, function(o){opal.assign.data(o, symbol, value, async=async)})
   } else {
     contentType <- "application/x-rdata"
-    body <- base64(serialize(value, NULL))
+    body <- RCurl::base64(serialize(value, NULL))
     query <- list()
     if (async) {
       query["async"] <- "true"
@@ -337,73 +338,80 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 }
 
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
+#' @import RCurl
 #' @keywords internal
 .url <- function(opal, ..., query=list()) {
-  .tmp <- paste(opal$url, "ws", paste(sapply(c(...), curlEscape), collapse="/"), sep="/")
+  .tmp <- paste(opal$url, "ws", paste(sapply(c(...), RCurl::curlEscape), collapse="/"), sep="/")
   if(length(query)) {
-    .params <- paste(sapply(names(query), function(id) paste(id, curlEscape(query[[id]]), sep = "="), simplify=FALSE), collapse = "&")
+    .params <- paste(sapply(names(query), function(id) paste(id, RCurl::curlEscape(query[[id]]), sep = "="), simplify=FALSE), collapse = "&")
     .tmp <- paste(.tmp, .params, sep="?")
   }
   .tmp
 }
 
 #' Constructs the value for the Authorization header
+#' @import RCurl
 #' @keywords internal
 .authToken <- function(username, password) {
-  paste("X-Opal-Auth", base64(paste(username, password, sep=":")))
+  paste("X-Opal-Auth", RCurl::base64(paste(username, password, sep=":")))
 }
 
 #' Issues a request to opal for the specified resource
+#' @import RCurl
 #' @keywords internal
 .get <- function(opal, ..., query=list(), callback=NULL) {
-  opts = curlOptions(httpget=TRUE, customrequest=NULL, .opts=opal$opts)
+  opts = RCurl::curlOptions(httpget=TRUE, customrequest=NULL, .opts=opal$opts)
   .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
 }
 
 #' Post a request w/o body content
+#' @import RCurl
 #' @keywords internal
 .post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
   .nobody <- missing(body) || length(body) == 0
   if(.nobody) {
     # Act like a GET, but send a POST. This is required when posting without any body 
-    opts = curlOptions(httpget=TRUE, customrequest="POST", .opts=opal$opts)
+    opts = RCurl::curlOptions(httpget=TRUE, customrequest="POST", .opts=opal$opts)
   } else {
-    opts = curlOptions(post=TRUE, customrequest=NULL, httpheader=c(opal$opts$httpheader, 'Content-Type'=contentType), postfields=body, .opts=opal$opts)
+    opts = RCurl::curlOptions(post=TRUE, customrequest=NULL, httpheader=c(opal$opts$httpheader, 'Content-Type'=contentType), postfields=body, .opts=opal$opts)
   }
   .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
 }
 
 #' Put a request w/o body content
+#' @import RCurl
 #' @keywords internal
 .put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
   .nobody <- missing(body) || length(body) == 0
   if(.nobody) {
     # Act like a GET, but send a PUT. This is required when posting without any body 
-    opts = curlOptions(httpget=TRUE, customrequest="PUT", .opts=opal$opts)
+    opts = RCurl::curlOptions(httpget=TRUE, customrequest="PUT", .opts=opal$opts)
   } else {
-    opts = curlOptions(post=TRUE, httpheader=c(opal$opts$httpheader, 'Content-Type'=contentType), postfields=body, customrequest="PUT", .opts=opal$opts)
+    opts = RCurl::curlOptions(post=TRUE, httpheader=c(opal$opts$httpheader, 'Content-Type'=contentType), postfields=body, customrequest="PUT", .opts=opal$opts)
   }
   .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
 }
 
 #' Delete a resource
+#' @import RCurl
 #' @keywords internal
 .delete <- function(opal, ..., query=list(), callback=NULL) {
   # Act like a GET, but send a DELETE.
-  opts = curlOptions(httpget=TRUE, customrequest="DELETE", .opts=opal$opts)
+  opts = RCurl::curlOptions(httpget=TRUE, customrequest="DELETE", .opts=opal$opts)
   .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
 }
 
 #' Perform the request
+#' @import RCurl
 #' @keywords internal
 .perform <- function(opal, url, opts, callback=NULL) {
-  opal$reader <- dynCurlReader(opal$curl)
+  opal$reader <- RCurl::dynCurlReader(opal$curl)
   
   handle <- opal$curl
-  curlPerform(url=url, .opts=opts, writefunction=opal$reader$update,  curl=handle, verbose=getOption("verbose", FALSE))
+  RCurl::curlPerform(url=url, .opts=opts, writefunction=opal$reader$update,  curl=handle, verbose=getOption("verbose", FALSE))
   content <- opal$reader$value()
-  header <- parseHTTPHeader(opal$reader$header())
-  info <- getCurlInfo(handle)
+  header <- RCurl::parseHTTPHeader(opal$reader$header())
+  info <- RCurl::getCurlInfo(handle)
   response <- list(code=info$response.code, content.type=info$content.type, cookielist=info$cookielist, content=content, headers=header)
   if (is.null(callback)) {
     .handleResponse(opal, response)  
@@ -447,9 +455,11 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
   }
 }
 
+#' @import mime
+#' @keywords internal
 .handleAttachment <- function(opal, response, disposition) {
   filename <- strsplit(disposition,"\"")[[1]][2]
-  filetype <- guess_type(filename)
+  filetype <- mime::guess_type(filename)
   if(is.raw(response$content)) {
     if (grepl("text/", response$content.type) || (grepl("application/", response$content.type) && grepl("text/", filetype))){
       as.character(readChar(response$content, length(response$content)))
@@ -463,14 +473,16 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
   }
 }
 
+#' @import rjson
+#' @keywords internal
 .handleContent <- function(opal, response) {
   if(length(grep("octet-stream", response$content.type))) {
     unserialize(response$content)
   } else if(length(grep("json", response$content.type))) {
     if(is.raw(response$content)) {
-      fromJSON(readChar(response$content, length(response$content)));
+      rjson::fromJSON(readChar(response$content, length(response$content)));
     } else {
-      fromJSON(response$content);
+      rjson::fromJSON(response$content);
     }
   } else if (length(grep("text", response$content.type))) {
     as.character(response$content)
@@ -520,6 +532,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 }
 
 #' Create the opal object
+#' @import RCurl
 #' @keywords internal
 .opal.login <- function(username, password, url, opts=list(), restore=NULL) {
   opal <- new.env(parent=globalenv())
@@ -558,9 +571,9 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
       options$ssl.verifypeer = 0
     }
   }
-  opal$opts <- curlOptions(header=TRUE, httpheader=headers, cookielist="", .opts=options)
-  opal$curl <- curlSetOpt(.opts=opal$opts)
-  opal$reader <- dynCurlReader(curl=opal$curl)
+  opal$opts <- RCurl::curlOptions(header=TRUE, httpheader=headers, cookielist="", .opts=options)
+  opal$curl <- RCurl::curlSetOpt(.opts=opal$opts)
+  opal$reader <- RCurl::dynCurlReader(curl=opal$curl)
   opal$rid <- NULL
   opal$restore <- restore
   class(opal) <- "opal"
@@ -680,11 +693,4 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @keywords internal
 .getSessions <- function(opal) {
   .extractJsonField(.get(opal, "r", "sessions"))
-}
-
-#' Load dependencies.
-.onLoad <- function(libname, pkgname) {
-  require(RCurl)
-  require(rjson)
-  require(mime)
 }

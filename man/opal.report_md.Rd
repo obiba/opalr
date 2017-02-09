@@ -10,4 +10,3 @@ opal.report_md(inputFile, progress, verbose)
 Turn a R markdown file to html.
 }
 \keyword{internal}
-

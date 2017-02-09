@@ -16,4 +16,3 @@ opal.workspace_rm(opal, ws, user = NULL)
 \description{
 Remove a R workspace from a opal.
 }
-

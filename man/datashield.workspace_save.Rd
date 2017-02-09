@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.workspace.r
 \name{datashield.workspace_save}
 \alias{datashield.workspace_save}
-\alias{datashield.workspace_save.list}
 \alias{datashield.workspace_save.opal}
+\alias{datashield.workspace_save.list}
 \title{Save current session in a DataSHIELD workspace.}
 \usage{
 datashield.workspace_save(opal, save)
@@ -20,4 +20,3 @@ datashield.workspace_save(opal, save)
 \description{
 Save current session in a DataSHIELD workspace.
 }
-

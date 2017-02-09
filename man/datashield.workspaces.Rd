@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.workspace.r
 \name{datashield.workspaces}
 \alias{datashield.workspaces}
-\alias{datashield.workspaces.list}
 \alias{datashield.workspaces.opal}
+\alias{datashield.workspaces.list}
 \title{Get the DataSHIELD workspaces.}
 \usage{
 datashield.workspaces(opal)
@@ -18,4 +18,3 @@ datashield.workspaces(opal)
 \description{
 Get the DataSHIELD workspaces.
 }
-

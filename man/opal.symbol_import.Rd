@@ -25,4 +25,3 @@ opal.symbol_import(opal, symbol, project, identifiers = NULL,
 \description{
 Import the tibble identified by the symbol as a table in Opal.
 }
-

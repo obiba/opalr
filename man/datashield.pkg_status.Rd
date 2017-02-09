@@ -15,4 +15,3 @@ Packages status for each server.
 \description{
 Get the status of the datashield package(s) in different(s) Opal(s) server(s).
 }
-

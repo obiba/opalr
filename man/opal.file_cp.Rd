@@ -25,4 +25,3 @@ opal.file_cp(o, '/home/administrator/export/some-data.csv', '/home/userx/deliver
 opal.file_cp(o, '/home/administrator/export', '/home/userx/deliverables')
 }
 }
-

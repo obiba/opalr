@@ -30,4 +30,3 @@ opal.file_mv(o, '/home/administrator/export/some-data-20170123.csv',
                 '/home/userx/deliverables/some-data.csv')
 }
 }
-

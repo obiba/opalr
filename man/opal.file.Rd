@@ -16,4 +16,3 @@ opal.file(opal, path, key = NULL)
 \description{
 Get file content from the Opal file system
 }
-

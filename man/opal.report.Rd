@@ -21,4 +21,3 @@ opal.report(input, output = NULL, progress = FALSE, verbose = FALSE,
 \description{
 Helper function for generating reports.
 }
-

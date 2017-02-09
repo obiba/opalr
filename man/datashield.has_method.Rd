@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.method.r
 \name{datashield.has_method}
 \alias{datashield.has_method}
-\alias{datashield.has_method.list}
 \alias{datashield.has_method.opal}
+\alias{datashield.has_method.list}
 \title{Check existence of a Datashield method by its name}
 \usage{
 datashield.has_method(opal, name)
@@ -20,4 +20,3 @@ datashield.has_method(opal, name)
 \description{
 Check existence of a Datashield method of any type by its name.
 }
-

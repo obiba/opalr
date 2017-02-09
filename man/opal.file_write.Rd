@@ -26,4 +26,3 @@ opal.file_write(o, "/home/administrator/spss/DatabaseTest.sav", "x.sav")
 opal.file_write(o, "/home/administrator/spss/DatabaseTest.sav", "test/x.sav")
 }
 }
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.command.r
 \name{datashield.command}
 \alias{datashield.command}
-\alias{datashield.command.list}
 \alias{datashield.command.opal}
+\alias{datashield.command.list}
 \title{Get an asynchronous command}
 \usage{
 datashield.command(opal, id, wait = FALSE)
@@ -22,4 +22,3 @@ datashield.command(opal, id, wait = FALSE)
 \description{
 Get an asynchronous R commands in the remote Datashield session.
 }
-

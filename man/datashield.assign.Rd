@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.r
 \name{datashield.assign}
 \alias{datashield.assign}
-\alias{datashield.assign.list}
 \alias{datashield.assign.opal}
+\alias{datashield.assign.list}
 \title{Data assignment}
 \usage{
 datashield.assign(opal, symbol, value, variables = NULL, missings = FALSE,
@@ -47,4 +47,3 @@ datashield.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_
 datashield.assign(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
 }
 }
-

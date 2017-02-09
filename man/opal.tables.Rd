@@ -14,4 +14,3 @@ opal.tables(opal, datasource)
 \description{
 Get tables of a datasource from a opal.
 }
-

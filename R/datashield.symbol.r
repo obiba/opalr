@@ -20,16 +20,14 @@ datashield.symbols=function(opal) {
 }
 
 #' @rdname datashield.symbols
-#' @method datashield.symbols opal
-#' @S3method datashield.symbols opal
+#' @export
 datashield.symbols.opal=function(opal) {
   ignore <- .getDatashieldSessionId(opal)
   .get(opal, "datashield", "session", opal$rid, "symbols")
 }
 
 #' @rdname datashield.symbols
-#' @method datashield.symbols list
-#' @S3method datashield.symbols list
+#' @export
 datashield.symbols.list=function(opal) {
   lapply(opal, FUN=datashield.symbols.opal)
 }
@@ -47,16 +45,14 @@ datashield.rm=function(opal, symbol) {
 }
 
 #' @rdname datashield.rm
-#' @method datashield.rm opal
-#' @S3method datashield.rm opal
+#' @export
 datashield.rm.opal=function(opal, symbol) {
   ignore <- .getDatashieldSessionId(opal)
   res <- .delete(opal, "datashield", "session", opal$rid, "symbol", symbol)
 }
 
 #' @rdname datashield.rm
-#' @method datashield.rm list
-#' @S3method datashield.rm list
+#' @export
 datashield.rm.list=function(opal, symbol) {
   res <- lapply(opal, FUN=datashield.rm.opal, symbol)
 }

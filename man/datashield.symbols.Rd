@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.symbol.r
 \name{datashield.symbols}
 \alias{datashield.symbols}
-\alias{datashield.symbols.list}
 \alias{datashield.symbols.opal}
+\alias{datashield.symbols.list}
 \title{List R symbols}
 \usage{
 datashield.symbols(opal)
@@ -18,4 +18,3 @@ datashield.symbols(opal)
 \description{
 Get the R symbols available after the datashield.assign calls in the current Datashield session.
 }
-

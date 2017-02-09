@@ -18,4 +18,3 @@ opal.execute(opal, script, async = FALSE, session = TRUE)
 \description{
 Execute a R script on Opal(s).
 }
-

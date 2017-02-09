@@ -18,4 +18,3 @@ opal.valueset(opal, datasource, table, identifier)
 \description{
 Get the values of an entity in a table.
 }
-

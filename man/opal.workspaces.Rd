@@ -12,4 +12,3 @@ opal.workspaces(opal)
 \description{
 Get the R workspaces from a opal.
 }
-

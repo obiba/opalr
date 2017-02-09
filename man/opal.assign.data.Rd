@@ -30,4 +30,3 @@ opal.assign.data(o, "C", mtcars$cyl)
 opal.assign.data(o, "S", "Hello!")
 }
 }
-

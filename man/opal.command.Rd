@@ -16,4 +16,3 @@ opal.command(opal, id, wait = FALSE)
 \description{
 Get an asynchronous R commands in the remote R session.
 }
-

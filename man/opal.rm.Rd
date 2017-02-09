@@ -14,4 +14,3 @@ opal.rm(opal, symbol)
 \description{
 Remove a symbol from the current R session. Deprecated: see opal.symbol_rm function instead.
 }
-

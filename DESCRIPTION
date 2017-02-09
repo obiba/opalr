@@ -25,4 +25,5 @@ License: GPL-3
 OpalVersion: >= 2.6.0
 URL: http://www.obiba.org
 BugReports: http://jira.obiba.org
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr

@@ -18,4 +18,3 @@ opal.version_compare(opal, version)
 Compare Opal version with the provided one. Note that a request must have been done 
 in order to have a non-null Opal version.
 }
-

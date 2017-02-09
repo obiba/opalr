@@ -14,4 +14,3 @@ opal.logout(opal, save = FALSE)
 \description{
 Clear the R sessions and logout from Opal(s).
 }
-

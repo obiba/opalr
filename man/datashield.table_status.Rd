@@ -17,4 +17,3 @@ Servers and tables accessibility status
 \description{
 Get the status of the tables in differents Opals servers.
 }
-

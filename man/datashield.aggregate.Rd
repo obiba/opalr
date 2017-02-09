@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.r
 \name{datashield.aggregate}
 \alias{datashield.aggregate}
-\alias{datashield.aggregate.list}
 \alias{datashield.aggregate.opal}
+\alias{datashield.aggregate.list}
 \title{Data aggregation}
 \usage{
 datashield.aggregate(opal, expr, async = TRUE, wait = TRUE)
@@ -27,4 +27,3 @@ The result of the aggregation or the R command ID if the async flag is TRUE and 
 \description{
 Aggregates the expression result using the specified aggregation method in the current Datashield session.
 }
-

@@ -8,7 +8,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#'
 #'@title Logs in and assigns variables to R
 #'@description This function allows for clients to login to opal servers 
 #'and (optionaly) assign all the data or specific variables from Opal 

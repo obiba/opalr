@@ -2,8 +2,8 @@
 % Please edit documentation in R/datashield.command.r
 \name{datashield.command_result}
 \alias{datashield.command_result}
-\alias{datashield.command_result.list}
 \alias{datashield.command_result.opal}
+\alias{datashield.command_result.list}
 \title{Get result of an asynchronous command}
 \usage{
 datashield.command_result(opal, id, wait = FALSE)
@@ -23,4 +23,3 @@ datashield.command_result(opal, id, wait = FALSE)
 Get the result of an asynchronous R commands in the remote Datashield session. The command is removed from the
 remote Datashield session after this call.
 }
-

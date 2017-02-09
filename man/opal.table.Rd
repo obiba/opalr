@@ -18,4 +18,3 @@ opal.table(opal, datasource, table, counts = FALSE)
 \description{
 Get a table of a datasource from a opal.
 }
-

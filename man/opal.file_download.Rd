@@ -36,4 +36,3 @@ opal.file_download(o, '/home/administrator/spss/DatabaseTest.sav', 'spss/test.sa
 opal.file_download(o, '/home/administrator/joins', 'joins.zip')
 }
 }
-

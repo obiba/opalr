@@ -20,8 +20,7 @@ datashield.methods=function(opal, type="aggregate") {
 }
 
 #' @rdname datashield.methods
-#' @method datashield.methods opal
-#' @S3method datashield.methods opal
+#' @export
 datashield.methods.opal=function(opal, type="aggregate") {
   rlist <- .get(opal, "datashield", "env", type, "methods")
   name <- lapply(rlist,function(m){
@@ -64,8 +63,7 @@ datashield.methods.opal=function(opal, type="aggregate") {
 }
 
 #' @rdname datashield.methods
-#' @method datashield.methods list
-#' @S3method datashield.methods list
+#' @export
 datashield.methods.list=function(opal, type="aggregate") {
   lapply(opal, FUN=datashield.methods.opal, type)
 }
@@ -84,8 +82,7 @@ datashield.method=function(opal, name, type="aggregate") {
 }
 
 #' @rdname datashield.method
-#' @method datashield.method opal
-#' @S3method datashield.method opal
+#' @export
 datashield.method.opal=function(opal, name, type="aggregate") {
   # this request is currently not accessible to ds user
   #.get(opal, "datashield", "env", type, "method", name)
@@ -101,8 +98,7 @@ datashield.method.opal=function(opal, name, type="aggregate") {
 }
 
 #' @rdname datashield.method
-#' @method datashield.method list
-#' @S3method datashield.method list
+#' @export
 datashield.method.list=function(opal, name, type="aggregate") {
   lapply(opal, FUN=datashield.method.opal, name, type)
 }
@@ -119,8 +115,7 @@ datashield.has_method=function(opal, name) {
 }
 
 #' @rdname datashield.has_method
-#' @method datashield.has_method opal
-#' @S3method datashield.has_method opal
+#' @export
 datashield.has_method.opal=function(opal, name) {
   rval <- !is.null(datashield.method(opal,name, type="aggregate"))
   if (!rval) {
@@ -130,8 +125,7 @@ datashield.has_method.opal=function(opal, name) {
 }
 
 #' @rdname datashield.has_method
-#' @method datashield.has_method list
-#' @S3method datashield.has_method list
+#' @export
 datashield.has_method.list=function(opal, name) {
   lapply(opal, FUN=datashield.has_method.opal, name)
 }

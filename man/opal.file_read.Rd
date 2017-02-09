@@ -26,4 +26,3 @@ opal.file_read(o,"test/DatabaseTest.sav", "/tmp/Test.sav")
 opal.file_read(o,"DatabaseTest.sav", "~/coucou/pwel.sav")
 }
 }
-

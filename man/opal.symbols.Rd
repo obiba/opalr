@@ -12,4 +12,3 @@ opal.symbols(opal)
 \description{
 Get the R symbols available in the remote R session.
 }
-

@@ -12,4 +12,3 @@ opal.commands_rm(opal)
 \description{
 Remove all asynchronous R commands in the remote R session.
 }
-

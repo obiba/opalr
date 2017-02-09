@@ -16,4 +16,3 @@ opal.attribute_values(attributes, namespace = NULL, name = "label")
 \description{
 Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.
 }
-

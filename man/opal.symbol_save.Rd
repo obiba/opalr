@@ -16,4 +16,3 @@ opal.symbol_save(opal, symbol, destination)
 \description{
 Save the tibble identified by the symbol in a file of the R session workspace
 }
-

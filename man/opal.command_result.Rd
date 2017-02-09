@@ -17,4 +17,3 @@ opal.command_result(opal, id, wait = FALSE)
 Get the result of an asynchronous R commands in the remote R session. The command is removed from the
 remote R session after this call.
 }
-

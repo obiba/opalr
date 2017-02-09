@@ -23,4 +23,3 @@ opal.file_rm(o, '/home/administrator/export/some-data.csv')
 opal.file_rm(o, '/home/administrator/export')
 }
 }
-
