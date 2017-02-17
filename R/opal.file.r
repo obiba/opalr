@@ -140,6 +140,49 @@ opal.file_mkdir <- function(opal, path) {
   res <- .post(opal, 'files', body=path, contentType='text/plain')
 }
 
+#' List content of a folder in the Opal file system
+#' 
+#' @title List content of a folder
+#' 
+#' @param opal Opal object.
+#' @param path Path to the folder in the Opal file system.
+#' @examples 
+#' \dontrun{
+#' # list content of a folder
+#' opal.file_ls(o, '/home/userx/deliverables')
+#' }
+#' @export
+opal.file_ls <- function(opal, path) {
+  location <- append("files", append("_meta",strsplit(substring(path, 2), "/")[[1]]))
+  ls <- .get(opal, location)
+  res <- NULL
+  if (ls$type == 'FOLDER') {
+    res <- data.frame(t(sapply(ls$children,c)), stringsAsFactors = FALSE)
+    if(!is.null(res$children)) {
+      res$children <- NULL
+    }
+    res$name <- unlist(res$name)
+    res$path <- unlist(res$path)
+    res$type <- unlist(res$type)
+    if (is.null(res$size)) {
+      res$size <- rep(NA_integer_, length(res$name))
+    } else {
+      res$size <- unlist(lapply(res$size, function(s) {
+        if(is.numeric(s)) {s} 
+        else {NA_integer_}
+      }))  
+    }
+    res$lastModifiedTime <- as.POSIXct(unlist(res$lastModifiedTime)/1000, origin='1970-01-01')
+    res$readable <- unlist(res$readable)
+    res$writable <- unlist(res$writable)
+  } else {
+    res <- data.frame(name=ls$name, path=ls$path, type=ls$type, size=ls$size,
+                      lastModifiedTime=as.POSIXct(ls$lastModifiedTime/1000, origin='1970-01-01'),
+                      readable=ls$readable, writable=ls$writable)
+  }
+  res
+}
+
 #' Remove a file or a folder from the Opal file system
 #' 
 #' @title Remove a file
