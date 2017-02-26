@@ -75,6 +75,23 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
   }
 }
 
+#' Upload a file into the Opal file system
+#' 
+#' @title Upload a file
+#' 
+#' @param opal Opal object.
+#' @param source Path to the file in the local file system.
+#' @param destination Path of the destination folder in the Opal file system.
+#' @export
+opal.file_upload <- function(opal, source, destination) {
+  location <- append("files", strsplit(substring(destination, 2), "/")[[1]])
+  url <- .url(opal, location)
+  sourceFile <- RCurl::fileUpload(source)
+  opts = RCurl::curlOptions(httpheader=c(opal$opts$httpheader, 'Accept'='text/html'), verbose=getOption("verbose", FALSE), .opts=opal$opts)
+  res <- RCurl::postForm(uri=url, file=sourceFile, .opts=opts, curl=opal$curl)
+  res <- opal.file_ls(opal, destination)
+}
+
 #' Move and/or rename a file or a folder in the Opal file system
 #' 
 #' @title Move and/or rename a file
