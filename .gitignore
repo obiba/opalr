@@ -9,3 +9,4 @@
 figure
 .RData
 inst/doc
+vignettes/*.R

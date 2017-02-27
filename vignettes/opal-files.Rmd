@@ -11,9 +11,88 @@ vignette: >
 
 Opal has an internal file system that is accessible through web services. The opal R package exposes files management related functions:
 
+* upload a file,
 * download a file or folder (optionaly encrypted),
 * move or rename a file or folder,
 * create a folder,
 * remove a file or folder,
 * write a file to the remote R session workspace,
 * read a file from the remote R session workspace.
+
+Setup the connection with Opal:
+
+```{r}
+library(opal)
+o <- opal.login('administrator', 'password', 'https://opal-demo.obiba.org')
+```
+
+Download a file:
+
+```{r}
+opal.file_download(o, '/tmp/datashield.zip')
+```
+
+Download a file, protected by a password:
+
+```{r}
+opal.file_download(o, '/tmp/datashield.zip', 'datashield-encrypted.zip', key='ABCDEFGHIJKL')
+```
+
+Upload the file at another location:
+
+```{r}
+list.files()
+opal.file_upload(o, 'datashield.zip', '/projects/datashield')
+```
+
+Create a folder and list folder content:
+
+```{r}
+opal.file_mkdir(o, '/projects/datashield/foo')
+opal.file_ls(o, '/projects/datashield')
+```
+
+Move file to the new folder and list folder content:
+
+```{r}
+opal.file_mv(o, '/projects/datashield/datashield.zip', '/projects/datashield/foo')
+opal.file_ls(o, '/projects/datashield/foo')
+```
+
+Rename the new folder and list folder content:
+
+```{r}
+opal.file_mv(o, '/projects/datashield/foo', '/projects/datashield/bar')
+opal.file_ls(o, '/projects/datashield')
+```
+
+Write a file from the Opal file system into the R server session workspace:
+
+```{r}
+opal.file_write(o, '/projects/datashield/bar/datashield.zip')
+opal.execute(o, 'list.files()')
+```
+
+Read back the file into the Opal file system:
+
+```{r}
+opal.file_read(o, 'datashield.zip', '/projects/datashield/bar/ds.zip')
+opal.file_ls(o, '/projects/datashield/bar')
+```
+
+
+Remove created folder and list folder content:
+
+```{r}
+opal.file_rm(o, '/projects/datashield/bar')
+opal.file_ls(o, '/projects/datashield')
+```
+
+Good practice is to free server resources by sending a logout request:
+
+```{r}
+opal.logout(o)
+unlink('datashield-encrypted.zip')
+unlink('datashield.zip')
+```
+

@@ -84,6 +84,7 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
 #' @param destination Path of the destination folder in the Opal file system.
 #' @export
 opal.file_upload <- function(opal, source, destination) {
+  res <- opal.file_ls(opal, destination)
   location <- append("files", strsplit(substring(destination, 2), "/")[[1]])
   url <- .url(opal, location)
   sourceFile <- RCurl::fileUpload(source)
@@ -173,8 +174,21 @@ opal.file_ls <- function(opal, path) {
   location <- append("files", append("_meta",strsplit(substring(path, 2), "/")[[1]]))
   ls <- .get(opal, location)
   res <- NULL
-  if (ls$type == 'FOLDER') {
-    res <- data.frame(t(sapply(ls$children,c)), stringsAsFactors = FALSE)
+  if (ls$type == 'FILE') {
+    # a regular file
+    res <- data.frame(name=ls$name, path=ls$path, type=ls$type, size=ls$size,
+                      lastModifiedTime=as.POSIXct(ls$lastModifiedTime/1000, origin='1970-01-01'),
+                      readable=ls$readable, writable=ls$writable)
+  } else if (!is.null(ls$children)) {
+    # a folder with children
+    children <- lapply(ls$children, function(child) {
+      if (child$type == 'FOLDER') {
+        # size is missing, force size value (but don't know how to insert an element or how to order the elements of a list)
+        child <- list(name=child$name, path=child$path, type=child$type, size=NA_integer_, lastModifiedTime=child$lastModifiedTime, readable=child$readable, writable=child$writable)
+      }
+      child
+    })
+    res <- data.frame(t(sapply(children,c)), stringsAsFactors = FALSE)
     if(!is.null(res$children)) {
       res$children <- NULL
     }
@@ -191,11 +205,10 @@ opal.file_ls <- function(opal, path) {
     }
     res$lastModifiedTime <- as.POSIXct(unlist(res$lastModifiedTime)/1000, origin='1970-01-01')
     res$readable <- unlist(res$readable)
-    res$writable <- unlist(res$writable)
+    res$writable <- unlist(res$writable) 
   } else {
-    res <- data.frame(name=ls$name, path=ls$path, type=ls$type, size=ls$size,
-                      lastModifiedTime=as.POSIXct(ls$lastModifiedTime/1000, origin='1970-01-01'),
-                      readable=ls$readable, writable=ls$writable)
+    # an empty folder
+    res <- data.frame()
   }
   res
 }
