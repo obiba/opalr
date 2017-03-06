@@ -1,8 +1,7 @@
 ---
-title: "Untitled"
+title: "Opal Reporting with R"
 output: html_document
 ---
-# Opal Reporting with R
 
 This is an example of how to use **knitr** for producing reports on data stored in [Opal](http://wiki.obiba.org/display/OPALDOC).
 
@@ -20,7 +19,7 @@ The requirements on server side is:
 * to have permission to send R commands to Opal server
 * to have a running R server
 
-![alt text](https://wiki.obiba.org/download/attachments/37749068/opal-implementation.png)
+![](https://wiki.obiba.org/download/attachments/37749068/opal-implementation.png)
 
 The procedure is then the following:
 
