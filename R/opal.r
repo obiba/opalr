@@ -102,8 +102,21 @@ opal.version_compare <- function(opal, version) {
   }
   ov <- strsplit(opal$version, "-")[[1]][1]
   if (ov == version) return(0)
-  if (ov > version) return(1)
-  return(-1)
+  # semver: major.minor.patch
+  osv <- as.numeric(strsplit(ov, "\\.")[[1]])
+  sv <- as.numeric(strsplit(version, "\\.")[[1]])
+  if (length(sv) == 2) sv[3] <- 0
+  # compare major
+  if (osv[1] > sv[1]) return(1)
+  if (osv[1] < sv[1]) return(-1)
+  # compare minor
+  if (osv[2] > sv[2]) return(1)
+  if (osv[2] < sv[2]) return(-1)
+  # compare patch
+  if (osv[3] > sv[3]) return(1)
+  if (osv[3] < sv[3]) return(-1)
+  # same versions
+  return(0)
 }
 
 
