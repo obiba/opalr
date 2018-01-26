@@ -624,6 +624,9 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
   opal$restore <- restore
   class(opal) <- "opal"
   
+  # get user profile to test sign-in
+  ignore <- .get(opal, "system", "subject-profile", "_current")
+  
   opal
 }
 
