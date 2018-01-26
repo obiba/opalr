@@ -74,8 +74,9 @@ opal.symbol_save <- function(opal, symbol, destination) {
 #' @param policy Identifiers policy: 'required' (each identifiers must be mapped prior importation (default)), 'ignore' (ignore unknown identifiers) and 'generate' (generate a system identifier for each unknown identifier). 
 #' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
 #' @param type Entity type (what the data are about). Default is 'Participant'.
+#' @param wait Wait for import task completion. Default is TRUE.
 #' @export
-opal.symbol_import <- function(opal, symbol, project, identifiers=NULL, policy='required', id.name='id', type='Participant') {
+opal.symbol_import <- function(opal, symbol, project, identifiers=NULL, policy='required', id.name='id', type='Participant', wait=TRUE) {
   rid <- .getRSessionId(opal)
   if (!is.na(opal$version) && opal.version_compare(opal,"2.8")<0) {
     warning("Importing tibble in a table not available for opal ", opal$version, " (2.8.0 or higher is required)")
@@ -101,6 +102,31 @@ opal.symbol_import <- function(opal, symbol, project, identifiers=NULL, policy='
     created <- .post(opal, "project", project, "transient-datasources", body=dsFactory, contentType="application/json")
     # launch a import task
     importCmd <- list(destination=project, tables=list(paste0(created$name, '.', symbol)))
-    ignore <- .post(opal, "project", project, "commands", "_import", body=.listToJson(importCmd), contentType="application/json")
+    location <- .post(opal, "project", project, "commands", "_import", body=.listToJson(importCmd), contentType="application/json", callback=.handleResponseLocation)
+    if (!is.null(location)) {
+      # /shell/command/<id>
+      task <- substring(location, 16)
+      if (wait) {
+        status <- 'NA'
+        waited <- 0
+        while(!is.element(status, c('SUCCEEDED','FAILED','CANCELED'))) {
+          # delay is proportional to the time waited, but no more than 10s
+          delay <- min(10, max(1, round(waited/10)))
+          Sys.sleep(delay)
+          waited <- waited + delay
+          command <- .get(opal, "shell", "command", task)
+          status <- command$status
+        }
+        if (is.element(status, c('FAILED','CANCELED'))) {
+          stop(paste0('Import of "', symbol, '" ended with status: ', status), call.=FALSE)
+        }
+      } else {
+        # returns the task ID so that task completion can be followed
+        task
+      }
+    } else {
+      # not supposed to be here
+      location
+    }
   }
 }

@@ -347,7 +347,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
     }
     ignore <- .getRSessionId(opal)
     res <- .post(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
-    }
+  }
 }
 
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
@@ -465,6 +465,39 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
     .handleAttachment(opal, response, as.character(disposition))
   } else {
     .handleContent(opal, response)
+  }
+}
+
+#' Default request response Location handler.
+#' @keywords internal
+.handleResponseLocation <- function(opal, response) {
+  if (is.null(opal$version) || is.na(opal$version)) {
+    opal$version <- as.character(response$headers['X-Opal-Version'])
+  }
+  if (is.null(opal$sid)) {
+    opal$sid <- .extractOpalSessionId(response$cookielist)
+  }
+  #print(response)
+  if(response$code >= 400) { 
+    msg <- gsub("[\n\r]","",response$headers['statusMessage'])
+    msg <- paste0(opal$name, ": ", msg, " (", response$code, ")")  
+    if (!.isContentEmpty(response$content)) {
+      error <- response$content
+      if(is.raw(error)) {
+        error <- readChar(response$content, length(response$content))
+      }
+      msg <- paste0(msg, ": ", error)
+    }
+    stop(msg, call.=FALSE)
+  } else {
+    headers <- strsplit(response$headers, "\n")
+    location <- headers['Location']
+    if(!is.na(location)) {
+      location <- location$Location
+      substring(location, regexpr(pattern = "/ws/", location) + 3)
+    } else {
+      NULL
+    }
   }
 }
 

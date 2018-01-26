@@ -5,7 +5,8 @@
 \title{Import a tibble as a table in Opal}
 \usage{
 opal.symbol_import(opal, symbol, project, identifiers = NULL,
-  policy = "required", id.name = "id", type = "Participant")
+  policy = "required", id.name = "id", type = "Participant",
+  wait = TRUE)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -21,6 +22,8 @@ opal.symbol_import(opal, symbol, project, identifiers = NULL,
 \item{id.name}{The name of the column representing the entity identifiers. Default is 'id'.}
 
 \item{type}{Entity type (what the data are about). Default is 'Participant'.}
+
+\item{wait}{Wait for import task completion. Default is TRUE.}
 }
 \description{
 Import the tibble identified by the symbol as a table in Opal.
