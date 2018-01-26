@@ -1,0 +1,4 @@
+server,url,username,password,table
+server1,https://opal-demo.obiba.org,administrator,password,datashield.CNSIM1
+server2,https://opal-demo.obiba.org,administrator,password,datashield.CNSIM2
+server3,https://opal-demo.obiba.org,administrator,password,datashield.CNSIM3
