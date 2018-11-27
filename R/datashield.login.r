@@ -33,6 +33,7 @@
 #'@param password Default user password to be used in case it is not specified in the logins structure.
 #'@param opts Default SSL options to be used in case it is not specified in the logins structure.
 #'@param restore The workspace name to restore (optional).
+#'@param tibble Assign table to a tibble (from tidyverse) instead of a plain data.frame.
 #'@return object(s) of class opal
 #'@author Gaye, A.
 #'@export
@@ -66,7 +67,7 @@
 #'
 datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="D", directory="~/.ssh", 
                              username=getOption("datashield.username"), password=getOption("datashield.password"), 
-                             opts=getOption("datashield.opts", list()), restore=NULL){
+                             opts=getOption("datashield.opts", list()), restore=NULL, tibble=FALSE){
   
   # issue an alert and stop the process if no login table is provided
   if(is.null(logins)){
@@ -184,7 +185,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
     rids <- lapply(1:length(opals), function(i) {
       if(!excluded[i]) {
         message(stdnames[i],"...")
-        datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=TRUE, wait=FALSE)
+        datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=TRUE, wait=FALSE, tibble=tibble)
       }
     })
     rcmds <- datashield.command(opals, rids, wait=TRUE)
@@ -192,7 +193,7 @@ datashield.login <- function(logins=NULL, assign=FALSE, variables=NULL, symbol="
       if (!is.null(rcmds[[i]]) && rcmds[[i]]$status == "FAILED") {
         if (!is.null(rcmds[[i]]$error) && rcmds[[i]]$error == "Unable to locate current JTA transaction") {
           # second chance because of a bug in opal 2.1.0 (OPAL-2583)
-          datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=FALSE, wait=TRUE)
+          datashield.assign(opals[[i]], symbol, paths[i], variables, identifiers=idmappings[i], async=FALSE, wait=TRUE, tibble=tibble)
         } else {
           warning("Data assignment of '", paths[i],"' failed for '", stdnames[i],"': ", rcmds[[i]]$error, call.=FALSE, immediate.=TRUE)
         }

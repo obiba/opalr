@@ -69,6 +69,7 @@ datashield.aggregate.list=function(opal, expr, async=TRUE, wait=TRUE) {
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).
 #' @param async R script is executed asynchronously within the session (default is TRUE).
 #' @param wait Wait for the R script asynchronously executed to complete (makes sense only with async=TRUE).
+#' @param tibble Assign table to a tibble (from tidyverse) instead of a plain data.frame.
 #' @return The R command ID if the async flag is TRUE and if the wait flag is FALSE and if Opal version is at least 2.1, NULL otherwise.
 #' @rdname datashield.assign
 #' @examples 
@@ -80,13 +81,13 @@ datashield.aggregate.list=function(opal, expr, async=TRUE, wait=TRUE) {
 #' datashield.assign(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
 #' }
 #' @export
-datashield.assign=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE) {
+datashield.assign=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE, tibble=FALSE) {
   UseMethod('datashield.assign');
 }
 
 #' @rdname datashield.assign
 #' @export
-datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE) {
+datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE, tibble=FALSE) {
   if(is.language(value) || is.function(value)) {
     contentType <- "application/x-rscript"
     body <- .deparse(value)
@@ -123,6 +124,9 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
   if(async) {
     query["async"] <- "true"
   }
+  if (tibble) {
+    query["class"] <- "tibble"
+  }
   ignore <- .getDatashieldSessionId(opal)
   res <- .put(opal, "datashield", "session", opal$rid, "symbol", symbol, query=query, body=body, contentType=contentType)
   
@@ -136,8 +140,8 @@ datashield.assign.opal=function(opal, symbol, value, variables=NULL, missings=FA
 
 #' @rdname datashield.assign
 #' @export
-datashield.assign.list=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE) {
-  res <- lapply(opal, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, async=async, wait=FALSE)
+datashield.assign.list=function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, async=TRUE, wait=TRUE, tibble=FALSE) {
+  res <- lapply(opal, FUN=datashield.assign.opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, async=async, wait=FALSE, tibble=tibble)
   if (async && wait) {
     datashield.command(opal, res, wait=TRUE)
     datashield.command_rm(opal, res)
