@@ -1,5 +1,5 @@
 # Load the required libraries on client side and login in Opal
-library(opal)
+library(opalr)
 o <- opal.login('administrator', 'password', 'http://demo.obiba.org:8080')
 
 # Assign some variables into a data.frame with associated *D* symbol in R on Opal server side:

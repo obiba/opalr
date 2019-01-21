@@ -4,9 +4,9 @@
 \alias{opal.assign.table}
 \title{Data assignment to a data.frame}
 \usage{
-opal.assign.table(opal, symbol, value, variables = NULL, missings = FALSE,
-  identifiers = NULL, id.name = NULL, updated.name = NULL,
-  class = "data.frame", async = FALSE)
+opal.assign.table(opal, symbol, value, variables = NULL,
+  missings = FALSE, identifiers = NULL, id.name = NULL,
+  updated.name = NULL, class = "data.frame", async = FALSE)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}

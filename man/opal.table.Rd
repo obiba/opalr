@@ -13,7 +13,7 @@ opal.table(opal, datasource, table, counts = FALSE)
 
 \item{table}{Name of the table in the datasource.}
 
-\item{counts}{Flag to get the number of variables and entities.}
+\item{counts}{Flag to get the number of variables and entities (default is FALSE).}
 }
 \description{
 Get a table of a datasource from a opal.

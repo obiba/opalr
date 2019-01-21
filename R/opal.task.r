@@ -11,9 +11,13 @@
 #' Get the tasks from a opal.
 #' 
 #' @param opal Opal object.
+#' @param df Return a data.frame (default is TRUE)
 #' @export
-opal.tasks=function(opal) {
+opal.tasks <- function(opal, df=TRUE) {
   tasks <- .extractJsonField(.get(opal, "shell", "commands"))
+  if (!df) {
+    return(tasks)
+  }
   if (length(tasks)) {
     id <- c()
     type <- c()

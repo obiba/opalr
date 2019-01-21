@@ -1,6 +1,6 @@
 #!/usr/bin/Rscript
 
-library(opal)
+library(opalr)
 
 input <- commandArgs(TRUE)[1]
 output <- commandArgs(TRUE)[2]

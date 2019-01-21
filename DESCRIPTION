@@ -1,12 +1,20 @@
-Package: opal
-Version: 2.7.0
+Package: opalr
+Version: 3.0.0
 Title: Opal R and Datashield utils
-Author: OBiBa <info@obiba.org>
-Maintainer: OBiBa <info@obiba.org>
+Authors@R: 
+    c(person(given = "Yannick",
+             family = "Marcon",
+             role = c("aut", "cre"),
+             email = "yannick.marcon@obiba.org",
+             comment = c(ORCID = "0000-0003-0138-2023")),
+      person(given = "Amadou",
+             family = "Gaye",
+             role = "ctb",
+             comment = c(ORCID = "0000-0002-1180-2792")))
 Depends:
-    R (>= 2.15.0),
-    RCurl (>= 1.6-6),
-    rjson,
+    R (>= 3.1),
+    httr,
+    jsonlite,
     mime
 Suggests:
     e1071,
@@ -24,6 +32,6 @@ Description: Data integration Web application for biobanks by OBiBa. Opal is
 License: GPL-3
 OpalVersion: >= 2.6.0
 URL: http://www.obiba.org
-BugReports: http://jira.obiba.org
-RoxygenNote: 6.0.1
+BugReports: https://github.com/obiba/opalr
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr

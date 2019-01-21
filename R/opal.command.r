@@ -13,10 +13,41 @@
 #' @title List the asynchronous commands
 #' 
 #' @param opal Opal object.
+#' @param df Return a data.frame (default is TRUE)
 #' @export
-opal.commands <- function(opal) {
+opal.commands <- function(opal, df=TRUE) {
   if (opal.version_compare(opal,"2.1")<0) return(NULL)
-  .get(opal, "r", "session", .getRSessionId(opal), "commands")
+  res <- .get(opal, "r", "session", .getRSessionId(opal), "commands")
+  if (!df) {
+    return(res)
+  }
+  n <- length(res)
+  if (n > 0) {
+    id <- rep(NA, n)
+    script <- rep(NA, n)
+    status <- rep(NA, n)
+    withResult <- rep(NA, n)
+    createDate <- rep(NA, n)
+    startDate <- rep(NA, n)
+    endDate <- rep(NA, n)
+    for (i in 1:n) {
+      item <- res[[i]]
+      id[i] <- item$id
+      script[i] <- item$script
+      status[i] <- item$status
+      withResult[i] <- item$withResult
+      createDate[i] <- item$createDate
+      if (!is.null(item$startDate)) {
+        startDate[i] <- item$startDate  
+      }
+      if (!is.null(item$endDate)) {
+        endDate[i] <- item$endDate 
+      }
+    }
+    data.frame(id, script, status, withResult, createDate, startDate, endDate)
+  } else {
+    data.frame()
+  }
 }
 
 #' Get an asynchronous R commands in the remote R session.

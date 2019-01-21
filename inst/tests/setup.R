@@ -12,7 +12,7 @@
 # Datashield test suite set up
 #
 
-library(opal)
+library(opalr)
 library(testthat)
 
 options(verbose=FALSE)

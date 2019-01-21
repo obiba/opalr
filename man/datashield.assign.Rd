@@ -6,14 +6,17 @@
 \alias{datashield.assign.list}
 \title{Data assignment}
 \usage{
-datashield.assign(opal, symbol, value, variables = NULL, missings = FALSE,
-  identifiers = NULL, async = TRUE, wait = TRUE)
+datashield.assign(opal, symbol, value, variables = NULL,
+  missings = FALSE, identifiers = NULL, async = TRUE, wait = TRUE,
+  tibble = FALSE)
 
 \method{datashield.assign}{opal}(opal, symbol, value, variables = NULL,
-  missings = FALSE, identifiers = NULL, async = TRUE, wait = TRUE)
+  missings = FALSE, identifiers = NULL, async = TRUE, wait = TRUE,
+  tibble = FALSE)
 
 \method{datashield.assign}{list}(opal, symbol, value, variables = NULL,
-  missings = FALSE, identifiers = NULL, async = TRUE, wait = TRUE)
+  missings = FALSE, identifiers = NULL, async = TRUE, wait = TRUE,
+  tibble = FALSE)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -31,6 +34,8 @@ datashield.assign(opal, symbol, value, variables = NULL, missings = FALSE,
 \item{async}{R script is executed asynchronously within the session (default is TRUE).}
 
 \item{wait}{Wait for the R script asynchronously executed to complete (makes sense only with async=TRUE).}
+
+\item{tibble}{Assign table to a tibble (from tidyverse) instead of a plain data.frame.}
 }
 \value{
 The R command ID if the async flag is TRUE and if the wait flag is FALSE and if Opal version is at least 2.1, NULL otherwise.

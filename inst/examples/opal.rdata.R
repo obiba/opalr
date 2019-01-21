@@ -4,7 +4,7 @@
 # Opal R client pushes arbitrary data to the R server
 #
 
-library(opal)
+library(opalr)
 
 # https login
 o<-opal.login('administrator', 'password', 'http://localhost:8080')

@@ -8,12 +8,79 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
+#' Get projects from a opal.
+#' 
+#' @param opal Opal object.
+#' @param df Return a data.frame (default is TRUE)
+#' @export
+opal.projects <- function(opal, df=TRUE) {
+  res <- .get(opal, "projects", query=list(digest="true"))
+  if (!df) {
+    return(res)
+  }
+  n <- length(res)
+  if (n > 0) {
+    name <- rep(NA, n)
+    title <- rep(NA, n)
+    tags <- rep(NA, n)
+    created <- rep(NA, n)
+    lastUpdate <- rep(NA, n)
+    for (i in 1:n) {
+      item <- res[[i]]
+      name[i] <- item$name
+      title[i] <- item$title
+      if (!is.null(item$tags)) {
+        tags[i] <- paste0(item$tags, collapse = "|")
+      }
+      created[i] <- item$timestamps$created
+      lastUpdate[i] <- item$timestamps$lastUpdate
+    }
+    data.frame(name, title, tags, created, lastUpdate)
+  } else {
+    data.frame()
+  }
+}
+
+#' Get a project from a opal.
+#' 
+#' @param opal Opal object.
+#' @param project Name of the project
+#' @export
+opal.project <- function(opal, project) {
+  .get(opal, "project", project)
+}
+
 #' Get datasources from a opal.
 #' 
 #' @param opal Opal object.
+#' @param df Return a data.frame (default is TRUE)
 #' @export
-opal.datasources=function(opal) {
-  .get(opal, "datasources")
+opal.datasources <- function(opal, df=TRUE) {
+  res <- .get(opal, "datasources")
+  if (!df) {
+    return(res)
+  }
+  n <- length(res)
+  if (n > 0) {
+    name <- rep(NA, n)
+    type <- rep(NA, n)
+    tables <- rep(NA, n)
+    created <- rep(NA, n)
+    lastUpdate <- rep(NA, n)
+    for (i in 1:n) {
+      item <- res[[i]]
+      name[i] <- item$name
+      type[i] <- item$type
+      if (!is.null(item$table)) {
+        tables[i] <- paste0(item$table, collapse = "|")
+      }
+      created[i] <- item$timestamps$created
+      lastUpdate[i] <- item$timestamps$lastUpdate
+    }
+    data.frame(name, tables, type, created, lastUpdate)
+  } else {
+    data.frame()
+  }
 }
 
 #' Get a datasource from a opal.
@@ -21,7 +88,7 @@ opal.datasources=function(opal) {
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @export
-opal.datasource=function(opal, datasource) {
+opal.datasource <- function(opal, datasource) {
   .get(opal, "datasource", datasource)
 }
 
@@ -29,9 +96,45 @@ opal.datasource=function(opal, datasource) {
 #' 
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
+#' @param counts Flag to get the number of variables and entities (default is FALSE).
+#' @param df Return a data.frame (default is TRUE)
 #' @export
-opal.tables <- function(opal, datasource) {
-  .get(opal, "datasource", datasource, "tables")
+opal.tables <- function(opal, datasource, counts=FALSE, df=TRUE) {
+  if (counts) {
+    res <- .get(opal, "datasource", datasource, "tables", query=list(counts="true"))  
+  } else {
+    res <- .get(opal, "datasource", datasource, "tables")
+  }
+  if (!df) {
+    return(res)
+  }
+  n <- length(res)
+  if (n > 0) {
+    name <- rep(NA, n)
+    entityType <- rep(NA, n)
+    variables <- rep(NA, n)
+    entities <- rep(NA, n)
+    created <- rep(NA, n)
+    lastUpdate <- rep(NA, n)
+    for (i in 1:n) {
+      item <- res[[i]]
+      name[i] <- item$name
+      entityType[i] <- item$entityType
+      if (counts) {
+        variables[i] <- item$variableCount
+        entities[i] <- item$valueSetCount
+      }
+      created[i] <- item$timestamps$created
+      lastUpdate[i] <- item$timestamps$lastUpdate
+    }
+    if (counts) {
+      data.frame(name, entityType, variables, entities, created, lastUpdate)
+    } else {
+      data.frame(name, entityType, created, lastUpdate) 
+    }
+  } else {
+    data.frame()
+  }
 }
 
 #' Get a table of a datasource from a opal.
@@ -39,7 +142,7 @@ opal.tables <- function(opal, datasource) {
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
-#' @param counts Flag to get the number of variables and entities.
+#' @param counts Flag to get the number of variables and entities (default is FALSE).
 #' @export
 opal.table <- function(opal, datasource, table, counts=FALSE) {
   if (counts) {
@@ -54,9 +157,81 @@ opal.table <- function(opal, datasource, table, counts=FALSE) {
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
+#' @param locale The language for labels (default is "en").
+#' @param df Return a data.frame (default is TRUE)
 #' @export
-opal.variables <- function(opal, datasource, table) {
-  .get(opal, "datasource", datasource, "table", table, "variables")
+opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
+  res <- .get(opal, "datasource", datasource, "table", table, "variables")
+  if (!df) {
+    return(res)
+  }
+  n <- length(res)
+  if (n > 0) {
+    name <- rep(NA, n)
+    label <- rep(NA, n)
+    entityType <- rep(NA, n)
+    valueType <- rep(NA, n)
+    unit <- rep(NA, n)
+    referencedEntityType <- rep(NA, n)
+    mimeType <- rep(NA, n)
+    repeatable <- rep(FALSE, n)
+    occurrenceGroup <- rep(NA, n)
+    index <- rep(NA, n)
+    categories <- rep(NA, n)
+    categories.missing <- rep(NA, n)
+    categories.label <- rep(NA, n)
+    annotations <- list()
+    for (i in 1:n) {
+      item <- res[[i]]
+      name[i] <- item$name
+      if (!is.null(item$attributes)) {
+        labels <- item$attributes[lapply(item$attributes, function(attr) attr$name) == "label"]
+        label[i] <- .extractLabel(locale, labels)
+        annots <- item$attributes[lapply(item$attributes, function(attr) "namespace" %in% names(attr)) == TRUE]
+        for (annot in annots) {
+          key <- paste0(annot$namespace, ".", annot$name)
+          if (!(key %in% names(annotations))) {
+            a <- list()
+            a[[key]] <- rep(NA, n)
+            annotations <- append(annotations, a)
+          }
+          annotations[[key]][i] <- annot$value
+        }
+      }
+      entityType[i] <- item$entityType
+      valueType[i] <- item$valueType
+      unit[i] <- .nullToNA(item$unit)
+      referencedEntityType[i] <- .nullToNA(item$referencedEntityType)
+      mimeType[i] <- .nullToNA(item$mimeType)
+      repeatable[i] <- ifelse(is.null(item$repeatable), FALSE, TRUE)
+      occurrenceGroup[i] <- .nullToNA(item$occurrenceGroup)
+      index[i] <- item$index
+      if (!is.null(item$categories)) {
+        categories[i] <- paste0(lapply(item$categories, function(cat) cat$name), collapse = "|")
+        categories.missing[i] <- paste0(lapply(item$categories, function(cat) ifelse(cat$isMissing, "T", "F")), collapse = "|")
+        categories.label[i] <- paste(lapply(item$categories, function(cat) { 
+          if (is.null(cat$attributes)) {
+            ""
+          } else {
+            labels <- cat$attributes[lapply(cat$attributes, function(attr) { attr$name }) == "label"]
+            if (length(labels)>0) {
+              .extractLabel(locale, labels)
+            } else {
+              ""
+            }
+          }
+        }), collapse = "|")
+      }
+      
+    }
+    df <- data.frame(name, label, entityType, valueType, unit, referencedEntityType, mimeType, repeatable, occurrenceGroup, index, categories, categories.missing, categories.label) 
+    for (col in names(annotations)) {
+      df[[col]] <- annotations[[col]]
+    }
+    df
+  } else {
+    data.frame()
+  }
 }
 
 #' Get a variable of a table from a opal.

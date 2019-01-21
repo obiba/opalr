@@ -8,7 +8,8 @@ datashield.login(logins = NULL, assign = FALSE, variables = NULL,
   symbol = "D", directory = "~/.ssh",
   username = getOption("datashield.username"),
   password = getOption("datashield.password"),
-  opts = getOption("datashield.opts", list()), restore = NULL)
+  opts = getOption("datashield.opts", list()), restore = NULL,
+  tibble = FALSE)
 }
 \arguments{
 \item{logins}{A dataframe table that holds login details. This table holds five elements 
@@ -39,6 +40,8 @@ the default location is the users '.ssh' directory.}
 \item{opts}{Default SSL options to be used in case it is not specified in the logins structure.}
 
 \item{restore}{The workspace name to restore (optional).}
+
+\item{tibble}{Assign table to a tibble (from tidyverse) instead of a plain data.frame.}
 }
 \value{
 object(s) of class opal

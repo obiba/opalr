@@ -4,7 +4,7 @@
 # Opal Datashield client
 #
 
-library(opal)
+library(opalr)
 
 message("**** datashield logins and assignments:")
 server <- c("demo")

@@ -65,10 +65,13 @@ opal.logout <- function(opal, save=FALSE) {
         warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
       }
     }
-    res <- try(.rmSession(opal, save), silent=TRUE)
+    res <- try(.rmRSession(opal, save), silent=TRUE)
     opal$rid <- NULL
+    
+    res <- try(.rmOpalSession(opal), silent = TRUE)
+    opal$sid <- NULL
   }
-  if (!is.null(res) && length(res) > 0) {
+  if (.is.verbose() && !is.null(res) && length(res) > 0) {
     return(res)
   }
 }
@@ -334,13 +337,13 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
 #' opal.assign.data(o, "S", "Hello!")
 #' }
 #' @export
-#' @import RCurl
+#' @import jsonlite
 opal.assign.data <- function(opal, symbol, value, async=FALSE) {
   if(is.list(opal)){
     lapply(opal, function(o){opal.assign.data(o, symbol, value, async=async)})
   } else {
     contentType <- "application/x-rdata"
-    body <- RCurl::base64(serialize(value, NULL))
+    body <- jsonlite::base64_enc(serialize(value, NULL))
     query <- list()
     if (async) {
       query["async"] <- "true"
@@ -351,120 +354,91 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 }
 
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
-#' @import RCurl
 #' @keywords internal
-.url <- function(opal, ..., query=list()) {
-  .tmp <- paste(opal$url, "ws", paste(sapply(c(...), RCurl::curlEscape), collapse="/"), sep="/")
-  if(length(query)) {
-    .params <- paste(sapply(names(query), function(id) paste(id, RCurl::curlEscape(query[[id]]), sep = "="), simplify=FALSE), collapse = "&")
-    .tmp <- paste(.tmp, .params, sep="?")
+.url <- function(opal, ...) {
+  url <- paste(opal$url, "ws", paste(sapply(c(...), RCurl::curlEscape), collapse="/"), sep="/")
+  if (.is.verbose()) {
+    print(url)
   }
-  .tmp
+  url
 }
 
 #' Constructs the value for the Authorization header
-#' @import RCurl
+#' @import jsonlite
 #' @keywords internal
 .authToken <- function(username, password) {
-  paste("X-Opal-Auth", RCurl::base64(paste(username, password, sep=":")))
+  paste("X-Opal-Auth", jsonlite::base64_enc(paste(username, password, sep=":")))
 }
 
-#' Issues a request to opal for the specified resource
-#' @import RCurl
+#' Issues a GET request to opal for the specified resource
+#' @import httr
 #' @keywords internal
-.get <- function(opal, ..., query=list(), callback=NULL) {
-  opts = RCurl::curlOptions(httpget=TRUE, customrequest=NULL, .opts=opal$opts)
-  .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
+.get <- function(opal, ..., query=list()) {
+  r <- GET(.url(opal, ...), query=query, .verbose())
+  .handleResponse(opal, r)
 }
 
 #' Post a request w/o body content
-#' @import RCurl
+#' @import httr
 #' @keywords internal
 .post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  .nobody <- missing(body) || length(body) == 0
-  if(.nobody) {
-    # Act like a GET, but send a POST. This is required when posting without any body 
-    opts = RCurl::curlOptions(httpget=TRUE, customrequest="POST", .opts=opal$opts)
-  } else {
-    opts = RCurl::curlOptions(post=TRUE, customrequest=NULL, httpheader=c(opal$opts$httpheader, 'Content-Type'=contentType), postfields=body, .opts=opal$opts)
-  }
-  .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
+  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), .verbose())
+  .handleResponse(opal, r)
 }
 
 #' Put a request w/o body content
-#' @import RCurl
+#' @import httr
 #' @keywords internal
 .put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  .nobody <- missing(body) || length(body) == 0
-  if(.nobody) {
-    # Act like a GET, but send a PUT. This is required when posting without any body 
-    opts = RCurl::curlOptions(httpget=TRUE, customrequest="PUT", .opts=opal$opts)
-  } else {
-    opts = RCurl::curlOptions(post=TRUE, httpheader=c(opal$opts$httpheader, 'Content-Type'=contentType), postfields=body, customrequest="PUT", .opts=opal$opts)
-  }
-  .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
+  r <- PUT(.url(opal, ...), query=query, body=body, content_type(contentType), .verbose())
+  .handleResponse(opal, r)
 }
 
-#' Delete a resource
-#' @import RCurl
+#' Issues a DELETE request to opal for the specified resource
+#' @import httr
 #' @keywords internal
-.delete <- function(opal, ..., query=list(), callback=NULL) {
-  # Act like a GET, but send a DELETE.
-  opts = RCurl::curlOptions(httpget=TRUE, customrequest="DELETE", .opts=opal$opts)
-  .perform(opal, .url(opal, ..., query=query), opts, callback=callback)
-}
-
-#' Perform the request
-#' @import RCurl
-#' @keywords internal
-.perform <- function(opal, url, opts, callback=NULL) {
-  opal$reader <- RCurl::dynCurlReader(opal$curl)
-  
-  handle <- opal$curl
-  RCurl::curlPerform(url=url, .opts=opts, writefunction=opal$reader$update,  curl=handle, verbose=getOption("verbose", FALSE))
-  content <- opal$reader$value()
-  header <- RCurl::parseHTTPHeader(opal$reader$header())
-  info <- RCurl::getCurlInfo(handle)
-  response <- list(code=info$response.code, content.type=info$content.type, cookielist=info$cookielist, content=content, headers=header)
-  if (is.null(callback)) {
-    .handleResponse(opal, response)  
-  } else {
-    handler <- match.fun(callback)
-    handler(opal, response)
-  }
+.delete <- function(opal, ..., query=list()) {
+  r <- DELETE(.url(opal, ...), query=query, .verbose())
+  .handleResponse(opal, r)
 }
 
 #' Default request response handler.
 #' @keywords internal
 .handleResponse <- function(opal, response) {
-  if (is.null(opal$version) || is.na(opal$version)) {
-    opal$version <- as.character(response$headers['X-Opal-Version'])
-  }
-  if (is.null(opal$sid)) {
-    opal$sid <- .extractOpalSessionId(response$cookielist)
-  }
   #print(response)
-  headers <- strsplit(response$headers, "\n")
-  disposition <- headers['Content-Disposition']
-  attachment <- FALSE
-  if(!is.na(disposition) && length(grep("attachment", disposition))) {
-    attachment <- TRUE
+  headers <- httr::headers(response)
+  
+  # Extract some headers
+  if (is.null(opal$version) || is.na(opal$version)) {
+    opal$version <- as.character(headers[tolower('X-Opal-Version')])
   }
-  if(response$code >= 400) { 
-    msg <- gsub("[\n\r]","",response$headers['statusMessage'])
-    msg <- paste0(opal$name, ": ", msg, " (", response$code, ")")  
-    if (!.isContentEmpty(response$content)) {
-      error <- response$content
-      if(is.raw(error)) {
-        error <- readChar(response$content, length(response$content))
-      }
-      msg <- paste0(msg, ": ", error)
-    }
-    stop(msg, call.=FALSE)
-  }	else if(attachment) {
+  cookies <- httr::cookies(response)
+  opal$sid <- .extractOpalSessionId(cookies)
+  
+  if (response$status>=300) {
+    .handleError(opal, response)
+  }
+  
+  disposition <- headers['Content-Disposition']
+  if(!is.na(disposition) && length(grep("attachment", disposition))) {
     .handleAttachment(opal, response, as.character(disposition))
   } else {
     .handleContent(opal, response)
+  }
+}
+
+#' Handle error response
+#' @keywords internal
+.handleError <- function(opal, response) {
+  content <- content(response)
+  if ("error" %in% names(content)) {
+    if ("message" %in% names(content)) {
+      stop(content$message, call.=FALSE)
+    } else {
+      stop(content$error, call.=FALSE)  
+    }
+  } else {
+    stop(response$status, call.=FALSE)
   }
 }
 
@@ -504,46 +478,46 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @import mime
 #' @keywords internal
 .handleAttachment <- function(opal, response, disposition) {
+  headers <- httr::headers(response)
+  content <- content(response)
+  
   filename <- strsplit(disposition,"\"")[[1]][2]
   filetype <- mime::guess_type(filename)
-  if(is.raw(response$content)) {
-    if (grepl("text/", response$content.type) || (grepl("application/", response$content.type) && grepl("text/", filetype))){
-      as.character(readChar(response$content, length(response$content)))
+  if(is.raw(content)) {
+    if (grepl("text/", headers$`content-type`) || (grepl("application/", headers$`content-type`) && grepl("text/", filetype))){
+      as.character(readChar(content, length(content)))
     } else {
-      readBin(response$content,what = raw(),length(response$content))
+      readBin(content,what = raw(),length(content))
     }
-  } else if (length(grep("text/", response$content.type))) {
-    as.character(response$content)
+  } else if (length(grep("text/", headers$`content-type`))) {
+    as.character(content)
   } else {
-    response$content
+    content
   }
 }
 
-#' @import rjson
+#' @import httr
 #' @keywords internal
 .handleContent <- function(opal, response) {
-  if(length(grep("octet-stream", response$content.type))) {
-    unserialize(response$content)
-  } else if(length(grep("json", response$content.type))) {
-    if(is.raw(response$content)) {
-      rjson::fromJSON(readChar(response$content, length(response$content)));
-    } else {
-      rjson::fromJSON(response$content);
-    }
-  } else if (length(grep("text", response$content.type))) {
-    as.character(response$content)
+  headers <- httr::headers(response)
+  content <- content(response)
+  
+  if(length(grep("octet-stream", headers$`content-type`))) {
+    unserialize(content)
+  } else if (length(grep("text", headers$`content-type`))) {
+    as.character(content)
   } else {
-    response$content
+    content
   }
 }
 
-#' Extract opalsid from cookie list.
+#' Extract opalsid from cookie data frame.
 #' @keywords internal
-.extractOpalSessionId <- function(cookielist) {
-  for (cookieStr in cookielist) {
-    cookie <- unlist(strsplit(cookieStr, '\t'))
-    if (cookie[6] == "opalsid") {
-      return(cookie[7])
+.extractOpalSessionId <- function(cookies) {
+  if (nrow(cookies[cookies$name=="opalsid",])>0) {
+    sid <- cookies[cookies$name=="opalsid",]$value
+    if (!is.na(sid)) {
+      return(sid)
     }
   }
   return(NULL)
@@ -578,54 +552,53 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 }
 
 #' Create the opal object
-#' @import RCurl
+#' @import httr
 #' @keywords internal
 .opal.login <- function(username, password, url, opts=list(), restore=NULL) {
+  if (is.null(url)) stop("opal url is required", call.=FALSE)
   opal <- new.env(parent=globalenv())
-  
   # Username
   opal$username <- username
-  
   # Strip trailing slash
   opal$url <- sub("/$", "", url)
-  
   # Domain name
   opal$name <- gsub("[:/].*", "", gsub("http[s]*://", "", opal$url))
-  
   # Version default value
   opal$version <- NA
   
   # cookielist="" activates the cookie engine
   headers <- c(Accept="application/json, application/octet-stream");
   if(is.null(username) == FALSE) {
-    headers <- c(headers, Authorization=.authToken(username, password));
+    # Authorization
+    opal$authorization <- .authToken(username, password)
   }
   # set default ssl options if https
   protocol <- strsplit(url, split="://")[[1]][1]
-  options <- opts
-  if (protocol=="https") {
-    if (!is.null(options$sslcert)) {
-      options$sslcert <- .getPEMFilePath(options$sslcert)
-    }
-    if (!is.null(options$sslkey)) {
-      options$sslkey <- .getPEMFilePath(options$sslkey)
-    }
-    if (is.null(options$ssl.verifyhost)) {
-      options$ssl.verifyhost = 0
-    }
-    if (is.null(options$ssl.verifypeer)) {
-      options$ssl.verifypeer = 0
-    }
-  }
-  opal$opts <- RCurl::curlOptions(header=TRUE, httpheader=headers, cookielist="", .opts=options)
-  opal$curl <- RCurl::curlSetOpt(.opts=opal$opts)
-  opal$reader <- RCurl::dynCurlReader(curl=opal$curl)
+  #options <- opts
+  #if (protocol=="https") {
+  #  if (!is.null(options$sslcert)) {
+  #    options$sslcert <- .getPEMFilePath(options$sslcert)
+  #  }
+  #  if (!is.null(options$sslkey)) {
+  #    options$sslkey <- .getPEMFilePath(options$sslkey)
+  #  }
+  #  if (is.null(options$ssl.verifyhost)) {
+  #    options$ssl.verifyhost = 0
+  #  }
+  #  if (is.null(options$ssl.verifypeer)) {
+  #    options$ssl.verifypeer = 0
+  #  }
+  #}
+  #opal$opts <- RCurl::curlOptions(header=TRUE, httpheader=headers, cookielist="", .opts=options)
+  #opal$curl <- RCurl::curlSetOpt(.opts=opal$opts)
+  #opal$reader <- RCurl::dynCurlReader(curl=opal$curl)
   opal$rid <- NULL
   opal$restore <- restore
   class(opal) <- "opal"
   
   # get user profile to test sign-in
-  ignore <- .get(opal, "system", "subject-profile", "_current")
+  r <- GET(.url(opal, "system", "subject-profile", "_current"), httr::add_headers(Authorization = opal$authorization), .verbose())
+  opal$profile <- .handleResponse(opal, r)
   
   opal
 }
@@ -719,9 +692,17 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
   return(res$id)
 }
 
+#' Remove a Opal session (logout)
+#' @keywords internal
+.rmOpalSession <- function(opal) {
+  if (!is.null(opal$sid)) {
+    .delete(opal, "auth", "session", "_current")
+  }
+}
+
 #' Remove a R session from Opal.
 #' @keywords internal
-.rmSession <- function(opal, save=FALSE) {
+.rmRSession <- function(opal, save=FALSE) {
   if (!is.null(opal$rid)) {
     if ((is.logical(save) && save) || is.character(save)) {
       saveId <- save
@@ -742,4 +723,49 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @keywords internal
 .getSessions <- function(opal) {
   .extractJsonField(.get(opal, "r", "sessions"))
+}
+
+#' Verbose flag
+#' @import httr
+#' @keywords internal
+.verbose <- function() {
+  verbose <- NULL
+  if (.is.verbose()) {
+    verbose <- httr::verbose()
+  }
+  verbose
+}
+
+#' Verbose option
+#' @keywords internal
+.is.verbose <- function() {
+  getOption("verbose", FALSE)
+}
+
+#' @keywords internal
+.nullToNA <- function(x) {
+  ifelse(is.null(x), NA, x)
+}
+
+#' Extract label for locale. If not found, fallback to undefined language label (if any).
+#' @keywords internal
+.extractLabel <- function(locale="en", labels=list(), localeKey="locale", valueKey="value") {
+  if (is.null(labels) || length(labels) == 0) {
+    return(NA)
+  }
+  label <- NA
+  label.und <- NA
+  for (i in 1:length(labels)) {
+    l <- labels[[i]]
+    if (!(localeKey %in% names(l))) {
+      label.und <- l[[valueKey]]
+    } else if (l[[localeKey]] == locale) {
+      label <- l[[valueKey]]
+    }
+  }
+  if (is.na(label)) {
+    label.und
+  } else {
+    label
+  }
 }

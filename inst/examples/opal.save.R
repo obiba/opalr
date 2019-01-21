@@ -4,7 +4,7 @@
 # Opal R client
 #
 
-library(opal)
+library(opalr)
 
 # Save ID is session ID
 o<-opal.login('administrator', 'password', 'http://localhost:8080')

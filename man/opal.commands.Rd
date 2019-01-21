@@ -4,10 +4,12 @@
 \alias{opal.commands}
 \title{List the asynchronous commands}
 \usage{
-opal.commands(opal)
+opal.commands(opal, df = TRUE)
 }
 \arguments{
 \item{opal}{Opal object.}
+
+\item{df}{Return a data.frame (default is TRUE)}
 }
 \description{
 Get the list of asynchronous R commands in the remote R session.

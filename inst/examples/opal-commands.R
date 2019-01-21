@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-library(opal)
+library(opalr)
 
 options(opal.username='administrator', 
         opal.password='password', 

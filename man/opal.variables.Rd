@@ -4,7 +4,7 @@
 \alias{opal.variables}
 \title{Get variables of a table from a opal.}
 \usage{
-opal.variables(opal, datasource, table)
+opal.variables(opal, datasource, table, locale = "en", df = TRUE)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -12,6 +12,10 @@ opal.variables(opal, datasource, table)
 \item{datasource}{Name of the datasource.}
 
 \item{table}{Name of the table in the datasource.}
+
+\item{locale}{The language for labels (default is "en").}
+
+\item{df}{Return a data.frame (default is TRUE)}
 }
 \description{
 Get variables of a table from a opal.

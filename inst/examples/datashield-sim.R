@@ -1,4 +1,4 @@
-library(dsBaseClient)
+library(datashieldclient)
 options(verbose=F)
 logindata <- read.csv("./examples/logindata-demo.csv")
 opals<-datashield.login(logindata, assign=T)

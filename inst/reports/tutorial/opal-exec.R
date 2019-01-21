@@ -1,6 +1,6 @@
 #!/usr/bin/Rscript
 
-library(opal)
+library(opalr)
 
 # change report input path to fit your environment
 input <- "inst/reports/tutorial/opal-prod.Rmd"

@@ -22,7 +22,7 @@ Opal has an internal file system that is accessible through web services. The op
 Setup the connection with Opal:
 
 ```{r}
-library(opal)
+library(opalr)
 o <- opal.login('administrator', 'password', 'https://opal-demo.obiba.org')
 ```
 

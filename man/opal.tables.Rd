@@ -4,12 +4,16 @@
 \alias{opal.tables}
 \title{Get tables of a datasource from a opal.}
 \usage{
-opal.tables(opal, datasource)
+opal.tables(opal, datasource, counts = FALSE, df = TRUE)
 }
 \arguments{
 \item{opal}{Opal object.}
 
 \item{datasource}{Name of the datasource.}
+
+\item{counts}{Flag to get the number of variables and entities (default is FALSE).}
+
+\item{df}{Return a data.frame (default is TRUE)}
 }
 \description{
 Get tables of a datasource from a opal.

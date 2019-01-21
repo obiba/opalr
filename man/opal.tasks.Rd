@@ -4,10 +4,12 @@
 \alias{opal.tasks}
 \title{Get the tasks from a opal.}
 \usage{
-opal.tasks(opal)
+opal.tasks(opal, df = TRUE)
 }
 \arguments{
 \item{opal}{Opal object.}
+
+\item{df}{Return a data.frame (default is TRUE)}
 }
 \description{
 Get the tasks from a opal.
