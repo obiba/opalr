@@ -354,9 +354,11 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 }
 
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
+#' @import utils
 #' @keywords internal
 .url <- function(opal, ...) {
-  url <- paste(opal$url, "ws", paste(sapply(c(...), RCurl::curlEscape), collapse="/"), sep="/")
+  #url <- paste(opal$url, "ws", paste(sapply(c(...), RCurl::curlEscape), collapse="/"), sep="/")
+  url <- utils::URLencode(paste(opal$url, "ws", paste(c(...), collapse="/"), sep="/"))
   if (.is.verbose()) {
     print(url)
   }
@@ -373,9 +375,9 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' Issues a GET request to opal for the specified resource
 #' @import httr
 #' @keywords internal
-.get <- function(opal, ..., query=list()) {
+.get <- function(opal, ..., query=list(), callback=NULL) {
   r <- GET(.url(opal, ...), query=query, .verbose())
-  .handleResponse(opal, r)
+  .handleResponseOrCallback(opal, r, callback)
 }
 
 #' Post a request w/o body content
@@ -383,7 +385,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @keywords internal
 .post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
   r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), .verbose())
-  .handleResponse(opal, r)
+  .handleResponseOrCallback(opal, r, callback)
 }
 
 #' Put a request w/o body content
@@ -391,15 +393,26 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @keywords internal
 .put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
   r <- PUT(.url(opal, ...), query=query, body=body, content_type(contentType), .verbose())
-  .handleResponse(opal, r)
+  .handleResponseOrCallback(opal, r, callback)
 }
 
 #' Issues a DELETE request to opal for the specified resource
 #' @import httr
 #' @keywords internal
-.delete <- function(opal, ..., query=list()) {
+.delete <- function(opal, ..., query=list(), callback=NULL) {
   r <- DELETE(.url(opal, ...), query=query, .verbose())
-  .handleResponse(opal, r)
+  .handleResponseOrCallback(opal, r, callback)  
+}
+
+#' Process response with default handler or the provided one
+#' @keywords internal
+.handleResponseOrCallback <- function(opal, response, callback=NULL) {
+  if (is.null(callback)) {
+    .handleResponse(opal, response)  
+  } else {
+    handler <- match.fun(callback)
+    handler(opal, response)
+  }
 }
 
 #' Default request response handler.
@@ -430,6 +443,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' Handle error response
 #' @keywords internal
 .handleError <- function(opal, response) {
+  print(response)
   content <- content(response)
   if ("error" %in% names(content)) {
     if ("message" %in% names(content)) {
@@ -448,30 +462,20 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
   if (is.null(opal$version) || is.na(opal$version)) {
     opal$version <- as.character(response$headers['X-Opal-Version'])
   }
-  if (is.null(opal$sid)) {
-    opal$sid <- .extractOpalSessionId(response$cookielist)
+  cookies <- httr::cookies(response)
+  opal$sid <- .extractOpalSessionId(cookies)
+
+  if (response$status>=300) {
+    .handleError(opal, response)
   }
-  #print(response)
-  if(response$code >= 400) { 
-    msg <- gsub("[\n\r]","",response$headers['statusMessage'])
-    msg <- paste0(opal$name, ": ", msg, " (", response$code, ")")  
-    if (!.isContentEmpty(response$content)) {
-      error <- response$content
-      if(is.raw(error)) {
-        error <- readChar(response$content, length(response$content))
-      }
-      msg <- paste0(msg, ": ", error)
-    }
-    stop(msg, call.=FALSE)
+  
+  headers <- httr::headers(response)
+  location <- headers['Location']
+  if(!is.na(location)) {
+    location <- location$Location
+    substring(location, regexpr(pattern = "/ws/", location) + 3)
   } else {
-    headers <- strsplit(response$headers, "\n")
-    location <- headers['Location']
-    if(!is.na(location)) {
-      location <- location$Location
-      substring(location, regexpr(pattern = "/ws/", location) + 3)
-    } else {
-      NULL
-    }
+    NULL
   }
 }
 

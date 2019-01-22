@@ -4,7 +4,7 @@
 \alias{.delete}
 \title{Issues a DELETE request to opal for the specified resource}
 \usage{
-.delete(opal, ..., query = list())
+.delete(opal, ..., query = list(), callback = NULL)
 }
 \description{
 Issues a DELETE request to opal for the specified resource

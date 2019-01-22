@@ -86,10 +86,8 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
 opal.file_upload <- function(opal, source, destination) {
   res <- opal.file_ls(opal, destination)
   location <- append("files", strsplit(substring(destination, 2), "/")[[1]])
-  url <- .url(opal, location)
-  sourceFile <- RCurl::fileUpload(source)
-  opts = RCurl::curlOptions(httpheader=c(opal$opts$httpheader, 'Accept'='text/html'), verbose=getOption("verbose", FALSE), .opts=opal$opts)
-  res <- RCurl::postForm(uri=url, file=sourceFile, .opts=opts, curl=opal$curl)
+  r <- POST(.url(opal, location), body=list(file=upload_file(source)), encode = "multipart", content_type("multipart/form-data"), accept("text/html"), .verbose())
+  res <- .handleResponse(opal, r)
   res <- opal.file_ls(opal, destination)
 }
 

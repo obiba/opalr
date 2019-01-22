@@ -111,6 +111,7 @@ opal.tables <- function(opal, datasource, counts=FALSE, df=TRUE) {
   n <- length(res)
   if (n > 0) {
     name <- rep(NA, n)
+    ds <- rep(datasource, n)
     entityType <- rep(NA, n)
     variables <- rep(NA, n)
     entities <- rep(NA, n)
@@ -128,9 +129,9 @@ opal.tables <- function(opal, datasource, counts=FALSE, df=TRUE) {
       lastUpdate[i] <- item$timestamps$lastUpdate
     }
     if (counts) {
-      data.frame(name, entityType, variables, entities, created, lastUpdate)
+      data.frame(name, datasource=ds, entityType, variables, entities, created, lastUpdate)
     } else {
-      data.frame(name, entityType, created, lastUpdate) 
+      data.frame(name, datasource=ds, entityType, created, lastUpdate) 
     }
   } else {
     data.frame()
@@ -168,6 +169,8 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
   n <- length(res)
   if (n > 0) {
     name <- rep(NA, n)
+    ds <- rep(datasource, n)
+    tbl <- rep(table, n)
     label <- rep(NA, n)
     entityType <- rep(NA, n)
     valueType <- rep(NA, n)
@@ -224,7 +227,7 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
       }
       
     }
-    df <- data.frame(name, label, entityType, valueType, unit, referencedEntityType, mimeType, repeatable, occurrenceGroup, index, categories, categories.missing, categories.label) 
+    df <- data.frame(name, datasource=ds, table=tbl, label, entityType, valueType, unit, referencedEntityType, mimeType, repeatable, occurrenceGroup, index, categories, categories.missing, categories.label) 
     for (col in names(annotations)) {
       df[[col]] <- annotations[[col]]
     }

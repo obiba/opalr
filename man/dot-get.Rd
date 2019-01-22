@@ -4,7 +4,7 @@
 \alias{.get}
 \title{Issues a GET request to opal for the specified resource}
 \usage{
-.get(opal, ..., query = list())
+.get(opal, ..., query = list(), callback = NULL)
 }
 \description{
 Issues a GET request to opal for the specified resource
