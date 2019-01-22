@@ -357,12 +357,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @import utils
 #' @keywords internal
 .url <- function(opal, ...) {
-  #url <- paste(opal$url, "ws", paste(sapply(c(...), RCurl::curlEscape), collapse="/"), sep="/")
-  url <- utils::URLencode(paste(opal$url, "ws", paste(c(...), collapse="/"), sep="/"))
-  if (.is.verbose()) {
-    print(url)
-  }
-  url
+  utils::URLencode(paste(opal$url, "ws", paste(c(...), collapse="/"), sep="/"))
 }
 
 #' Constructs the value for the Authorization header
@@ -376,7 +371,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @import httr
 #' @keywords internal
 .get <- function(opal, ..., query=list(), callback=NULL) {
-  r <- GET(.url(opal, ...), query=query, .verbose())
+  r <- GET(.url(opal, ...), query=query, config=opal$config, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -384,7 +379,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @import httr
 #' @keywords internal
 .post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), .verbose())
+  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -392,7 +387,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @import httr
 #' @keywords internal
 .put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  r <- PUT(.url(opal, ...), query=query, body=body, content_type(contentType), .verbose())
+  r <- PUT(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -400,7 +395,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @import httr
 #' @keywords internal
 .delete <- function(opal, ..., query=list(), callback=NULL) {
-  r <- DELETE(.url(opal, ...), query=query, .verbose())
+  r <- DELETE(.url(opal, ...), query=query, config=opal$config, .verbose())
   .handleResponseOrCallback(opal, r, callback)  
 }
 
@@ -571,37 +566,41 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
   opal$version <- NA
   
   # cookielist="" activates the cookie engine
-  headers <- c(Accept="application/json, application/octet-stream");
   if(is.null(username) == FALSE) {
     # Authorization
     opal$authorization <- .authToken(username, password)
   }
   # set default ssl options if https
   protocol <- strsplit(url, split="://")[[1]][1]
-  #options <- opts
-  #if (protocol=="https") {
-  #  if (!is.null(options$sslcert)) {
-  #    options$sslcert <- .getPEMFilePath(options$sslcert)
-  #  }
-  #  if (!is.null(options$sslkey)) {
-  #    options$sslkey <- .getPEMFilePath(options$sslkey)
-  #  }
-  #  if (is.null(options$ssl.verifyhost)) {
-  #    options$ssl.verifyhost = 0
-  #  }
-  #  if (is.null(options$ssl.verifypeer)) {
-  #    options$ssl.verifypeer = 0
-  #  }
-  #}
-  #opal$opts <- RCurl::curlOptions(header=TRUE, httpheader=headers, cookielist="", .opts=options)
-  #opal$curl <- RCurl::curlSetOpt(.opts=opal$opts)
-  #opal$reader <- RCurl::dynCurlReader(curl=opal$curl)
+  options <- opts
+  if (protocol=="https") {
+    if (!is.null(options$cainfo)) {
+      options$cainfo <- .getPEMFilePath(options$cainfo)
+    }
+    if (!is.null(options$sslcert)) {
+      options$sslcert <- .getPEMFilePath(options$sslcert)
+    }
+    if (!is.null(options$sslkey)) {
+      options$sslkey <- .getPEMFilePath(options$sslkey)
+    }
+    # legacy RCurl options to httr
+    if (!is.null(options$ssl.verifyhost)) {
+      options$ssl_verifyhost = options$ssl.verifyhost
+      options$ssl.verifyhost <- NULL
+    }
+    if (!is.null(options$ssl.verifypeer)) {
+      options$ssl_verifypeer = options$ssl.verifypeer
+      options$ssl.verifypeer <- NULL
+    }
+  }
+  opal$config <- config()
+  opal$config$options <- options
   opal$rid <- NULL
   opal$restore <- restore
   class(opal) <- "opal"
   
   # get user profile to test sign-in
-  r <- GET(.url(opal, "system", "subject-profile", "_current"), httr::add_headers(Authorization = opal$authorization), .verbose())
+  r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization), .verbose())
   opal$profile <- .handleResponse(opal, r)
   
   opal
