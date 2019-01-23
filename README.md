@@ -1,5 +1,7 @@
 # Opal R
 
+[![Build Status](https://travis-ci.com/obiba/opalr.svg?branch=master)](https://travis-ci.com/obiba/opalr)
+
 ## Opal R Client
 
 Usage:
