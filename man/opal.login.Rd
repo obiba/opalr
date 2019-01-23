@@ -15,7 +15,7 @@ opal.login(username = getOption("opal.username"),
 
 \item{url}{Opal url or list of opal urls. Can be provided by "opal.url" option.}
 
-\item{opts}{Curl options. Can be provided by "opal.opts" option.}
+\item{opts}{Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.}
 
 \item{restore}{Workspace ID to be restored (see also opal.logout)}
 }

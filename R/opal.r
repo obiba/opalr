@@ -16,7 +16,7 @@
 #' @param username User name in opal(s). Can be provided by "opal.username" option.
 #' @param password User password in opal(s). Can be provided by "opal.password" option.
 #' @param url Opal url or list of opal urls. Can be provided by "opal.url" option.
-#' @param opts Curl options. Can be provided by "opal.opts" option.
+#' @param opts Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.
 #' @param restore Workspace ID to be restored (see also opal.logout)
 #' @export
 #' @examples 
@@ -208,32 +208,29 @@ opal.version_compare <- function(opal, version) {
 #' @keywords internal
 .handleError <- function(opal, response) {
   headers <- httr::headers(response)
-  content <- NULL
+  content <- .getContent(opal, response)
   msg <- http_status(response)$message
-  if (is.null(headers$`content-type`)) {
+  if (is.null(content)) {
     stop(msg, call.=FALSE)
   }
   
-  if (headers$`content-type` == "application/x-protobuf+json") {
-    content <- jsonlite::fromJSON(httr::content(response, as="text", encoding = opal$encoding))
-  } else {
-    content <- httr::content(response, encoding = opal$encoding)
-  }
   if ("status" %in% names(content)) {
     msg <- paste0(msg, "; ", content$status)
     if ("arguments" %in% names(content)) {
       msg <- paste0(msg, ": ", paste(content$arguments, collapse = ", "))
     }
     stop(msg, call.=FALSE)
-  } else if ("error" %in% names(content)) {
+  }
+  
+  if ("error" %in% names(content)) {
     if ("message" %in% names(content)) {
       stop(content$message, call.=FALSE)
     } else {
       stop(content$error, call.=FALSE)  
     }
-  } else {
-    stop(msg, call.=FALSE)
   }
+  
+  stop(msg, call.=FALSE)
 }
 
 #' Default request response Location handler.
@@ -263,7 +260,7 @@ opal.version_compare <- function(opal, version) {
 #' @keywords internal
 .handleAttachment <- function(opal, response, disposition) {
   headers <- httr::headers(response)
-  content <- httr::content(response, encoding = opal$encoding)
+  content <- .getContent(opal, response)
   
   filename <- strsplit(disposition,"\"")[[1]][2]
   filetype <- mime::guess_type(filename)
@@ -284,7 +281,7 @@ opal.version_compare <- function(opal, version) {
 #' @keywords internal
 .handleContent <- function(opal, response) {
   headers <- httr::headers(response)
-  content <- httr::content(response, encoding = opal$encoding)
+  content <- .getContent(opal, response)
   
   if(length(grep("octet-stream", headers$`content-type`))) {
     unserialize(content)
@@ -292,6 +289,20 @@ opal.version_compare <- function(opal, version) {
     as.character(content)
   } else {
     content
+  }
+}
+
+#' Wrapper of httr::content()
+#' @import httr
+#' @keywords internal
+.getContent <- function(opal, response) {
+  headers <- httr::headers(response)
+  if (is.null(headers$`content-type`)) {
+    NULL
+  } else if (headers$`content-type` == "application/x-protobuf+json") {
+    jsonlite::fromJSON(httr::content(response, as="text", encoding = opal$encoding))
+  } else {
+    httr::content(response, encoding = opal$encoding)
   }
 }
 
