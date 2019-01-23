@@ -31,3 +31,21 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
     }
   }
 }
+
+#' Load package in the current session.
+#'
+#' @param opal Opal object or list of opal objects.
+#' @param pkg Package name.
+#' @export
+opal.load_package <- function(opal, pkg) {
+  opal.execute(opal, paste('library("', pkg, '")', sep=''), TRUE)
+}
+
+#' Unload package from the current session.
+#'
+#' @param opal Opal object or list of opal objects.
+#' @param pkg Package name.
+#' @export
+opal.unload_package <- function(opal, pkg) {
+  resp <- opal.execute(opal, paste('detach("package:', pkg, '", character.only=TRUE, unload=TRUE)', sep=''), TRUE)
+}
