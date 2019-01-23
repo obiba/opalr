@@ -14,9 +14,10 @@
 #'
 #' @param opal Opal object or list of opal objects.
 #' @param fields A character vector giving the fields to extract from each package's DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.
-#' @return A named list of package descriptions
+#' @param df Return a data.frame (default is TRUE)
+#' @return The Datashield package descriptions as a data.frame or a list
 #' @export
-dsadmin.package_descriptions <- function(opal, fields=NULL) {
+dsadmin.package_descriptions <- function(opal, fields=NULL, df=TRUE) {
   if(is.list(opal)){
     lapply(opal, function(o){dsadmin.package_descriptions(o, fields=fields)})
   } else {
@@ -33,7 +34,42 @@ dsadmin.package_descriptions <- function(opal, fields=NULL) {
       }
       packageList[[dto$name]] <- packageDescription
     }
-    packageList
+    if (df) {
+      n <- length(packageList)
+      package <- rep(NA, n)
+      libPath <- rep(NA, n)
+      version <- rep(NA, n)
+      depends <- rep(NA, n)
+      license <- rep(NA, n)
+      built <- rep(NA, n)
+      title <- rep(NA, n)
+      description <- rep(NA, n)
+      author <- rep(NA, n)
+      maintainer <- rep(NA, n)
+      aggregateMethods <- rep(NA, n)
+      assignMethods <- rep(NA, n)
+      i <- 1
+      for (name in names(packageList)) {
+        package[i] <- packageList[[name]]$Package
+        libPath[i] <- packageList[[name]]$LibPath
+        version[i] <- packageList[[name]]$Version
+        depends[i] <- .nullToNA(packageList[[name]]$Depends)
+        license[i] <- packageList[[name]]$License
+        built[i] <- packageList[[name]]$Built
+        title[i] <- packageList[[name]]$Title
+        description[i] <- packageList[[name]]$Description
+        author[i] <- packageList[[name]]$Author
+        maintainer[i] <-  .nullToNA(packageList[[name]]$Maintainer)
+        aggregateMethods[i] <- .nullToNA(packageList[[name]]$AggregateMethods)
+        assignMethods[i] <- .nullToNA(packageList[[name]]$AssignMethods)
+        i <- i + 1
+      }
+      data.frame(Package=package, LibPath=libPath, Version=version, Depends=depends, License=license, Built=built, 
+                 Title=title, Description=description, Author=author, Maintainer=maintainer, 
+                 AggregateMethods=aggregateMethods, AssignMethods=assignMethods)
+    } else {
+      packageList  
+    }
   }
 }
 
