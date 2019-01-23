@@ -13,7 +13,9 @@ Authors@R:
              comment = c(ORCID = "0000-0002-1180-2792")))
 Depends:
     R (>= 3.1),
-    httr,
+    httr
+Imports:
+    xml2,
     jsonlite,
     mime
 Suggests:
@@ -35,3 +37,4 @@ URL: http://www.obiba.org
 BugReports: https://github.com/obiba/opalr
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
+Encoding: UTF-8

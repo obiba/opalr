@@ -4,3 +4,4 @@ addons:
   apt:
     packages:
       - libxml2-dev
+warnings_are_errors: true
