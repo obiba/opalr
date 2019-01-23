@@ -208,7 +208,7 @@ opal.version_compare <- function(opal, version) {
 #' @keywords internal
 .handleError <- function(opal, response) {
   print(response)
-  content <- content(response)
+  content <- httr::content(response, encoding = opal$encoding)
   if ("error" %in% names(content)) {
     if ("message" %in% names(content)) {
       stop(content$message, call.=FALSE)
@@ -247,7 +247,7 @@ opal.version_compare <- function(opal, version) {
 #' @keywords internal
 .handleAttachment <- function(opal, response, disposition) {
   headers <- httr::headers(response)
-  content <- content(response)
+  content <- httr::content(response, encoding = opal$encoding)
   
   filename <- strsplit(disposition,"\"")[[1]][2]
   filetype <- mime::guess_type(filename)
@@ -268,7 +268,7 @@ opal.version_compare <- function(opal, version) {
 #' @keywords internal
 .handleContent <- function(opal, response) {
   headers <- httr::headers(response)
-  content <- content(response)
+  content <- httr::content(response, encoding = opal$encoding)
   
   if(length(grep("octet-stream", headers$`content-type`))) {
     unserialize(content)
@@ -313,13 +313,19 @@ opal.version_compare <- function(opal, version) {
   opal$name <- gsub("[:/].*", "", gsub("http[s]*://", "", opal$url))
   # Version default value
   opal$version <- NA
+  # Server response encoding
+  opal$encoding <- "UTF-8"
+  if (!is.null(opts$encoding)) {
+    opal$encoding <- opts$encoding
+    opts$encoding <- NULL # not a httr/curl option
+  }
   
-  # cookielist="" activates the cookie engine
+  # authentication token
   if(is.null(username) == FALSE) {
     # Authorization
     opal$authorization <- .authToken(username, password)
   }
-  # set default ssl options if https
+  # httr/curl options
   protocol <- strsplit(url, split="://")[[1]][1]
   options <- opts
   if (protocol=="https") {
