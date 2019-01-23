@@ -207,16 +207,32 @@ opal.version_compare <- function(opal, version) {
 #' Handle error response
 #' @keywords internal
 .handleError <- function(opal, response) {
-  print(response)
-  content <- httr::content(response, encoding = opal$encoding)
-  if ("error" %in% names(content)) {
+  headers <- httr::headers(response)
+  content <- NULL
+  msg <- http_status(response)$message
+  if (is.null(headers$`content-type`)) {
+    stop(msg, call.=FALSE)
+  }
+  
+  if (headers$`content-type` == "application/x-protobuf+json") {
+    content <- jsonlite::fromJSON(httr::content(response, as="text", encoding = opal$encoding))
+  } else {
+    content <- httr::content(response, encoding = opal$encoding)
+  }
+  if ("status" %in% names(content)) {
+    msg <- paste0(msg, "; ", content$status)
+    if ("arguments" %in% names(content)) {
+      msg <- paste0(msg, ": ", paste(content$arguments, collapse = ", "))
+    }
+    stop(msg, call.=FALSE)
+  } else if ("error" %in% names(content)) {
     if ("message" %in% names(content)) {
       stop(content$message, call.=FALSE)
     } else {
       stop(content$error, call.=FALSE)  
     }
   } else {
-    stop(response$status, call.=FALSE)
+    stop(msg, call.=FALSE)
   }
 }
 
