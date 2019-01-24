@@ -56,9 +56,9 @@ dsadmin.package_descriptions <- function(opal, fields=NULL, df=TRUE) {
         depends[i] <- .nullToNA(packageList[[name]]$Depends)
         license[i] <- packageList[[name]]$License
         built[i] <- packageList[[name]]$Built
-        title[i] <- packageList[[name]]$Title
-        description[i] <- packageList[[name]]$Description
-        author[i] <- packageList[[name]]$Author
+        title[i] <- .nullToNA(packageList[[name]]$Title)
+        description[i] <- .nullToNA(packageList[[name]]$Description)
+        author[i] <- .nullToNA(packageList[[name]]$Author)
         maintainer[i] <-  .nullToNA(packageList[[name]]$Maintainer)
         aggregateMethods[i] <- .nullToNA(packageList[[name]]$AggregateMethods)
         assignMethods[i] <- .nullToNA(packageList[[name]]$AssignMethods)
