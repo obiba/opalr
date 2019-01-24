@@ -122,6 +122,17 @@ opal.version_compare <- function(opal, version) {
   return(0)
 }
 
+
+#' Generic REST resource getter.
+#' 
+#' @param opal Opal object.
+#' @param ... Resource path segments.
+#' @param query Named list of query parameters.
+#' @export
+opal.get <- function(opal, ..., query=list()) {
+  .get(opal, ..., query)
+}
+
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
 #' @import utils
 #' @keywords internal
