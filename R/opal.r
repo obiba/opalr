@@ -128,9 +128,55 @@ opal.version_compare <- function(opal, version) {
 #' @param opal Opal object.
 #' @param ... Resource path segments.
 #' @param query Named list of query parameters.
+#' @param callback A callback function to handle the response object.
+#' @import httr
 #' @export
-opal.get <- function(opal, ..., query=list()) {
-  .get(opal, ..., query)
+opal.get <- function(opal, ..., query=list(), callback=NULL) {
+  r <- GET(.url(opal, ...), query=query, config=opal$config, .verbose())
+  .handleResponseOrCallback(opal, r, callback)
+}
+
+#' Generic REST resource creation.
+#' 
+#' @param opal Opal object.
+#' @param ... Resource path segments.
+#' @param query Named list of query parameters.
+#' @param body The body of the request.
+#' @param contentType The type of the body content.
+#' @param callback A callback function to handle the response object.
+#' @import httr
+#' @export
+opal.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
+  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, .verbose())
+  .handleResponseOrCallback(opal, r, callback)
+}
+
+#' Generic REST resource update.
+#' 
+#' @param opal Opal object.
+#' @param ... Resource path segments.
+#' @param query Named list of query parameters.
+#' @param body The body of the request.
+#' @param contentType The type of the body content.
+#' @param callback A callback function to handle the response object.
+#' @import httr
+#' @export
+opal.put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
+  r <- PUT(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, .verbose())
+  .handleResponseOrCallback(opal, r, callback)
+}
+
+#' Generic REST resource deletion.
+#' 
+#' @param opal Opal object.
+#' @param ... Resource path segments.
+#' @param query Named list of query parameters.
+#' @param callback A callback function to handle the response object.
+#' @import httr
+#' @export
+opal.delete <- function(opal, ..., query=list(), callback=NULL) {
+  r <- DELETE(.url(opal, ...), query=query, config=opal$config, .verbose())
+  .handleResponseOrCallback(opal, r, callback)  
 }
 
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
@@ -145,38 +191,6 @@ opal.get <- function(opal, ..., query=list()) {
 #' @keywords internal
 .authToken <- function(username, password) {
   paste("X-Opal-Auth", jsonlite::base64_enc(paste(username, password, sep=":")))
-}
-
-#' Issues a GET request to opal for the specified resource
-#' @import httr
-#' @keywords internal
-.get <- function(opal, ..., query=list(), callback=NULL) {
-  r <- GET(.url(opal, ...), query=query, config=opal$config, .verbose())
-  .handleResponseOrCallback(opal, r, callback)
-}
-
-#' Post a request w/o body content
-#' @import httr
-#' @keywords internal
-.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, .verbose())
-  .handleResponseOrCallback(opal, r, callback)
-}
-
-#' Put a request w/o body content
-#' @import httr
-#' @keywords internal
-.put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  r <- PUT(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, .verbose())
-  .handleResponseOrCallback(opal, r, callback)
-}
-
-#' Issues a DELETE request to opal for the specified resource
-#' @import httr
-#' @keywords internal
-.delete <- function(opal, ..., query=list(), callback=NULL) {
-  r <- DELETE(.url(opal, ...), query=query, config=opal$config, .verbose())
-  .handleResponseOrCallback(opal, r, callback)  
 }
 
 #' Process response with default handler or the provided one
@@ -436,7 +450,7 @@ opal.get <- function(opal, ..., query=list()) {
   if (!is.null(restore)) {
     query <- list(restore=restore)  
   }
-  res <- .extractJsonField(.post(opal, "r", "sessions", query=query), c("id"), isArray=FALSE)
+  res <- .extractJsonField(opal.post(opal, "r", "sessions", query=query), c("id"), isArray=FALSE)
   return(res$id)
 }
 
@@ -444,7 +458,7 @@ opal.get <- function(opal, ..., query=list()) {
 #' @keywords internal
 .rmOpalSession <- function(opal) {
   if (!is.null(opal$sid)) {
-    .delete(opal, "auth", "session", "_current")
+    opal.delete(opal, "auth", "session", "_current")
   }
 }
 
@@ -457,12 +471,12 @@ opal.get <- function(opal, ..., query=list()) {
       if(is.logical(save) && save) {
         saveId <- opal$rid
       }
-      .delete(opal, "r", "session", opal$rid, query=list(save=saveId))
+      opal.delete(opal, "r", "session", opal$rid, query=list(save=saveId))
       if(saveId != save) {
         return(saveId)
       }
     } else {
-      .delete(opal, "r", "session", opal$rid)
+      opal.delete(opal, "r", "session", opal$rid)
     }
   }
 }
@@ -470,7 +484,7 @@ opal.get <- function(opal, ..., query=list()) {
 #' Get all R session in Opal.
 #' @keywords internal
 .getSessions <- function(opal) {
-  .extractJsonField(.get(opal, "r", "sessions"))
+  .extractJsonField(opal.get(opal, "r", "sessions"))
 }
 
 #' Verbose flag

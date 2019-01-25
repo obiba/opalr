@@ -121,7 +121,7 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
       query["async"] <- "true"
     }
     ignore <- .getRSessionId(opal)
-    res <- .put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+    res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
   }
 }
 
@@ -174,7 +174,7 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
       query["async"] <- "true"
     }
     ignore <- .getRSessionId(opal)
-    res <- .put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+    res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
   }
 }
 
@@ -210,6 +210,6 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
       query["async"] <- "true"
     }
     ignore <- .getRSessionId(opal)
-    res <- .post(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+    res <- opal.post(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
   }
 }

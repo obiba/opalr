@@ -22,7 +22,7 @@ datashield.methods=function(opal, type="aggregate") {
 #' @rdname datashield.methods
 #' @export
 datashield.methods.opal=function(opal, type="aggregate") {
-  rlist <- .get(opal, "datashield", "env", type, "methods")
+  rlist <- opal.get(opal, "datashield", "env", type, "methods")
   name <- lapply(rlist,function(m){
     m$name
   })
@@ -85,7 +85,7 @@ datashield.method=function(opal, name, type="aggregate") {
 #' @export
 datashield.method.opal=function(opal, name, type="aggregate") {
   # this request is currently not accessible to ds user
-  #.get(opal, "datashield", "env", type, "method", name)
+  #opal.get(opal, "datashield", "env", type, "method", name)
   ms <- datashield.methods(opal, type);
   rval <- ms[ms$name == name,]
   if (nrow(rval) > 0) {

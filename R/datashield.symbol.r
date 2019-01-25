@@ -23,7 +23,7 @@ datashield.symbols=function(opal) {
 #' @export
 datashield.symbols.opal=function(opal) {
   ignore <- .getDatashieldSessionId(opal)
-  .get(opal, "datashield", "session", opal$rid, "symbols")
+  opal.get(opal, "datashield", "session", opal$rid, "symbols")
 }
 
 #' @rdname datashield.symbols
@@ -48,7 +48,7 @@ datashield.rm=function(opal, symbol) {
 #' @export
 datashield.rm.opal=function(opal, symbol) {
   ignore <- .getDatashieldSessionId(opal)
-  res <- .delete(opal, "datashield", "session", opal$rid, "symbol", symbol)
+  res <- opal.delete(opal, "datashield", "session", opal$rid, "symbol", symbol)
 }
 
 #' @rdname datashield.rm

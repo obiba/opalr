@@ -25,7 +25,7 @@ dsadmin.package_descriptions <- function(opal, fields=NULL, df=TRUE) {
     if (!is.null(fields) && length(fields)) {
       query <- append(query,list(fields=paste(fields, collapse=',')))
     }
-    dtos <- .get(opal, "datashield", "packages", query=query)
+    dtos <- opal.get(opal, "datashield", "packages", query=query)
     packageList <- c()
     for (dto in dtos) {
       packageDescription <- list()
@@ -89,7 +89,7 @@ dsadmin.package_description <- function(opal, pkg, fields=NULL) {
     if (!is.null(fields) && length(fields) > 0) {
       query <- list(fields=paste(fields, collapse=','))
     }
-    dto <- .get(opal, "datashield", "package", pkg, query=query)
+    dto <- opal.get(opal, "datashield", "package", pkg, query=query)
     packageDescription <- list()
     for (desc in dto$description) {
       packageDescription[[desc$key]] <- desc$value
@@ -117,7 +117,7 @@ dsadmin.install_package <- function(opal, pkg, githubusername=NULL, ref=NULL) {
     } else {
       query <- list(name=pkg)
     }
-    .post(opal, "datashield", "packages", query=query)
+    opal.post(opal, "datashield", "packages", query=query)
     dsadmin.installed_package(opal, pkg)
   }
 }
@@ -133,7 +133,7 @@ dsadmin.remove_package <- function(opal, pkg) {
   if(is.list(opal)){
     resp <- lapply(opal, function(o){dsadmin.remove_package(o, pkg)})
   } else {
-    resp <- .delete(opal, "datashield", "package", pkg, callback=function(o,r){})
+    resp <- opal.delete(opal, "datashield", "package", pkg, callback=function(o,r){})
   }
 }
 
@@ -147,7 +147,7 @@ dsadmin.installed_package <- function(opal, pkg) {
   if(is.list(opal)){
     resp <- lapply(opal, function(o){dsadmin.installed_package(o, pkg)})
   } else {
-    .get(opal, "datashield", "package", pkg, callback=function(o,r){
+    opal.get(opal, "datashield", "package", pkg, callback=function(o,r){
       if(r$code == 404) {
         FALSE
       } else if (r$code >= 400) {
@@ -183,7 +183,7 @@ dsadmin.set_method <- function(opal, name, func=NULL, path=NULL, type="aggregate
       methodDto <- paste('{"name":"', name, '","DataShield.RFunctionDataShieldMethodDto.method":{"func":"', func, '"}}', sep='')
     }
     dsadmin.rm_method(opal, name, type=type)
-    .post(opal, "datashield", "env", type, "methods", body=methodDto, contentType="application/json");
+    opal.post(opal, "datashield", "env", type, "methods", body=methodDto, contentType="application/json");
   }
 }
 
@@ -200,7 +200,7 @@ dsadmin.rm_method <- function(opal, name, type="aggregate") {
     lapply(opal, function(o){dsadmin.rm_method(o, name, type=type)})
   } else {
     # ignore errors and returned value
-    resp <- .delete(opal, "datashield", "env", type, "method", name, callback=function(o,r){})
+    resp <- opal.delete(opal, "datashield", "env", type, "method", name, callback=function(o,r){})
   }
 }
 
@@ -220,7 +220,7 @@ dsadmin.rm_methods <- function(opal, type=NULL) {
       dsadmin.rm_methods(opal, type="aggregate")
       dsadmin.rm_methods(opal, type="assign")
     } else {
-      resp <- .delete(opal, "datashield", "env", type, "methods", callback=function(o,r){})
+      resp <- opal.delete(opal, "datashield", "env", type, "methods", callback=function(o,r){})
     }
   }
 }
@@ -237,7 +237,7 @@ dsadmin.get_method <- function(opal, name, type="aggregate") {
   if(is.list(opal)){
     lapply(opal, function(o){dsadmin.get_method(o, name, type=type)})
   } else {
-    m <- .get(opal, "datashield", "env", type, "method", name)
+    m <- opal.get(opal, "datashield", "env", type, "method", name)
     class <- "function"
     value <- m$DataShield.RFunctionDataShieldMethodDto.method$func
     pkg <- NA
@@ -285,7 +285,7 @@ dsadmin.set_package_methods <- function(opal, pkg, type=NULL) {
   } else {
     if (dsadmin.installed_package(opal,pkg)) {
       # put methods
-      methods <- .put(opal, "datashield", "package", pkg, "methods")
+      methods <- opal.put(opal, "datashield", "package", pkg, "methods")
       TRUE
     } else {
       FALSE
@@ -306,7 +306,7 @@ dsadmin.rm_package_methods <- function(opal, pkg, type=NULL) {
     lapply(opal, function(o){dsadmin.rm_package_methods(o, pkg, type)})
   } else {
     # get methods
-    methods <- .get(opal, "datashield", "package", pkg, "methods")
+    methods <- opal.get(opal, "datashield", "package", pkg, "methods")
     if (is.null(type) || type == "aggregate") {
       rval <- lapply(methods$aggregate, function(dto) {
         dsadmin.rm_method(opal, dto$name, type='aggregate')
@@ -331,7 +331,7 @@ dsadmin.get_options <- function (opal) {
     lapply(opal, function(o){dsadmin.get_options(o)})
   } else {
     # get options
-    options <- .get(opal, "datashield", "options")
+    options <- opal.get(opal, "datashield", "options")
     names <- lapply(options, function(opt) {
       opt$name
     })
@@ -356,7 +356,7 @@ dsadmin.set_option <- function (opal, name, value) {
   } else {
     # set option
     payload <- paste0("{name:'", name ,"',value:'", value,"'}")
-    ignore <- .post(opal, "datashield", "option", body=payload, contentType="application/json")
+    ignore <- opal.post(opal, "datashield", "option", body=payload, contentType="application/json")
   }
 }
 
@@ -372,6 +372,6 @@ dsadmin.rm_option <- function (opal, name) {
     lapply(opal, function(o){dsadmin.rm_option(o, name)})
   } else {
     # rm option
-    ignore <- .delete(opal, "datashield", "option", query=list(name=name))
+    ignore <- opal.delete(opal, "datashield", "option", query=list(name=name))
   }
 }

@@ -14,7 +14,7 @@
 #' @param df Return a data.frame (default is TRUE)
 #' @export
 opal.projects <- function(opal, df=TRUE) {
-  res <- .get(opal, "projects", query=list(digest="true"))
+  res <- opal.get(opal, "projects", query=list(digest="true"))
   if (!df) {
     return(res)
   }
@@ -47,7 +47,7 @@ opal.projects <- function(opal, df=TRUE) {
 #' @param project Name of the project
 #' @export
 opal.project <- function(opal, project) {
-  .get(opal, "project", project)
+  opal.get(opal, "project", project)
 }
 
 #' Get datasources from a opal.
@@ -56,7 +56,7 @@ opal.project <- function(opal, project) {
 #' @param df Return a data.frame (default is TRUE)
 #' @export
 opal.datasources <- function(opal, df=TRUE) {
-  res <- .get(opal, "datasources")
+  res <- opal.get(opal, "datasources")
   if (!df) {
     return(res)
   }
@@ -89,7 +89,7 @@ opal.datasources <- function(opal, df=TRUE) {
 #' @param datasource Name of the datasource.
 #' @export
 opal.datasource <- function(opal, datasource) {
-  .get(opal, "datasource", datasource)
+  opal.get(opal, "datasource", datasource)
 }
 
 #' Get tables of a datasource from a opal.
@@ -101,9 +101,9 @@ opal.datasource <- function(opal, datasource) {
 #' @export
 opal.tables <- function(opal, datasource, counts=FALSE, df=TRUE) {
   if (counts) {
-    res <- .get(opal, "datasource", datasource, "tables", query=list(counts="true"))  
+    res <- opal.get(opal, "datasource", datasource, "tables", query=list(counts="true"))  
   } else {
-    res <- .get(opal, "datasource", datasource, "tables")
+    res <- opal.get(opal, "datasource", datasource, "tables")
   }
   if (!df) {
     return(res)
@@ -147,9 +147,9 @@ opal.tables <- function(opal, datasource, counts=FALSE, df=TRUE) {
 #' @export
 opal.table <- function(opal, datasource, table, counts=FALSE) {
   if (counts) {
-    .get(opal, "datasource", datasource, "table", table, query=list(counts="true")); 
+    opal.get(opal, "datasource", datasource, "table", table, query=list(counts="true")); 
   } else {
-    .get(opal, "datasource", datasource, "table", table);
+    opal.get(opal, "datasource", datasource, "table", table);
   }  
 }
 
@@ -162,7 +162,7 @@ opal.table <- function(opal, datasource, table, counts=FALSE) {
 #' @param df Return a data.frame (default is TRUE)
 #' @export
 opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
-  res <- .get(opal, "datasource", datasource, "table", table, "variables")
+  res <- opal.get(opal, "datasource", datasource, "table", table, "variables")
   if (!df) {
     return(res)
   }
@@ -245,7 +245,7 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
 #' @param variable Name of the variable in the table.
 #' @export
 opal.variable <- function(opal, datasource, table, variable) {
-  .get(opal, "datasource", datasource, "table", table, "variable", variable)
+  opal.get(opal, "datasource", datasource, "table", table, "variable", variable)
 }
 
 #' Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.
@@ -278,7 +278,7 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
 #' @param identifier Entity identifier.
 #' @export
 opal.valueset <- function(opal, datasource, table, identifier) {
-  response <-.get(opal, "datasource", datasource, "table", table, "valueSet", identifier)
+  response <- opal.get(opal, "datasource", datasource, "table", table, "valueSet", identifier)
   valueset <- list()
   i <- 1
   for (variable in response$variables) {

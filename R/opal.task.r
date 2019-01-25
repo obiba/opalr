@@ -14,7 +14,7 @@
 #' @param df Return a data.frame (default is TRUE)
 #' @export
 opal.tasks <- function(opal, df=TRUE) {
-  tasks <- .extractJsonField(.get(opal, "shell", "commands"))
+  tasks <- .extractJsonField(opal.get(opal, "shell", "commands"))
   if (!df) {
     return(tasks)
   }
@@ -50,7 +50,7 @@ opal.tasks <- function(opal, df=TRUE) {
 #' @param id Task identifier.
 #' @export
 opal.task=function(opal, id) {
-  .get(opal, "shell", "command", id)
+  opal.get(opal, "shell", "command", id)
 }
 
 #' Tries to cancel a task from a opal.
@@ -59,7 +59,7 @@ opal.task=function(opal, id) {
 #' @param id Task identifier.
 #' @export
 opal.task_cancel=function(opal, id) {
-  ignore <- try(.put(opal, "shell", "command", id, "status", body='CANCELED', contentType='application/json'), silent=TRUE)
+  ignore <- try(opal.put(opal, "shell", "command", id, "status", body='CANCELED', contentType='application/json'), silent=TRUE)
 }
 
 #' Wait for a task from a opal to complete.
@@ -76,7 +76,7 @@ opal.task_wait=function(opal, id, max=NULL) {
     delay <- min(10, max(1, round(waited/10)))
     Sys.sleep(delay)
     waited <- waited + delay
-    task <- .get(opal, "shell", "command", id)
+    task <- opal.get(opal, "shell", "command", id)
     status <- task$status
   }
   if (is.element(status, c('FAILED','CANCELED'))) {

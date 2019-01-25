@@ -25,7 +25,7 @@ datashield.workspaces.opal=function(opal) {
   } else {
     query <- list(context='DataSHIELD')
     prefix <- paste0('^', opal$name, ':')
-    res <- lapply(.extractJsonField(.get(opal, "service", "r", "workspaces", query=query)),
+    res <- lapply(.extractJsonField(opal.get(opal, "service", "r", "workspaces", query=query)),
            function(ws) {
              if (grepl(prefix, ws$name)) {
                return(ws)
@@ -103,7 +103,7 @@ datashield.workspace_rm.opal=function(opal, ws) {
   if (opal.version_compare(opal,"2.6")<0) {
     warning(opal$name, ": Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
   } else {
-    ignore <- .extractJsonField(.delete(opal, "service", "r", "workspaces", query=query))
+    ignore <- .extractJsonField(opal.delete(opal, "service", "r", "workspaces", query=query))
   }
 }
 
@@ -144,7 +144,7 @@ datashield.workspace_save.opal=function(opal, save) {
   if (opal.version_compare(opal,"2.6")<0) {
     warning(opal$name, ": Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
   } else {
-    ignore <- .post(opal, "datashield", "session", opal$rid, "workspaces", query=query) 
+    ignore <- opal.post(opal, "datashield", "session", opal$rid, "workspaces", query=query) 
   }
 }
 

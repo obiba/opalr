@@ -16,7 +16,7 @@
 #' @param df Return a data.frame (default is TRUE)
 #' @export
 opal.taxonomies <- function(opal, locale="en", df=TRUE) {
-  res <- .get(opal, "system", "conf", "taxonomies")
+  res <- opal.get(opal, "system", "conf", "taxonomies")
   if (!df) {
     return(res)
   }
@@ -55,7 +55,7 @@ opal.taxonomies <- function(opal, locale="en", df=TRUE) {
 #' @param taxonomy Name of the taxonomy
 #' @export
 opal.taxonomy <- function(opal, taxonomy) {
-  .get(opal, "system", "conf", "taxonomy", taxonomy)
+  opal.get(opal, "system", "conf", "taxonomy", taxonomy)
 }
 
 #' Get the vocabularies of a taxonomy from a opal.
@@ -66,7 +66,7 @@ opal.taxonomy <- function(opal, taxonomy) {
 #' @param df Return a data.frame (default is TRUE)
 #' @export
 opal.vocabularies <- function(opal, taxonomy, locale="en", df=TRUE) {
-  res <- .get(opal, "system", "conf", "taxonomy", taxonomy, "vocabularies")
+  res <- opal.get(opal, "system", "conf", "taxonomy", taxonomy, "vocabularies")
   if (!df) {
     return(res)
   }
@@ -102,7 +102,7 @@ opal.vocabularies <- function(opal, taxonomy, locale="en", df=TRUE) {
 #' @param vocabulary Name of the vocabulary in the taxonomy
 #' @export
 opal.vocabulary <- function(opal, taxonomy, vocabulary) {
-  .get(opal, "system", "conf", "taxonomy", taxonomy, "vocabulary", vocabulary)
+  opal.get(opal, "system", "conf", "taxonomy", taxonomy, "vocabulary", vocabulary)
 }
 
 #' Get the terms of a vocabulary from a opal.
@@ -114,7 +114,7 @@ opal.vocabulary <- function(opal, taxonomy, vocabulary) {
 #' @param df Return a data.frame (default is TRUE)
 #' @export
 opal.terms <- function(opal, taxonomy, vocabulary, locale="en", df=TRUE) {
-  res <- .get(opal, "system", "conf", "taxonomy", taxonomy, "vocabulary", vocabulary)$terms
+  res <- opal.get(opal, "system", "conf", "taxonomy", taxonomy, "vocabulary", vocabulary)$terms
   if (!df) {
     return(res)
   }
@@ -151,5 +151,5 @@ opal.terms <- function(opal, taxonomy, vocabulary, locale="en", df=TRUE) {
 #' @param term Name of the term in the vocabulary
 #' @export
 opal.term <- function(opal, taxonomy, vocabulary, term) {
-  .get(opal, "system", "conf", "taxonomy", taxonomy, "vocabulary", vocabulary, "term", term)
+  opal.get(opal, "system", "conf", "taxonomy", taxonomy, "vocabulary", vocabulary, "term", term)
 }

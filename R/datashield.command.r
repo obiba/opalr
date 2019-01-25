@@ -23,7 +23,7 @@ datashield.commands <- function(opal) {
 #' @export
 datashield.commands.opal <- function(opal) {
   if (opal.version_compare(opal,"2.1")<0) return(NULL)
-  .get(opal, "datashield", "session", .getDatashieldSessionId(opal), "commands")
+  opal.get(opal, "datashield", "session", .getDatashieldSessionId(opal), "commands")
 }
 
 #' @rdname datashield.commands
@@ -53,7 +53,7 @@ datashield.command.opal <- function(opal, id, wait=FALSE) {
   if (wait) {
     query["wait"] <- "true"
   }
-  .get(opal, "datashield", "session", .getDatashieldSessionId(opal), "command", id, query=query)
+  opal.get(opal, "datashield", "session", .getDatashieldSessionId(opal), "command", id, query=query)
 }
 
 #' @rdname datashield.command
@@ -82,7 +82,7 @@ datashield.command_rm <- function(opal, id) {
 #' @export
 datashield.command_rm.opal <- function(opal, id) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return()
-  tryCatch(.delete(opal, "datashield", "session", .getDatashieldSessionId(opal), "command", id), error=function(e){})
+  tryCatch(opal.delete(opal, "datashield", "session", .getDatashieldSessionId(opal), "command", id), error=function(e){})
 }
 
 #' @rdname datashield.command_rm
@@ -147,7 +147,7 @@ datashield.command_result.opal <- function(opal, id, wait=FALSE) {
       stop("Command '", cmd$script, "' failed on '", opal$name,"': ", msg, call.=FALSE)
     }
   }
-  .get(opal, "datashield", "session", .getDatashieldSessionId(opal), "command", id, "result")
+  opal.get(opal, "datashield", "session", .getDatashieldSessionId(opal), "command", id, "result")
 }
 
 #' @rdname datashield.command_result

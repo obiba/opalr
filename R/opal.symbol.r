@@ -16,7 +16,7 @@
 #' @export
 opal.symbols <- function(opal) {
   ignore <- .getRSessionId(opal)
-  .get(opal, "r", "session", opal$rid, "symbols")
+  opal.get(opal, "r", "session", opal$rid, "symbols")
 }
 
 #' Remove a symbol from the current R session.
@@ -28,7 +28,7 @@ opal.symbols <- function(opal) {
 #' @export
 opal.symbol_rm <- function(opal, symbol) {
   ignore <- .getRSessionId(opal)
-  tryCatch(.delete(opal, "r", "session", opal$rid, "symbol", symbol), error=function(e){})
+  tryCatch(opal.delete(opal, "r", "session", opal$rid, "symbol", symbol), error=function(e){})
 }
 
 #' Remove a symbol from the current R session. Deprecated: see opal.symbol_rm function instead.
@@ -59,7 +59,7 @@ opal.symbol_save <- function(opal, symbol, destination) {
       stop("Destination file path is missing or empty.")
     }
     query <- list(destination=destination)
-    res <- .put(opal, "r", "session", opal$rid, "symbol", symbol, "_save", query=query)
+    res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, "_save", query=query)
   }
 }
 
@@ -99,10 +99,10 @@ opal.symbol_import <- function(opal, symbol, project, identifiers=NULL, policy='
       }
       dsFactory <- paste0('{"Magma.RSessionDatasourceFactoryDto.params": ', .listToJson(dsFactory), ', "idConfig":', .listToJson(idConfig),'}')
     }
-    created <- .post(opal, "project", project, "transient-datasources", body=dsFactory, contentType="application/json")
+    created <- opal.post(opal, "project", project, "transient-datasources", body=dsFactory, contentType="application/json")
     # launch a import task
     importCmd <- list(destination=project, tables=list(paste0(created$name, '.', symbol)))
-    location <- .post(opal, "project", project, "commands", "_import", body=.listToJson(importCmd), contentType="application/json", callback=.handleResponseLocation)
+    location <- opal.post(opal, "project", project, "commands", "_import", body=.listToJson(importCmd), contentType="application/json", callback=.handleResponseLocation)
     if (!is.null(location)) {
       # /shell/command/<id>
       task <- substring(location, 16)
@@ -114,7 +114,7 @@ opal.symbol_import <- function(opal, symbol, project, identifiers=NULL, policy='
           delay <- min(10, max(1, round(waited/10)))
           Sys.sleep(delay)
           waited <- waited + delay
-          command <- .get(opal, "shell", "command", task)
+          command <- opal.get(opal, "shell", "command", task)
           status <- command$status
         }
         if (is.element(status, c('FAILED','CANCELED'))) {

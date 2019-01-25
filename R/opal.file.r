@@ -19,10 +19,10 @@
 opal.file <- function(opal, path, key=NULL) {
   p <- append("files", strsplit(substring(path, 2), "/")[[1]])
   if (is.null(key)) {
-    .get(opal, p) 
+    opal.get(opal, p) 
   } else {
     body <- paste0("key=", key)
-    .post(opal, p, body=body, contentType="application/x-www-form-urlencoded")
+    opal.post(opal, p, body=body, contentType="application/x-www-form-urlencoded")
   }
 }
 
@@ -115,7 +115,7 @@ opal.file_upload <- function(opal, source, destination) {
 opal.file_mv <- function(opal, source, destination) {
   query <- list(action='move', file=source)
   location <- append("files", strsplit(substring(destination, 2), "/")[[1]])
-  res <- .put(opal, location, query=query)
+  res <- opal.put(opal, location, query=query)
 }
 
 #' Copy a file or a folder to another location in the Opal file system
@@ -137,7 +137,7 @@ opal.file_mv <- function(opal, source, destination) {
 opal.file_cp <- function(opal, source, destination) {
   query <- list(action='copy', file=source)
   location <- append("files", strsplit(substring(destination, 2), "/")[[1]])
-  res <- .put(opal, location, query=query)
+  res <- opal.put(opal, location, query=query)
 }
 
 #' Make a folder in the Opal file system
@@ -153,7 +153,7 @@ opal.file_cp <- function(opal, source, destination) {
 #' }
 #' @export
 opal.file_mkdir <- function(opal, path) {
-  res <- .post(opal, 'files', body=path, contentType='text/plain')
+  res <- opal.post(opal, 'files', body=path, contentType='text/plain')
 }
 
 #' List content of a folder in the Opal file system
@@ -170,7 +170,7 @@ opal.file_mkdir <- function(opal, path) {
 #' @export
 opal.file_ls <- function(opal, path) {
   location <- append("files", append("_meta",strsplit(substring(path, 2), "/")[[1]]))
-  ls <- .get(opal, location)
+  ls <- opal.get(opal, location)
   res <- NULL
   if (ls$type == 'FILE') {
     # a regular file
@@ -228,7 +228,7 @@ opal.file_ls <- function(opal, path) {
 #' @export
 opal.file_rm <- function(opal, path) {
   location <- append("files", strsplit(substring(path, 2), "/")[[1]])
-  res <- tryCatch(.delete(opal, location), error=function(e){})
+  res <- tryCatch(opal.delete(opal, location), error=function(e){})
 }
 
 #' Write a file from the Opal file system into the R session workspace
@@ -257,7 +257,7 @@ opal.file_write <- function(opal, source, destination=NULL) {
     query["destination"] <- destination
   }
   ignore <- .getRSessionId(opal)
-  res <- .put(opal, "r", "session", opal$rid, "file", "_push", query=query)
+  res <- opal.put(opal, "r", "session", opal$rid, "file", "_push", query=query)
 }
 
 #' Read a file from the R session workspace into the Opal file system 
@@ -286,5 +286,5 @@ opal.file_read <- function(opal, source, destination) {
     query["destination"] <- destination
   }
   ignore <- .getRSessionId(opal)
-  res <- .put(opal, "r", "session", opal$rid, "file", "_pull", query=query)
+  res <- opal.put(opal, "r", "session", opal$rid, "file", "_pull", query=query)
 }

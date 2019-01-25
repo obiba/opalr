@@ -25,9 +25,9 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
       query <- list()
       if (async) query <- list(async="true")
       ignore <- .getRSessionId(opal)
-      .post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript")
+      opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript")
     } else {
-      .post(opal, "r", "execute", body=script, contentType="application/x-rscript")
+      opal.post(opal, "r", "execute", body=script, contentType="application/x-rscript")
     }
   }
 }
