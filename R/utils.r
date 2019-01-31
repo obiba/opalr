@@ -104,3 +104,21 @@
 .select <- function(l, field) {
   lapply(l, function(obj) {obj[[field]]})
 }
+
+#' Extract absolute path to the pem file
+#' @keywords internal
+.getPEMFilePath <- function(pem, directory="~/.ssh") {
+  path <- pem
+  if (file.access(pem) == 0) {
+    # file exists (absolute path)
+    path <- path.expand(pem)
+  } else if (file.access(paste0(directory, "/", pem)) == 0) {
+    # file relative to given dir
+    path <- path.expand(paste0(directory, "/", pem))
+  } else if (file.access(paste0(getwd(), "/", pem)) == 0) {
+    # file relative to working directory
+    path <- paste0(getwd(), "/", pem)
+  }
+  
+  path
+}

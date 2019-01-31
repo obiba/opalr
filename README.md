@@ -19,17 +19,5 @@ Usage:
 
 ## DataSHIELD Client
 
-Usage:
-
-    library(opalr)
-    os <- opal.login('username', 'passwd', list('http://opal1.org', 'http://opal2.org'))
-    # Assign one variable to a R symbol
-    datashield.assign(os, 'VAR1', 'datasource.table:VAR1')
-    # Assign some variables as a data.frame to a R symbol
-    datashield.assign(o, 'TABLE', 'datasource.table', variables=list('VAR1','VAR2'))
-    datashield.symbols(os)
-    datashield.rm(os, 'VAR1')
-    datashield.rm(os, 'TABLE')
-    datashield.methods(os,type='assign')
-    opal.logout(os)
+See [DSOpal](https://github.com/datashield/DSOpal).
     

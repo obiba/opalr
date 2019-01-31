@@ -413,24 +413,6 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   opal
 }
 
-#' Extract absolute path to the pem file
-#' @keywords internal
-.getPEMFilePath <- function(pem, directory="~/.ssh") {
-  path <- pem
-  if (file.access(pem) == 0) {
-    # file exists (absolute path)
-    path <- path.expand(pem)
-  } else if (file.access(paste0(directory, "/", pem)) == 0) {
-    # file relative to given dir
-    path <- path.expand(paste0(directory, "/", pem))
-  } else if (file.access(paste0(getwd(), "/", pem)) == 0) {
-    # file relative to working directory
-    path <- paste0(getwd(), "/", pem)
-  }
-  
-  path
-}
-
 #' Extract R session Id from opal object, create a new R session if not found.
 #' @keywords internal
 .getRSessionId <- function(opal) {
@@ -458,7 +440,7 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 #' @keywords internal
 .rmOpalSession <- function(opal) {
   if (!is.null(opal$sid)) {
-    opal.delete(opal, "auth", "session", "_current")
+    opal.delete(opal, "auth", "session", opal$sid)
   }
 }
 
