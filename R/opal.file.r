@@ -86,7 +86,9 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
 opal.file_upload <- function(opal, source, destination) {
   res <- opal.file_ls(opal, destination)
   location <- append("files", strsplit(substring(destination, 2), "/")[[1]])
-  r <- POST(.url(opal, location), body=list(file=upload_file(source)), encode = "multipart", content_type("multipart/form-data"), accept("text/html"), config=opal$config, .verbose())
+  r <- POST(.url(opal, location), body=list(file=upload_file(source)), encode = "multipart", 
+            content_type("multipart/form-data"), accept("text/html"), 
+            config=opal$config, handle=opal$handle, .verbose())
   res <- .handleResponse(opal, r)
   res <- opal.file_ls(opal, destination)
 }

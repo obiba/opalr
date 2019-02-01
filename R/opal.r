@@ -132,7 +132,7 @@ opal.version_compare <- function(opal, version) {
 #' @import httr
 #' @export
 opal.get <- function(opal, ..., query=list(), callback=NULL) {
-  r <- GET(.url(opal, ...), query=query, config=opal$config, .verbose())
+  r <- GET(.url(opal, ...), query=query, config=opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -147,7 +147,7 @@ opal.get <- function(opal, ..., query=list(), callback=NULL) {
 #' @import httr
 #' @export
 opal.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, .verbose())
+  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -162,7 +162,7 @@ opal.post <- function(opal, ..., query=list(), body='', contentType='application
 #' @import httr
 #' @export
 opal.put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  r <- PUT(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, .verbose())
+  r <- PUT(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -175,8 +175,8 @@ opal.put <- function(opal, ..., query=list(), body='', contentType='application/
 #' @import httr
 #' @export
 opal.delete <- function(opal, ..., query=list(), callback=NULL) {
-  r <- DELETE(.url(opal, ...), query=query, config=opal$config, .verbose())
-  .handleResponseOrCallback(opal, r, callback)  
+  r <- DELETE(.url(opal, ...), query=query, config=opal$config, handle = opal$handle, .verbose())
+  .handleResponseOrCallback(opal, r, callback)
 }
 
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
@@ -214,8 +214,9 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   if (is.null(opal$version) || is.na(opal$version)) {
     opal$version <- as.character(headers[tolower('X-Opal-Version')])
   }
-  cookies <- httr::cookies(response)
-  opal$sid <- .extractOpalSessionId(cookies)
+  if (is.null(opal$sid)) {
+    opal$sid <- .extractOpalSessionId(httr::cookies(response)) 
+  }
   
   if (response$status>=300) {
     .handleError(opal, response)
@@ -264,8 +265,9 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   if (is.null(opal$version) || is.na(opal$version)) {
     opal$version <- as.character(response$headers['X-Opal-Version'])
   }
-  cookies <- httr::cookies(response)
-  opal$sid <- .extractOpalSessionId(cookies)
+  if (is.null(opal$sid)) {
+    opal$sid <- .extractOpalSessionId(httr::cookies(response))  
+  }
 
   if (response$status>=300) {
     .handleError(opal, response)
@@ -402,12 +404,13 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   }
   opal$config <- config()
   opal$config$options <- options
+  opal$handle <- handle(paste0(opal$url, "/", sample(1000:9999, 1))) # append a random number to ensure urls are different
   opal$rid <- NULL
   opal$restore <- restore
   class(opal) <- "opal"
   
   # get user profile to test sign-in
-  r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization), .verbose())
+  r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization), handle = opal$handle, .verbose())
   opal$profile <- .handleResponse(opal, r)
   
   opal
