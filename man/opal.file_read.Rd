@@ -14,7 +14,7 @@ opal.file_read(opal, source, destination)
 \item{destination}{Path to the destination file or folder. Any required sub-folders will be created.}
 }
 \description{
-Read a file from the R session workspace into the Opal file system
+Read a file from the R session workspace into the Opal file system.
 }
 \examples{
 \dontrun{
@@ -26,3 +26,13 @@ opal.file_read(o,"test/DatabaseTest.sav", "/tmp/Test.sav")
 opal.file_read(o,"DatabaseTest.sav", "~/coucou/pwel.sav")
 }
 }
+\seealso{
+Other file functions: \code{\link{opal.file_cp}},
+  \code{\link{opal.file_download}},
+  \code{\link{opal.file_ls}},
+  \code{\link{opal.file_mkdir}},
+  \code{\link{opal.file_mv}}, \code{\link{opal.file_rm}},
+  \code{\link{opal.file_upload}},
+  \code{\link{opal.file_write}}, \code{\link{opal.file}}
+}
+\concept{file functions}

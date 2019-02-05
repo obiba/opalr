@@ -2,7 +2,7 @@
 % Please edit documentation in R/datashield.admin.r
 \name{dsadmin.rm_option}
 \alias{dsadmin.rm_option}
-\title{Remove Datashield Option}
+\title{Remove a DataSHIELD option}
 \usage{
 dsadmin.rm_option(opal, name)
 }
@@ -12,5 +12,22 @@ dsadmin.rm_option(opal, name)
 \item{name}{Name of the option}
 }
 \description{
-Remove a Datashield option.
+Remove a DataSHIELD option
 }
+\seealso{
+Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
+  \code{\link{dsadmin.get_method}},
+  \code{\link{dsadmin.get_options}},
+  \code{\link{dsadmin.install_package}},
+  \code{\link{dsadmin.installed_package}},
+  \code{\link{dsadmin.package_descriptions}},
+  \code{\link{dsadmin.package_description}},
+  \code{\link{dsadmin.remove_package}},
+  \code{\link{dsadmin.rm_methods}},
+  \code{\link{dsadmin.rm_method}},
+  \code{\link{dsadmin.rm_package_methods}},
+  \code{\link{dsadmin.set_method}},
+  \code{\link{dsadmin.set_option}},
+  \code{\link{dsadmin.set_package_methods}}
+}
+\concept{DataSHIELD functions}

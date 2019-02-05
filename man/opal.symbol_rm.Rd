@@ -12,5 +12,12 @@ opal.symbol_rm(opal, symbol)
 \item{symbol}{Name of the R symbol.}
 }
 \description{
-Remove a symbol from the current R session.
+Remove a symbol from the remote R session.
 }
+\seealso{
+Other symbol functions: \code{\link{opal.rm}},
+  \code{\link{opal.symbol_import}},
+  \code{\link{opal.symbol_save}},
+  \code{\link{opal.symbols}}
+}
+\concept{symbol functions}

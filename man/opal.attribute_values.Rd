@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.datasource.r
 \name{opal.attribute_values}
 \alias{opal.attribute_values}
-\title{Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.}
+\title{Get a vector of values}
 \usage{
 opal.attribute_values(attributes, namespace = NULL, name = "label")
 }
@@ -16,3 +16,12 @@ opal.attribute_values(attributes, namespace = NULL, name = "label")
 \description{
 Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.
 }
+\seealso{
+Other datasource functions: \code{\link{opal.datasources}},
+  \code{\link{opal.datasource}},
+  \code{\link{opal.projects}}, \code{\link{opal.project}},
+  \code{\link{opal.tables}}, \code{\link{opal.table}},
+  \code{\link{opal.valueset}},
+  \code{\link{opal.variables}}, \code{\link{opal.variable}}
+}
+\concept{datasource functions}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/datashield.admin.r
 \name{dsadmin.set_package_methods}
 \alias{dsadmin.set_package_methods}
-\title{Set Package Datashield Methods}
+\title{Set DataSHIELD package methods}
 \usage{
 dsadmin.set_package_methods(opal, pkg, type = NULL)
 }
@@ -17,5 +17,22 @@ dsadmin.set_package_methods(opal, pkg, type = NULL)
 TRUE if successfull
 }
 \description{
-Declare Datashield aggregate and assign methods as defined by the package.
+Declare DataSHIELD aggregate and assign methods as defined by the package.
 }
+\seealso{
+Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
+  \code{\link{dsadmin.get_method}},
+  \code{\link{dsadmin.get_options}},
+  \code{\link{dsadmin.install_package}},
+  \code{\link{dsadmin.installed_package}},
+  \code{\link{dsadmin.package_descriptions}},
+  \code{\link{dsadmin.package_description}},
+  \code{\link{dsadmin.remove_package}},
+  \code{\link{dsadmin.rm_methods}},
+  \code{\link{dsadmin.rm_method}},
+  \code{\link{dsadmin.rm_option}},
+  \code{\link{dsadmin.rm_package_methods}},
+  \code{\link{dsadmin.set_method}},
+  \code{\link{dsadmin.set_option}}
+}
+\concept{DataSHIELD functions}

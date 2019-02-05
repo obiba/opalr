@@ -9,8 +9,12 @@
 #-------------------------------------------------------------------------------
 
 
-#' Get taxonomies from a opal.
+#' Get taxonomies
 #' 
+#' Get all taxonomies. A taxonomy describes the annotations that can be applied to the variables. 
+#' Taxonomies also drive the variables search interface.
+#' 
+#' @family taxonomy functions
 #' @param opal Opal object.
 #' @param locale The language for labels (default is "en").
 #' @param df Return a data.frame (default is TRUE)
@@ -49,8 +53,11 @@ opal.taxonomies <- function(opal, locale="en", df=TRUE) {
   }
 }
 
-#' Get a taxonomy from a opal.
+#' Get a taxonomy
 #' 
+#' Get a specific taxonomy details.
+#' 
+#' @family taxonomy functions
 #' @param opal Opal object.
 #' @param taxonomy Name of the taxonomy
 #' @export
@@ -58,8 +65,11 @@ opal.taxonomy <- function(opal, taxonomy) {
   opal.get(opal, "system", "conf", "taxonomy", taxonomy)
 }
 
-#' Get the vocabularies of a taxonomy from a opal.
+#' Get the vocabularies of a taxonomy
 #' 
+#' Get all the vocabularies of a taxonomy. A vocabulary describes the possible values of variable annotations.
+#' 
+#' @family taxonomy functions
 #' @param opal Opal object.
 #' @param taxonomy Name of the taxonomy
 #' @param locale The language for labels (default is "en").
@@ -95,8 +105,11 @@ opal.vocabularies <- function(opal, taxonomy, locale="en", df=TRUE) {
   }
 }
 
-#' Get a taxonomy vocabulary from a opal.
+#' Get a taxonomy vocabulary
 #' 
+#' Get a specific vocabulary details.
+#' 
+#' @family taxonomy functions
 #' @param opal Opal object.
 #' @param taxonomy Name of the taxonomy
 #' @param vocabulary Name of the vocabulary in the taxonomy
@@ -105,8 +118,11 @@ opal.vocabulary <- function(opal, taxonomy, vocabulary) {
   opal.get(opal, "system", "conf", "taxonomy", taxonomy, "vocabulary", vocabulary)
 }
 
-#' Get the terms of a vocabulary from a opal.
+#' Get the terms of a vocabulary
 #' 
+#' Get all the terms of a vocabulary. The term describes the value of a variable annotation. 
+#' 
+#' @family taxonomy functions
 #' @param opal Opal object.
 #' @param taxonomy Name of the taxonomy
 #' @param vocabulary Name of the vocabulary in the taxonomy
@@ -143,8 +159,11 @@ opal.terms <- function(opal, taxonomy, vocabulary, locale="en", df=TRUE) {
   }
 }
 
-#' Get a vocabulary term from a opal.
+#' Get a vocabulary term
 #' 
+#' Get a specific term details.
+#' 
+#' @family taxonomy functions
 #' @param opal Opal object.
 #' @param taxonomy Name of the taxonomy
 #' @param vocabulary Name of the vocabulary in the taxonomy

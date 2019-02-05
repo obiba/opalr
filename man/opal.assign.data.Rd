@@ -30,3 +30,10 @@ opal.assign.data(o, "C", mtcars$cyl)
 opal.assign.data(o, "S", "Hello!")
 }
 }
+\seealso{
+Other assignment functions: \code{\link{opal.assign.script}},
+  \code{\link{opal.assign.table.tibble}},
+  \code{\link{opal.assign.table}},
+  \code{\link{opal.assign}}
+}
+\concept{assignment functions}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.taxonomy.r
 \name{opal.vocabulary}
 \alias{opal.vocabulary}
-\title{Get a taxonomy vocabulary from a opal.}
+\title{Get a taxonomy vocabulary}
 \usage{
 opal.vocabulary(opal, taxonomy, vocabulary)
 }
@@ -14,5 +14,11 @@ opal.vocabulary(opal, taxonomy, vocabulary)
 \item{vocabulary}{Name of the vocabulary in the taxonomy}
 }
 \description{
-Get a taxonomy vocabulary from a opal.
+Get a specific vocabulary details.
 }
+\seealso{
+Other taxonomy functions: \code{\link{opal.taxonomies}},
+  \code{\link{opal.taxonomy}}, \code{\link{opal.terms}},
+  \code{\link{opal.term}}, \code{\link{opal.vocabularies}}
+}
+\concept{taxonomy functions}

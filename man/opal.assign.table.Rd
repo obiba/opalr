@@ -44,3 +44,10 @@ opal.assign.table(o, symbol="H", value="demo.HOP", id.name="id")
 opal.assign.table(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
 }
 }
+\seealso{
+Other assignment functions: \code{\link{opal.assign.data}},
+  \code{\link{opal.assign.script}},
+  \code{\link{opal.assign.table.tibble}},
+  \code{\link{opal.assign}}
+}
+\concept{assignment functions}

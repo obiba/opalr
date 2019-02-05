@@ -14,3 +14,7 @@ opal.logout(opal, save = FALSE)
 \description{
 Clear the R sessions and logout from Opal(s).
 }
+\seealso{
+Other connection functions: \code{\link{opal.login}}
+}
+\concept{connection functions}

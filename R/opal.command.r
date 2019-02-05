@@ -8,10 +8,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
+#' List the asynchronous commands
+#' 
 #' Get the list of asynchronous R commands in the remote R session.
 #' 
-#' @title List the asynchronous commands
-#' 
+#' @family command functions
 #' @param opal Opal object.
 #' @param df Return a data.frame (default is TRUE)
 #' @export
@@ -50,10 +51,11 @@ opal.commands <- function(opal, df=TRUE) {
   }
 }
 
+#' Get an asynchronous command
+#' 
 #' Get an asynchronous R commands in the remote R session.
 #' 
-#' @title Get an asynchronous command
-#' 
+#' @family command functions
 #' @param opal Opal object.
 #' @param id R command ID.
 #' @param wait Wait for the command to complete.
@@ -67,10 +69,11 @@ opal.command <- function(opal, id, wait=FALSE) {
   opal.get(opal, "r", "session", .getRSessionId(opal), "command", id, query=query)
 }
 
+#' Remove an asynchronous command
+#' 
 #' Remove an asynchronous R commands in the remote R session.
 #' 
-#' @title Remove an asynchronous command
-#' 
+#' @family command functions
 #' @param opal Opal object.
 #' @param id R command ID.
 #' @export
@@ -79,10 +82,11 @@ opal.command_rm <- function(opal, id) {
   tryCatch(opal.delete(opal, "r", "session", .getRSessionId(opal), "command", id), error=function(e){})
 }
 
+#' Remove all asynchronous commands
+#' 
 #' Remove all asynchronous R commands in the remote R session.
 #' 
-#' @title Remove all asynchronous commands
-#' 
+#' @family command functions
 #' @param opal Opal object.
 #' @export
 opal.commands_rm <- function(opal) {
@@ -92,11 +96,12 @@ opal.commands_rm <- function(opal) {
   })
 }
 
+#' Get result of an asynchronous command
+#' 
 #' Get the result of an asynchronous R commands in the remote R session. The command is removed from the
 #' remote R session after this call.
 #' 
-#' @title Get result of an asynchronous command
-#' 
+#' @family command functions
 #' @param opal Opal object.
 #' @param id R command ID.
 #' @param wait Wait for the command to complete.

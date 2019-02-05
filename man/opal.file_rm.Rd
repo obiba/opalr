@@ -12,7 +12,7 @@ opal.file_rm(opal, path)
 \item{path}{Path to the file in the Opal file system.}
 }
 \description{
-Remove a file or a folder from the Opal file system
+Remove a file or a folder from the Opal file system.
 }
 \examples{
 \dontrun{
@@ -23,3 +23,13 @@ opal.file_rm(o, '/home/administrator/export/some-data.csv')
 opal.file_rm(o, '/home/administrator/export')
 }
 }
+\seealso{
+Other file functions: \code{\link{opal.file_cp}},
+  \code{\link{opal.file_download}},
+  \code{\link{opal.file_ls}},
+  \code{\link{opal.file_mkdir}},
+  \code{\link{opal.file_mv}}, \code{\link{opal.file_read}},
+  \code{\link{opal.file_upload}},
+  \code{\link{opal.file_write}}, \code{\link{opal.file}}
+}
+\concept{file functions}

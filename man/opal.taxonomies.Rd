@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.taxonomy.r
 \name{opal.taxonomies}
 \alias{opal.taxonomies}
-\title{Get taxonomies from a opal.}
+\title{Get taxonomies}
 \usage{
 opal.taxonomies(opal, locale = "en", df = TRUE)
 }
@@ -14,5 +14,13 @@ opal.taxonomies(opal, locale = "en", df = TRUE)
 \item{df}{Return a data.frame (default is TRUE)}
 }
 \description{
-Get taxonomies from a opal.
+Get all taxonomies. A taxonomy describes the annotations that can be applied to the variables. 
+Taxonomies also drive the variables search interface.
 }
+\seealso{
+Other taxonomy functions: \code{\link{opal.taxonomy}},
+  \code{\link{opal.terms}}, \code{\link{opal.term}},
+  \code{\link{opal.vocabularies}},
+  \code{\link{opal.vocabulary}}
+}
+\concept{taxonomy functions}

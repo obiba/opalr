@@ -8,10 +8,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Execute a R script on Opal(s).
+#' Execute a R script
 #' 
-#' @title Execute a R script
-#'
+#' Execute a R script in the remote R session.
+#' 
+#' @family execution functions
 #' @param opal Opal object or list of opal objects.
 #' @param script R script to execute.
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
@@ -32,8 +33,11 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
   }
 }
 
-#' Load package in the current session.
-#'
+#' Load package
+#' 
+#' Load package in the remote R session.
+#' 
+#' @family execution functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @export
@@ -41,8 +45,11 @@ opal.load_package <- function(opal, pkg) {
   opal.execute(opal, paste('library("', pkg, '")', sep=''), TRUE)
 }
 
-#' Unload package from the current session.
+#' Unload package
+#' 
+#' Unload package from the remote R session.
 #'
+#' @family execution functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @export

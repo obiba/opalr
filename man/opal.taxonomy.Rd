@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.taxonomy.r
 \name{opal.taxonomy}
 \alias{opal.taxonomy}
-\title{Get a taxonomy from a opal.}
+\title{Get a taxonomy}
 \usage{
 opal.taxonomy(opal, taxonomy)
 }
@@ -12,5 +12,12 @@ opal.taxonomy(opal, taxonomy)
 \item{taxonomy}{Name of the taxonomy}
 }
 \description{
-Get a taxonomy from a opal.
+Get a specific taxonomy details.
 }
+\seealso{
+Other taxonomy functions: \code{\link{opal.taxonomies}},
+  \code{\link{opal.terms}}, \code{\link{opal.term}},
+  \code{\link{opal.vocabularies}},
+  \code{\link{opal.vocabulary}}
+}
+\concept{taxonomy functions}

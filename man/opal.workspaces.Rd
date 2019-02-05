@@ -12,3 +12,8 @@ opal.workspaces(opal)
 \description{
 Get the R workspaces from a opal.
 }
+\seealso{
+Other workspace functions: \code{\link{opal.workspace_rm}},
+  \code{\link{opal.workspace_save}}
+}
+\concept{workspace functions}

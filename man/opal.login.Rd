@@ -46,3 +46,7 @@ options(opal.opts=list(
 o <- opal.login(url='https://opal-demo.obiba.org')
 }
 }
+\seealso{
+Other connection functions: \code{\link{opal.logout}}
+}
+\concept{connection functions}

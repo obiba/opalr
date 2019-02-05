@@ -8,10 +8,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
+#' List R symbols
+#' 
 #' Get the R symbols available in the remote R session.
 #' 
-#' @title List R symbols
-#' 
+#' @family symbol functions
 #' @param opal Opal object.
 #' @export
 opal.symbols <- function(opal) {
@@ -19,10 +20,11 @@ opal.symbols <- function(opal) {
   opal.get(opal, "r", "session", opal$rid, "symbols")
 }
 
-#' Remove a symbol from the current R session.
+#' Remove a R symbol
 #' 
-#' @title Remove a R symbol
+#' Remove a symbol from the remote R session.
 #' 
+#' @family symbol functions
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
 #' @export
@@ -31,10 +33,11 @@ opal.symbol_rm <- function(opal, symbol) {
   tryCatch(opal.delete(opal, "r", "session", opal$rid, "symbol", symbol), error=function(e){})
 }
 
+#' Remove a R symbol (deprecated)
+#' 
 #' Remove a symbol from the current R session. Deprecated: see opal.symbol_rm function instead.
 #' 
-#' @title Remove a R symbol (deprecated)
-#' 
+#' @family symbol functions
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
 #' @export
@@ -42,10 +45,11 @@ opal.rm <- function(opal, symbol) {
   opal.symbol_rm(opal, symbol)
 }
 
-#' Save the tibble identified by the symbol in a file of the R session workspace 
+#' Save a tibble
 #' 
-#' @title Save a tibble identified by symbol as a file of format SAS, SPSS, Stata, CSV or TSV.
+#' Save a tibble identified by symbol as a file of format SAS, SPSS, Stata, CSV or TSV in the remote R session working directory.
 #' 
+#' @family symbol functions
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol representing a tibble.
 #' @param destination The path of the file in the R session workspace. Supported file extensions are: .sav (SPSS), .sas7bdat (SAS), .dta (Stata), .csv (comma separated values), .tsv (tab separated values). 
@@ -63,10 +67,12 @@ opal.symbol_save <- function(opal, symbol, destination) {
   }
 }
 
-#' Import the tibble identified by the symbol as a table in Opal.
+#' Import a tibble
 #' 
-#' @title Import a tibble as a table in Opal
+#' Import a tibble identified by the symbol as a table in Opal. This operation creates an importation task 
+#' in Opal that can be followed (see tasks related functions).
 #' 
+#' @family symbol functions
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol representing a tibble.
 #' @param project Name of the project into which the data are to be imported.

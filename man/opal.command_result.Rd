@@ -17,3 +17,9 @@ opal.command_result(opal, id, wait = FALSE)
 Get the result of an asynchronous R commands in the remote R session. The command is removed from the
 remote R session after this call.
 }
+\seealso{
+Other command functions: \code{\link{opal.command_rm}},
+  \code{\link{opal.commands_rm}},
+  \code{\link{opal.commands}}, \code{\link{opal.command}}
+}
+\concept{command functions}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.admin.r
 \name{oadmin.package_description}
 \alias{oadmin.package_description}
-\title{Get Package Descriptions}
+\title{Get package description}
 \usage{
 oadmin.package_description(opal, pkg, fields = NULL)
 }
@@ -14,5 +14,15 @@ oadmin.package_description(opal, pkg, fields = NULL)
 \item{fields}{A character vector giving the fields to extract from each package's DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.}
 }
 \description{
-Get package description from Opal(s).
+Get package description
 }
+\seealso{
+Other administration functions: \code{\link{oadmin.install_devtools}},
+  \code{\link{oadmin.install_github}},
+  \code{\link{oadmin.install_package}},
+  \code{\link{oadmin.installed_devtools}},
+  \code{\link{oadmin.installed_packages}},
+  \code{\link{oadmin.installed_package}},
+  \code{\link{oadmin.remove_package}}
+}
+\concept{administration functions}

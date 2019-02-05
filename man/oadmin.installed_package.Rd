@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.admin.r
 \name{oadmin.installed_package}
 \alias{oadmin.installed_package}
-\title{Check if a package is installed in Opal(s).}
+\title{Check package is installed}
 \usage{
 oadmin.installed_package(opal, pkg)
 }
@@ -15,5 +15,15 @@ oadmin.installed_package(opal, pkg)
 TRUE if installed
 }
 \description{
-Check if a package is installed in Opal(s).
+Check package is installed
 }
+\seealso{
+Other administration functions: \code{\link{oadmin.install_devtools}},
+  \code{\link{oadmin.install_github}},
+  \code{\link{oadmin.install_package}},
+  \code{\link{oadmin.installed_devtools}},
+  \code{\link{oadmin.installed_packages}},
+  \code{\link{oadmin.package_description}},
+  \code{\link{oadmin.remove_package}}
+}
+\concept{administration functions}

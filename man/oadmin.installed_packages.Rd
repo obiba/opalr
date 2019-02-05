@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.admin.r
 \name{oadmin.installed_packages}
 \alias{oadmin.installed_packages}
-\title{Get the packages installed in Opal(s).}
+\title{List installed packages}
 \usage{
 oadmin.installed_packages(opal)
 }
@@ -13,5 +13,15 @@ oadmin.installed_packages(opal)
 The result of the installed.packages() call
 }
 \description{
-Get the packages installed in Opal(s).
+List installed packages
 }
+\seealso{
+Other administration functions: \code{\link{oadmin.install_devtools}},
+  \code{\link{oadmin.install_github}},
+  \code{\link{oadmin.install_package}},
+  \code{\link{oadmin.installed_devtools}},
+  \code{\link{oadmin.installed_package}},
+  \code{\link{oadmin.package_description}},
+  \code{\link{oadmin.remove_package}}
+}
+\concept{administration functions}

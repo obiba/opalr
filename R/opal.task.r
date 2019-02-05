@@ -8,8 +8,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Get the tasks from a opal.
+#' Get the tasks
 #' 
+#' Get all the tasks with their status at the time of the request.
+#' 
+#' @family task functions
 #' @param opal Opal object.
 #' @param df Return a data.frame (default is TRUE)
 #' @export
@@ -44,8 +47,11 @@ opal.tasks <- function(opal, df=TRUE) {
   }
 }
 
-#' Get a task from a opal.
+#' Get a task
 #' 
+#' Get the details of a specific task.
+#' 
+#' @family task functions
 #' @param opal Opal object.
 #' @param id Task identifier.
 #' @export
@@ -53,8 +59,11 @@ opal.task=function(opal, id) {
   opal.get(opal, "shell", "command", id)
 }
 
-#' Tries to cancel a task from a opal.
+#' Cancel a task
 #' 
+#' Tries to cancel a task.
+#' 
+#' @family task functions
 #' @param opal Opal object.
 #' @param id Task identifier.
 #' @export
@@ -62,8 +71,11 @@ opal.task_cancel=function(opal, id) {
   ignore <- try(opal.put(opal, "shell", "command", id, "status", body='CANCELED', contentType='application/json'), silent=TRUE)
 }
 
-#' Wait for a task from a opal to complete.
+#' Wait for a task to complete.
 #' 
+#' The task completion is defined by its status: *SUCCEEDED*, *FAILED* or *CANCELED*.
+#' 
+#' @family task functions
 #' @param opal Opal object.
 #' @param id Task identifier.
 #' @param max Maximum time (in seconds) to wait for the task completion. Default is NULL (no maximum).

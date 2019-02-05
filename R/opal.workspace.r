@@ -10,6 +10,7 @@
 
 #' Get the R workspaces from a opal.
 #' 
+#' @family workspace functions
 #' @param opal Opal object.
 #' @export
 opal.workspaces=function(opal) {
@@ -39,6 +40,7 @@ opal.workspaces=function(opal) {
 
 #' Remove a R workspace from a opal.
 #' 
+#' @family workspace functions
 #' @param opal Opal object.
 #' @param ws The workspace name
 #' @param user The user name associated to the worskpace. If not provided, the current user is applied.
@@ -64,6 +66,7 @@ opal.workspace_rm=function(opal, ws, user=NULL) {
 
 #' Save the current session in a opal R workspace.
 #' 
+#' @family workspace functions
 #' @param opal Opal object.
 #' @param save Save the workspace with given identifier (default is TRUE, current session ID if TRUE).
 #' @export

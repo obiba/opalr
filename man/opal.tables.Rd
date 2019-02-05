@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.datasource.r
 \name{opal.tables}
 \alias{opal.tables}
-\title{Get tables of a datasource from a opal.}
+\title{Get tables of a datasource}
 \usage{
 opal.tables(opal, datasource, counts = FALSE, df = TRUE)
 }
@@ -16,5 +16,14 @@ opal.tables(opal, datasource, counts = FALSE, df = TRUE)
 \item{df}{Return a data.frame (default is TRUE)}
 }
 \description{
-Get tables of a datasource from a opal.
+Get tables of a datasource
 }
+\seealso{
+Other datasource functions: \code{\link{opal.attribute_values}},
+  \code{\link{opal.datasources}},
+  \code{\link{opal.datasource}},
+  \code{\link{opal.projects}}, \code{\link{opal.project}},
+  \code{\link{opal.table}}, \code{\link{opal.valueset}},
+  \code{\link{opal.variables}}, \code{\link{opal.variable}}
+}
+\concept{datasource functions}

@@ -2,17 +2,34 @@
 % Please edit documentation in R/datashield.admin.r
 \name{dsadmin.get_method}
 \alias{dsadmin.get_method}
-\title{Get Datashield Method}
+\title{Get a DataSHIELD method}
 \usage{
 dsadmin.get_method(opal, name, type = "aggregate")
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
-\item{name}{Name of the method, as it is accessed by Datashield users.}
+\item{name}{Name of the method, as it is accessed by DataSHIELD users.}
 
 \item{type}{Type of the method: "aggregate" (default) or "assign"}
 }
 \description{
-Get a Datashield method from Opal(s).
+Get a DataSHIELD method
 }
+\seealso{
+Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
+  \code{\link{dsadmin.get_options}},
+  \code{\link{dsadmin.install_package}},
+  \code{\link{dsadmin.installed_package}},
+  \code{\link{dsadmin.package_descriptions}},
+  \code{\link{dsadmin.package_description}},
+  \code{\link{dsadmin.remove_package}},
+  \code{\link{dsadmin.rm_methods}},
+  \code{\link{dsadmin.rm_method}},
+  \code{\link{dsadmin.rm_option}},
+  \code{\link{dsadmin.rm_package_methods}},
+  \code{\link{dsadmin.set_method}},
+  \code{\link{dsadmin.set_option}},
+  \code{\link{dsadmin.set_package_methods}}
+}
+\concept{DataSHIELD functions}

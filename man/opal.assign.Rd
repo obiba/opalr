@@ -49,3 +49,10 @@ opal.assign(o, "D", mtcars)
 opal.assign(o, "C", mtcars$cyl)
 }
 }
+\seealso{
+Other assignment functions: \code{\link{opal.assign.data}},
+  \code{\link{opal.assign.script}},
+  \code{\link{opal.assign.table.tibble}},
+  \code{\link{opal.assign.table}}
+}
+\concept{assignment functions}

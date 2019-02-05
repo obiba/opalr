@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.admin.r
 \name{oadmin.install_github}
 \alias{oadmin.install_github}
-\title{Install a package from a source repository on GitHub. Makes sure devtools package is available.}
+\title{Install a package form GitHub}
 \usage{
 oadmin.install_github(opal, pkg, username = getOption("github.user"),
   ref = "master", auth_user = NULL, password = NULL)
@@ -23,3 +23,13 @@ oadmin.install_github(opal, pkg, username = getOption("github.user"),
 \description{
 Install a package from a source repository on GitHub. Makes sure devtools package is available.
 }
+\seealso{
+Other administration functions: \code{\link{oadmin.install_devtools}},
+  \code{\link{oadmin.install_package}},
+  \code{\link{oadmin.installed_devtools}},
+  \code{\link{oadmin.installed_packages}},
+  \code{\link{oadmin.installed_package}},
+  \code{\link{oadmin.package_description}},
+  \code{\link{oadmin.remove_package}}
+}
+\concept{administration functions}

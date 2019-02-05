@@ -12,3 +12,10 @@ opal.symbols(opal)
 \description{
 Get the R symbols available in the remote R session.
 }
+\seealso{
+Other symbol functions: \code{\link{opal.rm}},
+  \code{\link{opal.symbol_import}},
+  \code{\link{opal.symbol_rm}},
+  \code{\link{opal.symbol_save}}
+}
+\concept{symbol functions}

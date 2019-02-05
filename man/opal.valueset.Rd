@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.datasource.r
 \name{opal.valueset}
 \alias{opal.valueset}
-\title{Get the values of an entity in a table.}
+\title{Get the values of an entity}
 \usage{
 opal.valueset(opal, datasource, table, identifier)
 }
@@ -18,3 +18,12 @@ opal.valueset(opal, datasource, table, identifier)
 \description{
 Get the values of an entity in a table.
 }
+\seealso{
+Other datasource functions: \code{\link{opal.attribute_values}},
+  \code{\link{opal.datasources}},
+  \code{\link{opal.datasource}},
+  \code{\link{opal.projects}}, \code{\link{opal.project}},
+  \code{\link{opal.tables}}, \code{\link{opal.table}},
+  \code{\link{opal.variables}}, \code{\link{opal.variable}}
+}
+\concept{datasource functions}

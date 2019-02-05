@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.datasource.r
 \name{opal.table}
 \alias{opal.table}
-\title{Get a table of a datasource from a opal.}
+\title{Get a table of a datasource}
 \usage{
 opal.table(opal, datasource, table, counts = FALSE)
 }
@@ -16,5 +16,14 @@ opal.table(opal, datasource, table, counts = FALSE)
 \item{counts}{Flag to get the number of variables and entities (default is FALSE).}
 }
 \description{
-Get a table of a datasource from a opal.
+Get a table of a datasource
 }
+\seealso{
+Other datasource functions: \code{\link{opal.attribute_values}},
+  \code{\link{opal.datasources}},
+  \code{\link{opal.datasource}},
+  \code{\link{opal.projects}}, \code{\link{opal.project}},
+  \code{\link{opal.tables}}, \code{\link{opal.valueset}},
+  \code{\link{opal.variables}}, \code{\link{opal.variable}}
+}
+\concept{datasource functions}

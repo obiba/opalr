@@ -16,5 +16,10 @@ opal.execute(opal, script, async = FALSE, session = TRUE)
 \item{session}{Execute in current R session (default is TRUE).}
 }
 \description{
-Execute a R script on Opal(s).
+Execute a R script in the remote R session.
 }
+\seealso{
+Other execution functions: \code{\link{opal.load_package}},
+  \code{\link{opal.unload_package}}
+}
+\concept{execution functions}

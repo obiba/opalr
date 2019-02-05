@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.task.r
 \name{opal.tasks}
 \alias{opal.tasks}
-\title{Get the tasks from a opal.}
+\title{Get the tasks}
 \usage{
 opal.tasks(opal, df = TRUE)
 }
@@ -12,5 +12,10 @@ opal.tasks(opal, df = TRUE)
 \item{df}{Return a data.frame (default is TRUE)}
 }
 \description{
-Get the tasks from a opal.
+Get all the tasks with their status at the time of the request.
 }
+\seealso{
+Other task functions: \code{\link{opal.task_cancel}},
+  \code{\link{opal.task_wait}}, \code{\link{opal.task}}
+}
+\concept{task functions}

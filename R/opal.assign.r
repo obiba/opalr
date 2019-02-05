@@ -12,6 +12,7 @@
 #' 
 #' @title Data or expression assignment
 #' 
+#' @family assignment functions
 #' @param opal Opal object or list of opal objects.
 #' @param symbol Name of the R symbol.
 #' @param value The value to assign evaluated in the following order: a R expression, a function, a fully qualified name of a variable or a table in Opal or any other R object (data.frame, vector).
@@ -58,6 +59,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' 
 #' @title Data assignment to a data.frame
 #' 
+#' @family assignment functions
 #' @param opal Opal object or list of opal objects.
 #' @param symbol Name of the R symbol.
 #' @param value The value to assign evaluated in the following order: a fully qualified name of a variable or a table in Opal.
@@ -129,6 +131,7 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
 #' 
 #' @title Data assignment to a tibble
 #' 
+#' @family assignment functions
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
 #' @param value The fully qualified name of a table in Opal.
@@ -152,6 +155,7 @@ opal.assign.table.tibble <- function(opal, symbol, value, variables=NULL, missin
 #' 
 #' @title R script assignment
 #' 
+#' @family assignment functions
 #' @param opal Opal object or list of opal objects.
 #' @param symbol Name of the R symbol.
 #' @param value The R expression to assign.
@@ -182,6 +186,7 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
 #' 
 #' @title Data assignment
 #' 
+#' @family assignment functions
 #' @param opal Opal object or list of opal objects.
 #' @param symbol Name of the R symbol.
 #' @param value The R object to assign (data.frame, vector).

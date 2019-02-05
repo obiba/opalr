@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.admin.r
 \name{oadmin.remove_package}
 \alias{oadmin.remove_package}
-\title{Remove Package}
+\title{Remove package}
 \usage{
 oadmin.remove_package(opal, pkg)
 }
@@ -12,5 +12,15 @@ oadmin.remove_package(opal, pkg)
 \item{pkg}{Package name.}
 }
 \description{
-Remove package permanently from Opal(s).
+Remove package permanently.
 }
+\seealso{
+Other administration functions: \code{\link{oadmin.install_devtools}},
+  \code{\link{oadmin.install_github}},
+  \code{\link{oadmin.install_package}},
+  \code{\link{oadmin.installed_devtools}},
+  \code{\link{oadmin.installed_packages}},
+  \code{\link{oadmin.installed_package}},
+  \code{\link{oadmin.package_description}}
+}
+\concept{administration functions}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/datashield.admin.r
 \name{dsadmin.get_options}
 \alias{dsadmin.get_options}
-\title{Get Datashield Options}
+\title{Get the DataSHIELD options}
 \usage{
 dsadmin.get_options(opal)
 }
@@ -10,5 +10,22 @@ dsadmin.get_options(opal)
 \item{opal}{Opal object or list of opal objects.}
 }
 \description{
-Get the Datashield options.
+Get the DataSHIELD options
 }
+\seealso{
+Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
+  \code{\link{dsadmin.get_method}},
+  \code{\link{dsadmin.install_package}},
+  \code{\link{dsadmin.installed_package}},
+  \code{\link{dsadmin.package_descriptions}},
+  \code{\link{dsadmin.package_description}},
+  \code{\link{dsadmin.remove_package}},
+  \code{\link{dsadmin.rm_methods}},
+  \code{\link{dsadmin.rm_method}},
+  \code{\link{dsadmin.rm_option}},
+  \code{\link{dsadmin.rm_package_methods}},
+  \code{\link{dsadmin.set_method}},
+  \code{\link{dsadmin.set_option}},
+  \code{\link{dsadmin.set_package_methods}}
+}
+\concept{DataSHIELD functions}

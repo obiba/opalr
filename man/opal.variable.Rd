@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.datasource.r
 \name{opal.variable}
 \alias{opal.variable}
-\title{Get a variable of a table from a opal.}
+\title{Get a variable of a table}
 \usage{
 opal.variable(opal, datasource, table, variable)
 }
@@ -16,5 +16,14 @@ opal.variable(opal, datasource, table, variable)
 \item{variable}{Name of the variable in the table.}
 }
 \description{
-Get a variable of a table from a opal.
+Get a variable of a table
 }
+\seealso{
+Other datasource functions: \code{\link{opal.attribute_values}},
+  \code{\link{opal.datasources}},
+  \code{\link{opal.datasource}},
+  \code{\link{opal.projects}}, \code{\link{opal.project}},
+  \code{\link{opal.tables}}, \code{\link{opal.table}},
+  \code{\link{opal.valueset}}, \code{\link{opal.variables}}
+}
+\concept{datasource functions}

@@ -8,10 +8,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
+#' Install package
+#' 
 #' Install package if not already available in Opal(s). To install the latest version of a package, it has to be removed first.
 #' 
-#' @title Install Package
-#'
+#' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @param repos Character vector, the base URLs of the repositories to use.
@@ -38,10 +39,11 @@ oadmin.install_package <- function(opal, pkg, repos=NULL) {
   }
 }
 
-#' Remove package permanently from Opal(s).
+#' Remove package
+#' 
+#' Remove package permanently.
 #'
-#' @title Remove Package
-#'
+#' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @export
@@ -49,8 +51,9 @@ oadmin.remove_package <- function(opal, pkg) {
   resp <- opal.execute(opal, paste('remove.packages("', pkg, '")', sep=''), FALSE)
 }
 
-#' Check if a package is installed in Opal(s).
+#' Check package is installed
 #'
+#' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @return TRUE if installed
@@ -59,8 +62,9 @@ oadmin.installed_package <- function(opal, pkg) {
   opal.execute(opal, paste('require("', pkg, '", character.only=TRUE)', sep=''), FALSE)
 }
 
-#' Get the packages installed in Opal(s).
+#' List installed packages
 #'
+#' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @return The result of the installed.packages() call
 #' @export
@@ -68,10 +72,9 @@ oadmin.installed_packages <- function(opal) {
   opal.execute(opal, "installed.packages()")
 }
 
-#' Get package description from Opal(s).
-#' 
-#' @title Get Package Descriptions
+#' Get package description
 #'
+#' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @param fields A character vector giving the fields to extract from each package's DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.
@@ -94,24 +97,33 @@ oadmin.package_description <- function(opal, pkg, fields=NULL) {
   }
 }
 
+#' Install devtools package
+#' 
 #' Install devtools package if not already available.
 #'
+#' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @export
 oadmin.install_devtools <- function(opal) {
   oadmin.install_package(opal,'devtools')
 }
 
+#' Check devtools package
+#' 
 #' Check if devtools package is installed.
 #'
+#' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @export
 oadmin.installed_devtools <- function(opal) {
   oadmin.installed_package(opal,'devtools')
 }
 
+#' Install a package form GitHub
+#' 
 #' Install a package from a source repository on GitHub. Makes sure devtools package is available.
 #'
+#' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @param username GitHub user name.

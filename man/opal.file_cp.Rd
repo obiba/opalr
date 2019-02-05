@@ -14,7 +14,7 @@ opal.file_cp(opal, source, destination)
 \item{destination}{New path to the file in the Opal file system.}
 }
 \description{
-Copy a file or a folder to another location in the Opal file system
+Copy a file or a folder to another location in the Opal file system.
 }
 \examples{
 \dontrun{
@@ -25,3 +25,13 @@ opal.file_cp(o, '/home/administrator/export/some-data.csv', '/home/userx/deliver
 opal.file_cp(o, '/home/administrator/export', '/home/userx/deliverables')
 }
 }
+\seealso{
+Other file functions: \code{\link{opal.file_download}},
+  \code{\link{opal.file_ls}},
+  \code{\link{opal.file_mkdir}},
+  \code{\link{opal.file_mv}}, \code{\link{opal.file_read}},
+  \code{\link{opal.file_rm}},
+  \code{\link{opal.file_upload}},
+  \code{\link{opal.file_write}}, \code{\link{opal.file}}
+}
+\concept{file functions}

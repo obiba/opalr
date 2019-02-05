@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.symbol.r
 \name{opal.symbol_import}
 \alias{opal.symbol_import}
-\title{Import a tibble as a table in Opal}
+\title{Import a tibble}
 \usage{
 opal.symbol_import(opal, symbol, project, identifiers = NULL,
   policy = "required", id.name = "id", type = "Participant",
@@ -26,5 +26,13 @@ opal.symbol_import(opal, symbol, project, identifiers = NULL,
 \item{wait}{Wait for import task completion. Default is TRUE.}
 }
 \description{
-Import the tibble identified by the symbol as a table in Opal.
+Import a tibble identified by the symbol as a table in Opal. This operation creates an importation task 
+in Opal that can be followed (see tasks related functions).
 }
+\seealso{
+Other symbol functions: \code{\link{opal.rm}},
+  \code{\link{opal.symbol_rm}},
+  \code{\link{opal.symbol_save}},
+  \code{\link{opal.symbols}}
+}
+\concept{symbol functions}

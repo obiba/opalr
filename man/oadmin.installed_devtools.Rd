@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.admin.r
 \name{oadmin.installed_devtools}
 \alias{oadmin.installed_devtools}
-\title{Check if devtools package is installed.}
+\title{Check devtools package}
 \usage{
 oadmin.installed_devtools(opal)
 }
@@ -12,3 +12,13 @@ oadmin.installed_devtools(opal)
 \description{
 Check if devtools package is installed.
 }
+\seealso{
+Other administration functions: \code{\link{oadmin.install_devtools}},
+  \code{\link{oadmin.install_github}},
+  \code{\link{oadmin.install_package}},
+  \code{\link{oadmin.installed_packages}},
+  \code{\link{oadmin.installed_package}},
+  \code{\link{oadmin.package_description}},
+  \code{\link{oadmin.remove_package}}
+}
+\concept{administration functions}

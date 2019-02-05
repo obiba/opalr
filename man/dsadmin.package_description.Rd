@@ -2,7 +2,7 @@
 % Please edit documentation in R/datashield.admin.r
 \name{dsadmin.package_description}
 \alias{dsadmin.package_description}
-\title{Get Datashield Package Description}
+\title{Get DataSHIELD package description}
 \usage{
 dsadmin.package_description(opal, pkg, fields = NULL)
 }
@@ -14,5 +14,22 @@ dsadmin.package_description(opal, pkg, fields = NULL)
 \item{fields}{A character vector giving the fields to extract from each package's DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.}
 }
 \description{
-Get Datashield package description from Opal(s).
+Get DataSHIELD package description
 }
+\seealso{
+Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
+  \code{\link{dsadmin.get_method}},
+  \code{\link{dsadmin.get_options}},
+  \code{\link{dsadmin.install_package}},
+  \code{\link{dsadmin.installed_package}},
+  \code{\link{dsadmin.package_descriptions}},
+  \code{\link{dsadmin.remove_package}},
+  \code{\link{dsadmin.rm_methods}},
+  \code{\link{dsadmin.rm_method}},
+  \code{\link{dsadmin.rm_option}},
+  \code{\link{dsadmin.rm_package_methods}},
+  \code{\link{dsadmin.set_method}},
+  \code{\link{dsadmin.set_option}},
+  \code{\link{dsadmin.set_package_methods}}
+}
+\concept{DataSHIELD functions}

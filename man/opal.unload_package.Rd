@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.execute.r
 \name{opal.unload_package}
 \alias{opal.unload_package}
-\title{Unload package from the current session.}
+\title{Unload package}
 \usage{
 opal.unload_package(opal, pkg)
 }
@@ -12,5 +12,10 @@ opal.unload_package(opal, pkg)
 \item{pkg}{Package name.}
 }
 \description{
-Unload package from the current session.
+Unload package from the remote R session.
 }
+\seealso{
+Other execution functions: \code{\link{opal.execute}},
+  \code{\link{opal.load_package}}
+}
+\concept{execution functions}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.datasource.r
 \name{opal.datasource}
 \alias{opal.datasource}
-\title{Get a datasource from a opal.}
+\title{Get a datasource}
 \usage{
 opal.datasource(opal, datasource)
 }
@@ -12,5 +12,14 @@ opal.datasource(opal, datasource)
 \item{datasource}{Name of the datasource.}
 }
 \description{
-Get a datasource from a opal.
+Get a datasource
 }
+\seealso{
+Other datasource functions: \code{\link{opal.attribute_values}},
+  \code{\link{opal.datasources}},
+  \code{\link{opal.projects}}, \code{\link{opal.project}},
+  \code{\link{opal.tables}}, \code{\link{opal.table}},
+  \code{\link{opal.valueset}},
+  \code{\link{opal.variables}}, \code{\link{opal.variable}}
+}
+\concept{datasource functions}

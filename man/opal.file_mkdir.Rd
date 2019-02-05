@@ -12,7 +12,7 @@ opal.file_mkdir(opal, path)
 \item{path}{Path to the new folder in the Opal file system.}
 }
 \description{
-Make a folder in the Opal file system
+Make a folder in the Opal file system.
 }
 \examples{
 \dontrun{
@@ -20,3 +20,12 @@ Make a folder in the Opal file system
 opal.file_mkdir(o, '/home/userx/deliverables')
 }
 }
+\seealso{
+Other file functions: \code{\link{opal.file_cp}},
+  \code{\link{opal.file_download}},
+  \code{\link{opal.file_ls}}, \code{\link{opal.file_mv}},
+  \code{\link{opal.file_read}}, \code{\link{opal.file_rm}},
+  \code{\link{opal.file_upload}},
+  \code{\link{opal.file_write}}, \code{\link{opal.file}}
+}
+\concept{file functions}

@@ -16,3 +16,8 @@ opal.workspace_rm(opal, ws, user = NULL)
 \description{
 Remove a R workspace from a opal.
 }
+\seealso{
+Other workspace functions: \code{\link{opal.workspace_save}},
+  \code{\link{opal.workspaces}}
+}
+\concept{workspace functions}

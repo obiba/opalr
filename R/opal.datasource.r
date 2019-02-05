@@ -8,8 +8,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Get projects from a opal.
+#' Get projects
 #' 
+#' @family datasource functions
 #' @param opal Opal object.
 #' @param df Return a data.frame (default is TRUE)
 #' @export
@@ -41,8 +42,9 @@ opal.projects <- function(opal, df=TRUE) {
   }
 }
 
-#' Get a project from a opal.
+#' Get a project
 #' 
+#' @family datasource functions
 #' @param opal Opal object.
 #' @param project Name of the project
 #' @export
@@ -50,8 +52,9 @@ opal.project <- function(opal, project) {
   opal.get(opal, "project", project)
 }
 
-#' Get datasources from a opal.
+#' Get datasources
 #' 
+#' @family datasource functions
 #' @param opal Opal object.
 #' @param df Return a data.frame (default is TRUE)
 #' @export
@@ -83,8 +86,9 @@ opal.datasources <- function(opal, df=TRUE) {
   }
 }
 
-#' Get a datasource from a opal.
+#' Get a datasource
 #' 
+#' @family datasource functions
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @export
@@ -92,8 +96,9 @@ opal.datasource <- function(opal, datasource) {
   opal.get(opal, "datasource", datasource)
 }
 
-#' Get tables of a datasource from a opal.
+#' Get tables of a datasource
 #' 
+#' @family datasource functions
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @param counts Flag to get the number of variables and entities (default is FALSE).
@@ -138,8 +143,9 @@ opal.tables <- function(opal, datasource, counts=FALSE, df=TRUE) {
   }
 }
 
-#' Get a table of a datasource from a opal.
+#' Get a table of a datasource
 #' 
+#' @family datasource functions
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
@@ -153,8 +159,9 @@ opal.table <- function(opal, datasource, table, counts=FALSE) {
   }  
 }
 
-#' Get variables of a table from a opal.
+#' Get variables of a table
 #' 
+#' @family datasource functions
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
@@ -237,8 +244,9 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
   }
 }
 
-#' Get a variable of a table from a opal.
+#' Get a variable of a table
 #' 
+#' @family datasource functions
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
@@ -248,8 +256,11 @@ opal.variable <- function(opal, datasource, table, variable) {
   opal.get(opal, "datasource", datasource, "table", table, "variable", variable)
 }
 
+#' Get a vector of values
+#' 
 #' Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.
 #' 
+#' @family datasource functions
 #' @param attributes A list of attributes, usually variable or category attributes.
 #' @param namespace Optional attribute namespace.
 #' @param name Required attribute name.
@@ -270,8 +281,11 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
   rval
 }
 
+#' Get the values of an entity
+#' 
 #' Get the values of an entity in a table.
 #'
+#' @family datasource functions
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.

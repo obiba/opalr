@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.execute.r
 \name{opal.load_package}
 \alias{opal.load_package}
-\title{Load package in the current session.}
+\title{Load package}
 \usage{
 opal.load_package(opal, pkg)
 }
@@ -12,5 +12,10 @@ opal.load_package(opal, pkg)
 \item{pkg}{Package name.}
 }
 \description{
-Load package in the current session.
+Load package in the remote R session.
 }
+\seealso{
+Other execution functions: \code{\link{opal.execute}},
+  \code{\link{opal.unload_package}}
+}
+\concept{execution functions}

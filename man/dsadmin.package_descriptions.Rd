@@ -2,7 +2,7 @@
 % Please edit documentation in R/datashield.admin.r
 \name{dsadmin.package_descriptions}
 \alias{dsadmin.package_descriptions}
-\title{Get Datashield Package Descriptions}
+\title{Get DataSHIELD package descriptions}
 \usage{
 dsadmin.package_descriptions(opal, fields = NULL, df = TRUE)
 }
@@ -14,8 +14,25 @@ dsadmin.package_descriptions(opal, fields = NULL, df = TRUE)
 \item{df}{Return a data.frame (default is TRUE)}
 }
 \value{
-The Datashield package descriptions as a data.frame or a list
+The DataSHIELD package descriptions as a data.frame or a list
 }
 \description{
-Get Datashield package descriptions from Opal(s).
+Get DataSHIELD package descriptions
 }
+\seealso{
+Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
+  \code{\link{dsadmin.get_method}},
+  \code{\link{dsadmin.get_options}},
+  \code{\link{dsadmin.install_package}},
+  \code{\link{dsadmin.installed_package}},
+  \code{\link{dsadmin.package_description}},
+  \code{\link{dsadmin.remove_package}},
+  \code{\link{dsadmin.rm_methods}},
+  \code{\link{dsadmin.rm_method}},
+  \code{\link{dsadmin.rm_option}},
+  \code{\link{dsadmin.rm_package_methods}},
+  \code{\link{dsadmin.set_method}},
+  \code{\link{dsadmin.set_option}},
+  \code{\link{dsadmin.set_package_methods}}
+}
+\concept{DataSHIELD functions}

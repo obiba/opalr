@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.taxonomy.r
 \name{opal.term}
 \alias{opal.term}
-\title{Get a vocabulary term from a opal.}
+\title{Get a vocabulary term}
 \usage{
 opal.term(opal, taxonomy, vocabulary, term)
 }
@@ -16,5 +16,12 @@ opal.term(opal, taxonomy, vocabulary, term)
 \item{term}{Name of the term in the vocabulary}
 }
 \description{
-Get a vocabulary term from a opal.
+Get a specific term details.
 }
+\seealso{
+Other taxonomy functions: \code{\link{opal.taxonomies}},
+  \code{\link{opal.taxonomy}}, \code{\link{opal.terms}},
+  \code{\link{opal.vocabularies}},
+  \code{\link{opal.vocabulary}}
+}
+\concept{taxonomy functions}

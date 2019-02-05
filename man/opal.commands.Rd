@@ -14,3 +14,10 @@ opal.commands(opal, df = TRUE)
 \description{
 Get the list of asynchronous R commands in the remote R session.
 }
+\seealso{
+Other command functions: \code{\link{opal.command_result}},
+  \code{\link{opal.command_rm}},
+  \code{\link{opal.commands_rm}},
+  \code{\link{opal.command}}
+}
+\concept{command functions}

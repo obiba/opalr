@@ -14,3 +14,8 @@ opal.workspace_save(opal, save = TRUE)
 \description{
 Save the current session in a opal R workspace.
 }
+\seealso{
+Other workspace functions: \code{\link{opal.workspace_rm}},
+  \code{\link{opal.workspaces}}
+}
+\concept{workspace functions}

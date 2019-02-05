@@ -12,6 +12,7 @@
 #' 
 #' @title Opal login
 #' 
+#' @family connection functions
 #' @return A opal object or a list of opal objects.
 #' @param username User name in opal(s). Can be provided by "opal.username" option.
 #' @param password User password in opal(s). Can be provided by "opal.password" option.
@@ -52,6 +53,7 @@ opal.login <- function(username=getOption("opal.username"), password=getOption("
 #' 
 #' @title Logout from Opal(s)
 #' 
+#' @family connection functions
 #' @param opal Opal object or a list of opals.
 #' @param save Save the workspace with given identifier (default value is FALSE, current session ID if TRUE).
 #' @export
@@ -125,6 +127,7 @@ opal.version_compare <- function(opal, version) {
 
 #' Generic REST resource getter.
 #' 
+#' @family REST functions
 #' @param opal Opal object.
 #' @param ... Resource path segments.
 #' @param query Named list of query parameters.
@@ -138,6 +141,7 @@ opal.get <- function(opal, ..., query=list(), callback=NULL) {
 
 #' Generic REST resource creation.
 #' 
+#' @family REST functions
 #' @param opal Opal object.
 #' @param ... Resource path segments.
 #' @param query Named list of query parameters.
@@ -153,6 +157,7 @@ opal.post <- function(opal, ..., query=list(), body='', contentType='application
 
 #' Generic REST resource update.
 #' 
+#' @family REST functions
 #' @param opal Opal object.
 #' @param ... Resource path segments.
 #' @param query Named list of query parameters.
@@ -168,6 +173,7 @@ opal.put <- function(opal, ..., query=list(), body='', contentType='application/
 
 #' Generic REST resource deletion.
 #' 
+#' @family REST functions
 #' @param opal Opal object.
 #' @param ... Resource path segments.
 #' @param query Named list of query parameters.

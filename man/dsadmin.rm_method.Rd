@@ -2,17 +2,34 @@
 % Please edit documentation in R/datashield.admin.r
 \name{dsadmin.rm_method}
 \alias{dsadmin.rm_method}
-\title{Remove Datashield Method}
+\title{Remove DataSHIELD method}
 \usage{
 dsadmin.rm_method(opal, name, type = "aggregate")
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
-\item{name}{Name of the method, as it is accessed by Datashield users.}
+\item{name}{Name of the method, as it is accessed by DataSHIELD users.}
 
 \item{type}{Type of the method: "aggregate" (default) or "assign"}
 }
 \description{
-Remove a Datashield method from Opal(s).
+Remove DataSHIELD method
 }
+\seealso{
+Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
+  \code{\link{dsadmin.get_method}},
+  \code{\link{dsadmin.get_options}},
+  \code{\link{dsadmin.install_package}},
+  \code{\link{dsadmin.installed_package}},
+  \code{\link{dsadmin.package_descriptions}},
+  \code{\link{dsadmin.package_description}},
+  \code{\link{dsadmin.remove_package}},
+  \code{\link{dsadmin.rm_methods}},
+  \code{\link{dsadmin.rm_option}},
+  \code{\link{dsadmin.rm_package_methods}},
+  \code{\link{dsadmin.set_method}},
+  \code{\link{dsadmin.set_option}},
+  \code{\link{dsadmin.set_package_methods}}
+}
+\concept{DataSHIELD functions}

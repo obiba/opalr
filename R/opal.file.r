@@ -8,10 +8,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Get file content from the Opal file system
+#' Get file content
 #' 
-#' @title Get file content
+#' Get file content from the Opal file system.
 #' 
+#' @family file functions
 #' @param opal Opal object.
 #' @param path Path to the file in the Opal file system.
 #' @param key File encryption key: downloaded file will be a zip file with content encrypted (use 7zip to decrypt).
@@ -26,10 +27,11 @@ opal.file <- function(opal, path, key=NULL) {
   }
 }
 
-#' Download a file or a folder from the Opal file system
+#' Download a file
 #' 
-#' @title Download a file
+#' Download a file or a folder from the Opal file system.
 #' 
+#' @family file functions
 #' @param opal Opal object.
 #' @param source Path to the file in the Opal file system.
 #' @param destination Path to the file to be written. If ommitted, file with same name in the working directory will be written.
@@ -75,10 +77,11 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
   }
 }
 
-#' Upload a file into the Opal file system
+#' Upload a file
 #' 
-#' @title Upload a file
+#' Upload a file into the Opal file system.
 #' 
+#' @family file functions
 #' @param opal Opal object.
 #' @param source Path to the file in the local file system.
 #' @param destination Path of the destination folder in the Opal file system.
@@ -93,10 +96,11 @@ opal.file_upload <- function(opal, source, destination) {
   res <- opal.file_ls(opal, destination)
 }
 
-#' Move and/or rename a file or a folder in the Opal file system
+#' Move and/or rename a file
 #' 
-#' @title Move and/or rename a file
+#' Move and/or rename a file or a folder in the Opal file system.
 #' 
+#' @family file functions
 #' @param opal Opal object.
 #' @param source Path to the file in the Opal file system.
 #' @param destination New path to the file in the Opal file system.
@@ -120,10 +124,11 @@ opal.file_mv <- function(opal, source, destination) {
   res <- opal.put(opal, location, query=query)
 }
 
-#' Copy a file or a folder to another location in the Opal file system
+#' Copy a file
 #' 
-#' @title Copy a file
+#' Copy a file or a folder to another location in the Opal file system.
 #' 
+#' @family file functions
 #' @param opal Opal object.
 #' @param source Path to the file in the Opal file system.
 #' @param destination New path to the file in the Opal file system.
@@ -142,10 +147,11 @@ opal.file_cp <- function(opal, source, destination) {
   res <- opal.put(opal, location, query=query)
 }
 
-#' Make a folder in the Opal file system
+#' Make a folder
 #' 
-#' @title Make a folder
+#' Make a folder in the Opal file system.
 #' 
+#' @family file functions
 #' @param opal Opal object.
 #' @param path Path to the new folder in the Opal file system.
 #' @examples 
@@ -158,10 +164,11 @@ opal.file_mkdir <- function(opal, path) {
   res <- opal.post(opal, 'files', body=path, contentType='text/plain')
 }
 
-#' List content of a folder in the Opal file system
+#' List content of a folder
 #' 
-#' @title List content of a folder
+#' List content of a folder in the Opal file system.
 #' 
+#' @family file functions
 #' @param opal Opal object.
 #' @param path Path to the folder in the Opal file system.
 #' @examples 
@@ -213,10 +220,11 @@ opal.file_ls <- function(opal, path) {
   res
 }
 
-#' Remove a file or a folder from the Opal file system
+#' Remove a file
 #' 
-#' @title Remove a file
+#' Remove a file or a folder from the Opal file system.
 #' 
+#' @family file functions
 #' @param opal Opal object.
 #' @param path Path to the file in the Opal file system.
 #' @examples 
@@ -233,10 +241,11 @@ opal.file_rm <- function(opal, path) {
   res <- tryCatch(opal.delete(opal, location), error=function(e){})
 }
 
-#' Write a file from the Opal file system into the R session workspace
+#' Write a file
 #' 
-#' @title Write a file
+#' Write a file from the Opal file system into the R session workspace.
 #' 
+#' @family file functions
 #' @param opal Opal object.
 #' @param source Path to the file in the Opal file system (must exists and be accessible for the user).
 #' @param destination Path to the destination file, relative to the R session workspace. Any required sub-folders will be created. If ommitted, file with same name will be written.
@@ -262,10 +271,11 @@ opal.file_write <- function(opal, source, destination=NULL) {
   res <- opal.put(opal, "r", "session", opal$rid, "file", "_push", query=query)
 }
 
-#' Read a file from the R session workspace into the Opal file system 
+#' Read a file
 #' 
-#' @title Read a file
+#' Read a file from the R session workspace into the Opal file system.
 #' 
+#' @family file functions
 #' @param opal Opal object.
 #' @param source Path to the file in the R session workspace (must exists).
 #' @param destination Path to the destination file or folder. Any required sub-folders will be created.

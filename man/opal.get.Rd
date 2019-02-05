@@ -18,3 +18,8 @@ opal.get(opal, ..., query = list(), callback = NULL)
 \description{
 Generic REST resource getter.
 }
+\seealso{
+Other REST functions: \code{\link{opal.delete}},
+  \code{\link{opal.post}}, \code{\link{opal.put}}
+}
+\concept{REST functions}

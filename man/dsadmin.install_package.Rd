@@ -2,7 +2,7 @@
 % Please edit documentation in R/datashield.admin.r
 \name{dsadmin.install_package}
 \alias{dsadmin.install_package}
-\title{Install Datashield Package}
+\title{Install a DataSHIELD package}
 \usage{
 dsadmin.install_package(opal, pkg, githubusername = NULL, ref = NULL)
 }
@@ -11,13 +11,30 @@ dsadmin.install_package(opal, pkg, githubusername = NULL, ref = NULL)
 
 \item{pkg}{Package name.}
 
-\item{githubusername}{GitHub username of git repository. If NULL (default), try to install from Datashield package repository.}
+\item{githubusername}{GitHub username of git repository. If NULL (default), try to install from DataSHIELD package repository.}
 
-\item{ref}{Desired git reference (could be a commit, tag, or branch name). If NULL (default), try to install from Datashield package repository.}
+\item{ref}{Desired git reference (could be a commit, tag, or branch name). If NULL (default), try to install from DataSHIELD package repository.}
 }
 \value{
 TRUE if installed
 }
 \description{
-Install a package from Datashield public package repository or (if Git reference and GitHub username is provided) from Datashield source repository on GitHub.
+Install a package from DataSHIELD public package repository or (if Git reference and GitHub username is provided) from DataSHIELD source repository on GitHub.
 }
+\seealso{
+Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
+  \code{\link{dsadmin.get_method}},
+  \code{\link{dsadmin.get_options}},
+  \code{\link{dsadmin.installed_package}},
+  \code{\link{dsadmin.package_descriptions}},
+  \code{\link{dsadmin.package_description}},
+  \code{\link{dsadmin.remove_package}},
+  \code{\link{dsadmin.rm_methods}},
+  \code{\link{dsadmin.rm_method}},
+  \code{\link{dsadmin.rm_option}},
+  \code{\link{dsadmin.rm_package_methods}},
+  \code{\link{dsadmin.set_method}},
+  \code{\link{dsadmin.set_option}},
+  \code{\link{dsadmin.set_package_methods}}
+}
+\concept{DataSHIELD functions}

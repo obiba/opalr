@@ -2,7 +2,7 @@
 % Please edit documentation in R/datashield.admin.r
 \name{dsadmin.installed_package}
 \alias{dsadmin.installed_package}
-\title{Check if a Datashield package is installed in Opal(s).}
+\title{Check DataSHIELD package}
 \usage{
 dsadmin.installed_package(opal, pkg)
 }
@@ -15,5 +15,22 @@ dsadmin.installed_package(opal, pkg)
 TRUE if installed
 }
 \description{
-Check if a Datashield package is installed in Opal(s).
+Check if a DataSHIELD package is installed.
 }
+\seealso{
+Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
+  \code{\link{dsadmin.get_method}},
+  \code{\link{dsadmin.get_options}},
+  \code{\link{dsadmin.install_package}},
+  \code{\link{dsadmin.package_descriptions}},
+  \code{\link{dsadmin.package_description}},
+  \code{\link{dsadmin.remove_package}},
+  \code{\link{dsadmin.rm_methods}},
+  \code{\link{dsadmin.rm_method}},
+  \code{\link{dsadmin.rm_option}},
+  \code{\link{dsadmin.rm_package_methods}},
+  \code{\link{dsadmin.set_method}},
+  \code{\link{dsadmin.set_option}},
+  \code{\link{dsadmin.set_package_methods}}
+}
+\concept{DataSHIELD functions}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.admin.r
 \name{oadmin.install_devtools}
 \alias{oadmin.install_devtools}
-\title{Install devtools package if not already available.}
+\title{Install devtools package}
 \usage{
 oadmin.install_devtools(opal)
 }
@@ -12,3 +12,13 @@ oadmin.install_devtools(opal)
 \description{
 Install devtools package if not already available.
 }
+\seealso{
+Other administration functions: \code{\link{oadmin.install_github}},
+  \code{\link{oadmin.install_package}},
+  \code{\link{oadmin.installed_devtools}},
+  \code{\link{oadmin.installed_packages}},
+  \code{\link{oadmin.installed_package}},
+  \code{\link{oadmin.package_description}},
+  \code{\link{oadmin.remove_package}}
+}
+\concept{administration functions}

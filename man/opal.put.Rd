@@ -23,3 +23,8 @@ opal.put(opal, ..., query = list(), body = "",
 \description{
 Generic REST resource update.
 }
+\seealso{
+Other REST functions: \code{\link{opal.delete}},
+  \code{\link{opal.get}}, \code{\link{opal.post}}
+}
+\concept{REST functions}

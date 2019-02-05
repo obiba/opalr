@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.datasource.r
 \name{opal.variables}
 \alias{opal.variables}
-\title{Get variables of a table from a opal.}
+\title{Get variables of a table}
 \usage{
 opal.variables(opal, datasource, table, locale = "en", df = TRUE)
 }
@@ -18,5 +18,14 @@ opal.variables(opal, datasource, table, locale = "en", df = TRUE)
 \item{df}{Return a data.frame (default is TRUE)}
 }
 \description{
-Get variables of a table from a opal.
+Get variables of a table
 }
+\seealso{
+Other datasource functions: \code{\link{opal.attribute_values}},
+  \code{\link{opal.datasources}},
+  \code{\link{opal.datasource}},
+  \code{\link{opal.projects}}, \code{\link{opal.project}},
+  \code{\link{opal.tables}}, \code{\link{opal.table}},
+  \code{\link{opal.valueset}}, \code{\link{opal.variable}}
+}
+\concept{datasource functions}

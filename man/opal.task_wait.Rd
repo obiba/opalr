@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.task.r
 \name{opal.task_wait}
 \alias{opal.task_wait}
-\title{Wait for a task from a opal to complete.}
+\title{Wait for a task to complete.}
 \usage{
 opal.task_wait(opal, id, max = NULL)
 }
@@ -14,5 +14,10 @@ opal.task_wait(opal, id, max = NULL)
 \item{max}{Maximum time (in seconds) to wait for the task completion. Default is NULL (no maximum).}
 }
 \description{
-Wait for a task from a opal to complete.
+The task completion is defined by its status: *SUCCEEDED*, *FAILED* or *CANCELED*.
 }
+\seealso{
+Other task functions: \code{\link{opal.task_cancel}},
+  \code{\link{opal.tasks}}, \code{\link{opal.task}}
+}
+\concept{task functions}

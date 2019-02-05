@@ -2,7 +2,7 @@
 % Please edit documentation in R/datashield.admin.r
 \name{dsadmin.remove_package}
 \alias{dsadmin.remove_package}
-\title{Remove Datashield Package}
+\title{Remove DataSHIELD package}
 \usage{
 dsadmin.remove_package(opal, pkg)
 }
@@ -12,5 +12,22 @@ dsadmin.remove_package(opal, pkg)
 \item{pkg}{Package name.}
 }
 \description{
-Remove a Datashield package permanently from Opal(s).
+Remove a DataSHIELD package permanently.
 }
+\seealso{
+Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
+  \code{\link{dsadmin.get_method}},
+  \code{\link{dsadmin.get_options}},
+  \code{\link{dsadmin.install_package}},
+  \code{\link{dsadmin.installed_package}},
+  \code{\link{dsadmin.package_descriptions}},
+  \code{\link{dsadmin.package_description}},
+  \code{\link{dsadmin.rm_methods}},
+  \code{\link{dsadmin.rm_method}},
+  \code{\link{dsadmin.rm_option}},
+  \code{\link{dsadmin.rm_package_methods}},
+  \code{\link{dsadmin.set_method}},
+  \code{\link{dsadmin.set_option}},
+  \code{\link{dsadmin.set_package_methods}}
+}
+\concept{DataSHIELD functions}

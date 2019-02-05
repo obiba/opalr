@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.symbol.r
 \name{opal.symbol_save}
 \alias{opal.symbol_save}
-\title{Save a tibble identified by symbol as a file of format SAS, SPSS, Stata, CSV or TSV.}
+\title{Save a tibble}
 \usage{
 opal.symbol_save(opal, symbol, destination)
 }
@@ -14,5 +14,11 @@ opal.symbol_save(opal, symbol, destination)
 \item{destination}{The path of the file in the R session workspace. Supported file extensions are: .sav (SPSS), .sas7bdat (SAS), .dta (Stata), .csv (comma separated values), .tsv (tab separated values).}
 }
 \description{
-Save the tibble identified by the symbol in a file of the R session workspace
+Save a tibble identified by symbol as a file of format SAS, SPSS, Stata, CSV or TSV in the remote R session working directory.
 }
+\seealso{
+Other symbol functions: \code{\link{opal.rm}},
+  \code{\link{opal.symbol_import}},
+  \code{\link{opal.symbol_rm}}, \code{\link{opal.symbols}}
+}
+\concept{symbol functions}

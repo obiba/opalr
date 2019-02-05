@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.task.r
 \name{opal.task}
 \alias{opal.task}
-\title{Get a task from a opal.}
+\title{Get a task}
 \usage{
 opal.task(opal, id)
 }
@@ -12,5 +12,10 @@ opal.task(opal, id)
 \item{id}{Task identifier.}
 }
 \description{
-Get a task from a opal.
+Get the details of a specific task.
 }
+\seealso{
+Other task functions: \code{\link{opal.task_cancel}},
+  \code{\link{opal.task_wait}}, \code{\link{opal.tasks}}
+}
+\concept{task functions}

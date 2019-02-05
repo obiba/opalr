@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.datasource.r
 \name{opal.project}
 \alias{opal.project}
-\title{Get a project from a opal.}
+\title{Get a project}
 \usage{
 opal.project(opal, project)
 }
@@ -12,5 +12,14 @@ opal.project(opal, project)
 \item{project}{Name of the project}
 }
 \description{
-Get a project from a opal.
+Get a project
 }
+\seealso{
+Other datasource functions: \code{\link{opal.attribute_values}},
+  \code{\link{opal.datasources}},
+  \code{\link{opal.datasource}},
+  \code{\link{opal.projects}}, \code{\link{opal.tables}},
+  \code{\link{opal.table}}, \code{\link{opal.valueset}},
+  \code{\link{opal.variables}}, \code{\link{opal.variable}}
+}
+\concept{datasource functions}

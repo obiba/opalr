@@ -12,7 +12,7 @@ opal.file_ls(opal, path)
 \item{path}{Path to the folder in the Opal file system.}
 }
 \description{
-List content of a folder in the Opal file system
+List content of a folder in the Opal file system.
 }
 \examples{
 \dontrun{
@@ -20,3 +20,13 @@ List content of a folder in the Opal file system
 opal.file_ls(o, '/home/userx/deliverables')
 }
 }
+\seealso{
+Other file functions: \code{\link{opal.file_cp}},
+  \code{\link{opal.file_download}},
+  \code{\link{opal.file_mkdir}},
+  \code{\link{opal.file_mv}}, \code{\link{opal.file_read}},
+  \code{\link{opal.file_rm}},
+  \code{\link{opal.file_upload}},
+  \code{\link{opal.file_write}}, \code{\link{opal.file}}
+}
+\concept{file functions}

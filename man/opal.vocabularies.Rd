@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.taxonomy.r
 \name{opal.vocabularies}
 \alias{opal.vocabularies}
-\title{Get the vocabularies of a taxonomy from a opal.}
+\title{Get the vocabularies of a taxonomy}
 \usage{
 opal.vocabularies(opal, taxonomy, locale = "en", df = TRUE)
 }
@@ -16,5 +16,11 @@ opal.vocabularies(opal, taxonomy, locale = "en", df = TRUE)
 \item{df}{Return a data.frame (default is TRUE)}
 }
 \description{
-Get the vocabularies of a taxonomy from a opal.
+Get all the vocabularies of a taxonomy. A vocabulary describes the possible values of variable annotations.
 }
+\seealso{
+Other taxonomy functions: \code{\link{opal.taxonomies}},
+  \code{\link{opal.taxonomy}}, \code{\link{opal.terms}},
+  \code{\link{opal.term}}, \code{\link{opal.vocabulary}}
+}
+\concept{taxonomy functions}

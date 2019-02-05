@@ -30,3 +30,10 @@ opal.assign.table.tibble(opal, symbol, value, variables = NULL,
 \description{
 Assign a Opal table to a tibble identified by a R symbol in the current R session.
 }
+\seealso{
+Other assignment functions: \code{\link{opal.assign.data}},
+  \code{\link{opal.assign.script}},
+  \code{\link{opal.assign.table}},
+  \code{\link{opal.assign}}
+}
+\concept{assignment functions}
