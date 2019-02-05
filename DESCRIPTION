@@ -32,7 +32,6 @@ Description: Data integration Web application for biobanks by OBiBa. Opal is
     assessment centres. Its ultimate purpose is to achieve seamless
     data-sharing among biobanks.
 License: GPL-3
-OpalVersion: >= 2.6.0
 URL: https://www.obiba.org
 BugReports: https://github.com/obiba/opalr
 RoxygenNote: 6.1.1
