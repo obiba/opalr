@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Opal has an internal file system that is accessible through web services. The opal R package exposes files management related functions:
+[Opal](https://www.obiba.org/pages/products/opal/) has an internal file system that is accessible through web services. The Opal R package exposes files management related functions:
 
 * upload a file,
 * download a file or folder (optionaly encrypted),
@@ -21,78 +21,77 @@ Opal has an internal file system that is accessible through web services. The op
 
 Setup the connection with Opal:
 
-```{r}
+```{r eval=FALSE}
 library(opalr)
 o <- opal.login("administrator", "password", "https://opal-demo.obiba.org")
 ```
 
 Download a file:
 
-```{r}
+```{r eval=FALSE}
 opal.file_download(o, "/tmp/datashield.zip")
 ```
 
 Download a file, protected by a password:
 
-```{r}
+```{r eval=FALSE}
 opal.file_download(o, "/tmp/datashield.zip", "datashield-encrypted.zip", key="ABCDEFGHIJKL")
 ```
 
 Upload the file at another location:
 
-```{r}
-list.files()
+```{r eval=FALSE}
 opal.file_upload(o, "datashield.zip", "/projects/datashield")
 ```
 
 Create a folder and list folder content:
 
-```{r}
+```{r eval=FALSE}
 fooDir <- paste0("/projects/datashield/foo-", sample(10000:99999, 1))
 opal.file_mkdir(o, fooDir)
-knitr::kable(opal.file_ls(o, "/projects/datashield"))
+opal.file_ls(o, "/projects/datashield")
 ```
 
 Move file to the new folder and list folder content:
 
-```{r}
+```{r eval=FALSE}
 opal.file_mv(o, "/projects/datashield/datashield.zip", fooDir)
-knitr::kable(opal.file_ls(o, fooDir))
+opal.file_ls(o, fooDir)
 ```
 
 Rename the new folder and list folder content:
 
-```{r}
+```{r eval=FALSE}
 barDir <- paste0("/projects/datashield/bar-", sample(10000:99999, 1))
 opal.file_mv(o, fooDir, barDir)
-knitr::kable(opal.file_ls(o, "/projects/datashield"))
+opal.file_ls(o, "/projects/datashield")
 ```
 
 Write a file from the Opal file system into the R server session workspace:
 
-```{r}
+```{r eval=FALSE}
 opal.file_write(o, paste0(barDir, "/datashield.zip"))
 opal.execute(o, "list.files()")
 ```
 
 Read back the file into the Opal file system:
 
-```{r}
+```{r eval=FALSE}
 opal.file_read(o, "datashield.zip", paste0(barDir, "/ds.zip"))
-knitr::kable(opal.file_ls(o, barDir))
+opal.file_ls(o, barDir)
 ```
 
 
 Remove created folder and list folder content:
 
-```{r}
+```{r eval=FALSE}
 opal.file_rm(o, barDir)
-knitr::kable(opal.file_ls(o, "/projects/datashield"))
+opal.file_ls(o, "/projects/datashield")
 ```
 
 Good practice is to free server resources by sending a logout request:
 
-```{r}
+```{r eval=FALSE}
 # clean server side
 opal.logout(o)
 # clean client side
