@@ -21,5 +21,5 @@ options(opal.username='administrator',
         opal.password='password', 
         opal.url='https://opal-demo.obiba.org')
 
-o <- datashield.login()
+#o <- opal.login()
 
