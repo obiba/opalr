@@ -1,6 +1,6 @@
 Package: opalr
 Version: 1.0.0
-Title: Opal R and Datashield utils
+Title: Opal R and Datashield Utils
 Authors@R: 
     c(person(given = "Yannick",
              family = "Marcon",
