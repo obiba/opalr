@@ -1,0 +1,70 @@
+---
+title: "Opal R Session API"
+author: "Yannick Marcon"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+[Opal](https://www.obiba.org/pages/products/opal/) is connected with a R server. Each Opal user having the appropriate permissions can create a R session on the server side through Opal. See the [R Server](http://opaldoc.obiba.org/en/latest/admin/rserver.html) documentation page that explains the relationship beteen Opal and the R server. The Opal R package exposes data management related functions:
+
+* assignment of Opal data into the remote R session,
+* execution of R expressions on server side,
+* management of R workspace image.
+
+Note that these functions do create a R session on the server side.
+
+Setup the connection with Opal:
+
+```{r eval=FALSE}
+library(opalr)
+o <- opal.login("administrator", "password", "https://opal-demo.obiba.org")
+```
+
+Assign a Opal table to a *data.frame* (if user has permission to see values of the Opal table):
+
+```{r eval=FALSE}
+opal.assign.table(o, symbol = "df", value = "datashield.CNSIM1")
+```
+
+In place of a standard *data.frame*, Opal can assign data into a [tibble](https://tibble.tidyverse.org/) which has the advantage of containing the data dictionary:
+
+```{r eval=FALSE}
+opal.assign.table.tibble(o, symbol = "tbl", value = "datashield.CNSIM1")
+```
+
+List the R symbols that lives in the remote R session:
+
+```{r eval=FALSE}
+opal.symbols(o)
+```
+
+R expressions can be executed on the server side:
+
+```{r eval=FALSE}
+opal.execute(o, script = "names(tbl)")
+```
+
+The remote data can be downloaded into the client side R session:
+
+```{r eval=FALSE}
+tbl <- opal.execute(o, script = "tbl")
+```
+
+The image of the remote R session can be saved in a *workspace* (to be restored at login time):
+
+```{r eval=FALSE}
+opal.workspace_save(o, save="cnsim1")
+opal.workspaces(o)
+```
+
+
+Good practice is to free server resources by sending a logout request:
+
+```{r eval=FALSE}
+opal.logout(o)
+```
+

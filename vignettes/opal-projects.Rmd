@@ -1,0 +1,84 @@
+---
+title: "Opal Projects API"
+author: "Yannick Marcon"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+[Opal](https://www.obiba.org/pages/products/opal/) stores data and meta-data in projects that are accessible through web services. See the [Variables and Data](http://opaldoc.obiba.org/en/latest/variables-data.html) documentation page that explains the data model of Opal. The Opal R package exposes projects related functions:
+
+* list projects,
+* list tables,
+* list variables,
+* list taxonomies,
+* and functions for getting all associated details (of a project, a table, a variable etc.) ...
+
+Note that these functions do not create a R session on the server side: it is only accessing the content of the Opal server (permission checks apply).
+
+Setup the connection with Opal:
+
+```{r eval=FALSE}
+library(opalr)
+o <- opal.login("administrator", "password", "https://opal-demo.obiba.org")
+```
+
+List the projects:
+
+```{r eval=FALSE}
+opal.projects(o)
+```
+
+List the datasources (there is one per project) to get the details about how the data are persisted and what are the tables:
+
+```{r eval=FALSE}
+opal.datasources(o)
+```
+
+List the tables in a datasource, with their count of variables and entities:
+
+```{r eval=FALSE}
+opal.tables(o, datasource = "CPTP", counts = TRUE)
+```
+
+List the variables of a table and get the details of the variable annotations (one column per variable attribute with namespace):
+
+```{r eval=FALSE}
+opal.variables(o, datasource = "CPTP", table = "Coreqx_final")
+```
+
+Get the values in a table for a specific entity:
+
+```{r eval=FALSE}
+opal.valueset(o, datasource = "FNAC", table = "FNAC", identifier = "1000502517535681229")
+```
+
+Variable attributes can be described by taxonomies. List the taxonomies:
+
+```{r eval=FALSE}
+opal.taxonomies(o)
+```
+
+List the vocabularies of a taxonomy:
+
+```{r eval=FALSE}
+opal.vocabularies(o, taxonomy = "Mlstr_area")
+```
+
+List the terms of a vocabulary:
+
+```{r eval=FALSE}
+opal.terms(o, taxonomy = "Mlstr_area", vocabulary = "Lifestyle_behaviours")
+```
+
+
+
+Good practice is to free server resources by sending a logout request:
+
+```{r eval=FALSE}
+opal.logout(o)
+```
+
