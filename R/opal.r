@@ -418,6 +418,9 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   # get user profile to test sign-in
   r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization), handle = opal$handle, .verbose())
   opal$profile <- .handleResponse(opal, r)
+  if(is.null(username)) {
+    opal$username <- opal$profile$principal
+  }
   
   opal
 }
