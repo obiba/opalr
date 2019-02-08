@@ -17,6 +17,13 @@ TRUE if installed
 \description{
 Check if a DataSHIELD package is installed.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+dsadmin.installed_package(o, 'dsBase')
+opal.logout(o)
+}
+}
 \seealso{
 Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
   \code{\link{dsadmin.get_method}},

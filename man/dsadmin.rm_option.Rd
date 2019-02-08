@@ -14,6 +14,13 @@ dsadmin.rm_option(opal, name)
 \description{
 Remove a DataSHIELD option
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+dsadmin.rm_option(o, 'foo')
+opal.logout(o)
+}
+}
 \seealso{
 Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
   \code{\link{dsadmin.get_method}},

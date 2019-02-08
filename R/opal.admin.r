@@ -53,14 +53,14 @@ oadmin.install_package <- function(opal, pkg, repos=NULL) {
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' oadmin.remove_package(o, 'xxx')
 #' opal.logout(o)
 #' }
 #' @export
 oadmin.remove_package <- function(opal, pkg) {
-  resp <- opal.execute(opal, paste('remove.packages("', pkg, '")', sep=''), FALSE)
+  ignore <- tryCatch(opal.execute(opal, paste('remove.packages("', pkg, '")', sep=''), FALSE), error=function(e){})
 }
 
 #' Check package is installed

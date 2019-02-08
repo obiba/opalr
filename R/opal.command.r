@@ -66,7 +66,7 @@ opal.commands <- function(opal, df=TRUE) {
 #' @param id R command ID.
 #' @param wait Wait for the command to complete.
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.command(o, '1234')
 #' opal.logout(o)
@@ -89,7 +89,7 @@ opal.command <- function(opal, id, wait=FALSE) {
 #' @param opal Opal object.
 #' @param id R command ID.
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.command_rm(o, '1234')
 #' opal.logout(o)
@@ -97,7 +97,7 @@ opal.command <- function(opal, id, wait=FALSE) {
 #' @export
 opal.command_rm <- function(opal, id) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return()
-  tryCatch(opal.delete(opal, "r", "session", .getRSessionId(opal), "command", id), error=function(e){})
+  ignore <- tryCatch(opal.delete(opal, "r", "session", .getRSessionId(opal), "command", id), error=function(e){})
 }
 
 #' Remove all asynchronous commands
@@ -107,7 +107,7 @@ opal.command_rm <- function(opal, id) {
 #' @family command functions
 #' @param opal Opal object.
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.commands_rm(o)
 #' opal.logout(o)

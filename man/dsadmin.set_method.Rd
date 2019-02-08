@@ -21,6 +21,13 @@ dsadmin.set_method(opal, name, func = NULL, path = NULL,
 \description{
 Set DataSHIELD method
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+dsadmin.set_method(o, 'foo', 'base::mean')
+opal.logout(o)
+}
+}
 \seealso{
 Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
   \code{\link{dsadmin.get_method}},
