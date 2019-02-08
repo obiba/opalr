@@ -21,24 +21,26 @@
 #' @param restore Workspace ID to be restored (see also opal.logout)
 #' @export
 #' @examples 
-#' \dontrun{
+#' \donttest{
+#' #### The below examples illustrate the different ways to login in opal ####
 #'
-#'#### The below examples illustrate the different ways to login in opal ####
+#' # explicite username/password login
+#' o <- opal.login(username='administrator',password='password',url='https://opal-demo.obiba.org')
+#' opal.logout(o)
 #'
-#'# explicite username/password login
-#'o <- opal.login(username='administrator',password='password',url='https://opal-demo.obiba.org')
-#'
-#'# login using options
-#'options(opal.username='administrator',
+#' # login using options
+#' options(opal.username='administrator',
 #'  opal.password='password',
 #'  opal.url='https://opal-demo.obiba.org')
-#'o <- opal.login()
+#' o <- opal.login()
+#' opal.logout(o)
 #'
-#'# login using ssl key pair
-#'options(opal.opts=list(
+#' # login using ssl key pair
+#' options(opal.opts=list(
 #'    sslcert='my-publickey.pem',
 #'    sslkey='my-privatekey.pem'))
-#'o <- opal.login(url='https://opal-demo.obiba.org')
+#' o <- opal.login(url='https://opal-demo.obiba.org')
+#' opal.logout(o)
 #'}
 opal.login <- function(username=getOption("opal.username"), password=getOption("opal.password"), url=getOption("opal.url"), opts=getOption("opal.opts", list()), restore=NULL) {
   if (is.null(url)) stop("opal url is required", call.=FALSE)
@@ -56,6 +58,11 @@ opal.login <- function(username=getOption("opal.username"), password=getOption("
 #' @family connection functions
 #' @param opal Opal object or a list of opals.
 #' @param save Save the workspace with given identifier (default value is FALSE, current session ID if TRUE).
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.logout(o)
+#' }
 #' @export
 opal.logout <- function(opal, save=FALSE) {
   res <- NULL
@@ -100,6 +107,12 @@ print.opal <- function(x, ...) {
 #' @return >0 if Opal version is more recent, 0 if equals, <0 otherwise.
 #' @param opal Opal object.
 #' @param version The semantic version string to be compared.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.version_compare(o, "2.6.0")
+#' opal.logout(o)
+#' }
 #' @export
 opal.version_compare <- function(opal, version) {
   if (is.null(opal$version) || is.na(opal$version)) {
@@ -133,6 +146,12 @@ opal.version_compare <- function(opal, version) {
 #' @param query Named list of query parameters.
 #' @param callback A callback function to handle the response object.
 #' @import httr
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.get(o, 'project', 'datashield')
+#' opal.logout(o)
+#' }
 #' @export
 opal.get <- function(opal, ..., query=list(), callback=NULL) {
   r <- GET(.url(opal, ...), query=query, config=opal$config, handle = opal$handle, .verbose())
@@ -149,6 +168,12 @@ opal.get <- function(opal, ..., query=list(), callback=NULL) {
 #' @param contentType The type of the body content.
 #' @param callback A callback function to handle the response object.
 #' @import httr
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.post(o, 'some', 'resources', body='{"some":"value"}')
+#' opal.logout(o)
+#' }
 #' @export
 opal.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
   r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, handle = opal$handle, .verbose())
@@ -165,6 +190,12 @@ opal.post <- function(opal, ..., query=list(), body='', contentType='application
 #' @param contentType The type of the body content.
 #' @param callback A callback function to handle the response object.
 #' @import httr
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.put(o, 'some', 'resource', 'toupdate', body='{"some":"value"}')
+#' opal.logout(o)
+#' }
 #' @export
 opal.put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
   r <- PUT(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, handle = opal$handle, .verbose())
@@ -179,6 +210,12 @@ opal.put <- function(opal, ..., query=list(), body='', contentType='application/
 #' @param query Named list of query parameters.
 #' @param callback A callback function to handle the response object.
 #' @import httr
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.delete(o, 'some', 'resource')
+#' opal.logout(o)
+#' }
 #' @export
 opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   r <- DELETE(.url(opal, ...), query=query, config=opal$config, handle = opal$handle, .verbose())

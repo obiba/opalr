@@ -15,6 +15,13 @@ The result of the installed.packages() call
 \description{
 List installed packages
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+oadmin.installed_packages(o)
+opal.logout(o)
+}
+}
 \seealso{
 Other administration functions: \code{\link{oadmin.install_devtools}},
   \code{\link{oadmin.install_github}},

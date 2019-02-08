@@ -16,6 +16,13 @@ opal.command(opal, id, wait = FALSE)
 \description{
 Get an asynchronous R commands in the remote R session.
 }
+\examples{
+\dontrun{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.command(o, '1234')
+opal.logout(o)
+}
+}
 \seealso{
 Other command functions: \code{\link{opal.command_result}},
   \code{\link{opal.command_rm}},

@@ -16,6 +16,13 @@ oadmin.package_description(opal, pkg, fields = NULL)
 \description{
 Get package description
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+oadmin.package_description(o, 'stats')
+opal.logout(o)
+}
+}
 \seealso{
 Other administration functions: \code{\link{oadmin.install_devtools}},
   \code{\link{oadmin.install_github}},

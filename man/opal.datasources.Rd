@@ -14,6 +14,13 @@ opal.datasources(opal, df = TRUE)
 \description{
 Get datasources
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.datasources(o)
+opal.logout(o)
+}
+}
 \seealso{
 Other datasource functions: \code{\link{opal.attribute_values}},
   \code{\link{opal.datasource}},

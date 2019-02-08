@@ -23,6 +23,13 @@ oadmin.install_github(opal, pkg, username = getOption("github.user"),
 \description{
 Install a package from a source repository on GitHub. Makes sure devtools package is available.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+oadmin.install_github(o, 'opalr', 'obiba')
+opal.logout(o)
+}
+}
 \seealso{
 Other administration functions: \code{\link{oadmin.install_devtools}},
   \code{\link{oadmin.install_package}},

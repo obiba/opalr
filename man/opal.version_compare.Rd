@@ -18,3 +18,10 @@ opal.version_compare(opal, version)
 Compare Opal version with the provided one. Note that a request must have been done 
 in order to have a non-null Opal version.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.version_compare(o, "2.6.0")
+opal.logout(o)
+}
+}

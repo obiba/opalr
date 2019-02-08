@@ -18,6 +18,12 @@
 #' @param opal Opal object.
 #' @param locale The language for labels (default is "en").
 #' @param df Return a data.frame (default is TRUE)
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.taxonomies(o)
+#' opal.logout(o)
+#' }
 #' @export
 opal.taxonomies <- function(opal, locale="en", df=TRUE) {
   res <- opal.get(opal, "system", "conf", "taxonomies")
@@ -60,6 +66,12 @@ opal.taxonomies <- function(opal, locale="en", df=TRUE) {
 #' @family taxonomy functions
 #' @param opal Opal object.
 #' @param taxonomy Name of the taxonomy
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.taxonomy(o, 'Mlstr_area')
+#' opal.logout(o)
+#' }
 #' @export
 opal.taxonomy <- function(opal, taxonomy) {
   opal.get(opal, "system", "conf", "taxonomy", taxonomy)
@@ -74,6 +86,12 @@ opal.taxonomy <- function(opal, taxonomy) {
 #' @param taxonomy Name of the taxonomy
 #' @param locale The language for labels (default is "en").
 #' @param df Return a data.frame (default is TRUE)
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.vocabularies(o, 'Mlstr_area')
+#' opal.logout(o)
+#' }
 #' @export
 opal.vocabularies <- function(opal, taxonomy, locale="en", df=TRUE) {
   res <- opal.get(opal, "system", "conf", "taxonomy", taxonomy, "vocabularies")
@@ -113,6 +131,12 @@ opal.vocabularies <- function(opal, taxonomy, locale="en", df=TRUE) {
 #' @param opal Opal object.
 #' @param taxonomy Name of the taxonomy
 #' @param vocabulary Name of the vocabulary in the taxonomy
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.vocabulary(o, 'Mlstr_area', 'Lifestyle_behaviours')
+#' opal.logout(o)
+#' }
 #' @export
 opal.vocabulary <- function(opal, taxonomy, vocabulary) {
   opal.get(opal, "system", "conf", "taxonomy", taxonomy, "vocabulary", vocabulary)
@@ -128,6 +152,12 @@ opal.vocabulary <- function(opal, taxonomy, vocabulary) {
 #' @param vocabulary Name of the vocabulary in the taxonomy
 #' @param locale The language for labels (default is "en").
 #' @param df Return a data.frame (default is TRUE)
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.terms(o, 'Mlstr_area', 'Lifestyle_behaviours')
+#' opal.logout(o)
+#' }
 #' @export
 opal.terms <- function(opal, taxonomy, vocabulary, locale="en", df=TRUE) {
   res <- opal.get(opal, "system", "conf", "taxonomy", taxonomy, "vocabulary", vocabulary)$terms
@@ -157,18 +187,4 @@ opal.terms <- function(opal, taxonomy, vocabulary, locale="en", df=TRUE) {
   } else {
     data.frame()
   }
-}
-
-#' Get a vocabulary term
-#' 
-#' Get a specific term details.
-#' 
-#' @family taxonomy functions
-#' @param opal Opal object.
-#' @param taxonomy Name of the taxonomy
-#' @param vocabulary Name of the vocabulary in the taxonomy
-#' @param term Name of the term in the vocabulary
-#' @export
-opal.term <- function(opal, taxonomy, vocabulary, term) {
-  opal.get(opal, "system", "conf", "taxonomy", taxonomy, "vocabulary", vocabulary, "term", term)
 }

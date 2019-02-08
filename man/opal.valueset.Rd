@@ -18,6 +18,13 @@ opal.valueset(opal, datasource, table, identifier)
 \description{
 Get the values of an entity in a table.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.valueset(o, 'datashield', 'CNSIM1', '1008573362')
+opal.logout(o)
+}
+}
 \seealso{
 Other datasource functions: \code{\link{opal.attribute_values}},
   \code{\link{opal.datasources}},

@@ -12,6 +12,13 @@ opal.symbols(opal)
 \description{
 Get the R symbols available in the remote R session.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.symbols(o)
+opal.logout(o)
+}
+}
 \seealso{
 Other symbol functions: \code{\link{opal.rm}},
   \code{\link{opal.symbol_import}},

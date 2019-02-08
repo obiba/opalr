@@ -30,6 +30,15 @@ opal.assign.table.tibble(opal, symbol, value, variables = NULL,
 \description{
 Assign a Opal table to a tibble identified by a R symbol in the current R session.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+# assign a function and call it
+opal.assign.table.tibble(o, 'D', 'datashield.CNSIM1')
+opal.execute(o, "class(D)")
+opal.logout(o)
+}
+}
 \seealso{
 Other assignment functions: \code{\link{opal.assign.data}},
   \code{\link{opal.assign.script}},

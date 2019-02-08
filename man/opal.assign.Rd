@@ -31,22 +31,20 @@ opal.assign(opal, symbol, value, variables = NULL, missings = FALSE,
 Assign a Opal table, or a R expression or a R object to a R symbol in the current R session.
 }
 \examples{
-\dontrun{
-# assign a list of variables from table HOP of opal object o
-opal.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
-
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+# assign a list of variables from table CNSIM1
+opal.assign(o, symbol="D", value="datashield.CNSIM1", variables=list("GENDER","LAB_TSC"))
 # assign all the variables matching 'LAB' from table HOP of opal object o
-opal.assign(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
-
+opal.assign(o, symbol="D", value="datashield.CNSIM1", variables="name().matches('LAB_')")
 # assign a function and call it
 opal.assign.script(o, 'hello', quote(function(x) { print(paste0('Hello ', x , '!'))}))
 opal.execute(o, "hello('Mr Bean')")
-
 # push an arbitrary data frame to the R server
-opal.assign(o, "D", mtcars)
-
+#opal.assign(o, "D", mtcars)
 # push an arbitrary vector to the R server
-opal.assign(o, "C", mtcars$cyl)
+#opal.assign(o, "C", mtcars$cyl)
+opal.logout(o)
 }
 }
 \seealso{

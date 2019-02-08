@@ -14,6 +14,12 @@
 #' 
 #' @family symbol functions
 #' @param opal Opal object.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.symbols(o)
+#' opal.logout(o)
+#' }
 #' @export
 opal.symbols <- function(opal) {
   ignore <- .getRSessionId(opal)
@@ -27,6 +33,12 @@ opal.symbols <- function(opal) {
 #' @family symbol functions
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.symbol_rm(o, 'D')
+#' opal.logout(o)
+#' }
 #' @export
 opal.symbol_rm <- function(opal, symbol) {
   ignore <- .getRSessionId(opal)
@@ -40,6 +52,12 @@ opal.symbol_rm <- function(opal, symbol) {
 #' @family symbol functions
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.rm(o, 'D')
+#' opal.logout(o)
+#' }
 #' @export
 opal.rm <- function(opal, symbol) {
   opal.symbol_rm(opal, symbol)
@@ -53,6 +71,12 @@ opal.rm <- function(opal, symbol) {
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol representing a tibble.
 #' @param destination The path of the file in the R session workspace. Supported file extensions are: .sav (SPSS), .sas7bdat (SAS), .dta (Stata), .csv (comma separated values), .tsv (tab separated values). 
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.symbol_save(o, 'D', 'test.sav')
+#' opal.logout(o)
+#' }
 #' @export
 opal.symbol_save <- function(opal, symbol, destination) {
   ignore <- .getRSessionId(opal)
@@ -81,6 +105,12 @@ opal.symbol_save <- function(opal, symbol, destination) {
 #' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
 #' @param type Entity type (what the data are about). Default is 'Participant'.
 #' @param wait Wait for import task completion. Default is TRUE.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.symbol_import(o, 'D', 'test')
+#' opal.logout(o)
+#' }
 #' @export
 opal.symbol_import <- function(opal, symbol, project, identifiers=NULL, policy='required', id.name='id', type='Participant', wait=TRUE) {
   rid <- .getRSessionId(opal)

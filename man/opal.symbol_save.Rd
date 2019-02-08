@@ -16,6 +16,13 @@ opal.symbol_save(opal, symbol, destination)
 \description{
 Save a tibble identified by symbol as a file of format SAS, SPSS, Stata, CSV or TSV in the remote R session working directory.
 }
+\examples{
+\dontrun{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.symbol_save(o, 'D', 'test.sav')
+opal.logout(o)
+}
+}
 \seealso{
 Other symbol functions: \code{\link{opal.rm}},
   \code{\link{opal.symbol_import}},

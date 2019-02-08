@@ -17,6 +17,12 @@
 #' @param pkg Package name.
 #' @param repos Character vector, the base URLs of the repositories to use.
 #' @return TRUE if successfully installed
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' oadmin.install_package(o, 'xxx')
+#' opal.logout(o)
+#' }
 #' @export
 oadmin.install_package <- function(opal, pkg, repos=NULL) {
   if(is.list(opal)){
@@ -46,6 +52,12 @@ oadmin.install_package <- function(opal, pkg, repos=NULL) {
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' oadmin.remove_package(o, 'xxx')
+#' opal.logout(o)
+#' }
 #' @export
 oadmin.remove_package <- function(opal, pkg) {
   resp <- opal.execute(opal, paste('remove.packages("', pkg, '")', sep=''), FALSE)
@@ -57,6 +69,13 @@ oadmin.remove_package <- function(opal, pkg) {
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @return TRUE if installed
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' oadmin.installed_package(o, 'xxx')
+#' oadmin.installed_package(o, 'stats')
+#' opal.logout(o)
+#' }
 #' @export
 oadmin.installed_package <- function(opal, pkg) {
   opal.execute(opal, paste('require("', pkg, '", character.only=TRUE)', sep=''), FALSE)
@@ -67,6 +86,12 @@ oadmin.installed_package <- function(opal, pkg) {
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @return The result of the installed.packages() call
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' oadmin.installed_packages(o)
+#' opal.logout(o)
+#' }
 #' @export
 oadmin.installed_packages <- function(opal) {
   opal.execute(opal, "installed.packages()")
@@ -78,6 +103,12 @@ oadmin.installed_packages <- function(opal) {
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @param fields A character vector giving the fields to extract from each package's DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' oadmin.package_description(o, 'stats')
+#' opal.logout(o)
+#' }
 #' @export
 oadmin.package_description <- function(opal, pkg, fields=NULL) {
   if(is.list(opal)){
@@ -103,6 +134,12 @@ oadmin.package_description <- function(opal, pkg, fields=NULL) {
 #'
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' oadmin.install_devtools(o)
+#' opal.logout(o)
+#' }
 #' @export
 oadmin.install_devtools <- function(opal) {
   oadmin.install_package(opal,'devtools')
@@ -114,6 +151,12 @@ oadmin.install_devtools <- function(opal) {
 #'
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' oadmin.installed_devtools(o)
+#' opal.logout(o)
+#' }
 #' @export
 oadmin.installed_devtools <- function(opal) {
   oadmin.installed_package(opal,'devtools')
@@ -130,6 +173,12 @@ oadmin.installed_devtools <- function(opal) {
 #' @param ref Desired git reference. Could be a commit, tag, or branch name. Defaults to "master".
 #' @param auth_user Your github username if you're attempting to install a package hosted in a private repository (and your username is different to username).
 #' @param password Your github password
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' oadmin.install_github(o, 'opalr', 'obiba')
+#' opal.logout(o)
+#' }
 #' @export
 oadmin.install_github <- function(opal, pkg , username=getOption("github.user"), ref="master", auth_user=NULL, password=NULL) {
   oadmin.install_devtools(opal)

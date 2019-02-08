@@ -20,9 +20,16 @@ opal.terms(opal, taxonomy, vocabulary, locale = "en", df = TRUE)
 \description{
 Get all the terms of a vocabulary. The term describes the value of a variable annotation.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.terms(o, 'Mlstr_area', 'Lifestyle_behaviours')
+opal.logout(o)
+}
+}
 \seealso{
 Other taxonomy functions: \code{\link{opal.taxonomies}},
-  \code{\link{opal.taxonomy}}, \code{\link{opal.term}},
+  \code{\link{opal.taxonomy}},
   \code{\link{opal.vocabularies}},
   \code{\link{opal.vocabulary}}
 }

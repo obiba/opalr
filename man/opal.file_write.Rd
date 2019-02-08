@@ -18,12 +18,14 @@ Write a file from the Opal file system into the R session workspace.
 }
 \examples{
 \dontrun{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # user home expansion
 opal.file_write(o, "~/spss/DatabaseTest.sav")
 # rename file
 opal.file_write(o, "/home/administrator/spss/DatabaseTest.sav", "x.sav")
 # create sub-folder
 opal.file_write(o, "/home/administrator/spss/DatabaseTest.sav", "test/x.sav")
+opal.logout(o)
 }
 }
 \seealso{

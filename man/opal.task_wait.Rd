@@ -16,6 +16,13 @@ opal.task_wait(opal, id, max = NULL)
 \description{
 The task completion is defined by its status: *SUCCEEDED*, *FAILED* or *CANCELED*.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.task_wait(o, '1')
+opal.logout(o)
+}
+}
 \seealso{
 Other task functions: \code{\link{opal.task_cancel}},
   \code{\link{opal.tasks}}, \code{\link{opal.task}}

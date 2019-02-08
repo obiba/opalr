@@ -23,6 +23,13 @@ opal.put(opal, ..., query = list(), body = "",
 \description{
 Generic REST resource update.
 }
+\examples{
+\dontrun{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.put(o, 'some', 'resource', 'toupdate', body='{"some":"value"}')
+opal.logout(o)
+}
+}
 \seealso{
 Other REST functions: \code{\link{opal.delete}},
   \code{\link{opal.get}}, \code{\link{opal.post}}

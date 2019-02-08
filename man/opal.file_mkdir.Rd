@@ -15,9 +15,11 @@ opal.file_mkdir(opal, path)
 Make a folder in the Opal file system.
 }
 \examples{
-\dontrun{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # make a folder
-opal.file_mkdir(o, '/home/userx/deliverables')
+opal.file_mkdir(o, '/home/administrator/test')
+opal.logout(o)
 }
 }
 \seealso{
