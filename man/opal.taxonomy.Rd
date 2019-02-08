@@ -14,9 +14,16 @@ opal.taxonomy(opal, taxonomy)
 \description{
 Get a specific taxonomy details.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.taxonomy(o, 'Mlstr_area')
+opal.logout(o)
+}
+}
 \seealso{
 Other taxonomy functions: \code{\link{opal.taxonomies}},
-  \code{\link{opal.terms}}, \code{\link{opal.term}},
+  \code{\link{opal.terms}},
   \code{\link{opal.vocabularies}},
   \code{\link{opal.vocabulary}}
 }

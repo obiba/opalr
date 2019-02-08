@@ -15,9 +15,15 @@
 #' @family task functions
 #' @param opal Opal object.
 #' @param df Return a data.frame (default is TRUE)
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.tasks(o)
+#' opal.logout(o)
+#' }
 #' @export
 opal.tasks <- function(opal, df=TRUE) {
-  tasks <- .extractJsonField(opal.get(opal, "shell", "commands"))
+  tasks <- opal.get(opal, "shell", "commands")
   if (!df) {
     return(tasks)
   }
@@ -54,6 +60,12 @@ opal.tasks <- function(opal, df=TRUE) {
 #' @family task functions
 #' @param opal Opal object.
 #' @param id Task identifier.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.task(o, '1')
+#' opal.logout(o)
+#' }
 #' @export
 opal.task=function(opal, id) {
   opal.get(opal, "shell", "command", id)
@@ -66,6 +78,12 @@ opal.task=function(opal, id) {
 #' @family task functions
 #' @param opal Opal object.
 #' @param id Task identifier.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.task_cancel(o, '1')
+#' opal.logout(o)
+#' }
 #' @export
 opal.task_cancel=function(opal, id) {
   ignore <- try(opal.put(opal, "shell", "command", id, "status", body='CANCELED', contentType='application/json'), silent=TRUE)
@@ -79,6 +97,12 @@ opal.task_cancel=function(opal, id) {
 #' @param opal Opal object.
 #' @param id Task identifier.
 #' @param max Maximum time (in seconds) to wait for the task completion. Default is NULL (no maximum).
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.task_wait(o, '1')
+#' opal.logout(o)
+#' }
 #' @export
 opal.task_wait=function(opal, id, max=NULL) {
   status <- 'NA'

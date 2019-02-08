@@ -4,19 +4,26 @@
 \alias{opal.execute}
 \title{Execute a R script}
 \usage{
-opal.execute(opal, script, async = FALSE, session = TRUE)
+opal.execute(opal, script, async = FALSE)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
 \item{script}{R script to execute.}
 
-\item{async}{R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).}
-
-\item{session}{Execute in current R session (default is TRUE).}
+\item{async}{R script is executed asynchronously within the session (default is FALSE). 
+If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).}
 }
 \description{
 Execute a R script in the remote R session.
+}
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.execute(o, "x <- 'foo'")
+opal.execute(o, "ls()")
+opal.logout(o)
+}
 }
 \seealso{
 Other execution functions: \code{\link{opal.load_package}},

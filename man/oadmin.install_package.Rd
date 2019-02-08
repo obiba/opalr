@@ -19,6 +19,13 @@ TRUE if successfully installed
 \description{
 Install package if not already available in Opal(s). To install the latest version of a package, it has to be removed first.
 }
+\examples{
+\dontrun{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+oadmin.install_package(o, 'xxx')
+opal.logout(o)
+}
+}
 \seealso{
 Other administration functions: \code{\link{oadmin.install_devtools}},
   \code{\link{oadmin.install_github}},

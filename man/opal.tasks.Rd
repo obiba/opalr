@@ -14,6 +14,13 @@ opal.tasks(opal, df = TRUE)
 \description{
 Get all the tasks with their status at the time of the request.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.tasks(o)
+opal.logout(o)
+}
+}
 \seealso{
 Other task functions: \code{\link{opal.task_cancel}},
   \code{\link{opal.task_wait}}, \code{\link{opal.task}}

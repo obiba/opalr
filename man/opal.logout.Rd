@@ -14,6 +14,12 @@ opal.logout(opal, save = FALSE)
 \description{
 Clear the R sessions and logout from Opal(s).
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.logout(o)
+}
+}
 \seealso{
 Other connection functions: \code{\link{opal.login}}
 }

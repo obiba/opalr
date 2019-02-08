@@ -29,6 +29,13 @@ opal.symbol_import(opal, symbol, project, identifiers = NULL,
 Import a tibble identified by the symbol as a table in Opal. This operation creates an importation task 
 in Opal that can be followed (see tasks related functions).
 }
+\examples{
+\dontrun{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.symbol_import(o, 'D', 'test')
+opal.logout(o)
+}
+}
 \seealso{
 Other symbol functions: \code{\link{opal.rm}},
   \code{\link{opal.symbol_rm}},

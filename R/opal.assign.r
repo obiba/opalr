@@ -23,22 +23,20 @@
 #' @param updated.name Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples
-#' \dontrun{
-#' # assign a list of variables from table HOP of opal object o
-#' opal.assign(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
-#' 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' # assign a list of variables from table CNSIM1
+#' opal.assign(o, symbol="D", value="datashield.CNSIM1", variables=list("GENDER","LAB_TSC"))
 #' # assign all the variables matching 'LAB' from table HOP of opal object o
-#' opal.assign(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
-#' 
+#' opal.assign(o, symbol="D", value="datashield.CNSIM1", variables="name().matches('LAB_')")
 #' # assign a function and call it
 #' opal.assign.script(o, 'hello', quote(function(x) { print(paste0('Hello ', x , '!'))}))
 #' opal.execute(o, "hello('Mr Bean')")
-#' 
 #' # push an arbitrary data frame to the R server
-#' opal.assign(o, "D", mtcars)
-#' 
+#' #opal.assign(o, "D", mtcars)
 #' # push an arbitrary vector to the R server
-#' opal.assign(o, "C", mtcars$cyl)
+#' #opal.assign(o, "C", mtcars$cyl)
+#' opal.logout(o)
 #' }
 #' @export
 opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name=NULL, updated.name=NULL, async=FALSE) {
@@ -71,15 +69,18 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' @param class The data frame class into which the table is written: can 'data.frame' (default and fallback) or 'tibble' (from Opal 2.6).
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
-#' \dontrun{
-#' # assign a list of variables from table HOP of opal object o
-#' opal.assign.table(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
-#' 
-#' # assign a table HOP with a identifiers column
-#' opal.assign.table(o, symbol="H", value="demo.HOP", id.name="id")
-#' 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' # assign a list of variables from table CNSIM1
+#' opal.assign.table(o, symbol="D", value="datashield.CNSIM1", variables=list("GENDER","LAB_TSC"))
+#' opal.execute(o, "colnames(D)")
+#' # assign a table CNSIM1 with a identifiers column
+#' opal.assign.table(o, symbol="H", value="datashield.CNSIM1", id.name="id")
+#' opal.execute(o, "colnames(H)")
 #' # assign all the variables matching 'LAB' from table HOP of opal object o
-#' opal.assign.table(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
+#' opal.assign.table(o, symbol="D", value="datashield.CNSIM1", variables="name().matches('LAB_')")
+#' opal.execute(o, "colnames(D)")
+#' opal.logout(o)
 #' }
 #' @export
 opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name=NULL, updated.name=NULL, class='data.frame', async=FALSE) {
@@ -141,6 +142,14 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
 #' @param id.name Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is 'id'.
 #' @param updated.name Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' # assign a function and call it
+#' opal.assign.table.tibble(o, 'D', 'datashield.CNSIM1')
+#' opal.execute(o, "class(D)")
+#' opal.logout(o)
+#' }
 #' @export
 opal.assign.table.tibble <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name='id', updated.name=NULL, async=FALSE) {
   ignore <- .getRSessionId(opal)
@@ -161,10 +170,12 @@ opal.assign.table.tibble <- function(opal, symbol, value, variables=NULL, missin
 #' @param value The R expression to assign.
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
-#' \dontrun{
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' # assign a function and call it
 #' opal.assign.script(o, 'hello', quote(function(x) { print(paste0('Hello ', x , '!'))}))
 #' opal.execute(o, "hello('Mr Bean')")
+#' opal.logout(o)
 #' }
 #' @export
 opal.assign.script <- function(opal, symbol, value, async=FALSE) {
@@ -192,15 +203,15 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
 #' @param value The R object to assign (data.frame, vector).
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
-#' \dontrun{
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' # push an arbitrary data frame to the R server
-#' opal.assign.data(o, "D", mtcars)
-#' 
+#' #opal.assign.data(o, "D", mtcars)
 #' # push an arbitrary vector to the R server
-#' opal.assign.data(o, "C", mtcars$cyl)
-#' 
+#' #opal.assign.data(o, "C", mtcars$cyl)
 #' # push a string
 #' opal.assign.data(o, "S", "Hello!")
+#' opal.logout(o)
 #' }
 #' @export
 #' @import jsonlite

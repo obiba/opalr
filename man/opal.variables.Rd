@@ -20,6 +20,13 @@ opal.variables(opal, datasource, table, locale = "en", df = TRUE)
 \description{
 Get variables of a table
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.variables(o, 'datashield', 'CNSIM1')
+opal.logout(o)
+}
+}
 \seealso{
 Other datasource functions: \code{\link{opal.attribute_values}},
   \code{\link{opal.datasources}},

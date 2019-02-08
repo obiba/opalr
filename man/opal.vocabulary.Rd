@@ -16,9 +16,16 @@ opal.vocabulary(opal, taxonomy, vocabulary)
 \description{
 Get a specific vocabulary details.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.vocabulary(o, 'Mlstr_area', 'Lifestyle_behaviours')
+opal.logout(o)
+}
+}
 \seealso{
 Other taxonomy functions: \code{\link{opal.taxonomies}},
   \code{\link{opal.taxonomy}}, \code{\link{opal.terms}},
-  \code{\link{opal.term}}, \code{\link{opal.vocabularies}}
+  \code{\link{opal.vocabularies}}
 }
 \concept{taxonomy functions}

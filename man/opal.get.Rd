@@ -18,6 +18,13 @@ opal.get(opal, ..., query = list(), callback = NULL)
 \description{
 Generic REST resource getter.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.get(o, 'project', 'datashield')
+opal.logout(o)
+}
+}
 \seealso{
 Other REST functions: \code{\link{opal.delete}},
   \code{\link{opal.post}}, \code{\link{opal.put}}

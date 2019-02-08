@@ -12,13 +12,19 @@
 #' 
 #' @family workspace functions
 #' @param opal Opal object.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.workspaces(o)
+#' opal.logout(o)
+#' }
 #' @export
-opal.workspaces=function(opal) {
+opal.workspaces <- function(opal) {
   if (!is.na(opal$version) && opal.version_compare(opal,"2.6")<0) {
     warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
   } else {
     query <- list(context='R')
-    wss <- .extractJsonField(opal.get(opal, "service", "r", "workspaces", query=query))
+    wss <- opal.get(opal, "service", "r", "workspaces", query=query)
     if (length(wss)) {
       name <- c()
       user <- c()
@@ -44,8 +50,14 @@ opal.workspaces=function(opal) {
 #' @param opal Opal object.
 #' @param ws The workspace name
 #' @param user The user name associated to the worskpace. If not provided, the current user is applied.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.workspace_rm(o, 'test')
+#' opal.logout(o)
+#' }
 #' @export
-opal.workspace_rm=function(opal, ws, user=NULL) {
+opal.workspace_rm <- function(opal, ws, user=NULL) {
   if (!is.na(opal$version) && opal.version_compare(opal,"2.6")<0) {
     warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
   } else {
@@ -60,7 +72,7 @@ opal.workspace_rm=function(opal, ws, user=NULL) {
       stop("Workspace name is missing or empty.")
     }
     query <- list(context='R', name=ws, user=u)
-    ignore <- .extractJsonField(opal.delete(opal, "service", "r", "workspaces", query=query))  
+    ignore <- opal.delete(opal, "service", "r", "workspaces", query=query)  
   }
 }
 
@@ -69,12 +81,19 @@ opal.workspace_rm=function(opal, ws, user=NULL) {
 #' @family workspace functions
 #' @param opal Opal object.
 #' @param save Save the workspace with given identifier (default is TRUE, current session ID if TRUE).
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.workspace_save(o, 'test')
+#' opal.logout(o)
+#' }
 #' @export
-opal.workspace_save=function(opal, save=TRUE) {
+opal.workspace_save <- function(opal, save=TRUE) {
   if (!is.na(opal$version) && opal.version_compare(opal,"2.6")<0) {
     warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
   } else {
     saveId <- save
+    ignore <- .getRSessionId(opal)
     if(is.logical(save) && save) {
       saveId <- opal$rid
     }

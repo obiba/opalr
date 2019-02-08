@@ -18,6 +18,13 @@ opal.variable(opal, datasource, table, variable)
 \description{
 Get a variable of a table
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
+opal.logout(o)
+}
+}
 \seealso{
 Other datasource functions: \code{\link{opal.attribute_values}},
   \code{\link{opal.datasources}},

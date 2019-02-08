@@ -17,9 +17,16 @@ opal.taxonomies(opal, locale = "en", df = TRUE)
 Get all taxonomies. A taxonomy describes the annotations that can be applied to the variables. 
 Taxonomies also drive the variables search interface.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.taxonomies(o)
+opal.logout(o)
+}
+}
 \seealso{
 Other taxonomy functions: \code{\link{opal.taxonomy}},
-  \code{\link{opal.terms}}, \code{\link{opal.term}},
+  \code{\link{opal.terms}},
   \code{\link{opal.vocabularies}},
   \code{\link{opal.vocabulary}}
 }

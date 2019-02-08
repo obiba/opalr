@@ -13,6 +13,12 @@
 #' @family datasource functions
 #' @param opal Opal object.
 #' @param df Return a data.frame (default is TRUE)
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.projects(o)
+#' opal.logout(o)
+#' }
 #' @export
 opal.projects <- function(opal, df=TRUE) {
   res <- opal.get(opal, "projects", query=list(digest="true"))
@@ -47,6 +53,12 @@ opal.projects <- function(opal, df=TRUE) {
 #' @family datasource functions
 #' @param opal Opal object.
 #' @param project Name of the project
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.project(o, 'datashield')
+#' opal.logout(o)
+#' }
 #' @export
 opal.project <- function(opal, project) {
   opal.get(opal, "project", project)
@@ -57,6 +69,12 @@ opal.project <- function(opal, project) {
 #' @family datasource functions
 #' @param opal Opal object.
 #' @param df Return a data.frame (default is TRUE)
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.datasources(o)
+#' opal.logout(o)
+#' }
 #' @export
 opal.datasources <- function(opal, df=TRUE) {
   res <- opal.get(opal, "datasources")
@@ -91,6 +109,12 @@ opal.datasources <- function(opal, df=TRUE) {
 #' @family datasource functions
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.datasource(o, 'datashield')
+#' opal.logout(o)
+#' }
 #' @export
 opal.datasource <- function(opal, datasource) {
   opal.get(opal, "datasource", datasource)
@@ -103,6 +127,12 @@ opal.datasource <- function(opal, datasource) {
 #' @param datasource Name of the datasource.
 #' @param counts Flag to get the number of variables and entities (default is FALSE).
 #' @param df Return a data.frame (default is TRUE)
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.tables(o, 'datashield')
+#' opal.logout(o)
+#' }
 #' @export
 opal.tables <- function(opal, datasource, counts=FALSE, df=TRUE) {
   if (counts) {
@@ -150,6 +180,12 @@ opal.tables <- function(opal, datasource, counts=FALSE, df=TRUE) {
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
 #' @param counts Flag to get the number of variables and entities (default is FALSE).
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.table(o, 'datashield', 'CNSIM1')
+#' opal.logout(o)
+#' }
 #' @export
 opal.table <- function(opal, datasource, table, counts=FALSE) {
   if (counts) {
@@ -167,6 +203,12 @@ opal.table <- function(opal, datasource, table, counts=FALSE) {
 #' @param table Name of the table in the datasource.
 #' @param locale The language for labels (default is "en").
 #' @param df Return a data.frame (default is TRUE)
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.variables(o, 'datashield', 'CNSIM1')
+#' opal.logout(o)
+#' }
 #' @export
 opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
   res <- opal.get(opal, "datasource", datasource, "table", table, "variables")
@@ -251,6 +293,12 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
 #' @param variable Name of the variable in the table.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
+#' opal.logout(o)
+#' }
 #' @export
 opal.variable <- function(opal, datasource, table, variable) {
   opal.get(opal, "datasource", datasource, "table", table, "variable", variable)
@@ -264,6 +312,13 @@ opal.variable <- function(opal, datasource, table, variable) {
 #' @param attributes A list of attributes, usually variable or category attributes.
 #' @param namespace Optional attribute namespace.
 #' @param name Required attribute name.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' var <- opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
+#' opal.attribute_values(var$attributes)
+#' opal.logout(o)
+#' }
 #' @export
 opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
   rval <- c()
@@ -290,6 +345,12 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
 #' @param datasource Name of the datasource.
 #' @param table Name of the table in the datasource.
 #' @param identifier Entity identifier.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.valueset(o, 'datashield', 'CNSIM1', '1008573362')
+#' opal.logout(o)
+#' }
 #' @export
 opal.valueset <- function(opal, datasource, table, identifier) {
   response <- opal.get(opal, "datasource", datasource, "table", table, "valueSet", identifier)

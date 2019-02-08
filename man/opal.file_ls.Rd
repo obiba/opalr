@@ -15,9 +15,11 @@ opal.file_ls(opal, path)
 List content of a folder in the Opal file system.
 }
 \examples{
-\dontrun{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # list content of a folder
-opal.file_ls(o, '/home/userx/deliverables')
+opal.file_ls(o, '/home/administrator')
+opal.logout(o)
 }
 }
 \seealso{

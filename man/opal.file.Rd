@@ -16,6 +16,13 @@ opal.file(opal, path, key = NULL)
 \description{
 Get file content from the Opal file system.
 }
+\examples{
+\dontrun{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.file(o, '/home/administrator/joins/join-src-3.csv')
+opal.logout(o)
+}
+}
 \seealso{
 Other file functions: \code{\link{opal.file_cp}},
   \code{\link{opal.file_download}},

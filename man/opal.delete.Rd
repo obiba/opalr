@@ -18,6 +18,13 @@ opal.delete(opal, ..., query = list(), callback = NULL)
 \description{
 Generic REST resource deletion.
 }
+\examples{
+\dontrun{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.delete(o, 'some', 'resource')
+opal.logout(o)
+}
+}
 \seealso{
 Other REST functions: \code{\link{opal.get}},
   \code{\link{opal.post}}, \code{\link{opal.put}}

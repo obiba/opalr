@@ -18,6 +18,13 @@ opal.table(opal, datasource, table, counts = FALSE)
 \description{
 Get a table of a datasource
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.table(o, 'datashield', 'CNSIM1')
+opal.logout(o)
+}
+}
 \seealso{
 Other datasource functions: \code{\link{opal.attribute_values}},
   \code{\link{opal.datasources}},

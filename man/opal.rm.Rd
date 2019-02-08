@@ -14,6 +14,13 @@ opal.rm(opal, symbol)
 \description{
 Remove a symbol from the current R session. Deprecated: see opal.symbol_rm function instead.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.rm(o, 'D')
+opal.logout(o)
+}
+}
 \seealso{
 Other symbol functions: \code{\link{opal.symbol_import}},
   \code{\link{opal.symbol_rm}},

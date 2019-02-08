@@ -15,21 +15,24 @@
 #' @family execution functions
 #' @param opal Opal object or list of opal objects.
 #' @param script R script to execute.
-#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
-#' @param session Execute in current R session (default is TRUE).
+#' @param async R script is executed asynchronously within the session (default is FALSE). 
+#'   If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.execute(o, "x <- 'foo'")
+#' opal.execute(o, "ls()")
+#' opal.logout(o)
+#' }
 #' @export
-opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
+opal.execute <- function(opal, script, async=FALSE) {
   if(is.list(opal)){
-    lapply(opal, function(o){opal.execute(o, script, async=async, session=session)})
+    lapply(opal, function(o){opal.execute(o, script, async=async)})
   } else {
-    if (session) {
-      query <- list()
-      if (async) query <- list(async="true")
-      ignore <- .getRSessionId(opal)
-      opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript")
-    } else {
-      opal.post(opal, "r", "execute", body=script, contentType="application/x-rscript")
-    }
+    query <- list()
+    if (async) query <- list(async="true")
+    ignore <- .getRSessionId(opal)
+    opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript")
   }
 }
 
@@ -40,9 +43,15 @@ opal.execute <- function(opal, script, async=FALSE, session=TRUE) {
 #' @family execution functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.load_package(o, 'stats')
+#' opal.logout(o)
+#' }
 #' @export
 opal.load_package <- function(opal, pkg) {
-  opal.execute(opal, paste('library("', pkg, '")', sep=''), TRUE)
+  resp <- opal.execute(opal, paste('library("', pkg, '")', sep=''))
 }
 
 #' Unload package
@@ -52,7 +61,13 @@ opal.load_package <- function(opal, pkg) {
 #' @family execution functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.unload_package(o, 'stats')
+#' opal.logout(o)
+#' }
 #' @export
 opal.unload_package <- function(opal, pkg) {
-  resp <- opal.execute(opal, paste('detach("package:', pkg, '", character.only=TRUE, unload=TRUE)', sep=''), TRUE)
+  resp <- opal.execute(opal, paste('detach("package:', pkg, '", character.only=TRUE, unload=TRUE)', sep=''))
 }

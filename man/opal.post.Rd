@@ -23,6 +23,13 @@ opal.post(opal, ..., query = list(), body = "",
 \description{
 Generic REST resource creation.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.post(o, 'some', 'resources', body='{"some":"value"}')
+opal.logout(o)
+}
+}
 \seealso{
 Other REST functions: \code{\link{opal.delete}},
   \code{\link{opal.get}}, \code{\link{opal.put}}

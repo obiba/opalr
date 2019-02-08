@@ -16,6 +16,14 @@ opal.attribute_values(attributes, namespace = NULL, name = "label")
 \description{
 Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+var <- opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
+opal.attribute_values(var$attributes)
+opal.logout(o)
+}
+}
 \seealso{
 Other datasource functions: \code{\link{opal.datasources}},
   \code{\link{opal.datasource}},

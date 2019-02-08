@@ -15,6 +15,12 @@
 #' @family command functions
 #' @param opal Opal object.
 #' @param df Return a data.frame (default is TRUE)
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.commands(o)
+#' opal.logout(o)
+#' }
 #' @export
 opal.commands <- function(opal, df=TRUE) {
   if (opal.version_compare(opal,"2.1")<0) return(NULL)
@@ -59,6 +65,12 @@ opal.commands <- function(opal, df=TRUE) {
 #' @param opal Opal object.
 #' @param id R command ID.
 #' @param wait Wait for the command to complete.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.command(o, '1234')
+#' opal.logout(o)
+#' }
 #' @export
 opal.command <- function(opal, id, wait=FALSE) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return(NULL)
@@ -76,6 +88,12 @@ opal.command <- function(opal, id, wait=FALSE) {
 #' @family command functions
 #' @param opal Opal object.
 #' @param id R command ID.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.command_rm(o, '1234')
+#' opal.logout(o)
+#' }
 #' @export
 opal.command_rm <- function(opal, id) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return()
@@ -88,6 +106,12 @@ opal.command_rm <- function(opal, id) {
 #' 
 #' @family command functions
 #' @param opal Opal object.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.commands_rm(o)
+#' opal.logout(o)
+#' }
 #' @export
 opal.commands_rm <- function(opal) {
   if (opal.version_compare(opal,"2.1")<0) return()
@@ -105,6 +129,12 @@ opal.commands_rm <- function(opal) {
 #' @param opal Opal object.
 #' @param id R command ID.
 #' @param wait Wait for the command to complete.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.command_result(o, '1234')
+#' opal.logout(o)
+#' }
 #' @export
 opal.command_result <- function(opal, id, wait=FALSE) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return(id)

@@ -14,6 +14,13 @@ oadmin.remove_package(opal, pkg)
 \description{
 Remove package permanently.
 }
+\examples{
+\dontrun{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+oadmin.remove_package(o, 'xxx')
+opal.logout(o)
+}
+}
 \seealso{
 Other administration functions: \code{\link{oadmin.install_devtools}},
   \code{\link{oadmin.install_github}},

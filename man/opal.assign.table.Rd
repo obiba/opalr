@@ -33,15 +33,18 @@ opal.assign.table(opal, symbol, value, variables = NULL,
 Assign a Opal table to a data.frame identified by a R symbol in the current R session.
 }
 \examples{
-\dontrun{
-# assign a list of variables from table HOP of opal object o
-opal.assign.table(o, symbol="D", value="demo.HOP", variables=list("GENDER","LAB_GLUC"))
-
-# assign a table HOP with a identifiers column
-opal.assign.table(o, symbol="H", value="demo.HOP", id.name="id")
-
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+# assign a list of variables from table CNSIM1
+opal.assign.table(o, symbol="D", value="datashield.CNSIM1", variables=list("GENDER","LAB_TSC"))
+opal.execute(o, "colnames(D)")
+# assign a table CNSIM1 with a identifiers column
+opal.assign.table(o, symbol="H", value="datashield.CNSIM1", id.name="id")
+opal.execute(o, "colnames(H)")
 # assign all the variables matching 'LAB' from table HOP of opal object o
-opal.assign.table(o, symbol="D", value="demo.HOP", variables="name().matches('LAB_')")
+opal.assign.table(o, symbol="D", value="datashield.CNSIM1", variables="name().matches('LAB_')")
+opal.execute(o, "colnames(D)")
+opal.logout(o)
 }
 }
 \seealso{
