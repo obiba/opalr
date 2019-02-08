@@ -21,3 +21,8 @@ opal.report(input, output = NULL, progress = FALSE, verbose = FALSE,
 \description{
 Helper function for generating reports.
 }
+\examples{
+\dontrun{
+opal.report('input.Rmd', 'report', progress=TRUE)
+}
+}

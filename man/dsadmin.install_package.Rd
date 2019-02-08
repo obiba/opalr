@@ -21,6 +21,13 @@ TRUE if installed
 \description{
 Install a package from DataSHIELD public package repository or (if Git reference and GitHub username is provided) from DataSHIELD source repository on GitHub.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+dsadmin.install_package(o, 'dsBase')
+opal.logout(o)
+}
+}
 \seealso{
 Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
   \code{\link{dsadmin.get_method}},

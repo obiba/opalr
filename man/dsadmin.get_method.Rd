@@ -16,6 +16,13 @@ dsadmin.get_method(opal, name, type = "aggregate")
 \description{
 Get a DataSHIELD method
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+dsadmin.get_method(o, 'class')
+opal.logout(o)
+}
+}
 \seealso{
 Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
   \code{\link{dsadmin.get_options}},

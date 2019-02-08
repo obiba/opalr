@@ -14,6 +14,13 @@ dsadmin.remove_package(opal, pkg)
 \description{
 Remove a DataSHIELD package permanently.
 }
+\examples{
+\dontrun{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+dsadmin.remove_package(o, 'dsBase')
+opal.logout(o)
+}
+}
 \seealso{
 Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
   \code{\link{dsadmin.get_method}},

@@ -15,7 +15,7 @@ oadmin.remove_package(opal, pkg)
 Remove package permanently.
 }
 \examples{
-\dontrun{
+\donttest{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 oadmin.remove_package(o, 'xxx')
 opal.logout(o)

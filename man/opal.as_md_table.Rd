@@ -23,3 +23,10 @@ opal.as_md_table(table, icons = TRUE, digits = getOption("digits"),
 \description{
 Helper function for turning an array into its Markdown representation.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+opal.as_md_table(opal.variables(o, 'datashield', 'CNSIM1'))
+opal.logout(o)
+}
+}

@@ -19,6 +19,13 @@ TRUE if successfull
 \description{
 Declare DataSHIELD aggregate and assign methods as defined by the package.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+dsadmin.set_package_methods(o, 'dsBase')
+opal.logout(o)
+}
+}
 \seealso{
 Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
   \code{\link{dsadmin.get_method}},

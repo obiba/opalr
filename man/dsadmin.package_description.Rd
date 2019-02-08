@@ -16,6 +16,13 @@ dsadmin.package_description(opal, pkg, fields = NULL)
 \description{
 Get DataSHIELD package description
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+dsadmin.package_description(o, 'dsBase')
+opal.logout(o)
+}
+}
 \seealso{
 Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
   \code{\link{dsadmin.get_method}},

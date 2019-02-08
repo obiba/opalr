@@ -19,6 +19,13 @@ The DataSHIELD package descriptions as a data.frame or a list
 \description{
 Get DataSHIELD package descriptions
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+dsadmin.package_descriptions(o)
+opal.logout(o)
+}
+}
 \seealso{
 Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
   \code{\link{dsadmin.get_method}},

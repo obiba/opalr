@@ -17,6 +17,10 @@
 #' @param progress Knitr progress option
 #' @param verbose Knitr verbose option
 #' @param boot_style Deprecated, directives can be integrated in the YAML header of the R markdown document.
+#' @examples 
+#' \dontrun{
+#' opal.report('input.Rmd', 'report', progress=TRUE)
+#' }
 #' @export
 opal.report <- function(input, output=NULL, progress=FALSE, verbose=FALSE, boot_style=NULL) {
   if (is.null(input) | !grepl(pattern="\\.Rmd$", input)) {
@@ -59,6 +63,12 @@ opal.report <- function(input, output=NULL, progress=FALSE, verbose=FALSE, boot_
 #' @param col.names A character vector of column names to be used in the table
 #' @param align The alignment of columns: a character vector consisting of 'l' (left), 'c' (center) and/or 'r' (right); by default, numeric columns are right-aligned, and other columns are left-aligned; if align = NULL, the default alignment is used.
 #' @param caption	The table caption.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' opal.as_md_table(opal.variables(o, 'datashield', 'CNSIM1'))
+#' opal.logout(o)
+#' }
 #' @export
 opal.as_md_table <- function(table, icons=TRUE, digits=getOption("digits"), col.names=colnames(table), align, caption=NULL) {
   if (!icons) {

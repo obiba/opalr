@@ -16,6 +16,13 @@ dsadmin.set_option(opal, name, value)
 \description{
 Set a DataSHIELD option (add or update).
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+dsadmin.set_option(o, 'foo', 'bar')
+opal.logout(o)
+}
+}
 \seealso{
 Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
   \code{\link{dsadmin.get_method}},
