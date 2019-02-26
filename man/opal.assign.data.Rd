@@ -22,9 +22,9 @@ Assign a R object to a R symbol in the current R session.
 \donttest{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # push an arbitrary data frame to the R server
-#opal.assign.data(o, "D", mtcars)
+opal.assign.data(o, "D", mtcars)
 # push an arbitrary vector to the R server
-#opal.assign.data(o, "C", mtcars$cyl)
+opal.assign.data(o, "C", mtcars$cyl)
 # push a string
 opal.assign.data(o, "S", "Hello!")
 opal.logout(o)
