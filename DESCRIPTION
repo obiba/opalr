@@ -1,6 +1,6 @@
 Package: opalr
 Version: 1.1.0
-Title: Opal R and Datashield Utils
+Title: 'Opal' Data Repository Client and 'DataSHIELD' Utils
 Authors@R: 
     c(person(given = "Yannick",
              family = "Marcon",
@@ -26,16 +26,18 @@ Suggests:
     knitr,
     knitrBootstrap,
     rmarkdown
-Description: Data integration Web application for biobanks by OBiBa. Opal is
-    OBiBa's core database application for biobanks. Participant data, once
+Description: Data integration Web application for biobanks by 'OBiBa'. 'Opal' is
+    the core database application for biobanks. Participant data, once
     collected from any data source, must be integrated and stored in a central
-    data repository under a uniform model. Opal is such a central repository.
+    data repository under a uniform model. 'Opal' is such a central repository.
     It can import, process, validate, query, analyze, report, and export data.
-    Opal is typically used in a research center to analyze the data acquired at
+    'Opal' is typically used in a research center to analyze the data acquired at
     assessment centres. Its ultimate purpose is to achieve seamless
-    data-sharing among biobanks.
+    data-sharing among biobanks. This 'Opal' client allows to interact with 'Opal'
+    web services and to perform operations on the R server side. 'DataSHIELD'
+    administration tools are also provided.
 License: GPL-3
-URL: https://www.obiba.org/ https://www.obiba.org/pages/products/opal/ https://academic.oup.com/ije/article/46/5/1372/4102813
+URL: https://www.obiba.org/ https://www.obiba.org/pages/products/opal/ https://doi.org/10.1093/ije/dyx180 http://www.datashield.ac.uk/
 BugReports: https://github.com/obiba/opalr
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
