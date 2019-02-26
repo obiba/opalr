@@ -206,9 +206,9 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
 #' \donttest{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' # push an arbitrary data frame to the R server
-#' #opal.assign.data(o, "D", mtcars)
+#' opal.assign.data(o, "D", mtcars)
 #' # push an arbitrary vector to the R server
-#' #opal.assign.data(o, "C", mtcars$cyl)
+#' opal.assign.data(o, "C", mtcars$cyl)
 #' # push a string
 #' opal.assign.data(o, "S", "Hello!")
 #' opal.logout(o)
@@ -221,6 +221,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
   } else {
     contentType <- "application/x-rdata"
     body <- jsonlite::base64_enc(serialize(value, NULL))
+    body <- gsub("[\r\n]", "", body)
     query <- list()
     if (async) {
       query["async"] <- "true"
