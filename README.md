@@ -1,6 +1,7 @@
 # Opal R
 
 [![Build Status](https://travis-ci.com/obiba/opalr.svg?branch=master)](https://travis-ci.com/obiba/opalr)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/opalr)](https://cran.r-project.org/package=opalr)
 
 ## Opal R Client
 
