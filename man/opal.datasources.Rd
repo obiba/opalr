@@ -22,7 +22,9 @@ opal.logout(o)
 }
 }
 \seealso{
-Other datasource functions: \code{\link{opal.attribute_values}},
+Other datasource functions: \code{\link{opal.annotate}},
+  \code{\link{opal.annotations}},
+  \code{\link{opal.attribute_values}},
   \code{\link{opal.datasource}},
   \code{\link{opal.projects}}, \code{\link{opal.project}},
   \code{\link{opal.tables}}, \code{\link{opal.table}},
