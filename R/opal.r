@@ -317,9 +317,8 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   }
   
   headers <- httr::headers(response)
-  location <- headers['Location']
+  location <- headers[['location']]
   if(!is.na(location)) {
-    location <- location$Location
     substring(location, regexpr(pattern = "/ws/", location) + 3)
   } else {
     NULL
