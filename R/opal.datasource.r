@@ -221,6 +221,7 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
     ds <- rep(datasource, n)
     tbl <- rep(table, n)
     label <- rep(NA, n)
+    description <- rep(NA, n)
     entityType <- rep(NA, n)
     valueType <- rep(NA, n)
     unit <- rep(NA, n)
@@ -239,6 +240,8 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
       if (!is.null(item$attributes)) {
         labels <- item$attributes[lapply(item$attributes, function(attr) attr$name) == "label"]
         label[i] <- .extractLabel(locale, labels)
+        descriptions <- item$attributes[lapply(item$attributes, function(attr) attr$name) == "description"]
+        description[i] <- .extractLabel(locale, descriptions)
         annots <- item$attributes[lapply(item$attributes, function(attr) "namespace" %in% names(attr)) == TRUE]
         for (annot in annots) {
           key <- paste0(annot$namespace, ".", annot$name)
@@ -276,7 +279,7 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
       }
       
     }
-    df <- data.frame(name, datasource=ds, table=tbl, label, entityType, valueType, unit, referencedEntityType, mimeType, repeatable, occurrenceGroup, index, categories, categories.missing, categories.label) 
+    df <- data.frame(name, datasource=ds, table=tbl, label, description, entityType, valueType, unit, referencedEntityType, mimeType, repeatable, occurrenceGroup, index, categories, categories.missing, categories.label) 
     for (col in names(annotations)) {
       df[[col]] <- annotations[[col]]
     }
