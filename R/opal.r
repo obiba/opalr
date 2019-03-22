@@ -370,6 +370,10 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
     NULL
   } else if (headers$`content-type` == "application/x-protobuf+json") {
     jsonlite::fromJSON(httr::content(response, as="text", encoding = opal$encoding))
+  } else if (startsWith(headers$`content-type`, "text/")) {
+    httr::content(response, as = "text", encoding = opal$encoding)
+  } else if (startsWith(headers$`content-type`, "image/")) {
+    httr::content(response, as = "raw", encoding = opal$encoding)
   } else {
     httr::content(response, encoding = opal$encoding)
   }
