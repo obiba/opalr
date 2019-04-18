@@ -70,7 +70,9 @@ opal.rm <- function(opal, symbol) {
 #' @family symbol functions
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol representing a tibble.
-#' @param destination The path of the file in the R session workspace. Supported file extensions are: .sav (SPSS), .sas7bdat (SAS), .dta (Stata), .csv (comma separated values), .tsv (tab separated values). 
+#' @param destination The path of the file in the R session workspace. Supported file extensions are: 
+#' .sav (SPSS), .zsav (compressed SPSS), .sas7bdat (SAS), .xpt (SAS Transport), .dta (Stata), 
+#' .csv (comma separated values), .tsv (tab separated values). 
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
@@ -81,10 +83,15 @@ opal.rm <- function(opal, symbol) {
 opal.symbol_save <- function(opal, symbol, destination) {
   ignore <- .getRSessionId(opal)
   if (!is.na(opal$version) && opal.version_compare(opal,"2.8")<0) {
-    warning("Saving tibble in a file not available for opal ", opal$version, " (2.8.0 or higher is required)")
+    stop("Saving tibble in a file is not available for opal ", opal$version, " (2.8.0 or higher is required)")
   } else {
     if (is.null(destination)) {
       stop("Destination file path is missing or empty.")
+    }
+    if (endsWith(destination, ".zsav") || endsWith(destination, ".xpt")) {
+      if (!is.na(opal$version) && opal.version_compare(opal,"2.14")<0) {
+        stop("Saving tibble in a compressed SPSS or SAS Transport file is not available for opal ", opal$version, " (2.14.0 or higher is required)")
+      }
     }
     query <- list(destination=destination)
     res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, "_save", query=query)
