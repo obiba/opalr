@@ -153,7 +153,8 @@ opal.file_cp <- function(opal, source, destination) {
 
 #' Make a folder
 #' 
-#' Make a folder in the Opal file system.
+#' Make a folder in the Opal file system. Does not create ancestors, i.e. the call will fail if the 
+#' parent folder does not exist. 
 #' 
 #' @family file functions
 #' @param opal Opal object.
@@ -167,7 +168,10 @@ opal.file_cp <- function(opal, source, destination) {
 #' }
 #' @export
 opal.file_mkdir <- function(opal, path) {
-  res <- opal.post(opal, 'files', body=path, contentType='text/plain')
+  location <- append("files", strsplit(substring(path, 2), "/")[[1]])
+  folder <- location[[length(location)]]
+  location <- location[1:length(location)-1]
+  res <- opal.post(opal, location, body=folder, contentType='text/plain')
 }
 
 #' List content of a folder

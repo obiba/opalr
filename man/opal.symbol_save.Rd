@@ -11,7 +11,9 @@ opal.symbol_save(opal, symbol, destination)
 
 \item{symbol}{Name of the R symbol representing a tibble.}
 
-\item{destination}{The path of the file in the R session workspace. Supported file extensions are: .sav (SPSS), .sas7bdat (SAS), .dta (Stata), .csv (comma separated values), .tsv (tab separated values).}
+\item{destination}{The path of the file in the R session workspace. Supported file extensions are: 
+.sav (SPSS), .zsav (compressed SPSS), .sas7bdat (SAS), .xpt (SAS Transport), .dta (Stata), 
+.csv (comma separated values), .tsv (tab separated values).}
 }
 \description{
 Save a tibble identified by symbol as a file of format SAS, SPSS, Stata, CSV or TSV in the remote R session working directory.

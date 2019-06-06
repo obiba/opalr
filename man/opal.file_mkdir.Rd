@@ -12,7 +12,8 @@ opal.file_mkdir(opal, path)
 \item{path}{Path to the new folder in the Opal file system.}
 }
 \description{
-Make a folder in the Opal file system.
+Make a folder in the Opal file system. Does not create ancestors, i.e. the call will fail if the 
+parent folder does not exist.
 }
 \examples{
 \donttest{
