@@ -66,7 +66,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).
 #' @param id.name Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is NULL.
 #' @param updated.name Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.
-#' @param class The data frame class into which the table is written: can 'data.frame' (default and fallback) or 'tibble' (from Opal 2.6).
+#' @param class The data frame class into which the table is written: can 'data.frame' (default) or 'tibble' (from Opal 2.6) or 'tibble.with.factors' (from Opal 2.14).
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
 #' \donttest{
@@ -140,6 +140,7 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
 #' @param missings If TRUE, missing values will be pushed from Opal to R, default is FALSE.
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).
 #' @param id.name Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is 'id'.
+#' @param with.factors If TRUE, the categorical variables will be assigned as factors (from Opal 2.14). Default is FALSE.
 #' @param updated.name Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
@@ -151,12 +152,18 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
 #' opal.logout(o)
 #' }
 #' @export
-opal.assign.table.tibble <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name='id', updated.name=NULL, async=FALSE) {
+opal.assign.table.tibble <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name='id', with.factors=FALSE, updated.name=NULL, async=FALSE) {
   ignore <- .getRSessionId(opal)
   if (!is.na(opal$version) && opal.version_compare(opal,"2.8")<0) {
     warning("Export to tibble not available for opal ", opal$version, " (2.8.0 or higher is required)")
+  } else if (with.factors && !is.na(opal$version) && opal.version_compare(opal,"2.14")<0) {
+    warning("Export to tibble with factors not available for opal ", opal$version, " (2.14.0 or higher is required)")
   } else {
-    opal.assign.table(opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, id.name=id.name, updated.name=updated.name, class="tibble", async=async)
+    cls <- "tibble"
+    if (with.factors) {
+      cls <- "tibble.with.factors"
+    }
+    opal.assign.table(opal, symbol, value, variables=variables, missings=missings, identifiers=identifiers, id.name=id.name, updated.name=updated.name, class=cls, async=async)
   }
 }
 

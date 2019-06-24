@@ -6,7 +6,7 @@
 \usage{
 opal.assign.table.tibble(opal, symbol, value, variables = NULL,
   missings = FALSE, identifiers = NULL, id.name = "id",
-  updated.name = NULL, async = FALSE)
+  with.factors = FALSE, updated.name = NULL, async = FALSE)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -22,6 +22,8 @@ opal.assign.table.tibble(opal, symbol, value, variables = NULL,
 \item{identifiers}{Name of the identifiers mapping to use when assigning entities to R (from Opal 2.0).}
 
 \item{id.name}{Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is 'id'.}
+
+\item{with.factors}{If TRUE, the categorical variables will be assigned as factors (from Opal 2.14). Default is FALSE.}
 
 \item{updated.name}{Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.}
 
