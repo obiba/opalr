@@ -23,9 +23,9 @@ opal.assign.table(opal, symbol, value, variables = NULL,
 
 \item{id.name}{Add a vector with the given name representing the entity identifiers (from Opal 2.6). Default is NULL.}
 
-\item{updated.name}{Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.}
+\item{updated.name}{Deprecated. Add a vector with the given name representing the creation and last update timestamps (from Opal 2.6). Default is NULL.}
 
-\item{class}{The data frame class into which the table is written: can 'data.frame' (default) or 'tibble' (from Opal 2.6) or 'tibble.with.factors' (from Opal 2.14).}
+\item{class}{The data frame class into which the table is written: can 'data.frame' (default) or 'tibble' (from Opal 2.6 to 2.13) or 'tibble.with.factors' (from Opal 2.14).}
 
 \item{async}{R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).}
 }
