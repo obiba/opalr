@@ -14,8 +14,10 @@
 #' 
 #' @family connection functions
 #' @return A opal object or a list of opal objects.
-#' @param username User name in opal(s). Can be provided by "opal.username" option.
-#' @param password User password in opal(s). Can be provided by "opal.password" option.
+#' @param username User name in opal(s). If NULL, the 'password' parameter is expected to 
+#'  be a personal access token (since opal 2.15). Can be provided by "opal.username" option. 
+#' @param password User password in opal(s) or personal access token if username is NULL (since opal 2.15). 
+#'  Can be provided by "opal.password" option.
 #' @param url Opal url or list of opal urls. Can be provided by "opal.url" option.
 #' @param opts Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.
 #' @param restore Workspace ID to be restored (see also opal.logout)
@@ -25,7 +27,11 @@
 #' #### The below examples illustrate the different ways to login in opal ####
 #'
 #' # explicite username/password login
-#' o <- opal.login(username='administrator',password='password',url='https://opal-demo.obiba.org')
+#' o <- opal.login(username='administrator', password='password', url='https://opal-demo.obiba.org')
+#' opal.logout(o)
+#'
+#'  # explicite personal access token login
+#' o <- opal.login(username=NULL, password='HYG16LO0VaX4O0UardNbiqmr2ByBpRke', url='https://opal-demo.obiba.org')
 #' opal.logout(o)
 #'
 #' # login using options
@@ -232,8 +238,15 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 #' Constructs the value for the Authorization header
 #' @import jsonlite
 #' @keywords internal
-.authToken <- function(username, password) {
+.authorizationHeader <- function(username, password) {
   paste("X-Opal-Auth", jsonlite::base64_enc(paste(username, password, sep=":")))
+}
+
+#' Constructs the value for the X-Opal-Auth header
+#' @import jsonlite
+#' @keywords internal
+.tokenHeader <- function(token) {
+  token
 }
 
 #' Process response with default handler or the provided one
@@ -420,15 +433,28 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
     opts$encoding <- NULL # not a httr/curl option
   }
   
-  # authentication token
-  if(is.null(username) == FALSE) {
-    # Authorization
-    opal$authorization <- .authToken(username, password)
-  }
   # httr/curl options
   protocol <- strsplit(url, split="://")[[1]][1]
   options <- opts
-  if (protocol=="https") {
+  # legacy RCurl options to httr
+  if (!is.null(options$ssl.verifyhost)) {
+    options$ssl_verifyhost = options$ssl.verifyhost
+    options$ssl.verifyhost <- NULL
+  }
+  if (!is.null(options$ssl.verifypeer)) {
+    options$ssl_verifypeer = options$ssl.verifypeer
+    options$ssl.verifypeer <- NULL
+  }
+  
+  # authentication strategies
+  if(!is.null(username) && nchar(username) > 0) {
+    # Authorization header
+    opal$authorization <- .authorizationHeader(username, password)
+  } else if (!is.null(password) && nchar(password) > 0) {
+    # Token header
+    opal$token <- .tokenHeader(password)
+  } else if (protocol=="https") {
+    # Two-way SSL authentication
     if (!is.null(options$cainfo)) {
       options$cainfo <- .getPEMFilePath(options$cainfo)
     }
@@ -438,16 +464,10 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
     if (!is.null(options$sslkey)) {
       options$sslkey <- .getPEMFilePath(options$sslkey)
     }
-    # legacy RCurl options to httr
-    if (!is.null(options$ssl.verifyhost)) {
-      options$ssl_verifyhost = options$ssl.verifyhost
-      options$ssl.verifyhost <- NULL
-    }
-    if (!is.null(options$ssl.verifypeer)) {
-      options$ssl_verifypeer = options$ssl.verifypeer
-      options$ssl.verifypeer <- NULL
-    }
+  } else {
+    stop("opal authentication strategy not identified: either provide username/password or API access token or SSL certificate/private keys", call.=FALSE)
   }
+  
   opal$config <- config()
   opal$config$options <- options
   opal$handle <- handle(paste0(opal$url, "/", sample(1000:9999, 1))) # append a random number to ensure urls are different
@@ -456,11 +476,9 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   class(opal) <- "opal"
   
   # get user profile to test sign-in
-  r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization), handle = opal$handle, .verbose())
+  r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token), handle = opal$handle, .verbose())
   opal$profile <- .handleResponse(opal, r)
-  if(is.null(username)) {
-    opal$username <- opal$profile$principal
-  }
+  opal$username <- opal$profile$principal
   
   opal
 }
