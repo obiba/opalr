@@ -14,10 +14,10 @@
 #' 
 #' @family connection functions
 #' @return A opal object or a list of opal objects.
-#' @param username User name in opal(s). If NULL, the 'password' parameter is expected to 
-#'  be a personal access token (since opal 2.15). Can be provided by "opal.username" option. 
-#' @param password User password in opal(s) or personal access token if username is NULL (since opal 2.15). 
-#'  Can be provided by "opal.password" option.
+#' @param username User name in opal(s). Can be provided by "opal.username" option. 
+#' @param password User password in opal(s). Can be provided by "opal.password" option.
+#' @param token Personal access token (since opal 2.15). Only effective if the username or the password is NULL or empty. 
+#'  Can be provided by "opal.token" option.
 #' @param url Opal url or list of opal urls. Can be provided by "opal.url" option.
 #' @param opts Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.
 #' @param restore Workspace ID to be restored (see also opal.logout)
@@ -31,7 +31,7 @@
 #' opal.logout(o)
 #'
 #'  # explicite personal access token login
-#' o <- opal.login(username=NULL, password='HYG16LO0VaX4O0UardNbiqmr2ByBpRke', url='https://opal-demo.obiba.org')
+#' o <- opal.login(token='HYG16LO0VaX4O0UardNbiqmr2ByBpRke', url='https://opal-demo.obiba.org')
 #' opal.logout(o)
 #'
 #' # login using options
@@ -48,12 +48,12 @@
 #' o <- opal.login(url='https://opal-demo.obiba.org')
 #' opal.logout(o)
 #'}
-opal.login <- function(username=getOption("opal.username"), password=getOption("opal.password"), url=getOption("opal.url"), opts=getOption("opal.opts", list()), restore=NULL) {
+opal.login <- function(username=getOption("opal.username"), password=getOption("opal.password"), token=getOption("opal.token"), url=getOption("opal.url"), opts=getOption("opal.opts", list()), restore=NULL) {
   if (is.null(url)) stop("opal url is required", call.=FALSE)
   if(is.list(url)){
-    lapply(url, function(u){opal.login(username, password, u, opts=opts, restore=restore)})
+    lapply(url, function(u){opal.login(username, password, token, u, opts=opts, restore=restore)})
   } else {
-    .opal.login(username, password, url, opts=opts, restore=restore)
+    .opal.login(username, password, token, url, opts=opts, restore=restore)
   }
 }
 
@@ -415,7 +415,7 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 #' Create the opal object
 #' @import httr
 #' @keywords internal
-.opal.login <- function(username, password, url, opts=list(), restore=NULL) {
+.opal.login <- function(username, password, token, url, opts=list(), restore=NULL) {
   if (is.null(url)) stop("opal url is required", call.=FALSE)
   opal <- new.env(parent=globalenv())
   # Username
@@ -447,12 +447,12 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   }
   
   # authentication strategies
-  if(!is.null(username) && nchar(username) > 0) {
+  if(!is.null(username) && nchar(username) > 0 && !is.null(password) && nchar(password) > 0) {
     # Authorization header
     opal$authorization <- .authorizationHeader(username, password)
-  } else if (!is.null(password) && nchar(password) > 0) {
+  } else if (!is.null(token) && nchar(token) > 0) {
     # Token header
-    opal$token <- .tokenHeader(password)
+    opal$token <- .tokenHeader(token)
   } else if (protocol=="https") {
     # Two-way SSL authentication
     if (!is.null(options$cainfo)) {
