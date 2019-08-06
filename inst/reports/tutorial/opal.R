@@ -1,9 +1,9 @@
 # Load the required libraries on client side and login in Opal
 library(opalr)
-o <- opal.login('administrator', 'password', 'http://demo.obiba.org:8080')
+o <- opal.login('administrator', 'password', 'http://opal-demo.obiba.org')
 
 # Assign some variables into a data.frame with associated *D* symbol in R on Opal server side:
-opal.assign(o,'D','mica_demo.FNAC',variables=c('SVUOSI','SUKUP','PITUUS','PAINO'))
+opal.assign(o,'D','FNAC.FNAC',variables=c('SVUOSI','SUKUP','PITUUS','PAINO'))
 
 # Preview the assigned data.frame:
 opal.execute(o,'head(D)')

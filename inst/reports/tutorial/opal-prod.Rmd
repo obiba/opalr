@@ -10,7 +10,7 @@ This is an example of how to use **knitr** for producing reports on data stored 
 The requirement on client side is to have **opal** package installed:
 
 ```{r eval=FALSE}
-install.packages('opal', repos=c(getOption('repos'), 'http://cran.obiba.org'), dependencies=TRUE)
+install.packages('opalr', repos=c(getOption('repos'), 'https://cloud.r-project.org'), dependencies=TRUE)
 ```
 
 The requirements on server side is:
@@ -19,7 +19,7 @@ The requirements on server side is:
 * to have permission to send R commands to Opal server
 * to have a running R server
 
-![](https://wiki.obiba.org/download/attachments/37749068/opal-implementation.png)
+![](http://opaldoc.obiba.org/en/latest/_images/opal-r-server.png)
 
 The procedure is then the following:
 
@@ -33,7 +33,7 @@ The procedure is then the following:
 Load the required libraries on client side and login in Opal (credentials and output are hidden)...
 
 ```{r echo=FALSE,message=FALSE}
-library(opal)
+library(opalr)
 o <- opal.login()
 ```
 

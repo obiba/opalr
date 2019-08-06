@@ -9,7 +9,7 @@ input <- "inst/reports/tutorial/opal-prod.Rmd"
 output <- "/tmp"
 
 # set report options
-options(opal.url="http://demo.obiba.org:8080",
+options(opal.url="https://opal-demo.obiba.org",
         opal.username="administrator",
         opal.password="password",
         opal.report.style="Flatly")

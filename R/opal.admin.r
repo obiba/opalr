@@ -30,7 +30,7 @@ oadmin.install_package <- function(opal, pkg, repos=NULL) {
   } else {
     if (!oadmin.installed_package(opal, pkg)) {
       # default repos
-      defaultrepos <- c(getOption("repos"), "http://cran.obiba.org/stable", "http://cran.rstudio.com")
+      defaultrepos <- c(getOption("repos"), "http://cran.obiba.org", "http://cloud.r-project.org")
       if (getOption("repos") != "@CRAN@") {
         defaultrepos <- append(defaultrepos, getOption("repos"))
       }

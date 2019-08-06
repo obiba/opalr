@@ -7,7 +7,7 @@ This is an example of how to use **knitr** for producing reports on data stored 
 The requirement on client side is to have **opal** package installed:
 
 ```{r eval=FALSE}
-install.packages('opal', repos=c(getOption('repos'), 'http://cran.obiba.org'), dependencies=TRUE)
+install.packages('opalr', repos=c(getOption('repos'), 'https://cloud.obiba.org'), dependencies=TRUE)
 ```
 
 The requirements on server side is:
@@ -30,8 +30,8 @@ The procedure is then the following:
 Load the required libraries on client side and login in Opal (credentials and output are hidden)...
 
 ```{r echo=FALSE,message=FALSE}
-library(opal)
-o <- opal.login('administrator', 'password', 'http://demo.obiba.org:8080')
+library(opalr)
+o <- opal.login('administrator', 'password', 'https://opal-demo.obiba.org')
 ```
 
 Assign some variables into a data.frame with associated *D* symbol in R on Opal server side:

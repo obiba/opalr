@@ -2,10 +2,10 @@
 #
 # Global settings
 #
-url <- getOption("opal.url", "https://demo.obiba.org:8443")
+url <- getOption("opal.url", "https://opal-demo.obiba.org")
 username <- getOption("opal.username", "administrator")
 password <- getOption("opal.password", "password")
-datasource <- getOption("opal.datasource", "mica_demo")
+datasource <- getOption("opal.datasource", "FNAC")
 table <- getOption("opal.table", "FNAC")
 withStatistics <- getOption("opal.withStatistics", TRUE)
 withGraphs <- getOption("opal.withGraphs", TRUE)
@@ -13,7 +13,7 @@ withGraphs <- getOption("opal.withGraphs", TRUE)
 
 ```{r set-up, echo=FALSE,message=FALSE,results='hide'}
 # set up dictionary and data
-library(opal)
+library(opalr)
 o <- opal.login(username, password, url)
 variables <- opal.variables(o, datasource, table)
 t <- opal.table(o, datasource, table, counts=TRUE)
@@ -42,15 +42,17 @@ Date                   | `r as.character(Sys.Date())`
 ## Variables
 
 ```{r variables, results='asis', echo=FALSE}
-for (variable in variables) {
+for (i in 1:nrow(variables)) {
+  variable <- variables[i,]
   cat(paste0("* [", variable$name, "](#", gsub("\\.","_",variable$name),")\n"))
 }
 ```
 
 ```{r run-variable-md, include=FALSE}
 out <- NULL
-for (variable in variables) {
-  out <- c(out, knit_child('opal-variable.Rmd'), sep='\n')
+for (i in 1:nrow(variables)) {
+  variable <- variables[i,]
+  out <- c(out, knitr::knit_child('opal-variable.Rmd'), sep='\n')
 }
 ```
 
