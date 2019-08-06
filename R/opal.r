@@ -34,9 +34,15 @@
 #' o <- opal.login(token='HYG16LO0VaX4O0UardNbiqmr2ByBpRke', url='https://opal-demo.obiba.org')
 #' opal.logout(o)
 #'
-#' # login using options
+#' # login using options and user credentials
 #' options(opal.username='administrator',
 #'  opal.password='password',
+#'  opal.url='https://opal-demo.obiba.org')
+#' o <- opal.login()
+#' opal.logout(o)
+#' 
+#' # login using options and personal access token
+#' options(opal.token='HYG16LO0VaX4O0UardNbiqmr2ByBpRke',
 #'  opal.url='https://opal-demo.obiba.org')
 #' o <- opal.login()
 #' opal.logout(o)
