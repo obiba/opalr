@@ -453,10 +453,11 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   }
   
   # authentication strategies
-  if(!is.null(username) && nchar(username) > 0 && !is.null(password) && nchar(password) > 0) {
+  if(!is.na(username) && !is.null(username) && nchar(username) > 0 
+     && !is.na(password) && !is.null(password) && nchar(password) > 0) {
     # Authorization header
     opal$authorization <- .authorizationHeader(username, password)
-  } else if (!is.null(token) && nchar(token) > 0) {
+  } else if (!is.na(token) && !is.null(token) && nchar(token) > 0) {
     # Token header
     opal$token <- .tokenHeader(token)
   } else if (protocol=="https") {
