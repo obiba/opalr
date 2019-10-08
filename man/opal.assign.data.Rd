@@ -32,6 +32,7 @@ opal.logout(o)
 }
 \seealso{
 Other assignment functions: 
+\code{\link{opal.assign.resource}()},
 \code{\link{opal.assign.script}()},
 \code{\link{opal.assign.table.tibble}()},
 \code{\link{opal.assign.table}()},
