@@ -21,3 +21,13 @@ The annotated tibble
 Apply or remove an harmonization status annotation from a set of variables. The harmonization status
 is described by the "status" vocabulary in the "Mlstr_harmo" taxonomy.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+cqx <- harmo.annotate.status(cqx, 
+  variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
+  status = "complete")
+opal.logout(o)
+}
+}

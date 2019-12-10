@@ -22,3 +22,10 @@ Shortcut function to assign a Opal table to a tibble in the R server-side sessio
 and then retrieve it into the R client-side session. Requires to have the permission to
 see the individual values of the table and to perform R assignments.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+opal.logout(o)
+}
+}

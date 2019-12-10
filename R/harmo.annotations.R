@@ -15,10 +15,18 @@
 #' @param tibble Tibble to be annotated
 #' @param variables A character vector of variable names to be inspected. If NULL or empty, all
 #' the columns of the tibble will be inspected.
+#' @param taxonomy Filter by taxonomy name(s) (if provided).
+#' @param vocabulary Filter by vocabulary name(s) (if provided).
 #' @return A data frame in long format (one row per annotation).
-#'
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+#' annot <- harmo.annotations(cqx, taxonomy = "Mlstr_harmo", vocabulary = "status")
+#' opal.logout(o)
+#' }
 #' @export
-harmo.annotations <- function(tibble, variables = NULL) {
+harmo.annotations <- function(tibble, variables = NULL, taxonomy = NULL, vocabulary = NULL) {
   if (!("tbl" %in% class(tibble))) {
     stop("The tibble parameter must be a tibble.")
   }
@@ -28,8 +36,8 @@ harmo.annotations <- function(tibble, variables = NULL) {
   }
 
   variable <- c()
-  taxonomy <- c()
-  vocabulary <- c()
+  taxo <- c()
+  voc <- c()
   term <- c()
 
   for (var in vars) {
@@ -39,18 +47,20 @@ harmo.annotations <- function(tibble, variables = NULL) {
         for (n in names(attrs)) {
           if (grepl("::", n)) {
             tokens <- unlist(strsplit(n, "::"))
-            variable <- append(variable, var)
-            taxonomy <- append(taxonomy, tokens[1])
-            vocabulary <- append(vocabulary, tokens[2])
-            term <- append(term, attrs[[n]])
-
+            if ((is.null(taxonomy) || tokens[1] %in% taxonomy) &&
+                (is.null(vocabulary) || tokens[2] %in% vocabulary)) {
+              variable <- append(variable, var)
+              taxo <- append(taxo, tokens[1])
+              voc <- append(voc, tokens[2])
+              term <- append(term, attrs[[n]])  
+            }
           }
         }
       }
     }
   }
 
-  data.frame(variable, taxonomy, vocabulary, term)
+  data.frame(variable, taxonomy = taxo, vocabulary = voc, term)
 }
 
 #' Set variable annotation with a taxonomy term
@@ -65,7 +75,17 @@ harmo.annotations <- function(tibble, variables = NULL) {
 #' @param vocabulary The vocabulary to which the term belongs.
 #' @param term The term to apply. If NULL, the annotation will be deleted.
 #' @return The annotated tibble
-#'
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+#' cqx <- harmo.annotate(cqx, 
+#'   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
+#'   taxonomy = "Mlstr_area", 
+#'   vocabulary = "Sociodemographic_economic_characteristics", 
+#'   term = "Education")
+#' opal.logout(o)
+#' }
 #' @export
 harmo.annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area", vocabulary, term) {
   if (!("tbl" %in% class(tibble))) {
@@ -111,7 +131,15 @@ harmo.annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area", vo
 #' the columns of the tibble will be annotated.
 #' @param status The harmonization status to apply: 'complete', 'undetermined' or 'impossible'. If NULL, the annotation will be deleted.
 #' @return The annotated tibble
-#'
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+#' cqx <- harmo.annotate.status(cqx, 
+#'   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
+#'   status = "complete")
+#' opal.logout(o)
+#' }
 #' @export
 harmo.annotate.status <- function(tibble, variables = NULL, status) {
   if (is.null(status) || status %in% c("complete", "undetermined", "impossible")) {
@@ -119,5 +147,4 @@ harmo.annotate.status <- function(tibble, variables = NULL, status) {
   } else {
     stop("Not a valid harmonization status: ", status, call. = FALSE)
   }
-  
 }

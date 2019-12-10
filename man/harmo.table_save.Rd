@@ -46,3 +46,12 @@ An invisible logical indicating whether the destination table exists.
 Upload a local tibble to the R server side through Opal, assign this tibble to the provided
 symbol name and import it as a table into a Opal project.
 }
+\examples{
+\donttest{
+o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+# do some (meta)data transformations
+harmo.table_get(o, cqx, "CPTP", "Cag_coreqx", overwrite = TRUE, force = TRUE)
+opal.logout(o)
+}
+}

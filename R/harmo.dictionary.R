@@ -15,9 +15,25 @@
 #' @param tibble Tibble to be decorated.
 #' @param variables A data frame with one row per variable (column name) and then one column per property/attribute.
 #' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute.
-#'
+#' @examples 
+#' \donttest{
+#' data <- tibble::as_tibble(mtcars)
+#' variables <- tibble::tribble(
+#'   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
+#'   "mpg", "decimal", "Mpg label",  "Value1", "years", 0, 1,
+#'   "cyl", "decimal", "Cyl label",  "Value2", "kg/m2", 0, 2,
+#'   "disp", "decimal", "Disp label", NA, NA, 1, 3
+#' )
+#' categories <- tibble::tribble(
+#'   ~variable, ~name, ~missing, ~`label:en`, ~`label:fr`,
+#'   "cyl", "4", 0, "Four", "Quatre",
+#'   "cyl", "6", 0, "Six", "Six",
+#'   "cyl", "8", 1, "Height", "Huit"
+#' )
+#' data <- harmo.dictionary_apply(data, variables, categories)
+#' }
 #' @export
-harmo.apply.dictionary <- function(tibble, variables, categories = NULL) {
+harmo.dictionary_apply <- function(tibble, variables, categories = NULL) {
   tbl <- tibble
   names <- names(tbl)
   applyAttribute <- function(attrs, name, value) {
@@ -132,9 +148,26 @@ harmo.apply.dictionary <- function(tibble, variables, categories = NULL) {
 #' @param variables A data frame with one row per variable (column name) and then one column per property/attribute (Opal Excel format).
 #' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute (Opal Excel format). If there are
 #' no categories, this parameter is optional.
-#' 
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' variables <- tibble::tribble(
+#'   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
+#'   "mpg", "decimal", "Mpg label",  "Value1", "years", 0, 1,
+#'   "cyl", "decimal", "Cyl label",  "Value2", "kg/m2", 0, 2,
+#'   "disp", "decimal", "Disp label", NA, NA, 1, 3
+#' )
+#' categories <- tibble::tribble(
+#'   ~variable, ~name, ~missing, ~`label:en`, ~`label:fr`,
+#'   "cyl", "4", 0, "Four", "Quatre",
+#'   "cyl", "6", 0, "Six", "Six",
+#'   "cyl", "8", 1, "Height", "Huit"
+#' )
+#' harmo.dictionary_update(data, "test", "mtcars", variables, categories)
+#' opal.logout(o)
+#' }
 #' @export
-harmo.update.dictionary <- function(opal, project, table, variables, categories = NULL) {
+harmo.dictionary_update <- function(opal, project, table, variables, categories = NULL) {
   body <- .toJSONVariables(table=table, variables = variables, categories = categories)
   opal.post(opal, "datasource", project, "table", table, "variables", contentType = "application/json", body = body)
 }

@@ -19,7 +19,12 @@
 #' @param table Table name from which the tibble should be extracted.
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings Include the missing values (default is TRUE).
-#'
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+#' opal.logout(o)
+#' }
 #' @export
 harmo.table_get <- function(opal, project, table, variables = NULL, missings = TRUE) {
   pb <- .newProgress(total = 5)
@@ -67,6 +72,14 @@ harmo.table_get <- function(opal, project, table, variables = NULL, missings = T
 #' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
 #' @param type Entity type (what the data are about). Default is 'Participant'
 #' @return An invisible logical indicating whether the destination table exists.
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+#' # do some (meta)data transformations
+#' harmo.table_get(o, cqx, "CPTP", "Cag_coreqx", overwrite = TRUE, force = TRUE)
+#' opal.logout(o)
+#' }
 #' @export
 #' @import jsonlite
 harmo.table_save <- function(opal, tibble, project, table, overwrite = TRUE, force = FALSE, identifiers=NULL, policy='required', id.name='id', type='Participant') {
