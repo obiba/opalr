@@ -23,12 +23,15 @@ opal.logout(o)
 }
 }
 \seealso{
-Other file functions: \code{\link{opal.file_cp}},
-  \code{\link{opal.file_download}},
-  \code{\link{opal.file_mkdir}},
-  \code{\link{opal.file_mv}}, \code{\link{opal.file_read}},
-  \code{\link{opal.file_rm}},
-  \code{\link{opal.file_upload}},
-  \code{\link{opal.file_write}}, \code{\link{opal.file}}
+Other file functions: 
+\code{\link{opal.file_cp}()},
+\code{\link{opal.file_download}()},
+\code{\link{opal.file_mkdir}()},
+\code{\link{opal.file_mv}()},
+\code{\link{opal.file_read}()},
+\code{\link{opal.file_rm}()},
+\code{\link{opal.file_upload}()},
+\code{\link{opal.file_write}()},
+\code{\link{opal.file}()}
 }
 \concept{file functions}

@@ -22,12 +22,13 @@ opal.logout(o)
 }
 }
 \seealso{
-Other administration functions: \code{\link{oadmin.install_devtools}},
-  \code{\link{oadmin.install_github}},
-  \code{\link{oadmin.install_package}},
-  \code{\link{oadmin.installed_devtools}},
-  \code{\link{oadmin.installed_packages}},
-  \code{\link{oadmin.installed_package}},
-  \code{\link{oadmin.package_description}}
+Other administration functions: 
+\code{\link{oadmin.install_devtools}()},
+\code{\link{oadmin.install_github}()},
+\code{\link{oadmin.install_package}()},
+\code{\link{oadmin.installed_devtools}()},
+\code{\link{oadmin.installed_packages}()},
+\code{\link{oadmin.installed_package}()},
+\code{\link{oadmin.package_description}()}
 }
 \concept{administration functions}

@@ -4,8 +4,14 @@
 \alias{oadmin.install_github}
 \title{Install a package form GitHub}
 \usage{
-oadmin.install_github(opal, pkg, username = getOption("github.user"),
-  ref = "master", auth_user = NULL, password = NULL)
+oadmin.install_github(
+  opal,
+  pkg,
+  username = getOption("github.user"),
+  ref = "master",
+  auth_user = NULL,
+  password = NULL
+)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -31,12 +37,13 @@ opal.logout(o)
 }
 }
 \seealso{
-Other administration functions: \code{\link{oadmin.install_devtools}},
-  \code{\link{oadmin.install_package}},
-  \code{\link{oadmin.installed_devtools}},
-  \code{\link{oadmin.installed_packages}},
-  \code{\link{oadmin.installed_package}},
-  \code{\link{oadmin.package_description}},
-  \code{\link{oadmin.remove_package}}
+Other administration functions: 
+\code{\link{oadmin.install_devtools}()},
+\code{\link{oadmin.install_package}()},
+\code{\link{oadmin.installed_devtools}()},
+\code{\link{oadmin.installed_packages}()},
+\code{\link{oadmin.installed_package}()},
+\code{\link{oadmin.package_description}()},
+\code{\link{oadmin.remove_package}()}
 }
 \concept{administration functions}

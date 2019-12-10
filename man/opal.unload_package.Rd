@@ -22,7 +22,8 @@ opal.logout(o)
 }
 }
 \seealso{
-Other execution functions: \code{\link{opal.execute}},
-  \code{\link{opal.load_package}}
+Other execution functions: 
+\code{\link{opal.execute}()},
+\code{\link{opal.load_package}()}
 }
 \concept{execution functions}

@@ -28,9 +28,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other assignment functions: \code{\link{opal.assign.data}},
-  \code{\link{opal.assign.table.tibble}},
-  \code{\link{opal.assign.table}},
-  \code{\link{opal.assign}}
+Other assignment functions: 
+\code{\link{opal.assign.data}()},
+\code{\link{opal.assign.table.tibble}()},
+\code{\link{opal.assign.table}()},
+\code{\link{opal.assign}()}
 }
 \concept{assignment functions}

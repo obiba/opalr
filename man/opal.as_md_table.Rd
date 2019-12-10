@@ -4,8 +4,14 @@
 \alias{opal.as_md_table}
 \title{Array to Markdown}
 \usage{
-opal.as_md_table(table, icons = TRUE, digits = getOption("digits"),
-  col.names = colnames(table), align, caption = NULL)
+opal.as_md_table(
+  table,
+  icons = TRUE,
+  digits = getOption("digits"),
+  col.names = colnames(table),
+  align,
+  caption = NULL
+)
 }
 \arguments{
 \item{table}{An array, including a matrix or a data.frame.}

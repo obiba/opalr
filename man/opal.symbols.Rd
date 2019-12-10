@@ -20,9 +20,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other symbol functions: \code{\link{opal.rm}},
-  \code{\link{opal.symbol_import}},
-  \code{\link{opal.symbol_rm}},
-  \code{\link{opal.symbol_save}}
+Other symbol functions: 
+\code{\link{opal.rm}()},
+\code{\link{opal.symbol_import}()},
+\code{\link{opal.symbol_rm}()},
+\code{\link{opal.symbol_save}()}
 }
 \concept{symbol functions}

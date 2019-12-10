@@ -4,10 +4,14 @@
 \alias{opal.login}
 \title{Opal login}
 \usage{
-opal.login(username = getOption("opal.username"),
+opal.login(
+  username = getOption("opal.username"),
   password = getOption("opal.password"),
-  token = getOption("opal.token"), url = getOption("opal.url"),
-  opts = getOption("opal.opts", list()), restore = NULL)
+  token = getOption("opal.token"),
+  url = getOption("opal.url"),
+  opts = getOption("opal.opts", list()),
+  restore = NULL
+)
 }
 \arguments{
 \item{username}{User name in opal(s). Can be provided by "opal.username" option.}
@@ -63,6 +67,7 @@ opal.logout(o)
 }
 }
 \seealso{
-Other connection functions: \code{\link{opal.logout}}
+Other connection functions: 
+\code{\link{opal.logout}()}
 }
 \concept{connection functions}

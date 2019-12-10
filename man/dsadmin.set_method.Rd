@@ -4,8 +4,7 @@
 \alias{dsadmin.set_method}
 \title{Set DataSHIELD method}
 \usage{
-dsadmin.set_method(opal, name, func = NULL, path = NULL,
-  type = "aggregate")
+dsadmin.set_method(opal, name, func = NULL, path = NULL, type = "aggregate")
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -29,19 +28,20 @@ opal.logout(o)
 }
 }
 \seealso{
-Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
-  \code{\link{dsadmin.get_method}},
-  \code{\link{dsadmin.get_options}},
-  \code{\link{dsadmin.install_package}},
-  \code{\link{dsadmin.installed_package}},
-  \code{\link{dsadmin.package_descriptions}},
-  \code{\link{dsadmin.package_description}},
-  \code{\link{dsadmin.remove_package}},
-  \code{\link{dsadmin.rm_methods}},
-  \code{\link{dsadmin.rm_method}},
-  \code{\link{dsadmin.rm_option}},
-  \code{\link{dsadmin.rm_package_methods}},
-  \code{\link{dsadmin.set_option}},
-  \code{\link{dsadmin.set_package_methods}}
+Other DataSHIELD functions: 
+\code{\link{dsadmin.get_methods}()},
+\code{\link{dsadmin.get_method}()},
+\code{\link{dsadmin.get_options}()},
+\code{\link{dsadmin.install_package}()},
+\code{\link{dsadmin.installed_package}()},
+\code{\link{dsadmin.package_descriptions}()},
+\code{\link{dsadmin.package_description}()},
+\code{\link{dsadmin.remove_package}()},
+\code{\link{dsadmin.rm_methods}()},
+\code{\link{dsadmin.rm_method}()},
+\code{\link{dsadmin.rm_option}()},
+\code{\link{dsadmin.rm_package_methods}()},
+\code{\link{dsadmin.set_option}()},
+\code{\link{dsadmin.set_package_methods}()}
 }
 \concept{DataSHIELD functions}

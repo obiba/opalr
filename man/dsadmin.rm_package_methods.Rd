@@ -24,19 +24,20 @@ opal.logout(o)
 }
 }
 \seealso{
-Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
-  \code{\link{dsadmin.get_method}},
-  \code{\link{dsadmin.get_options}},
-  \code{\link{dsadmin.install_package}},
-  \code{\link{dsadmin.installed_package}},
-  \code{\link{dsadmin.package_descriptions}},
-  \code{\link{dsadmin.package_description}},
-  \code{\link{dsadmin.remove_package}},
-  \code{\link{dsadmin.rm_methods}},
-  \code{\link{dsadmin.rm_method}},
-  \code{\link{dsadmin.rm_option}},
-  \code{\link{dsadmin.set_method}},
-  \code{\link{dsadmin.set_option}},
-  \code{\link{dsadmin.set_package_methods}}
+Other DataSHIELD functions: 
+\code{\link{dsadmin.get_methods}()},
+\code{\link{dsadmin.get_method}()},
+\code{\link{dsadmin.get_options}()},
+\code{\link{dsadmin.install_package}()},
+\code{\link{dsadmin.installed_package}()},
+\code{\link{dsadmin.package_descriptions}()},
+\code{\link{dsadmin.package_description}()},
+\code{\link{dsadmin.remove_package}()},
+\code{\link{dsadmin.rm_methods}()},
+\code{\link{dsadmin.rm_method}()},
+\code{\link{dsadmin.rm_option}()},
+\code{\link{dsadmin.set_method}()},
+\code{\link{dsadmin.set_option}()},
+\code{\link{dsadmin.set_package_methods}()}
 }
 \concept{DataSHIELD functions}

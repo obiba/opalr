@@ -26,7 +26,9 @@ opal.logout(o)
 }
 }
 \seealso{
-Other REST functions: \code{\link{opal.delete}},
-  \code{\link{opal.post}}, \code{\link{opal.put}}
+Other REST functions: 
+\code{\link{opal.delete}()},
+\code{\link{opal.post}()},
+\code{\link{opal.put}()}
 }
 \concept{REST functions}

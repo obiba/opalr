@@ -4,9 +4,18 @@
 \alias{opal.assign.table.tibble}
 \title{Data assignment to a tibble}
 \usage{
-opal.assign.table.tibble(opal, symbol, value, variables = NULL,
-  missings = FALSE, identifiers = NULL, id.name = "id",
-  with.factors = FALSE, updated.name = NULL, async = FALSE)
+opal.assign.table.tibble(
+  opal,
+  symbol,
+  value,
+  variables = NULL,
+  missings = FALSE,
+  identifiers = NULL,
+  id.name = "id",
+  with.factors = FALSE,
+  updated.name = NULL,
+  async = FALSE
+)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -42,9 +51,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other assignment functions: \code{\link{opal.assign.data}},
-  \code{\link{opal.assign.script}},
-  \code{\link{opal.assign.table}},
-  \code{\link{opal.assign}}
+Other assignment functions: 
+\code{\link{opal.assign.data}()},
+\code{\link{opal.assign.script}()},
+\code{\link{opal.assign.table}()},
+\code{\link{opal.assign}()}
 }
 \concept{assignment functions}

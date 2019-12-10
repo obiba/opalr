@@ -4,8 +4,13 @@
 \alias{opal.report}
 \title{Opal report}
 \usage{
-opal.report(input, output = NULL, progress = FALSE, verbose = FALSE,
-  boot_style = NULL)
+opal.report(
+  input,
+  output = NULL,
+  progress = FALSE,
+  verbose = FALSE,
+  boot_style = NULL
+)
 }
 \arguments{
 \item{input}{Path to the R markdown report file}

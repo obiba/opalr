@@ -25,9 +25,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other taxonomy functions: \code{\link{opal.taxonomy}},
-  \code{\link{opal.terms}},
-  \code{\link{opal.vocabularies}},
-  \code{\link{opal.vocabulary}}
+Other taxonomy functions: 
+\code{\link{opal.taxonomy}()},
+\code{\link{opal.terms}()},
+\code{\link{opal.vocabularies}()},
+\code{\link{opal.vocabulary}()}
 }
 \concept{taxonomy functions}

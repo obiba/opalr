@@ -20,12 +20,15 @@ Depends:
 Imports:
     xml2,
     jsonlite,
-    mime
+    mime,
+    progress
 Suggests:
     e1071,
     knitr,
     knitrBootstrap,
-    rmarkdown
+    rmarkdown,
+    tibble,
+    testthat
 Description: Data integration Web application for biobanks by 'OBiBa'. 'Opal' is
     the core database application for biobanks. Participant data, once
     collected from any data source, must be integrated and stored in a central
@@ -39,6 +42,6 @@ Description: Data integration Web application for biobanks by 'OBiBa'. 'Opal' is
 License: GPL-3
 URL: https://www.obiba.org/ https://www.obiba.org/pages/products/opal/ https://doi.org/10.1093/ije/dyx180 http://www.datashield.ac.uk/
 BugReports: https://github.com/obiba/opalr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
 VignetteBuilder: knitr
 Encoding: UTF-8

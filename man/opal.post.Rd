@@ -4,8 +4,14 @@
 \alias{opal.post}
 \title{Generic REST resource creation.}
 \usage{
-opal.post(opal, ..., query = list(), body = "",
-  contentType = "application/x-rscript", callback = NULL)
+opal.post(
+  opal,
+  ...,
+  query = list(),
+  body = "",
+  contentType = "application/x-rscript",
+  callback = NULL
+)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -31,7 +37,9 @@ opal.logout(o)
 }
 }
 \seealso{
-Other REST functions: \code{\link{opal.delete}},
-  \code{\link{opal.get}}, \code{\link{opal.put}}
+Other REST functions: 
+\code{\link{opal.delete}()},
+\code{\link{opal.get}()},
+\code{\link{opal.put}()}
 }
 \concept{REST functions}
