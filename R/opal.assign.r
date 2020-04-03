@@ -146,7 +146,7 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
 #' @examples 
 #' \donttest{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
-#' # assign a function and call it
+#' # assign a table and make some operation on it
 #' opal.assign.table.tibble(o, 'D', 'datashield.CNSIM1')
 #' opal.execute(o, "class(D)")
 #' opal.logout(o)
@@ -235,5 +235,36 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
     }
     ignore <- .getRSessionId(opal)
     res <- opal.post(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+  }
+}
+
+#' Assign a ResourceClient object to a R symbol in the current R session.
+#' 
+#' @title Resource assignment
+#' 
+#' @family assignment functions
+#' @param opal Opal object or list of opal objects.
+#' @param symbol Name of the R symbol.
+#' @param value The fully qualified name of a resource in Opal.
+#' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
+#' @examples 
+#' \donttest{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' # assign a resource and make some operation on it
+#' opal.assign.resource(o, "D", "datashield.cram1")
+#' opal.execute(o, "class(D)")
+#' opal.logout(o)
+#' }
+#' @export
+opal.assign.resource <- function(opal, symbol, value, async=FALSE) {
+  if(is.list(opal)){
+    lapply(opal, function(o){opal.assign.resource(o, symbol, value, async=async)})
+  } else {
+    query <- list()
+    if (async) {
+      query["async"] <- "true"
+    }
+    ignore <- .getRSessionId(opal)
+    res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, "resource", value, query=query)
   }
 }
