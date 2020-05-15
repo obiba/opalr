@@ -36,7 +36,7 @@ categories <- tibble::tribble(
   "cyl", "6", 0, "Six", "Six",
   "cyl", "8", 1, "Height", "Huit"
 )
-harmo.dictionary_update(data, "test", "mtcars", variables, categories)
+harmo.dictionary_update(o, "test", "mtcars", variables, categories)
 opal.logout(o)
 }
 }
