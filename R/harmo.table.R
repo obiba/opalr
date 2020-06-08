@@ -76,8 +76,8 @@ harmo.table_get <- function(opal, project, table, variables = NULL, missings = T
 #' \donttest{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
-#' # do some (meta)data transformations
-#' harmo.table_get(o, cqx, "CPTP", "Cag_coreqx", overwrite = TRUE, force = TRUE)
+#' # do some (meta)data transformations, then save in opal's database
+#' harmo.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = TRUE, force = TRUE)
 #' opal.logout(o)
 #' }
 #' @export
