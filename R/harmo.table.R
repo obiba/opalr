@@ -110,11 +110,13 @@ harmo.table_save <- function(opal, tibble, project, table, overwrite = TRUE, for
   save(tibble, file = file)
   
   .tickProgress(pb, tokens = list(what = paste0("Uploading R data file")))
-  opal.file_upload(opal, file, "/tmp")
+  tmp <- paste0("/tmp/", sample(1000:9999, 1), "/")
+  opal.file_mkdir(opal, tmp)
+  opal.file_upload(opal, file, tmp)
   filename <- basename(file)
   unlink(file)
-  opal.file_write(opal, paste0("/tmp/", filename))
-  opal.file_rm(opal, paste0("/tmp/", filename))
+  opal.file_write(opal, paste0(tmp, filename))
+  opal.file_rm(opal, paste0(tmp, filename))
   
   .tickProgress(pb, tokens = list(what = paste0("Loading R data file")))
   opal.execute(opal, paste0("load(file='", filename, "')"))
