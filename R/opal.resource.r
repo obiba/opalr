@@ -22,8 +22,8 @@
 #' }
 #' @export
 opal.resources <- function(opal, project, df=TRUE) {
-  if (!is.na(opal$version) && opal.version_compare(opal,"2.17")<0) {
-    stop("Resources are not available in opal ", opal$version, " (2.17.0 or higher is required)")
+  if (!is.na(opal$version) && opal.version_compare(opal,"3.0")<0) {
+    stop("Resources are not available in opal ", opal$version, " (3.0.0 or higher is required)")
   }
   res <- opal.get(opal, "project", project, "resources")
   if (!df) {
@@ -67,8 +67,8 @@ opal.resources <- function(opal, project, df=TRUE) {
 #' }
 #' @export
 opal.resource <- function(opal, project, resource) {
-  if (!is.na(opal$version) && opal.version_compare(opal,"2.17")<0) {
-    stop("Resources are not available in opal ", opal$version, " (2.17.0 or higher is required)")
+  if (!is.na(opal$version) && opal.version_compare(opal,"3.0")<0) {
+    stop("Resources are not available in opal ", opal$version, " (3.0.0 or higher is required)")
   }
   opal.get(opal, "project", project, "resource", resource);
 }
