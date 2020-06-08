@@ -260,8 +260,8 @@ opal.assign.resource <- function(opal, symbol, value, async=FALSE) {
   if(is.list(opal)){
     lapply(opal, function(o){opal.assign.resource(o, symbol, value, async=async)})
   } else {
-    if (!is.na(opal$version) && opal.version_compare(opal,"2.17")<0) {
-      stop("Resources are not available in opal ", opal$version, " (2.17.0 or higher is required)")
+    if (!is.na(opal$version) && opal.version_compare(opal,"3.0")<0) {
+      stop("Resources are not available in opal ", opal$version, " (3.0.0 or higher is required)")
     }
     query <- list()
     if (async) {
