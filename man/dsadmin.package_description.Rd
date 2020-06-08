@@ -17,7 +17,7 @@ dsadmin.package_description(opal, pkg, fields = NULL)
 Get DataSHIELD package description
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 dsadmin.package_description(o, 'dsBase')
 opal.logout(o)

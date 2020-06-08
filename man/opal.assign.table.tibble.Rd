@@ -42,7 +42,7 @@ opal.assign.table.tibble(
 Assign a Opal table to a tibble identified by a R symbol in the current R session.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # assign a table and make some operation on it
 opal.assign.table.tibble(o, 'D', 'datashield.CNSIM1')

@@ -22,7 +22,7 @@ Apply or remove an harmonization status annotation from a set of variables. The 
 is described by the "status" vocabulary in the "Mlstr_harmo" taxonomy.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 cqx <- harmo.annotate.status(cqx, 

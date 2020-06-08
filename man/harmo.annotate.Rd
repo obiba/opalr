@@ -32,7 +32,7 @@ The annotated tibble
 Apply or remove an annotation from a set of variables.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 cqx <- harmo.annotate(cqx, 

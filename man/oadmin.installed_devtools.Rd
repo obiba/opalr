@@ -13,7 +13,7 @@ oadmin.installed_devtools(opal)
 Check if devtools package is installed.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 oadmin.installed_devtools(o)
 opal.logout(o)

@@ -20,7 +20,7 @@
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
 #' @param missings Include the missing values (default is TRUE).
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 #' opal.logout(o)
@@ -73,7 +73,7 @@ harmo.table_get <- function(opal, project, table, variables = NULL, missings = T
 #' @param type Entity type (what the data are about). Default is 'Participant'
 #' @return An invisible logical indicating whether the destination table exists.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 #' # do some (meta)data transformations, then save in opal's database

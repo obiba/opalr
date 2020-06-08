@@ -16,7 +16,7 @@ Make a folder in the Opal file system. Does not create ancestors, i.e. the call 
 parent folder does not exist.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # make a folder
 opal.file_mkdir(o, '/home/administrator/test')

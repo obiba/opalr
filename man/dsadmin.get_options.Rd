@@ -13,7 +13,7 @@ dsadmin.get_options(opal)
 Get the DataSHIELD options
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 dsadmin.get_options(o)
 opal.logout(o)

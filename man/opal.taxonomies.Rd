@@ -18,7 +18,7 @@ Get all taxonomies. A taxonomy describes the annotations that can be applied to 
 Taxonomies also drive the variables search interface.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.taxonomies(o)
 opal.logout(o)

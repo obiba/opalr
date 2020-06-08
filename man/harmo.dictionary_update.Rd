@@ -22,7 +22,7 @@ no categories, this parameter is optional.}
 Directly update the dictionary of a Opal table with the provided dictionary.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 variables <- tibble::tribble(
   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,

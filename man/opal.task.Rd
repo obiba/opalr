@@ -15,7 +15,7 @@ opal.task(opal, id)
 Get the details of a specific task.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.task(o, '1')
 opal.logout(o)

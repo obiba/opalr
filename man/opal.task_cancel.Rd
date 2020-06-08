@@ -15,7 +15,7 @@ opal.task_cancel(opal, id)
 Tries to cancel a task.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.task_cancel(o, '1')
 opal.logout(o)

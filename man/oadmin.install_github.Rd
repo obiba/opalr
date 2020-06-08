@@ -30,7 +30,7 @@ oadmin.install_github(
 Install a package from a source repository on GitHub. Makes sure devtools package is available.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 oadmin.install_github(o, 'opalr', 'obiba')
 opal.logout(o)

@@ -18,7 +18,7 @@ If TRUE, the value returned is the ID of the command to look for (from Opal 2.1)
 Upload a R file script and execute it in the remote R session with source().
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.execute.source(o, "myscript.R")
 opal.logout(o)

@@ -18,7 +18,7 @@ TRUE if installed
 Check package is installed
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 oadmin.installed_package(o, 'xxx')
 oadmin.installed_package(o, 'stats')

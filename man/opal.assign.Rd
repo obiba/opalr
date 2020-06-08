@@ -39,7 +39,7 @@ opal.assign(
 Assign a Opal table, or a R expression or a R object to a R symbol in the current R session.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # assign a list of variables from table CNSIM1
 opal.assign(o, symbol="D", value="datashield.CNSIM1", variables=list("GENDER","LAB_TSC"))

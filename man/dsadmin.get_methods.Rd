@@ -15,7 +15,7 @@ dsadmin.get_methods(opal, type = "aggregate")
 Get DataSHIELD methods
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 dsadmin.get_methods(o)
 opal.logout(o)

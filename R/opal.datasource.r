@@ -14,7 +14,7 @@
 #' @param opal Opal object.
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.projects(o)
 #' opal.logout(o)
@@ -54,7 +54,7 @@ opal.projects <- function(opal, df=TRUE) {
 #' @param opal Opal object.
 #' @param project Name of the project
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.project(o, 'datashield')
 #' opal.logout(o)
@@ -70,7 +70,7 @@ opal.project <- function(opal, project) {
 #' @param opal Opal object.
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.datasources(o)
 #' opal.logout(o)
@@ -110,7 +110,7 @@ opal.datasources <- function(opal, df=TRUE) {
 #' @param opal Opal object.
 #' @param datasource Name of the datasource.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.datasource(o, 'datashield')
 #' opal.logout(o)
@@ -128,7 +128,7 @@ opal.datasource <- function(opal, datasource) {
 #' @param counts Flag to get the number of variables and entities (default is FALSE).
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.tables(o, 'datashield')
 #' opal.logout(o)
@@ -181,7 +181,7 @@ opal.tables <- function(opal, datasource, counts=FALSE, df=TRUE) {
 #' @param table Name of the table in the datasource.
 #' @param counts Flag to get the number of variables and entities (default is FALSE).
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.table(o, 'datashield', 'CNSIM1')
 #' opal.logout(o)
@@ -204,7 +204,7 @@ opal.table <- function(opal, datasource, table, counts=FALSE) {
 #' @param locale The language for labels (default is "en").
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.variables(o, 'datashield', 'CNSIM1')
 #' opal.logout(o)
@@ -297,7 +297,7 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
 #' @param table Name of the table in the datasource.
 #' @param variable Name of the variable in the table.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
 #' opal.logout(o)
@@ -316,7 +316,7 @@ opal.variable <- function(opal, datasource, table, variable) {
 #' @param namespace Optional attribute namespace.
 #' @param name Required attribute name.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' var <- opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
 #' opal.attribute_values(var$attributes)
@@ -349,7 +349,7 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
 #' @param table Name of the table in the datasource.
 #' @param identifier Entity identifier.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.valueset(o, 'datashield', 'CNSIM1', '1008573362')
 #' opal.logout(o)

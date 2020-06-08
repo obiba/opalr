@@ -19,7 +19,7 @@ opal.variable(opal, datasource, table, variable)
 Get a variable of a table
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
 opal.logout(o)

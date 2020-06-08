@@ -23,7 +23,7 @@ A data frame in long format (one row per annotation).
 List the annotations of each of the variables.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 annot <- harmo.annotations(cqx, taxonomy = "Mlstr_harmo", vocabulary = "status")

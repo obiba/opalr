@@ -20,7 +20,7 @@ The DataSHIELD package descriptions as a data.frame or a list
 Get DataSHIELD package descriptions
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 dsadmin.package_descriptions(o)
 opal.logout(o)

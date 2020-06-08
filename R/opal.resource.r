@@ -15,7 +15,7 @@
 #' @param project Name of the project.
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.resources(o, 'datashield')
 #' opal.logout(o)
@@ -60,7 +60,7 @@ opal.resources <- function(opal, project, df=TRUE) {
 #' @param project Name of the project.
 #' @param resource Name of the resource in the project.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.resource(o, 'datashield', 'CNSIM1r')
 #' opal.logout(o)

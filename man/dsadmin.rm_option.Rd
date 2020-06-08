@@ -15,7 +15,7 @@ dsadmin.rm_option(opal, name)
 Remove a DataSHIELD option
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 dsadmin.rm_option(o, 'foo')
 opal.logout(o)

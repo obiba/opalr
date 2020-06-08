@@ -23,7 +23,7 @@
 #' @param restore Workspace ID to be restored (see also opal.logout)
 #' @export
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' #### The below examples illustrate the different ways to login in opal ####
 #'
 #' # explicite username/password login
@@ -71,7 +71,7 @@ opal.login <- function(username=getOption("opal.username"), password=getOption("
 #' @param opal Opal object or a list of opals.
 #' @param save Save the workspace with given identifier (default value is FALSE, current session ID if TRUE).
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.logout(o)
 #' }
@@ -120,7 +120,7 @@ print.opal <- function(x, ...) {
 #' @param opal Opal object.
 #' @param version The semantic version string to be compared.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.version_compare(o, "2.6.0")
 #' opal.logout(o)
@@ -159,7 +159,7 @@ opal.version_compare <- function(opal, version) {
 #' @param callback A callback function to handle the response object.
 #' @import httr
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.get(o, 'project', 'datashield')
 #' opal.logout(o)
@@ -181,7 +181,7 @@ opal.get <- function(opal, ..., query=list(), callback=NULL) {
 #' @param callback A callback function to handle the response object.
 #' @import httr
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.post(o, 'some', 'resources', body='{"some":"value"}')
 #' opal.logout(o)
