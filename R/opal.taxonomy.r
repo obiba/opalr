@@ -19,7 +19,7 @@
 #' @param locale The language for labels (default is "en").
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.taxonomies(o)
 #' opal.logout(o)
@@ -67,7 +67,7 @@ opal.taxonomies <- function(opal, locale="en", df=TRUE) {
 #' @param opal Opal object.
 #' @param taxonomy Name of the taxonomy
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.taxonomy(o, 'Mlstr_area')
 #' opal.logout(o)
@@ -87,7 +87,7 @@ opal.taxonomy <- function(opal, taxonomy) {
 #' @param locale The language for labels (default is "en").
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.vocabularies(o, 'Mlstr_area')
 #' opal.logout(o)
@@ -132,7 +132,7 @@ opal.vocabularies <- function(opal, taxonomy, locale="en", df=TRUE) {
 #' @param taxonomy Name of the taxonomy
 #' @param vocabulary Name of the vocabulary in the taxonomy
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.vocabulary(o, 'Mlstr_area', 'Lifestyle_behaviours')
 #' opal.logout(o)
@@ -153,7 +153,7 @@ opal.vocabulary <- function(opal, taxonomy, vocabulary) {
 #' @param locale The language for labels (default is "en").
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.terms(o, 'Mlstr_area', 'Lifestyle_behaviours')
 #' opal.logout(o)

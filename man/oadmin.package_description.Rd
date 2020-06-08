@@ -17,7 +17,7 @@ oadmin.package_description(opal, pkg, fields = NULL)
 Get package description
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 oadmin.package_description(o, 'stats')
 opal.logout(o)

@@ -15,7 +15,7 @@ opal.logout(opal, save = FALSE)
 Clear the R sessions and logout from Opal(s).
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.logout(o)
 }

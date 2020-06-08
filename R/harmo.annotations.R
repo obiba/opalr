@@ -19,7 +19,7 @@
 #' @param vocabulary Filter by vocabulary name(s) (if provided).
 #' @return A data frame in long format (one row per annotation).
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 #' annot <- harmo.annotations(cqx, taxonomy = "Mlstr_harmo", vocabulary = "status")
@@ -76,7 +76,7 @@ harmo.annotations <- function(tibble, variables = NULL, taxonomy = NULL, vocabul
 #' @param term The term to apply. If NULL, the annotation will be deleted.
 #' @return The annotated tibble
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 #' cqx <- harmo.annotate(cqx, 
@@ -132,7 +132,7 @@ harmo.annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area", vo
 #' @param status The harmonization status to apply: 'complete', 'undetermined' or 'impossible'. If NULL, the annotation will be deleted.
 #' @return The annotated tibble
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 #' cqx <- harmo.annotate.status(cqx, 

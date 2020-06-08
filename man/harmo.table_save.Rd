@@ -47,7 +47,7 @@ Upload a local tibble to the R server side through Opal, assign this tibble to t
 symbol name and import it as a table into a Opal project.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 # do some (meta)data transformations, then save in opal's database

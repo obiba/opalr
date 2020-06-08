@@ -22,7 +22,7 @@ Set the provided annotations (as the one that can be retrieved from \link{opal.a
 to the table's data dictionary. Variables that do not exists in the table are ignored.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 annots <- opal.annotations(o, 'CPTP', 'Coreqx_final')
 opal.annotate(o, 'CPTP', 'Cag_coreqx', annots)

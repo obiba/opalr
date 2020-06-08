@@ -13,7 +13,7 @@ opal.workspaces(opal)
 Get the R workspaces from a opal.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.workspaces(o)
 opal.logout(o)

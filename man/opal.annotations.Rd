@@ -20,7 +20,7 @@ A data frame in long format (one row per annotation).
 Directly retrieves from the table's data dictionary the variable annotations (attributes with a namespace).
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.annotations(o, 'CPTP', 'Coreqx_final')
 opal.logout(o)

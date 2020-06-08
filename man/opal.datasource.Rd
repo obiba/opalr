@@ -15,7 +15,7 @@ opal.datasource(opal, datasource)
 Get a datasource
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.datasource(o, 'datashield')
 opal.logout(o)

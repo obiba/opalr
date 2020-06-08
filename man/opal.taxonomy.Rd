@@ -15,7 +15,7 @@ opal.taxonomy(opal, taxonomy)
 Get a specific taxonomy details.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.taxonomy(o, 'Mlstr_area')
 opal.logout(o)

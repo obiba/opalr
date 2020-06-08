@@ -19,7 +19,7 @@ opal.get(opal, ..., query = list(), callback = NULL)
 Generic REST resource getter.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.get(o, 'project', 'datashield')
 opal.logout(o)

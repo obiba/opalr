@@ -21,7 +21,7 @@ dsadmin.set_method(opal, name, func = NULL, path = NULL, type = "aggregate")
 Set DataSHIELD method
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 dsadmin.set_method(o, 'foo', 'base::mean')
 opal.logout(o)

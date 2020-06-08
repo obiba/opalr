@@ -18,7 +18,7 @@
 #' @param async R script is executed asynchronously within the session (default is FALSE). 
 #'   If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.execute(o, "x <- 'foo'")
 #' opal.execute(o, "ls()")
@@ -46,7 +46,7 @@ opal.execute <- function(opal, script, async=FALSE) {
 #' @param async R script is executed asynchronously within the session (default is FALSE). 
 #'   If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.execute.source(o, "myscript.R")
 #' opal.logout(o)
@@ -84,7 +84,7 @@ opal.execute.source <- function(opal, path, async=FALSE) {
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.load_package(o, 'stats')
 #' opal.logout(o)
@@ -102,7 +102,7 @@ opal.load_package <- function(opal, pkg) {
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.unload_package(o, 'stats')
 #' opal.logout(o)

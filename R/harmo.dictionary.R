@@ -16,7 +16,7 @@
 #' @param variables A data frame with one row per variable (column name) and then one column per property/attribute.
 #' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' data <- tibble::as_tibble(mtcars)
 #' variables <- tibble::tribble(
 #'   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
@@ -149,7 +149,7 @@ harmo.dictionary_apply <- function(tibble, variables, categories = NULL) {
 #' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute (Opal Excel format). If there are
 #' no categories, this parameter is optional.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' variables <- tibble::tribble(
 #'   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,

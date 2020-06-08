@@ -17,7 +17,7 @@ opal.workspace_rm(opal, ws, user = NULL)
 Remove a R workspace from a opal.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.workspace_rm(o, 'test')
 opal.logout(o)

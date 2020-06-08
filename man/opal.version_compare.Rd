@@ -19,7 +19,7 @@ Compare Opal version with the provided one. Note that a request must have been d
 in order to have a non-null Opal version.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.version_compare(o, "2.6.0")
 opal.logout(o)

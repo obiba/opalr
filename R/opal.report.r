@@ -64,7 +64,7 @@ opal.report <- function(input, output=NULL, progress=FALSE, verbose=FALSE, boot_
 #' @param align The alignment of columns: a character vector consisting of 'l' (left), 'c' (center) and/or 'r' (right); by default, numeric columns are right-aligned, and other columns are left-aligned; if align = NULL, the default alignment is used.
 #' @param caption	The table caption.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.as_md_table(opal.variables(o, 'datashield', 'CNSIM1'))
 #' opal.logout(o)

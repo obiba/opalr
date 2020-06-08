@@ -19,7 +19,7 @@ opal.valueset(opal, datasource, table, identifier)
 Get the values of an entity in a table.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.valueset(o, 'datashield', 'CNSIM1', '1008573362')
 opal.logout(o)

@@ -160,7 +160,7 @@ opal.file_cp <- function(opal, source, destination) {
 #' @param opal Opal object.
 #' @param path Path to the new folder in the Opal file system.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' # make a folder
 #' opal.file_mkdir(o, '/home/administrator/test')
@@ -182,7 +182,7 @@ opal.file_mkdir <- function(opal, path) {
 #' @param opal Opal object.
 #' @param path Path to the folder in the Opal file system.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' # list content of a folder
 #' opal.file_ls(o, '/home/administrator')
@@ -240,7 +240,7 @@ opal.file_ls <- function(opal, path) {
 #' @param opal Opal object.
 #' @param path Path to the file in the Opal file system.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' # remove a file
 #' opal.file_rm(o, '/home/administrator/export/some-data.csv')

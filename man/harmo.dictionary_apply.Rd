@@ -17,7 +17,7 @@ harmo.dictionary_apply(tibble, variables, categories = NULL)
 Apply the dictionary described in a Opal Excel format as attributes of the tibble's columns.
 }
 \examples{
-\donttest{
+\dontrun{
 data <- tibble::as_tibble(mtcars)
 variables <- tibble::tribble(
   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,

@@ -30,7 +30,7 @@ opal.post(
 Generic REST resource creation.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.post(o, 'some', 'resources', body='{"some":"value"}')
 opal.logout(o)

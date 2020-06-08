@@ -13,7 +13,7 @@ opal.symbols(opal)
 Get the R symbols available in the remote R session.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.symbols(o)
 opal.logout(o)

@@ -15,7 +15,7 @@ opal.projects(opal, df = TRUE)
 Get projects
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.projects(o)
 opal.logout(o)

@@ -17,7 +17,7 @@ dsadmin.rm_method(opal, name, type = "aggregate")
 Remove DataSHIELD method
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 dsadmin.rm_method(o, 'foo')
 opal.logout(o)

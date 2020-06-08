@@ -16,7 +16,7 @@ The result of the installed.packages() call
 List installed packages
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 oadmin.installed_packages(o)
 opal.logout(o)

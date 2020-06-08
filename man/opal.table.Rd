@@ -19,7 +19,7 @@ opal.table(opal, datasource, table, counts = FALSE)
 Get a table of a datasource
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.table(o, 'datashield', 'CNSIM1')
 opal.logout(o)
