@@ -64,8 +64,11 @@ harmo.table_get <- function(opal, project, table, variables = NULL, missings = T
 #' @param tibble The tibble object to be imported.
 #' @param project Project name where the table will be located.
 #' @param table Destination table name.
-#' @param overwrite If the destination table already exists, it will be replaced (deleted and then
-#' imported). Otherwise the table will be updated (data dictionaries merge may conflict). Default is TRUE.
+#' @param overwrite If the destination table already exists, it will be replaced (deleted/truncated and then
+#' imported). Otherwise the table will be updated (data dictionaries merge may conflict). Possible parameter values are: 
+#' 'all' (destination table is deleted), 'values' (destination table is truncated (i.e. only data are deleted), which means 
+#' that the original data dictionary will be merged with the provided one), and TRUE (equivalent of 'all'). Any other value 
+#' will perform an update of both the data and the data dictionary. Default is TRUE.
 #' @param force If the destination already exists, stop with an informative message if this flag is FALSE (default).
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to Opal.
 #' @param policy Identifiers policy: 'required' (each identifiers must be mapped prior importation (default)), 'ignore' (ignore unknown identifiers) and 'generate' (generate a system identifier for each unknown identifier).
@@ -89,12 +92,25 @@ harmo.table_save <- function(opal, tibble, project, table, overwrite = TRUE, for
   pb <- .newProgress(total = 7)
   .tickProgress(pb, tokens = list(what = paste0("Checking ", project, " project")))
   if (table %in% opal.datasource(opal, project)$table) {
-    if (overwrite) {
-      if (!force) {
-        stop("Destination table needs to be deleted. Use 'force' parameter to proceed.")
+    if (!is.null(overwrite) && !is.na(overwrite) && ((is.logical(overwrite) && overwrite) || overwrite %in% c('all', 'values'))) {
+      res <- tryCatch(opal.table(o, datasource = project, table = table), 
+                      error = function(cond) {
+                        NULL
+                      })
+      if (is.null(res)) {
+        .tickProgress(pb, tokens = list(what = paste0("Skipping overwrite of ", table, " from ", project)))
+      } else {
+        if (!force) {
+          stop("Destination table needs to be deleted or truncated. Use 'force' parameter to proceed.")
+        }
+        if (overwrite == 'values') {
+          .tickProgress(pb, tokens = list(what = paste0("Truncating ", table, " from ", project)))
+          opal.delete(opal, "datasource", project, "table", table, "valueSets") 
+        } else {
+          .tickProgress(pb, tokens = list(what = paste0("Deleting ", table, " from ", project)))
+          opal.delete(opal, "datasource", project, "table", table)  
+        }
       }
-      .tickProgress(pb, tokens = list(what = paste0("Deleting ", table, " from ", project)))
-      opal.delete(opal, "datasource", project, "table", table)
     } else {
       if (!force) {
         stop("Destination table will be updated. There could be data dictionary conflicts. Use 'force' parameter to proceed.")

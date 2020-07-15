@@ -26,8 +26,11 @@ harmo.table_save(
 
 \item{table}{Destination table name.}
 
-\item{overwrite}{If the destination table already exists, it will be replaced (deleted and then
-imported). Otherwise the table will be updated (data dictionaries merge may conflict). Default is TRUE.}
+\item{overwrite}{If the destination table already exists, it will be replaced (deleted/truncated and then
+imported). Otherwise the table will be updated (data dictionaries merge may conflict). Possible parameter values are: 
+'all' (destination table is deleted), 'values' (destination table is truncated (i.e. only data are deleted), which means 
+that the original data dictionary will be merged with the provided one), and TRUE (equivalent of 'all'). Any other value 
+will perform an update of both the data and the data dictionary. Default is TRUE.}
 
 \item{force}{If the destination already exists, stop with an informative message if this flag is FALSE (default).}
 
