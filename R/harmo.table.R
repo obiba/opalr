@@ -81,6 +81,8 @@ harmo.table_get <- function(opal, project, table, variables = NULL, missings = T
 #' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 #' # do some (meta)data transformations, then save in opal's database
 #' harmo.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = TRUE, force = TRUE)
+#' # or overwrite data only (keep original data dictionary)
+#' harmo.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = 'values', force = TRUE)
 #' opal.logout(o)
 #' }
 #' @export
@@ -93,7 +95,7 @@ harmo.table_save <- function(opal, tibble, project, table, overwrite = TRUE, for
   .tickProgress(pb, tokens = list(what = paste0("Checking ", project, " project")))
   if (table %in% opal.datasource(opal, project)$table) {
     if (!is.null(overwrite) && !is.na(overwrite) && ((is.logical(overwrite) && overwrite) || overwrite %in% c('all', 'values'))) {
-      res <- tryCatch(opal.table(o, datasource = project, table = table), 
+      res <- tryCatch(opal.table(opal, datasource = project, table = table), 
                       error = function(cond) {
                         NULL
                       })

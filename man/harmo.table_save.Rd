@@ -55,6 +55,8 @@ o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
 # do some (meta)data transformations, then save in opal's database
 harmo.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = TRUE, force = TRUE)
+# or overwrite data only (keep original data dictionary)
+harmo.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = 'values', force = TRUE)
 opal.logout(o)
 }
 }
