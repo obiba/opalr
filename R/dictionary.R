@@ -97,17 +97,6 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
     }
     rep(naValue, nrow(tbl))
   }
-  as.zeroOne <- function(value) {
-    if (is.null(value) || is.na(value)) {
-      0
-    } else if (is.logical(value) && value) {
-      1
-    } else if (is.character(value) && value == "1") {
-      1
-    } else {
-      0
-    }
-  }
   pb <- .newProgress(total = 1 + nrow(variables))
   # go through variable descriptions
   for (i in 1:nrow(variables)) {
@@ -136,7 +125,7 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
       } else if (n == "occurrenceGroupe") {
         attrs <- applyAttribute(attrs, "opal.occurrence_group", var[[n]])
       } else if (n == "repeatable") {
-        attrs <- applyAttribute(attrs, "opal.repeatable", as.zeroOne(var[[n]]))
+        attrs <- applyAttribute(attrs, "opal.repeatable", .as.zeroOne(var[[n]]))
       } else if (n == "index") {
         attrs <- applyAttribute(attrs, "opal.index", var[[n]])
       } else if (n != "name") {
@@ -158,7 +147,7 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
               warning("Multilang labels are not supported yet")
             }
           } else if (n == "missing") {
-            missings <- as.logical(sapply(varcats[[n]], as.zeroOne))
+            missings <- as.logical(sapply(varcats[[n]], .as.zeroOne))
           }
         }
         attributes(tbl[[var$name]])$labels <- labels

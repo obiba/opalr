@@ -198,6 +198,22 @@
   if (getOption("opal.progress", TRUE)) progress$tick(tokens = tokens)
 }
 
+#' Turns a value into 0/1 numeric.
+#' @keywords internal
+.as.zeroOne <- function(value) {
+  if (is.null(value) || is.na(value)) {
+    0
+  } else if (is.logical(value) && value) {
+    1
+  } else if (is.character(value) && value == "1") {
+    1
+  } else if (is.numeric(value) && value == 1) {
+    1
+  } else {
+    0
+  }
+}
+
 #' @keywords internal
 .toJSONVariables <- function(table = NULL, variables, categories = NULL, pretty = FALSE) {
   varCols <- names(variables)
@@ -206,11 +222,9 @@
   if ("table" %in% varCols && !is.null(table)) {
     vars <- variables[variables$table == table,]
   }
-  
   is.empty <- function(x) {
     is.null(x) || is.na(x)
   }
-  
   varArray <- list()
   for (i in 1:nrow(vars)) {
     var <- vars[i,]
@@ -235,7 +249,7 @@
       varObj$referencedEntityType <- jsonlite::unbox(var$referencedEntityType)
     }
     if ("repeatable" %in% varCols && !is.empty(var$repeatable)) {
-      varObj$isRepeatable <- jsonlite::unbox(as.logical(var$repeatable))
+      varObj$isRepeatable <- jsonlite::unbox(as.logical(.as.zeroOne(var$repeatable)))
     } else {
       varObj$isRepeatable <- jsonlite::unbox(FALSE)
     }
@@ -271,7 +285,7 @@
           cat <- cats[k,]
           catObj <- list(name = jsonlite::unbox(as.character(cat$name)))
           if ("missing" %in% names(cats) && !is.empty(cat$missing)) {
-            catObj$isMissing <- jsonlite::unbox(as.logical(cat$missing))
+            catObj$isMissing <- jsonlite::unbox(as.logical(.as.zeroOne(cat$missing)))
           } else {
             catObj$isMissing <- jsonlite::unbox(FALSE)
           }

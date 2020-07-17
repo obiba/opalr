@@ -22,7 +22,7 @@ test_that("dico applied to tibble", {
   variables <- dataset$variables
   categories <- dataset$categories
   
-  data <- harmo.dictionary_apply(data, variables, categories)
+  data <- dictionary.apply(data, variables, categories)
   attrs <- attributes(data$cyl)
   attrs
   expect_equal(attrs$label, "(en) Cyl label")
