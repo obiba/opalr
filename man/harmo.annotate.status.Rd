@@ -12,7 +12,7 @@ harmo.annotate.status(tibble, variables = NULL, status)
 \item{variables}{A character vector of variable names to be annotated. If NULL or empty, all
 the columns of the tibble will be annotated.}
 
-\item{status}{The harmonization status to apply: 'complete', 'undetermined' or 'impossible'. If NULL, the annotation will be deleted.}
+\item{status}{The harmonization status to apply: 'complete', 'undetermined', 'impossible' or 'na'. If NULL, the annotation will be deleted.}
 }
 \value{
 The annotated tibble
@@ -24,7 +24,7 @@ is described by the "status" vocabulary in the "Mlstr_harmo" taxonomy.
 \examples{
 \dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
-cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 cqx <- harmo.annotate.status(cqx, 
   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
   status = "complete")

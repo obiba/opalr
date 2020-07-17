@@ -67,6 +67,17 @@ harmo.dictionary_apply <- function(tibble, variables, categories = NULL) {
     }
     rep(naValue, nrow(tbl))
   }
+  as.zeroOne <- function(value) {
+    if (is.null(value) || is.na(value)) {
+      0
+    } else if (is.logical(value) && value) {
+      1
+    } else if (is.character(value) && value == "1") {
+      1
+    } else {
+      0
+    }
+  }
   pb <- .newProgress(total = 1 + nrow(variables))
   # go through variable descriptions
   for (i in 1:nrow(variables)) {
@@ -95,7 +106,7 @@ harmo.dictionary_apply <- function(tibble, variables, categories = NULL) {
       } else if (n == "occurrenceGroupe") {
         attrs <- applyAttribute(attrs, "opal.occurrence_group", var[[n]])
       } else if (n == "repeatable") {
-        attrs <- applyAttribute(attrs, "opal.repeatable", var[[n]])
+        attrs <- applyAttribute(attrs, "opal.repeatable", as.zeroOne(var[[n]]))
       } else if (n == "index") {
         attrs <- applyAttribute(attrs, "opal.index", var[[n]])
       } else if (n != "name") {
@@ -138,9 +149,9 @@ harmo.dictionary_apply <- function(tibble, variables, categories = NULL) {
   tbl
 }
 
-#' Update the dictionary of a Opal table
+#' Update the dictionary of a Opal table (deprecated)
 #' 
-#' Directly update the dictionary of a Opal table with the provided dictionary.
+#' Deprecated: use opal.table_dictionary_update instead.
 #' 
 #' @param opal Opal connection object.
 #' @param project Project name where the table will be located.
@@ -163,11 +174,11 @@ harmo.dictionary_apply <- function(tibble, variables, categories = NULL) {
 #'   "cyl", "6", 0, "Six", "Six",
 #'   "cyl", "8", 1, "Height", "Huit"
 #' )
-#' harmo.dictionary_update(o, "test", "mtcars", variables, categories)
+#' opal.table_dictionary_update(o, "test", "mtcars", variables, categories)
 #' opal.logout(o)
 #' }
 #' @export
 harmo.dictionary_update <- function(opal, project, table, variables, categories = NULL) {
-  body <- .toJSONVariables(table=table, variables = variables, categories = categories)
-  opal.post(opal, "datasource", project, "table", table, "variables", contentType = "application/json", body = body)
+  warning("Deprecated: harmo.dictionary_update() is deprecated by opal.table_dictionary_update()")
+  opal.table_dictionary_update(opal, project, table, variables, categories = categories)
 }

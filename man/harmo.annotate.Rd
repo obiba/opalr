@@ -34,7 +34,7 @@ Apply or remove an annotation from a set of variables.
 \examples{
 \dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
-cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 cqx <- harmo.annotate(cqx, 
   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
   taxonomy = "Mlstr_area", 

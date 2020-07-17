@@ -21,7 +21,7 @@
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
-#' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+#' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' annot <- harmo.annotations(cqx, taxonomy = "Mlstr_harmo", vocabulary = "status")
 #' opal.logout(o)
 #' }
@@ -78,7 +78,7 @@ harmo.annotations <- function(tibble, variables = NULL, taxonomy = NULL, vocabul
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
-#' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+#' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' cqx <- harmo.annotate(cqx, 
 #'   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
 #'   taxonomy = "Mlstr_area", 
@@ -129,12 +129,12 @@ harmo.annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area", vo
 #' @param tibble Tibble to be annotated.
 #' @param variables A character vector of variable names to be annotated. If NULL or empty, all
 #' the columns of the tibble will be annotated.
-#' @param status The harmonization status to apply: 'complete', 'undetermined' or 'impossible'. If NULL, the annotation will be deleted.
+#' @param status The harmonization status to apply: 'complete', 'undetermined', 'impossible' or 'na'. If NULL, the annotation will be deleted.
 #' @return The annotated tibble
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
-#' cqx <- harmo.table_get(o, "CPTP", "Cag_coreqx")
+#' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' cqx <- harmo.annotate.status(cqx, 
 #'   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
 #'   status = "complete")
@@ -142,7 +142,7 @@ harmo.annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area", vo
 #' }
 #' @export
 harmo.annotate.status <- function(tibble, variables = NULL, status) {
-  if (is.null(status) || status %in% c("complete", "undetermined", "impossible")) {
+  if (is.null(status) || status %in% c("complete", "undetermined", "impossible", "na")) {
     harmo.annotate(tibble, variables, "Mlstr_harmo", "status", status)
   } else {
     stop("Not a valid harmonization status: ", status, call. = FALSE)
