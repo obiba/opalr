@@ -128,7 +128,7 @@ harmo.dictionary_apply <- function(tibble, variables, categories = NULL) {
               warning("Multilang labels are not supported yet")
             }
           } else if (n == "missing") {
-            missings <- as.logical(varcats[[n]])
+            missings <- as.logical(sapply(varcats[[n]], as.zeroOne))
           }
         }
         attributes(tbl[[var$name]])$labels <- labels
