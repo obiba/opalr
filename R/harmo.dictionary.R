@@ -151,7 +151,7 @@ harmo.dictionary_apply <- function(tibble, variables, categories = NULL) {
 
 #' Update the dictionary of a Opal table (deprecated)
 #' 
-#' Deprecated: use opal.table_dictionary_update instead.
+#' Deprecated: use \link{opal.table_dictionary_update} instead.
 #' 
 #' @param opal Opal connection object.
 #' @param project Project name where the table will be located.

@@ -19,7 +19,7 @@ harmo.dictionary_update(opal, project, table, variables, categories = NULL)
 no categories, this parameter is optional.}
 }
 \description{
-Deprecated: use opal.table_dictionary_update instead.
+Deprecated: use \link{opal.table_dictionary_update} instead.
 }
 \examples{
 \dontrun{

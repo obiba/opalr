@@ -173,7 +173,7 @@ opal.table_truncate <- function(opal, project, table) {
 
 #' Save a local tibble as a Opal table (deprecated)
 #'
-#' Deprecated: use opal.table_save instead.
+#' Deprecated: use \link{opal.table_save} instead.
 #'
 #' @param opal Opal connection object.
 #' @param tibble The tibble object to be imported.

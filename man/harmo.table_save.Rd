@@ -44,7 +44,7 @@ See also \link{opal.table_truncate} function.}
 An invisible logical indicating whether the destination table exists.
 }
 \description{
-Deprecated: use opal.table_save instead.
+Deprecated: use \link{opal.table_save} instead.
 }
 \examples{
 \dontrun{
