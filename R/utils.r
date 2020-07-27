@@ -138,7 +138,7 @@
     TRUE
   } else {
     str <- as.character(value)
-    if (nchar(str) == 0) {
+    if (length(str) == 1 && nchar(str) == 0) {
       TRUE
     } else {
       FALSE

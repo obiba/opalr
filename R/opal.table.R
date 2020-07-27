@@ -107,48 +107,74 @@ opal.table_delete <- function(opal, project, table, silent = TRUE) {
 
 #' Check a Opal table exists
 #'
-#' Check whether a Opal table exists (and is visible).
+#' Check whether a Opal table exists (and is visible). Optionally check wether the table is a raw table 
+#' or a view.
 #'
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name.
+#' @param view Logical to perform an additional check wether the table is a view (TRUE) or a raw table (FALSE).
+#' If NULL or NA, the table can be indifferently a view or a raw table. Default is NA.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' # check table exists
 #' opal.table_exists(o, "CNSIM", "CNSIM1")
+#' # check table exists AND is a NOT a view
+#' opal.table_exists(o, "CNSIM", "CNSIM1", view = FALSE)
+#' # check table exists AND is a view
+#' opal.table_exists(o, "CNSIM", "CNSIM1", view = TRUE)
 #' opal.logout(o)
 #' }
 #' @export
-opal.table_exists <- function(opal, project, table) {
+opal.table_exists <- function(opal, project, table, view = NA) {
   res <- tryCatch(opal.table(opal, datasource = project, table = table), 
                   error = function(cond) {
                     NULL
                   })
-  !is.null(res)
+  if (!is.null(res) && !.is.empty(view) && is.logical(view)) {
+    if (view) {
+      !is.null(res$viewLink)
+    } else {
+      is.null(res$viewLink)
+    }
+  } else {
+    !is.null(res)  
+  }
 }
 
-#' Create a Opal table
+#' Create a Opal table or view
 #'
-#' Create a Opal table if it does not already exist.
+#' Create a Opal table if it does not already exist. If a list of table references are provided,
+#' the table will be a view. The table/view created will have no dictionary, use \link{opal.table_dictionary_update}
+#' to apply a dictionary.
 #'
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name to be deleted.
-#' @param type Entity type, default is "Participant".
-#' @param silent Warn if the table already exists, default is TRUE.
+#' @param type Entity type, default is "Participant". Ignored if some table references are provided.
+#' @param tables List of the fully qualified table names that are referred by the view.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' # make a raw table
 #' opal.table_create(o, "CNSIM", "CNSIM4")
+#' # make a view
+#' opal.table_create(o, "CNSIM", "CNSIM123", tables = c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
 #' opal.logout(o)
 #' }
 #' @export
-opal.table_create <- function(opal, project, table, type = "Participant", silent = TRUE) {
+opal.table_create <- function(opal, project, table, type = "Participant", tables = NULL) {
   if (!opal.table_exists(opal, project, table)) {
-    body <- jsonlite::toJSON(list(name = table, entityType = type), auto_unbox = TRUE)
-    ignore <- opal.post(opal, "datasource", project, "tables", contentType = "application/json", body = body)  
-  } else if (!silent) {
-    warning("Table '", table,"' already exists in project '", project, "'")
+    if (.is.empty(tables)) {
+      body <- jsonlite::toJSON(list(name = table, entityType = type), auto_unbox = TRUE)
+      ignore <- opal.post(opal, "datasource", project, "tables", contentType = "application/json", body = body)
+    } else {
+      body <- jsonlite::toJSON(list(name = table, from = tables, "Magma.VariableListViewDto.view" = list(variables = list())), auto_unbox = TRUE)
+      ignore <- opal.post(opal, "datasource", project, "views", contentType = "application/json", body = body)    
+    }
+  } else {
+    stop("Table '", table,"' already exists in project '", project, "'.")
   }
 }
 
@@ -168,7 +194,11 @@ opal.table_create <- function(opal, project, table, type = "Participant", silent
 #' }
 #' @export
 opal.table_truncate <- function(opal, project, table) {
-  ignore <- opal.delete(opal, "datasource", project, "table", table, "valueSets")
+  if (opal.table_exists(opal, project = project, table = table, view = FALSE)) {
+    ignore <- opal.delete(opal, "datasource", project, "table", table, "valueSets")  
+  } else {
+    warning("Table '", table,"' does not exist in project '", project, "' or is a view.")
+  }
 }
 
 #' Save a local tibble as a Opal table (deprecated)
@@ -246,7 +276,7 @@ opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, forc
   }
   pb <- .newProgress(total = 7)
   .tickProgress(pb, tokens = list(what = paste0("Checking ", project, " project")))
-  if (opal.table_exists(opal, project, table)) {
+  if (opal.table_exists(opal, project, table, view = FALSE)) {
     if (overwrite) {
       if (!force) {
         stop("Destination table needs to be deleted or truncated. Use 'force' parameter to proceed.")
@@ -260,6 +290,8 @@ opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, forc
       }
       .tickProgress(pb, tokens = list(what = paste0("Merging with ", table, " from ", project)))
     }
+  } else if (opal.table_exists(opal, project, table, view = TRUE)) {
+    stop("Destination table is a view.")
   } else {
     .tickProgress(pb, tokens = list(what = paste0("Creating table ", table, " in ", project)))
     opal.table_create(opal, project, table, type = type)

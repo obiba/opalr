@@ -23,8 +23,10 @@ Setup the connection with Opal:
 
 ```{r eval=FALSE}
 library(opalr)
-o <- opal.login("administrator", "password", "https://opal-demo.obiba.org")
+o <- opal.login("administrator", "password", url = "https://opal-demo.obiba.org")
 ```
+
+## Project Operations
 
 List the projects:
 
@@ -44,17 +46,47 @@ List the tables in a datasource, with their count of variables and entities:
 opal.tables(o, datasource = "CPTP", counts = TRUE)
 ```
 
-List the variables of a table and get the details of the variable annotations (one column per variable attribute with namespace):
+## Table Operations
+
+The table object can be retrieved as follow:
 
 ```{r eval=FALSE}
-opal.variables(o, datasource = "CPTP", table = "Coreqx_final")
+opal.table(o, "CPTP", "Coreqx_final", counts = TRUE)
 ```
+
+
+
+### Table Dictionary Operations
+
+List the variables of a table and get the details of the variable annotations (one column per variable attribute with namespace). This list also includes the category properties:
+
+```{r eval=FALSE}
+opal.variables(o, "CPTP", "Coreqx_final")
+```
+
+It is also possible to get the full data dictionary of a table, as separate data frames of variables and categories. This is the recommended format for working with a data dictionary:
+
+```{r eval=FALSE}
+dico <- opal.table_dictionary_get(o, "CPTP", "Coreqx_final")
+dico$variables
+dico$categories
+```
+
+### Table Values Operations
 
 Get the values in a table for a specific entity:
 
 ```{r eval=FALSE}
-opal.valueset(o, datasource = "FNAC", table = "FNAC", identifier = "1000502517535681229")
+opal.valueset(o, "FNAC", "FNAC", identifier = "1000502517535681229")
 ```
+
+It is possible to truncate a table, i.e. delete ALL the values of a table (which must not be a view):
+
+```{r eval=FALSE}
+opal.table_truncate(o, "FNAC", "FNAC")
+```
+
+## Taxonomy Operations
 
 Variable attributes can be described by taxonomies. List the taxonomies:
 
