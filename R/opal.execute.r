@@ -62,7 +62,7 @@ opal.execute.source <- function(opal, path, async=FALSE) {
   if(is.list(opal)){
     lapply(opal, function(o){opal.execute.source(o, path, async=async)})
   } else {
-    tmp <- paste0("/tmp/", sample(1000:9999, 1), "/")
+    tmp <- paste0("/tmp/.", sample(1000000:9999999, 1), "/")
     opal.file_mkdir(opal, tmp)
     opal.file_upload(opal, path, tmp)
     filename <- basename(path)
