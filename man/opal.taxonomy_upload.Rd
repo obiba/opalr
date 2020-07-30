@@ -18,7 +18,7 @@ will fail if the taxonomy already exists, see \link{opal.taxonomy_delete}.
 \examples{
 \dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
-opal.taxonomy_save(o, '~/some/dir/taxo.yml')
+opal.taxonomy_upload(o, '~/some/dir/taxo.yml')
 opal.logout(o)
 }
 }

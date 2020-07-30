@@ -107,13 +107,13 @@ opal.table_delete <- function(opal, project, table, silent = TRUE) {
 
 #' Check a Opal table exists
 #'
-#' Check whether a Opal table exists (and is visible). Optionally check wether the table is a raw table 
+#' Check whether a Opal table exists (and is visible). Optionally check whether the table is a raw table 
 #' or a view.
 #'
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name.
-#' @param view Logical to perform an additional check wether the table is a view (TRUE) or a raw table (FALSE).
+#' @param view Logical to perform an additional check whether the table is a view (TRUE) or a raw table (FALSE).
 #' If NULL or NA, the table can be indifferently a view or a raw table. Default is NA.
 #' @examples 
 #' \dontrun{

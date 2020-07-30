@@ -17,13 +17,6 @@ have the taxonomy name with the '.yml' extension and will be located in the work
 \description{
 Download a taxonomy stored in a file in YAML format.
 }
-\examples{
-\dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
-opal.taxonomy_save(o, '~/some/dir/taxo.yml')
-opal.logout(o)
-}
-}
 \seealso{
 Other taxonomy functions: 
 \code{\link{opal.taxonomies}()},
