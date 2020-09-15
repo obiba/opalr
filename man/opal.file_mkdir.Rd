@@ -4,22 +4,24 @@
 \alias{opal.file_mkdir}
 \title{Make a folder}
 \usage{
-opal.file_mkdir(opal, path)
+opal.file_mkdir(opal, path, parents = FALSE)
 }
 \arguments{
 \item{opal}{Opal object.}
 
 \item{path}{Path to the new folder in the Opal file system.}
+
+\item{parents}{No error if existing, make parent directories as needed. Default is FALSE.}
 }
 \description{
-Make a folder in the Opal file system. Does not create ancestors, i.e. the call will fail if the 
-parent folder does not exist.
+Make a folder in the Opal file system. Use the parents parameter to ignore if it already 
+exist and to create parent folders.
 }
 \examples{
 \dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # make a folder
-opal.file_mkdir(o, '/home/administrator/test')
+opal.file_mkdir(o, '/home/administrator/test', parents = TRUE)
 opal.logout(o)
 }
 }
@@ -28,6 +30,7 @@ Other file functions:
 \code{\link{opal.file_cp}()},
 \code{\link{opal.file_download}()},
 \code{\link{opal.file_ls}()},
+\code{\link{opal.file_mkdir_tmp}()},
 \code{\link{opal.file_mv}()},
 \code{\link{opal.file_read}()},
 \code{\link{opal.file_rm}()},

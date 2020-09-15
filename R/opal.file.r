@@ -153,25 +153,66 @@ opal.file_cp <- function(opal, source, destination) {
 
 #' Make a folder
 #' 
-#' Make a folder in the Opal file system. Does not create ancestors, i.e. the call will fail if the 
-#' parent folder does not exist. 
+#' Make a folder in the Opal file system. Use the parents parameter to ignore if it already 
+#' exist and to create parent folders.
 #' 
 #' @family file functions
 #' @param opal Opal object.
 #' @param path Path to the new folder in the Opal file system.
+#' @param parents No error if existing, make parent directories as needed. Default is FALSE. 
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' # make a folder
-#' opal.file_mkdir(o, '/home/administrator/test')
+#' opal.file_mkdir(o, '/home/administrator/test', parents = TRUE)
 #' opal.logout(o)
 #' }
 #' @export
-opal.file_mkdir <- function(opal, path) {
-  location <- append("files", strsplit(substring(path, 2), "/")[[1]])
-  folder <- location[[length(location)]]
-  location <- location[1:length(location)-1]
-  res <- opal.post(opal, location, body=folder, contentType='text/plain')
+opal.file_mkdir <- function(opal, path, parents = FALSE) {
+  segments <- strsplit(substring(path, 2), "/")[[1]]
+  if (parents) {
+    subpath <- ""
+    for (i in 1:length(segments)) {
+      parentpath <- subpath
+      segment <- segments[[i]]
+      subpath <- paste0(parentpath, "/", segment)
+      if (!(segment %in% opal.file_ls(opal, ifelse(parentpath == "", "/", parentpath))$name)) {
+        opal.file_mkdir(opal, subpath, parents = FALSE)
+      }
+    }
+  } else {
+    location <- append("files", segments)
+    folder <- location[[length(location)]]
+    location <- location[1:length(location)-1]
+    res <- opal.post(opal, location, body=folder, contentType='text/plain') 
+  }
+}
+
+#' Make a temporary folder
+#' 
+#' Make a temporary folder in the Opal file system (make sure it does not exists).
+#' 
+#' @family file functions
+#' @param opal Opal object.
+#' @return The path of the created folder.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' # make a folder
+#' path <- opal.file_mkdir_tmp(o)
+#' opal.logout(o)
+#' }
+#' @export
+opal.file_mkdir_tmp <- function(opal) {
+  tmpName <- sample(1000000:9999999, 1)
+  tmpExists <- tmpName %in% opal.file_ls(opal, "/tmp")$name
+  while(tmpExists) {
+    tmpName <- sample(1000000:9999999, 1)
+    tmpExists <- tmpName %in% opal.file_ls(opal, "/tmp")$name
+  }
+  tmp <- paste0("/tmp/.", tmpName, "/")
+  opal.file_mkdir(opal, tmp)
+  tmp
 }
 
 #' List content of a folder
