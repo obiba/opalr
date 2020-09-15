@@ -13,11 +13,11 @@ opal.table_exists(opal, project, table, view = NA)
 
 \item{table}{Table name.}
 
-\item{view}{Logical to perform an additional check wether the table is a view (TRUE) or a raw table (FALSE).
+\item{view}{Logical to perform an additional check whether the table is a view (TRUE) or a raw table (FALSE).
 If NULL or NA, the table can be indifferently a view or a raw table. Default is NA.}
 }
 \description{
-Check whether a Opal table exists (and is visible). Optionally check wether the table is a raw table 
+Check whether a Opal table exists (and is visible). Optionally check whether the table is a raw table 
 or a view.
 }
 \examples{

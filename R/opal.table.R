@@ -146,13 +146,14 @@ opal.table_exists <- function(opal, project, table, view = NA) {
 #' Create a Opal table or view
 #'
 #' Create a Opal table if it does not already exist. If a list of table references are provided,
-#' the table will be a view. The table/view created will have no dictionary, use \link{opal.table_dictionary_update}
-#' to apply a dictionary.
+#' the table will be a view. The table/view created will have no dictionary, use 
+#' \link{opal.table_dictionary_update} to apply a dictionary.
 #'
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name to be deleted.
-#' @param type Entity type, default is "Participant". Ignored if some table references are provided.
+#' @param type Entity type, default is "Participant". Ignored if some table references are 
+#' provided.
 #' @param tables List of the fully qualified table names that are referred by the view.
 #' @examples 
 #' \dontrun{
@@ -160,7 +161,8 @@ opal.table_exists <- function(opal, project, table, view = NA) {
 #' # make a raw table
 #' opal.table_create(o, "CNSIM", "CNSIM4")
 #' # make a view
-#' opal.table_create(o, "CNSIM", "CNSIM123", tables = c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
+#' opal.table_create(o, "CNSIM", "CNSIM123", 
+#'                   tables = c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
 #' opal.logout(o)
 #' }
 #' @export
@@ -243,12 +245,16 @@ harmo.table_save <- function(opal, tibble, project, table, overwrite = TRUE, for
 #' @param tibble The tibble object to be imported.
 #' @param project Project name where the table will be located.
 #' @param table Destination table name.
-#' @param overwrite If the destination table already exists, it will be replaced (deleted and then
-#' imported). Otherwise the table will be updated (data dictionaries merge may conflict). Default is TRUE.
-#' See also \link{opal.table_truncate} function.
-#' @param force If the destination already exists, stop with an informative message if this flag is FALSE (default).
+#' @param overwrite If the destination table already exists, it will be replaced (deleted, 
+#' re-created with associated permissions reinstated and then imported). Otherwise the table
+#' will be updated (data dictionaries merge may conflict). Default  is TRUE. See 
+#' also \link{opal.table_truncate} function.
+#' @param force If the destination already exists, stop with an informative message if this flag 
+#' is FALSE (default).
 #' @param identifiers Name of the identifiers mapping to use when assigning entities to Opal.
-#' @param policy Identifiers policy: 'required' (each identifiers must be mapped prior importation (default)), 'ignore' (ignore unknown identifiers) and 'generate' (generate a system identifier for each unknown identifier).
+#' @param policy Identifiers policy: 'required' (each identifiers must be mapped prior importation 
+#' (default)), ignore' (ignore unknown identifiers) and 'generate' (generate a system identifier for 
+#' each unknown identifier).
 #' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
 #' @param type Entity type (what the data are about). Default is 'Participant'
 #' @return An invisible logical indicating whether the destination table exists.

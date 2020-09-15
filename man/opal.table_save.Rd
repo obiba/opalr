@@ -26,15 +26,19 @@ opal.table_save(
 
 \item{table}{Destination table name.}
 
-\item{overwrite}{If the destination table already exists, it will be replaced (deleted and then
-imported). Otherwise the table will be updated (data dictionaries merge may conflict). Default is TRUE.
-See also \link{opal.table_truncate} function.}
+\item{overwrite}{If the destination table already exists, it will be replaced (deleted, 
+re-created with associated permissions reinstated and then imported). Otherwise the table
+will be updated (data dictionaries merge may conflict). Default  is TRUE. See 
+also \link{opal.table_truncate} function.}
 
-\item{force}{If the destination already exists, stop with an informative message if this flag is FALSE (default).}
+\item{force}{If the destination already exists, stop with an informative message if this flag 
+is FALSE (default).}
 
 \item{identifiers}{Name of the identifiers mapping to use when assigning entities to Opal.}
 
-\item{policy}{Identifiers policy: 'required' (each identifiers must be mapped prior importation (default)), 'ignore' (ignore unknown identifiers) and 'generate' (generate a system identifier for each unknown identifier).}
+\item{policy}{Identifiers policy: 'required' (each identifiers must be mapped prior importation 
+(default)), ignore' (ignore unknown identifiers) and 'generate' (generate a system identifier for 
+each unknown identifier).}
 
 \item{id.name}{The name of the column representing the entity identifiers. Default is 'id'.}
 

@@ -13,14 +13,15 @@ opal.table_create(opal, project, table, type = "Participant", tables = NULL)
 
 \item{table}{Table name to be deleted.}
 
-\item{type}{Entity type, default is "Participant". Ignored if some table references are provided.}
+\item{type}{Entity type, default is "Participant". Ignored if some table references are 
+provided.}
 
 \item{tables}{List of the fully qualified table names that are referred by the view.}
 }
 \description{
 Create a Opal table if it does not already exist. If a list of table references are provided,
-the table will be a view. The table/view created will have no dictionary, use \link{opal.table_dictionary_update}
-to apply a dictionary.
+the table will be a view. The table/view created will have no dictionary, use 
+\link{opal.table_dictionary_update} to apply a dictionary.
 }
 \examples{
 \dontrun{
@@ -28,7 +29,8 @@ o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # make a raw table
 opal.table_create(o, "CNSIM", "CNSIM4")
 # make a view
-opal.table_create(o, "CNSIM", "CNSIM123", tables = c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
+opal.table_create(o, "CNSIM", "CNSIM123", 
+                  tables = c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
 opal.logout(o)
 }
 }
