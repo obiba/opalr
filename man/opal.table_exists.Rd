@@ -4,7 +4,7 @@
 \alias{opal.table_exists}
 \title{Check a Opal table exists}
 \usage{
-opal.table_exists(opal, project, table)
+opal.table_exists(opal, project, table, view = NA)
 }
 \arguments{
 \item{opal}{Opal connection object.}
@@ -12,14 +12,23 @@ opal.table_exists(opal, project, table)
 \item{project}{Project name where the table is located.}
 
 \item{table}{Table name.}
+
+\item{view}{Logical to perform an additional check wether the table is a view (TRUE) or a raw table (FALSE).
+If NULL or NA, the table can be indifferently a view or a raw table. Default is NA.}
 }
 \description{
-Check whether a Opal table exists (and is visible).
+Check whether a Opal table exists (and is visible). Optionally check wether the table is a raw table 
+or a view.
 }
 \examples{
 \dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+# check table exists
 opal.table_exists(o, "CNSIM", "CNSIM1")
+# check table exists AND is a NOT a view
+opal.table_exists(o, "CNSIM", "CNSIM1", view = FALSE)
+# check table exists AND is a view
+opal.table_exists(o, "CNSIM", "CNSIM1", view = TRUE)
 opal.logout(o)
 }
 }

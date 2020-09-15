@@ -5,8 +5,10 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Opal Projects API}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 [Opal](https://www.obiba.org/pages/products/opal/) stores data and meta-data in projects that are accessible through web services. See the [Variables and Data](http://opaldoc.obiba.org/en/latest/variables-data.html) documentation page that explains the data model of Opal. The Opal R package exposes projects related functions:
@@ -19,12 +21,16 @@ vignette: >
 
 Note that these functions do not create a R session on the server side: it is only accessing the content of the Opal server (permission checks apply).
 
+## Setup
+
 Setup the connection with Opal:
 
 ```{r eval=FALSE}
 library(opalr)
-o <- opal.login("administrator", "password", "https://opal-demo.obiba.org")
+o <- opal.login("administrator", "password", url = "https://opal-demo.obiba.org")
 ```
+
+## Project Operations
 
 List the projects:
 
@@ -41,20 +47,113 @@ opal.datasources(o)
 List the tables in a datasource, with their count of variables and entities:
 
 ```{r eval=FALSE}
-opal.tables(o, datasource = "CPTP", counts = TRUE)
+opal.tables(o, "CNSIM", counts = TRUE)
 ```
 
-List the variables of a table and get the details of the variable annotations (one column per variable attribute with namespace):
+## Table Operations
+
+The table object can be retrieved as follow:
 
 ```{r eval=FALSE}
-opal.variables(o, datasource = "CPTP", table = "Coreqx_final")
+opal.table(o, "CNSIM", "CNSIM1", counts = TRUE)
 ```
 
-Get the values in a table for a specific entity:
+The existence of a table can be checked:
 
 ```{r eval=FALSE}
-opal.valueset(o, datasource = "FNAC", table = "FNAC", identifier = "1000502517535681229")
+opal.table_exists(o, "CNSIM", "CNSIM1")
 ```
+
+And more specifically, it is easy to verify whether a table is a view or not:
+
+```{r eval=FALSE}
+opal.table_exists(o, "CNSIM", "CNSIM1", view = TRUE)
+```
+
+A table can be created, either as a raw table or a view:
+
+```{r eval=FALSE}
+# drop table if it exists
+opal.table_delete(o, "CNSIM", "CNSIM123")
+# then create a view, no variables
+opal.table_create(o, "CNSIM", "CNSIM123", tables = c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
+opal.table(o, "CNSIM", "CNSIM123", counts = TRUE)
+```
+
+
+### Table Dictionary Operations
+
+List the variables of a table and get the details of the variable annotations (one column per variable attribute with namespace). This list also includes the category properties:
+
+```{r eval=FALSE}
+opal.variables(o, "CNSIM", "CNSIM1")
+```
+
+It is also possible to get the full data dictionary of a table, as separate data frames of variables and categories. This is the recommended format for working with a data dictionary:
+
+```{r eval=FALSE}
+dico <- opal.table_dictionary_get(o, "CNSIM", "CNSIM1")
+dico$variables
+dico$categories
+```
+
+Here we modify the data dictionary by appending a derivation script to each of the variables:
+
+```{r eval=FALSE}
+dico$variables$script <- paste0("$('", dico$variables$name, "')")
+dico$variables
+```
+
+Then we apply this derived variables dictionary to the view we have previously created and verify the counts of columns (variables) and rows (entities) in this table:
+
+```{r eval=FALSE}
+opal.table_dictionary_update(o, "CNSIM", "CNSIM123", variables = dico$variables, categories = dico$categories)
+opal.table(o, "CNSIM", "CNSIM123", counts = TRUE)
+```
+
+
+### Table Values Operations
+
+Get the values in a table for a specific Participant entity:
+
+```{r eval=FALSE}
+opal.valueset(o, "CNSIM", "CNSIM123", identifier = "1454")
+```
+
+Get all the values of a table in our local R session as a data.frame (tibble) object:
+
+```{r eval=FALSE}
+cnsim1 <- opal.table_get(o, "CNSIM", "CNSIM1")
+cnsim2 <- opal.table_get(o, "CNSIM", "CNSIM2")
+cnsim3 <- opal.table_get(o, "CNSIM", "CNSIM3")
+```
+
+Then do some alterations on this data.frame and save it back as a raw table:
+
+```{r eval=FALSE}
+cnsim123 <- rbind(cnsim1, cnsim2, cnsim3)
+cnsim123$DIS_AMI <- NULL
+cnsim123$DIS_CVA <- NULL
+cnsim123$DIS_DIAB <- NULL
+cnsim123
+opal.table_save(o, cnsim123, "CNSIM", "CNSIM", overwrite = TRUE, force = TRUE)
+opal.table(o, "CNSIM", "CNSIM", counts = TRUE)
+```
+
+Verify that this raw table resulting from the merge of the other tables as same values for a given Participant:
+
+```{r eval=FALSE}
+opal.valueset(o, "CNSIM", "CNSIM", identifier = "1454")
+```
+
+It is possible to truncate a table, i.e. delete ALL the values of a table (which must not be a view):
+
+```{r eval=FALSE}
+opal.table_truncate(o, "CNSIM", "CNSIM")
+opal.table(o, "CNSIM", "CNSIM", counts = TRUE)
+```
+
+## Taxonomy Operations
 
 Variable attributes can be described by taxonomies. List the taxonomies:
 
@@ -74,7 +173,7 @@ List the terms of a vocabulary:
 opal.terms(o, taxonomy = "Mlstr_area", vocabulary = "Lifestyle_behaviours")
 ```
 
-
+## Teardown
 
 Good practice is to free server resources by sending a logout request:
 
