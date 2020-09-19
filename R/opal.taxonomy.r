@@ -107,7 +107,7 @@ opal.taxonomy_delete <- function(opal, taxonomy) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
-#' opal.taxonomy_download(o, 'Mlstr_area', ~/some/dir/Mlstr_area.yml')
+#' opal.taxonomy_download(o, 'Mlstr_area', '~/some/dir/Mlstr_area.yml')
 #' opal.logout(o)
 #' }
 #' @export
