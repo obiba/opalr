@@ -534,7 +534,9 @@ opal.table_perm_add <- function(opal, project, table, subject, type = "user", pe
     stop("Not a valid table permission name: ", permission)
   }
   opal.table_perm_delete(opal, project, table, subject, type)
-  ignore <- opal.post(opal, "project", project, "permissions", "table", table, query = list(principal = subject, type = toupper(type), permission = perm))
+  for (i in 1:length(subject)) {
+    ignore <- opal.post(opal, "project", project, "permissions", "table", table, query = list(principal = subject[i], type = toupper(type), permission = perm))
+  }
 }
 
 #' Get the permissions on a table
@@ -562,18 +564,7 @@ opal.table_perm <- function(opal, project, table) {
                 'TABLE_VALUES_EDIT' = 'edit-values',
                 'TABLE_ALL' = 'administrate')
   acls <- opal.get(opal, "project", project, "permissions", "table", table)
-  subject <- c()
-  type <- c()
-  permission <- c()
-  if (!is.null(acls) && length(acls)>0) {
-    for (i in 1:length(acls)) {
-      acl <- acls[[i]]
-      subject <- append(subject, acl$subject$principal)
-      type <- append(type, tolower(acl$subject$type))
-      permission <- append(permission, perms[[acl$actions[[1]]]])
-    }
-  }
-  data.frame(subject, type, permission, stringsAsFactors = FALSE)
+  .aclsToDataFrame(perms, acls)
 }
 
 #' Delete a permission from a table
@@ -598,5 +589,10 @@ opal.table_perm_delete <- function(opal, project, table, subject, type = "user")
   if (!(tolower(type) %in% c("user", "group"))) {
     stop("Not a valid subject type: ", type)
   }
-  ignore <- opal.delete(opal, "project", project, "permissions", "table", table, query = list(principal = subject, type = toupper(type)))
+  if (length(subject)<1) {
+    stop("At least one subject is required")
+  }
+  for (i in 1:length(subject)) {
+    ignore <- opal.delete(opal, "project", project, "permissions", "table", table, query = list(principal = subject[i], type = toupper(type)))
+  }
 }

@@ -8,62 +8,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Get projects
-#' 
-#' @family datasource functions
-#' @param opal Opal object.
-#' @param df Return a data.frame (default is TRUE)
-#' @examples 
-#' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.projects(o)
-#' opal.logout(o)
-#' }
-#' @export
-opal.projects <- function(opal, df=TRUE) {
-  res <- opal.get(opal, "projects", query=list(digest="true"))
-  if (!df) {
-    return(res)
-  }
-  n <- length(res)
-  if (n > 0) {
-    name <- rep(NA, n)
-    title <- rep(NA, n)
-    tags <- rep(NA, n)
-    created <- rep(NA, n)
-    lastUpdate <- rep(NA, n)
-    for (i in 1:n) {
-      item <- res[[i]]
-      name[i] <- item$name
-      title[i] <- item$title
-      if (!is.null(item$tags)) {
-        tags[i] <- paste0(item$tags, collapse = "|")
-      }
-      created[i] <- item$timestamps$created
-      lastUpdate[i] <- item$timestamps$lastUpdate
-    }
-    data.frame(name, title, tags, created, lastUpdate)
-  } else {
-    data.frame()
-  }
-}
-
-#' Get a project
-#' 
-#' @family datasource functions
-#' @param opal Opal object.
-#' @param project Name of the project
-#' @examples 
-#' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.project(o, 'datashield')
-#' opal.logout(o)
-#' }
-#' @export
-opal.project <- function(opal, project) {
-  opal.get(opal, "project", project)
-}
-
 #' Get datasources
 #' 
 #' @family datasource functions

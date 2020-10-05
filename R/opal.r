@@ -562,3 +562,20 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 .is.verbose <- function() {
   getOption("verbose", FALSE)
 }
+
+#' Permsissions (ACLs) into a data frame.
+#' @keywords internal
+.aclsToDataFrame <- function(perms, acls) {
+  subject <- c()
+  type <- c()
+  permission <- c()
+  if (!is.null(acls) && length(acls)>0) {
+    for (i in 1:length(acls)) {
+      acl <- acls[[i]]
+      subject <- append(subject, acl$subject$principal)
+      type <- append(type, tolower(acl$subject$type))
+      permission <- append(permission, perms[[acl$actions[[1]]]])
+    }
+  }
+  data.frame(subject, type, permission, stringsAsFactors = FALSE)
+}
