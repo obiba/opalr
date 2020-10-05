@@ -18,7 +18,7 @@ The task completion is defined by its status: *SUCCEEDED*, *FAILED* or *CANCELED
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.task_wait(o, '1')
 opal.logout(o)
 }

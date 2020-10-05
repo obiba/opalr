@@ -20,7 +20,7 @@ Get a variable of a table
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
 opal.logout(o)
 }

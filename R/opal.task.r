@@ -17,7 +17,7 @@
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.tasks(o)
 #' opal.logout(o)
 #' }
@@ -62,7 +62,7 @@ opal.tasks <- function(opal, df=TRUE) {
 #' @param id Task identifier.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.task(o, '1')
 #' opal.logout(o)
 #' }
@@ -80,7 +80,7 @@ opal.task=function(opal, id) {
 #' @param id Task identifier.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.task_cancel(o, '1')
 #' opal.logout(o)
 #' }
@@ -99,7 +99,7 @@ opal.task_cancel=function(opal, id) {
 #' @param max Maximum time (in seconds) to wait for the task completion. Default is NULL (no maximum).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.task_wait(o, '1')
 #' opal.logout(o)
 #' }

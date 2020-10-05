@@ -28,7 +28,7 @@ Install a package from a DataSHIELD source repository on GitHub.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 dsadmin.install_github_package(o, 'dsOmics', username='isglobal-brge')
 opal.logout(o)
 }

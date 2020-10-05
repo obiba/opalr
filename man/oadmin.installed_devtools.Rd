@@ -14,15 +14,18 @@ Check if devtools package is installed.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 oadmin.installed_devtools(o)
 opal.logout(o)
 }
 }
 \seealso{
 Other administration functions: 
+\code{\link{oadmin.install_bioconductor_package}()},
 \code{\link{oadmin.install_devtools}()},
+\code{\link{oadmin.install_github_package}()},
 \code{\link{oadmin.install_github}()},
+\code{\link{oadmin.install_local_package}()},
 \code{\link{oadmin.install_package}()},
 \code{\link{oadmin.installed_packages}()},
 \code{\link{oadmin.installed_package}()},

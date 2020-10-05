@@ -18,7 +18,7 @@ Get the dictionary of a Opal table in a format that can be re-applied with opal.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 dico <- opal.table_dictionary_get(o, "CNSIM", "CNSIM1")
 opal.logout(o)
 }

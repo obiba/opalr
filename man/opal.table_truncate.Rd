@@ -19,7 +19,7 @@ not exist or is a view. See also \link{opal.table_delete}.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.table_truncate(o, "CNSIM", "CNSIM1")
 opal.logout(o)
 }

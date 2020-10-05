@@ -20,7 +20,7 @@
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.taxonomies(o)
 #' opal.logout(o)
 #' }
@@ -68,7 +68,7 @@ opal.taxonomies <- function(opal, locale="en", df=TRUE) {
 #' @param taxonomy Name of the taxonomy.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.taxonomy(o, 'Mlstr_area')
 #' opal.logout(o)
 #' }
@@ -86,7 +86,7 @@ opal.taxonomy <- function(opal, taxonomy) {
 #' @param taxonomy Name of the taxonomy.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.taxonomy_delete(o, 'Mlstr_area')
 #' opal.logout(o)
 #' }
@@ -106,7 +106,7 @@ opal.taxonomy_delete <- function(opal, taxonomy) {
 #' have the taxonomy name with the '.yml' extension and will be located in the working directory. 
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.taxonomy_download(o, 'Mlstr_area', '~/some/dir/Mlstr_area.yml')
 #' opal.logout(o)
 #' }
@@ -134,7 +134,7 @@ opal.taxonomy_download <- function(opal, taxonomy, destination=NULL) {
 #' @param path Path to the taxonomy YAML file.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.taxonomy_upload(o, '~/some/dir/taxo.yml')
 #' opal.logout(o)
 #' }
@@ -166,7 +166,7 @@ opal.taxonomy_upload <- function(opal, path) {
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.vocabularies(o, 'Mlstr_area')
 #' opal.logout(o)
 #' }
@@ -211,7 +211,7 @@ opal.vocabularies <- function(opal, taxonomy, locale="en", df=TRUE) {
 #' @param vocabulary Name of the vocabulary in the taxonomy
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.vocabulary(o, 'Mlstr_area', 'Lifestyle_behaviours')
 #' opal.logout(o)
 #' }
@@ -232,7 +232,7 @@ opal.vocabulary <- function(opal, taxonomy, vocabulary) {
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.terms(o, 'Mlstr_area', 'Lifestyle_behaviours')
 #' opal.logout(o)
 #' }

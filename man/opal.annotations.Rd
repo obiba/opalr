@@ -21,7 +21,7 @@ Directly retrieves from the table's data dictionary the variable annotations (at
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.annotations(o, 'CPTP', 'Coreqx_final')
 opal.logout(o)
 }

@@ -14,7 +14,7 @@
 #' @param opal Opal object.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.workspaces(o)
 #' opal.logout(o)
 #' }
@@ -52,7 +52,7 @@ opal.workspaces <- function(opal) {
 #' @param user The user name associated to the worskpace. If not provided, the current user is applied.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.workspace_rm(o, 'test')
 #' opal.logout(o)
 #' }
@@ -83,7 +83,7 @@ opal.workspace_rm <- function(opal, ws, user=NULL) {
 #' @param save Save the workspace with given identifier (default is TRUE, current session ID if TRUE).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.workspace_save(o, 'test')
 #' opal.logout(o)
 #' }

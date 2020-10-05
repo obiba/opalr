@@ -16,7 +16,7 @@ Get the list of asynchronous R commands in the remote R session.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.commands(o)
 opal.logout(o)
 }

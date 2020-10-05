@@ -180,7 +180,7 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
 #' no categories, this parameter is optional.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' variables <- tibble::tribble(
 #'   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
 #'   "mpg", "decimal", "Mpg label",  "Value1", "years", 0, 1,

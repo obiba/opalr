@@ -23,7 +23,7 @@ to the table's data dictionary. Variables that do not exists in the table are ig
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 annots <- opal.annotations(o, 'CPTP', 'Coreqx_final')
 opal.annotate(o, 'CPTP', 'Cag_coreqx', annots)
 opal.logout(o)

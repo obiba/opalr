@@ -18,7 +18,7 @@ Get file content from the Opal file system.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.file(o, '/home/administrator/joins/join-src-3.csv')
 opal.logout(o)
 }

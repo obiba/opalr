@@ -19,7 +19,7 @@
 #' @return A data frame in long format (one row per annotation). 
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.annotations(o, 'CPTP', 'Coreqx_final')
 #' opal.logout(o)
 #' }
@@ -60,7 +60,7 @@ opal.annotations <- function(opal, datasource, table) {
 #' of NA the annotation is removed).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' annots <- opal.annotations(o, 'CPTP', 'Coreqx_final')
 #' opal.annotate(o, 'CPTP', 'Cag_coreqx', annots)
 #' opal.logout(o)

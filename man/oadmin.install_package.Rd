@@ -21,15 +21,18 @@ Install package if not already available in Opal(s). To install the latest versi
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 oadmin.install_package(o, 'xxx')
 opal.logout(o)
 }
 }
 \seealso{
 Other administration functions: 
+\code{\link{oadmin.install_bioconductor_package}()},
 \code{\link{oadmin.install_devtools}()},
+\code{\link{oadmin.install_github_package}()},
 \code{\link{oadmin.install_github}()},
+\code{\link{oadmin.install_local_package}()},
 \code{\link{oadmin.installed_devtools}()},
 \code{\link{oadmin.installed_packages}()},
 \code{\link{oadmin.installed_package}()},

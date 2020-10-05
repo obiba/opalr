@@ -16,7 +16,7 @@ Remove a file or a folder from the Opal file system.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # remove a file
 opal.file_rm(o, '/home/administrator/export/some-data.csv')
 # remove recursively a folder

@@ -20,7 +20,7 @@ Assign a ResourceClient object to a R symbol in the current R session.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # assign a resource and make some operation on it
 opal.assign.resource(o, "D", "datashield.cram1")
 opal.execute(o, "class(D)")

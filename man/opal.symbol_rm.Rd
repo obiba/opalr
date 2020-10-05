@@ -16,7 +16,7 @@ Remove a symbol from the remote R session.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.symbol_rm(o, 'D')
 opal.logout(o)
 }

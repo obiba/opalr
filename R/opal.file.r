@@ -18,7 +18,7 @@
 #' @param key File encryption key: downloaded file will be a zip file with content encrypted (use 7zip to decrypt).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.file(o, '/home/administrator/joins/join-src-3.csv')
 #' opal.logout(o)
 #' }
@@ -44,7 +44,7 @@ opal.file <- function(opal, path, key=NULL) {
 #' @param key File encryption key: downloaded file will be a zip file with content encrypted (use 7zip to decrypt).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # download a file
 #' opal.file_download(o, '/home/administrator/joins/join-src-3.csv')
 #' # download a file encrypted by a key: resulting file is a zip with an encrypted content
@@ -109,7 +109,7 @@ opal.file_upload <- function(opal, source, destination) {
 #' @param destination New path to the file in the Opal file system.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # move a file to another folder
 #' opal.file_mv(o, '/home/administrator/export/some-data.csv', '/home/userx/deliverables')
 #' # rename a file
@@ -137,7 +137,7 @@ opal.file_mv <- function(opal, source, destination) {
 #' @param destination New path to the file in the Opal file system.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # copy a file to another folder
 #' opal.file_cp(o, '/home/administrator/export/some-data.csv', '/home/userx/deliverables')
 #' # copy recursively a folder to another folder
@@ -162,7 +162,7 @@ opal.file_cp <- function(opal, source, destination) {
 #' @param parents No error if existing, make parent directories as needed. Default is FALSE. 
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # make a folder
 #' opal.file_mkdir(o, '/home/administrator/test', parents = TRUE)
 #' opal.logout(o)
@@ -197,7 +197,7 @@ opal.file_mkdir <- function(opal, path, parents = FALSE) {
 #' @return The path of the created folder.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # make a folder
 #' path <- opal.file_mkdir_tmp(o)
 #' opal.logout(o)
@@ -226,7 +226,7 @@ opal.file_mkdir_tmp <- function(opal) {
 #' @param path Path to the folder in the Opal file system.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # list content of a folder
 #' opal.file_ls(o, '/home/administrator')
 #' opal.logout(o)
@@ -284,7 +284,7 @@ opal.file_ls <- function(opal, path) {
 #' @param path Path to the file in the Opal file system.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # remove a file
 #' opal.file_rm(o, '/home/administrator/export/some-data.csv')
 #' # remove recursively a folder
@@ -307,7 +307,7 @@ opal.file_rm <- function(opal, path) {
 #' @param destination Path to the destination file, relative to the R session workspace. Any required sub-folders will be created. If ommitted, file with same name will be written.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # user home expansion
 #' opal.file_write(o, "~/spss/DatabaseTest.sav")
 #' # rename file
@@ -339,7 +339,7 @@ opal.file_write <- function(opal, source, destination=NULL) {
 #' @param destination Path to the destination file or folder. Any required sub-folders will be created.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # read into folder
 #' opal.file_read(o,"DatabaseTest.sav", "/tmp")
 #' # read and rename

@@ -20,7 +20,7 @@
 #' @return A data frame in long format (one row per annotation).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' annot <- dictionary.annotations(cqx, taxonomy = "Mlstr_harmo", vocabulary = "status")
 #' opal.logout(o)
@@ -43,7 +43,7 @@ harmo.annotations <- function(tibble, variables = NULL, taxonomy = NULL, vocabul
 #' @return A data frame in long format (one row per annotation).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' annot <- dictionary.annotations(cqx, taxonomy = "Mlstr_harmo", vocabulary = "status")
 #' opal.logout(o)
@@ -100,7 +100,7 @@ dictionary.annotations <- function(tibble, variables = NULL, taxonomy = NULL, vo
 #' @return The annotated tibble
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' cqx <- dictionary.annotate(cqx, 
 #'   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
@@ -129,7 +129,7 @@ harmo.annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area", vo
 #' @return The annotated tibble
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' cqx <- dictionary.annotate(cqx, 
 #'   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
@@ -184,7 +184,7 @@ dictionary.annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area
 #' @return The annotated tibble
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' cqx <- dictionary.annotate.harmo_status(cqx, 
 #'   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
@@ -209,7 +209,7 @@ harmo.annotate.status <- function(tibble, variables = NULL, status) {
 #' @return The annotated tibble
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' cqx <- dictionary.annotate.harmo_status(cqx, 
 #'   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 

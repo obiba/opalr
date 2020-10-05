@@ -40,7 +40,7 @@ Assign a Opal table, or a R expression or a R object to a R symbol in the curren
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # assign a list of variables from table CNSIM1
 opal.assign(o, symbol="D", value="datashield.CNSIM1", variables=list("GENDER","LAB_TSC"))
 # assign all the variables matching 'LAB' from table HOP of opal object o

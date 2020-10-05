@@ -43,7 +43,7 @@ Assign a Opal table to a data.frame identified by a R symbol in the current R se
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # assign a list of variables from table CNSIM1
 opal.assign.table(o, symbol="D", value="datashield.CNSIM1", variables=list("GENDER","LAB_TSC"))
 opal.execute(o, "colnames(D)")

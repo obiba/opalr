@@ -29,7 +29,7 @@ Directly update the dictionary of a Opal table with the provided dictionary.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 variables <- tibble::tribble(
   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
   "mpg", "decimal", "Mpg label",  "Value1", "years", 0, 1,

@@ -23,7 +23,7 @@ is described by the "status" vocabulary in the "Mlstr_harmo" taxonomy.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 cqx <- dictionary.annotate.harmo_status(cqx, 
   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 

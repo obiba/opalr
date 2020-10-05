@@ -38,7 +38,7 @@ in Opal that can be followed (see tasks related functions).
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.symbol_import(o, 'D', 'test')
 opal.logout(o)
 }

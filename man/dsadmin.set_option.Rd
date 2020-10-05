@@ -18,7 +18,7 @@ Set a DataSHIELD option (add or update).
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 dsadmin.set_option(o, 'foo', 'bar')
 opal.logout(o)
 }

@@ -24,7 +24,7 @@
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # assign a list of variables from table CNSIM1
 #' opal.assign(o, symbol="D", value="datashield.CNSIM1", variables=list("GENDER","LAB_TSC"))
 #' # assign all the variables matching 'LAB' from table HOP of opal object o
@@ -70,7 +70,7 @@ opal.assign <- function(opal, symbol, value, variables=NULL, missings=FALSE, ide
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # assign a list of variables from table CNSIM1
 #' opal.assign.table(o, symbol="D", value="datashield.CNSIM1", variables=list("GENDER","LAB_TSC"))
 #' opal.execute(o, "colnames(D)")
@@ -145,7 +145,7 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # assign a table and make some operation on it
 #' opal.assign.table.tibble(o, 'D', 'datashield.CNSIM1')
 #' opal.execute(o, "class(D)")
@@ -178,7 +178,7 @@ opal.assign.table.tibble <- function(opal, symbol, value, variables=NULL, missin
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # assign a function and call it
 #' opal.assign.script(o, 'hello', quote(function(x) { print(paste0('Hello ', x , '!'))}))
 #' opal.execute(o, "hello('Mr Bean')")
@@ -211,7 +211,7 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # push an arbitrary data frame to the R server
 #' opal.assign.data(o, "D", mtcars)
 #' # push an arbitrary vector to the R server
@@ -249,7 +249,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
 #' @param async R script is executed asynchronously within the session (default is FALSE). If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # assign a resource and make some operation on it
 #' opal.assign.resource(o, "D", "datashield.cram1")
 #' opal.execute(o, "class(D)")

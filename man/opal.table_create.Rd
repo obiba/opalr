@@ -25,7 +25,7 @@ the table will be a view. The table/view created will have no dictionary, use
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # make a raw table
 opal.table_create(o, "CNSIM", "CNSIM4")
 # make a view

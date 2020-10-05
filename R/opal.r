@@ -72,7 +72,7 @@ opal.login <- function(username=getOption("opal.username"), password=getOption("
 #' @param save Save the workspace with given identifier (default value is FALSE, current session ID if TRUE).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.logout(o)
 #' }
 #' @export
@@ -121,7 +121,7 @@ print.opal <- function(x, ...) {
 #' @param version The semantic version string to be compared.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.version_compare(o, "2.6.0")
 #' opal.logout(o)
 #' }
@@ -160,7 +160,7 @@ opal.version_compare <- function(opal, version) {
 #' @import httr
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.get(o, 'project', 'datashield')
 #' opal.logout(o)
 #' }
@@ -182,7 +182,7 @@ opal.get <- function(opal, ..., query=list(), callback=NULL) {
 #' @import httr
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.post(o, 'some', 'resources', body='{"some":"value"}')
 #' opal.logout(o)
 #' }
@@ -204,7 +204,7 @@ opal.post <- function(opal, ..., query=list(), body='', contentType='application
 #' @import httr
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.put(o, 'some', 'resource', 'toupdate', body='{"some":"value"}')
 #' opal.logout(o)
 #' }
@@ -224,7 +224,7 @@ opal.put <- function(opal, ..., query=list(), body='', contentType='application/
 #' @import httr
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.delete(o, 'some', 'resource')
 #' opal.logout(o)
 #' }

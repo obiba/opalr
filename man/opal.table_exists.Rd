@@ -22,7 +22,7 @@ or a view.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # check table exists
 opal.table_exists(o, "CNSIM", "CNSIM1")
 # check table exists AND is a NOT a view

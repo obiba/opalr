@@ -16,7 +16,7 @@ Remove a symbol from the current R session. Deprecated: see opal.symbol_rm funct
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.rm(o, 'D')
 opal.logout(o)
 }

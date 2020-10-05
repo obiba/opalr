@@ -23,7 +23,7 @@ Install a package from DataSHIELD public package repository or (if Git reference
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 dsadmin.install_package(o, 'dsBase')
 opal.logout(o)
 }

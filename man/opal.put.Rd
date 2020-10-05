@@ -31,7 +31,7 @@ Generic REST resource update.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.put(o, 'some', 'resource', 'toupdate', body='{"some":"value"}')
 opal.logout(o)
 }

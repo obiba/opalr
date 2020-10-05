@@ -18,7 +18,7 @@ Get a DataSHIELD method
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 dsadmin.get_method(o, 'class')
 opal.logout(o)
 }

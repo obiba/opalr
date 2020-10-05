@@ -22,7 +22,7 @@ Deprecated: use \link{opal.table_get} instead.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 opal.logout(o)
 }

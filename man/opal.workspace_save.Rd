@@ -16,7 +16,7 @@ Save the current session in a opal R workspace.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.workspace_save(o, 'test')
 opal.logout(o)
 }

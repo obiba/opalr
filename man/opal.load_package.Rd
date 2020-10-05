@@ -16,7 +16,7 @@ Load package in the remote R session.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.load_package(o, 'stats')
 opal.logout(o)
 }

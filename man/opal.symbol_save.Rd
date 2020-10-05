@@ -20,7 +20,7 @@ Save a tibble identified by symbol as a file of format SAS, SPSS, Stata, CSV or 
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.symbol_save(o, 'D', 'test.sav')
 opal.logout(o)
 }

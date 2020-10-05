@@ -16,7 +16,7 @@ Delete a taxonomy, without failing if the taxonomy does not exist.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.taxonomy_delete(o, 'Mlstr_area')
 opal.logout(o)
 }

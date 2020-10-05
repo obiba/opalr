@@ -17,7 +17,7 @@ Make a temporary folder in the Opal file system (make sure it does not exists).
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # make a folder
 path <- opal.file_mkdir_tmp(o)
 opal.logout(o)

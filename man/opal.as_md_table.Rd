@@ -31,7 +31,7 @@ Helper function for turning an array into its Markdown representation.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.as_md_table(opal.variables(o, 'datashield', 'CNSIM1'))
 opal.logout(o)
 }

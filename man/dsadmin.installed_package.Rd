@@ -19,7 +19,7 @@ Check if a DataSHIELD package is installed.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 dsadmin.installed_package(o, 'dsBase')
 opal.logout(o)
 }

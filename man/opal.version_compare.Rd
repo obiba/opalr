@@ -20,7 +20,7 @@ in order to have a non-null Opal version.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.version_compare(o, "2.6.0")
 opal.logout(o)
 }

@@ -20,7 +20,7 @@ Get tables of a datasource
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.tables(o, 'datashield')
 opal.logout(o)
 }

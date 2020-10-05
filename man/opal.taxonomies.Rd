@@ -19,7 +19,7 @@ Taxonomies also drive the variables search interface.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.taxonomies(o)
 opal.logout(o)
 }

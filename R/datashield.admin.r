@@ -17,7 +17,7 @@
 #' @return The DataSHIELD package descriptions as a data.frame or a list
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.package_descriptions(o)
 #' opal.logout(o)
 #' }
@@ -86,7 +86,7 @@ dsadmin.package_descriptions <- function(opal, fields=NULL, df=TRUE) {
 #' @param fields A character vector giving the fields to extract from each package's DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.package_description(o, 'dsBase')
 #' opal.logout(o)
 #' }
@@ -120,7 +120,7 @@ dsadmin.package_description <- function(opal, pkg, fields=NULL) {
 #' @return TRUE if installed
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.install_package(o, 'dsBase')
 #' opal.logout(o)
 #' }
@@ -151,7 +151,7 @@ dsadmin.install_package <- function(opal, pkg, githubusername=NULL, ref=NULL) {
 #' @return TRUE if installed
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.install_github_package(o, 'dsOmics', username='isglobal-brge')
 #' opal.logout(o)
 #' }
@@ -177,7 +177,7 @@ dsadmin.install_github_package <- function(opal, pkg, username='datashield', ref
 #' @return TRUE if installed
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # install a pre-built local archive file
 #' dsadmin.install_local_package(o, '~/dsExposome_1.0.0.tar.gz')
 #' # or build archive file from local package source (in current working folder)
@@ -219,7 +219,7 @@ dsadmin.install_local_package <- function(opal, path) {
 #' @param pkg Package name.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.remove_package(o, 'dsBase')
 #' opal.logout(o)
 #' }
@@ -242,7 +242,7 @@ dsadmin.remove_package <- function(opal, pkg) {
 #' @return TRUE if installed
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.installed_package(o, 'dsBase')
 #' opal.logout(o)
 #' }
@@ -274,7 +274,7 @@ dsadmin.installed_package <- function(opal, pkg) {
 #' @param type Type of the method: "aggregate" (default) or "assign"
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.set_method(o, 'foo', 'base::mean')
 #' opal.logout(o)
 #' }
@@ -305,7 +305,7 @@ dsadmin.set_method <- function(opal, name, func=NULL, path=NULL, type="aggregate
 #' @param type Type of the method: "aggregate" (default) or "assign"
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.rm_method(o, 'foo')
 #' opal.logout(o)
 #' }
@@ -326,7 +326,7 @@ dsadmin.rm_method <- function(opal, name, type="aggregate") {
 #' @param type Type of the method: "aggregate" or "assign". Default is NULL (=all type of methods).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.rm_methods(o)
 #' opal.logout(o)
 #' }
@@ -353,7 +353,7 @@ dsadmin.rm_methods <- function(opal, type=NULL) {
 #' @param type Type of the method: "aggregate" (default) or "assign"
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.get_method(o, 'class')
 #' opal.logout(o)
 #' }
@@ -391,7 +391,7 @@ dsadmin.get_method <- function(opal, name, type="aggregate") {
 #' @param type Type of the method: "aggregate" (default) or "assign"
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.get_methods(o)
 #' opal.logout(o)
 #' }
@@ -448,7 +448,7 @@ dsadmin.get_methods <- function(opal, type="aggregate") {
 #' @return TRUE if successfull
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.set_package_methods(o, 'dsBase')
 #' opal.logout(o)
 #' }
@@ -477,7 +477,7 @@ dsadmin.set_package_methods <- function(opal, pkg, type=NULL) {
 #' @param type Type of the method: "aggregate" or "assign". Default is NULL (=all type of methods).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.rm_package_methods(o, 'dsBase')
 #' opal.logout(o)
 #' }
@@ -507,7 +507,7 @@ dsadmin.rm_package_methods <- function(opal, pkg, type=NULL) {
 #' @param opal Opal object or list of opal objects.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.get_options(o)
 #' opal.logout(o)
 #' }
@@ -538,7 +538,7 @@ dsadmin.get_options <- function (opal) {
 #' @param value Value of the option
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.set_option(o, 'foo', 'bar')
 #' opal.logout(o)
 #' }
@@ -560,7 +560,7 @@ dsadmin.set_option <- function (opal, name, value) {
 #' @param name Name of the option
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.rm_option(o, 'foo')
 #' opal.logout(o)
 #' }

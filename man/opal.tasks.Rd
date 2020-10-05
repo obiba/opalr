@@ -16,7 +16,7 @@ Get all the tasks with their status at the time of the request.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.tasks(o)
 opal.logout(o)
 }

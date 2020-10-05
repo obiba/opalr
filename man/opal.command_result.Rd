@@ -19,7 +19,7 @@ remote R session after this call.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.command_result(o, '1234')
 opal.logout(o)
 }

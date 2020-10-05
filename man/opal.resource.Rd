@@ -18,7 +18,7 @@ Get a resource of a project
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.resource(o, 'datashield', 'CNSIM1r')
 opal.logout(o)
 }

@@ -18,7 +18,7 @@ Read a file from the R session workspace into the Opal file system.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # read into folder
 opal.file_read(o,"DatabaseTest.sav", "/tmp")
 # read and rename

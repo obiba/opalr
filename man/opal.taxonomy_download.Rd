@@ -19,7 +19,7 @@ Download a taxonomy stored in a file in YAML format.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.taxonomy_download(o, 'Mlstr_area', '~/some/dir/Mlstr_area.yml')
 opal.logout(o)
 }

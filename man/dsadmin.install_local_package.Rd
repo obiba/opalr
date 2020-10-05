@@ -20,10 +20,10 @@ This will upload the archive file and run its installation in the R server.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # install a pre-built local archive file
 dsadmin.install_local_package(o, '~/dsExposome_1.0.0.tar.gz')
-# or build archive file from local package source
+# or build archive file from local package source (in current working folder)
 dsadmin.install_local_package(o, devtools::build())
 opal.logout(o)
 }

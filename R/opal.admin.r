@@ -19,7 +19,7 @@
 #' @return TRUE if successfully installed
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' oadmin.install_package(o, 'xxx')
 #' opal.logout(o)
 #' }
@@ -54,7 +54,7 @@ oadmin.install_package <- function(opal, pkg, repos=NULL) {
 #' @param pkg Package name.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' oadmin.remove_package(o, 'xxx')
 #' opal.logout(o)
 #' }
@@ -71,7 +71,7 @@ oadmin.remove_package <- function(opal, pkg) {
 #' @return TRUE if installed
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' oadmin.installed_package(o, 'xxx')
 #' oadmin.installed_package(o, 'stats')
 #' opal.logout(o)
@@ -88,7 +88,7 @@ oadmin.installed_package <- function(opal, pkg) {
 #' @return The result of the installed.packages() call
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' oadmin.installed_packages(o)
 #' opal.logout(o)
 #' }
@@ -105,7 +105,7 @@ oadmin.installed_packages <- function(opal) {
 #' @param fields A character vector giving the fields to extract from each package's DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' oadmin.package_description(o, 'stats')
 #' opal.logout(o)
 #' }
@@ -136,7 +136,7 @@ oadmin.package_description <- function(opal, pkg, fields=NULL) {
 #' @param opal Opal object or list of opal objects.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' oadmin.install_devtools(o)
 #' opal.logout(o)
 #' }
@@ -153,7 +153,7 @@ oadmin.install_devtools <- function(opal) {
 #' @param opal Opal object or list of opal objects.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' oadmin.installed_devtools(o)
 #' opal.logout(o)
 #' }
@@ -162,27 +162,104 @@ oadmin.installed_devtools <- function(opal) {
   oadmin.installed_package(opal,'devtools')
 }
 
-#' Install a package form GitHub
+#' Install a package from GitHub (deprecated)
 #' 
-#' Install a package from a source repository on GitHub. Makes sure devtools package is available.
+#' Install a package from a source repository on GitHub.
 #'
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
-#' @param username GitHub user name.
+#' @param username GitHub user or organization name.
 #' @param ref Desired git reference. Could be a commit, tag, or branch name. Defaults to "master".
-#' @param auth_user Your github username if you're attempting to install a package hosted in a private repository (and your username is different to username).
-#' @param password Your github password
+#' @param auth_user (ignored) Your github username if you're attempting to install a package hosted in a private repository (and your username is different to username).
+#' @param password (ignored) Your github password
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' oadmin.install_github(o, 'opalr', 'obiba')
 #' opal.logout(o)
 #' }
 #' @export
 oadmin.install_github <- function(opal, pkg , username=getOption("github.user"), ref="master", auth_user=NULL, password=NULL) {
-  oadmin.install_devtools(opal)
-  cmd <- paste('devtools::install_github("', paste0(username, "/", pkg), '", ref="', ref, '")', sep="")
-  opal.execute(opal, cmd, FALSE)
+  warning("Deprecated: oadmin.install_github() is deprecated by oadmin.install_github_package()")
+  oadmin.install_github_package(opal, pkg, username = username, ref = ref)
+}
+
+#' Install a package from GitHub
+#' 
+#' Install a package from a source repository on GitHub.
+#'
+#' @family administration functions
+#' @param opal Opal object or list of opal objects.
+#' @param pkg Package name.
+#' @param username GitHub user or organization name.
+#' @param ref Desired git reference. Could be a commit, tag, or branch name. Defaults to "master".
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.install_github_package(o, 'opalr', 'obiba')
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.install_github_package <- function(opal, pkg , username=getOption("github.user"), ref="master") {
+  opal.post(opal, "service", "r", "packages", query = list(name = paste0(username, "%2F", pkg), ref = ref, manager = "gh"))
+  oadmin.installed_package(opal, pkg)
+}
+
+#' Install a package from Bioconductor
+#' 
+#' Install a package from a source repository on GitHub.
+#'
+#' @family administration functions
+#' @param opal Opal object or list of opal objects.
+#' @param pkg Package name.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.install_bioconductor_package(o, 'GWASTools')
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.install_bioconductor_package <- function(opal, pkg) {
+  opal.post(opal, "service", "r", "packages", query = list(name = pkg, manager = "bioc"))
+  oadmin.installed_package(opal, pkg)
+}
+
+#' Install a package from a local archive file
+#' 
+#' Install a package from a package archive file. This will upload the archive file and run its installation in the R server.
+#'
+#' @family administration functions
+#' @param opal Opal object or list of opal objects.
+#' @param path Path to the package archive file.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' # install a pre-built local archive file
+#' oadmin.install_local_package(o, '~/Rserve_1.8-7.tar.gz')
+#' # or build archive file from local package source (in current working folder)
+#' oadmin.install_local_package(o, devtools::build())
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.install_local_package <- function(opal, path) {
+  if (!file.exists(path)) {
+    stop("Package archive file cannot be found at: ", path)
+  }
+  filename <- basename(path)
+  if (!endsWith(filename, ".tar.gz")) {
+    stop("Not a package archive file: ", filename)
+  }
+  # strip suffix
+  pkg <- strsplit(filename, "\\.")[[1]][1]
+  # strip version
+  pkg <- strsplit(pkg, "_")[[1]][1]
+  
+  tmp <- opal.file_mkdir_tmp(opal)
+  opal.file_upload(opal, path, tmp)
+  opal.file_write(opal, paste0(tmp, filename))
+  opal.file_rm(opal, tmp)
+  opal.execute(opal, paste0("install.packages('", filename, "', repos = NULL, type ='source')"))
+  
   oadmin.installed_package(opal, pkg)
 }

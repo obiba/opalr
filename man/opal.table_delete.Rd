@@ -21,7 +21,7 @@ Fails if the table does not exist. See also \link{opal.table_truncate}.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.table_delete(o, "CNSIM", "CNSIM1")
 opal.logout(o)
 }

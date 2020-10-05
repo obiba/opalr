@@ -21,7 +21,7 @@ Get DataSHIELD package descriptions
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 dsadmin.package_descriptions(o)
 opal.logout(o)
 }

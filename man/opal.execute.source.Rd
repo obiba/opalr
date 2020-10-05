@@ -19,7 +19,7 @@ Upload a R file script and execute it in the remote R session with source().
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.execute.source(o, "myscript.R")
 opal.logout(o)
 }

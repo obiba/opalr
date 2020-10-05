@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.admin.r
 \name{oadmin.install_github}
 \alias{oadmin.install_github}
-\title{Install a package form GitHub}
+\title{Install a package from GitHub (deprecated)}
 \usage{
 oadmin.install_github(
   opal,
@@ -18,27 +18,30 @@ oadmin.install_github(
 
 \item{pkg}{Package name.}
 
-\item{username}{GitHub user name.}
+\item{username}{GitHub user or organization name.}
 
 \item{ref}{Desired git reference. Could be a commit, tag, or branch name. Defaults to "master".}
 
-\item{auth_user}{Your github username if you're attempting to install a package hosted in a private repository (and your username is different to username).}
+\item{auth_user}{(ignored) Your github username if you're attempting to install a package hosted in a private repository (and your username is different to username).}
 
-\item{password}{Your github password}
+\item{password}{(ignored) Your github password}
 }
 \description{
-Install a package from a source repository on GitHub. Makes sure devtools package is available.
+Install a package from a source repository on GitHub.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 oadmin.install_github(o, 'opalr', 'obiba')
 opal.logout(o)
 }
 }
 \seealso{
 Other administration functions: 
+\code{\link{oadmin.install_bioconductor_package}()},
 \code{\link{oadmin.install_devtools}()},
+\code{\link{oadmin.install_github_package}()},
+\code{\link{oadmin.install_local_package}()},
 \code{\link{oadmin.install_package}()},
 \code{\link{oadmin.installed_devtools}()},
 \code{\link{oadmin.installed_packages}()},

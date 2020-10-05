@@ -33,7 +33,7 @@ Deprecated: use \link{dictionary.annotate} instead.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 cqx <- dictionary.annotate(cqx, 
   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 

@@ -22,7 +22,7 @@ Get all the terms of a vocabulary. The term describes the value of a variable an
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.terms(o, 'Mlstr_area', 'Lifestyle_behaviours')
 opal.logout(o)
 }

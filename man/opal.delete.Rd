@@ -20,7 +20,7 @@ Generic REST resource deletion.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.delete(o, 'some', 'resource')
 opal.logout(o)
 }

@@ -16,7 +16,7 @@ Remove DataSHIELD methods.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 dsadmin.rm_methods(o)
 opal.logout(o)
 }

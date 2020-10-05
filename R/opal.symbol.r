@@ -16,7 +16,7 @@
 #' @param opal Opal object.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.symbols(o)
 #' opal.logout(o)
 #' }
@@ -35,7 +35,7 @@ opal.symbols <- function(opal) {
 #' @param symbol Name of the R symbol.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.symbol_rm(o, 'D')
 #' opal.logout(o)
 #' }
@@ -54,7 +54,7 @@ opal.symbol_rm <- function(opal, symbol) {
 #' @param symbol Name of the R symbol.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.rm(o, 'D')
 #' opal.logout(o)
 #' }
@@ -75,7 +75,7 @@ opal.rm <- function(opal, symbol) {
 #' .csv (comma separated values), .tsv (tab separated values). 
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.symbol_save(o, 'D', 'test.sav')
 #' opal.logout(o)
 #' }
@@ -114,7 +114,7 @@ opal.symbol_save <- function(opal, symbol, destination) {
 #' @param wait Wait for import task completion. Default is TRUE.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.symbol_import(o, 'D', 'test')
 #' opal.logout(o)
 #' }

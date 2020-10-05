@@ -20,7 +20,7 @@ Download a file or a folder from the Opal file system.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # download a file
 opal.file_download(o, '/home/administrator/joins/join-src-3.csv')
 # download a file encrypted by a key: resulting file is a zip with an encrypted content

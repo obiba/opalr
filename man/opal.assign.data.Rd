@@ -20,7 +20,7 @@ Assign a R object to a R symbol in the current R session.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # push an arbitrary data frame to the R server
 opal.assign.data(o, "D", mtcars)
 # push an arbitrary vector to the R server

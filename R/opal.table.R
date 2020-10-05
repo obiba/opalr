@@ -19,7 +19,7 @@
 #' @param missings Include the missing values (default is TRUE).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' opal.logout(o)
 #' }
@@ -42,7 +42,7 @@ harmo.table_get <- function(opal, project, table, variables = NULL, missings = T
 #' @param missings Include the missing values (default is TRUE).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' opal.logout(o)
 #' }
@@ -92,7 +92,7 @@ opal.table_get <- function(opal, project, table, variables = NULL, missings = TR
 #' @param silent Warn if table does not exist, default is TRUE.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.table_delete(o, "CNSIM", "CNSIM1")
 #' opal.logout(o)
 #' }
@@ -117,7 +117,7 @@ opal.table_delete <- function(opal, project, table, silent = TRUE) {
 #' If NULL or NA, the table can be indifferently a view or a raw table. Default is NA.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # check table exists
 #' opal.table_exists(o, "CNSIM", "CNSIM1")
 #' # check table exists AND is a NOT a view
@@ -157,7 +157,7 @@ opal.table_exists <- function(opal, project, table, view = NA) {
 #' @param tables List of the fully qualified table names that are referred by the view.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # make a raw table
 #' opal.table_create(o, "CNSIM", "CNSIM4")
 #' # make a view
@@ -190,7 +190,7 @@ opal.table_create <- function(opal, project, table, type = "Participant", tables
 #' @param table Table name to be truncated.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.table_truncate(o, "CNSIM", "CNSIM1")
 #' opal.logout(o)
 #' }
@@ -222,7 +222,7 @@ opal.table_truncate <- function(opal, project, table) {
 #' @return An invisible logical indicating whether the destination table exists.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' # do some (meta)data transformations, then save in opal's database
 #' opal.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = TRUE, force = TRUE)
@@ -260,7 +260,7 @@ harmo.table_save <- function(opal, tibble, project, table, overwrite = TRUE, for
 #' @return An invisible logical indicating whether the destination table exists.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 #' # do some (meta)data transformations, then save in opal's database
 #' opal.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = TRUE, force = TRUE)
@@ -350,7 +350,7 @@ opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, forc
 #' no categories, this parameter is optional.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' variables <- tibble::tribble(
 #'   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
 #'   "mpg", "decimal", "Mpg label",  "Value1", "years", 0, 1,
@@ -381,7 +381,7 @@ opal.table_dictionary_update <- function(opal, project, table, variables, catego
 #' @param table Table name.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dico <- opal.table_dictionary_get(o, "CNSIM", "CNSIM1")
 #' opal.logout(o)
 #' }
@@ -513,7 +513,7 @@ opal.table_dictionary_get <- function(opal, project, table) {
 #' is suitable for DataSHIELD operations. 
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.table_perm_add(o, 'CNSIM', 'CNSIM1', c('andrei', 'valentina'), 'user', 'view')
 #' opal.table_perm(o, 'CNSIM', 'CNSIM1')
 #' opal.table_perm_delete(o, 'CNSIM', 'CNSIM1', c('andrei', 'valentina'), 'user')
@@ -548,7 +548,7 @@ opal.table_perm_add <- function(opal, project, table, subject, type = "user", pe
 #' @return A data.frame with columns: subject, type, permission
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.table_perm_add(o, 'CNSIM', 'CNSIM1', c('andrei', 'valentina'), 'user', 'view')
 #' opal.table_perm(o, 'CNSIM', 'CNSIM1')
 #' opal.table_perm_delete(o, 'CNSIM', 'CNSIM1', c('andrei', 'valentina'), 'user')
@@ -587,7 +587,7 @@ opal.table_perm <- function(opal, project, table) {
 #' @param type The type of subject: user (default) or group.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.table_perm_add(o, 'CNSIM', 'CNSIM1', c('andrei', 'valentina'), 'user', 'view')
 #' opal.table_perm(o, 'CNSIM', 'CNSIM1')
 #' opal.table_perm_delete(o, 'CNSIM', 'CNSIM1', c('andrei', 'valentina'), 'user')

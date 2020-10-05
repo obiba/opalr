@@ -48,7 +48,7 @@ Deprecated: use \link{opal.table_save} instead.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 # do some (meta)data transformations, then save in opal's database
 opal.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = TRUE, force = TRUE)

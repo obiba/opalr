@@ -19,7 +19,7 @@ exist and to create parent folders.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # make a folder
 opal.file_mkdir(o, '/home/administrator/test', parents = TRUE)
 opal.logout(o)

@@ -17,7 +17,7 @@
 #' @param df Return a data.frame (default is TRUE)
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.commands(o)
 #' opal.logout(o)
 #' }
@@ -67,7 +67,7 @@ opal.commands <- function(opal, df=TRUE) {
 #' @param wait Wait for the command to complete.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.command(o, '1234')
 #' opal.logout(o)
 #' }
@@ -90,7 +90,7 @@ opal.command <- function(opal, id, wait=FALSE) {
 #' @param id R command ID.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.command_rm(o, '1234')
 #' opal.logout(o)
 #' }
@@ -108,7 +108,7 @@ opal.command_rm <- function(opal, id) {
 #' @param opal Opal object.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.commands_rm(o)
 #' opal.logout(o)
 #' }
@@ -131,7 +131,7 @@ opal.commands_rm <- function(opal) {
 #' @param wait Wait for the command to complete.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.command_result(o, '1234')
 #' opal.logout(o)
 #' }

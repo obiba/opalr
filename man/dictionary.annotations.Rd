@@ -29,7 +29,7 @@ List the annotations of each of the variables.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
 annot <- dictionary.annotations(cqx, taxonomy = "Mlstr_harmo", vocabulary = "status")
 opal.logout(o)
