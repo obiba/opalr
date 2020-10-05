@@ -126,16 +126,87 @@ dsadmin.package_description <- function(opal, pkg, fields=NULL) {
 #' }
 #' @export
 dsadmin.install_package <- function(opal, pkg, githubusername=NULL, ref=NULL) {
-  if(is.list(opal)){
-    lapply(opal, function(o){dsadmin.install_package(o, pkg, githubusername=githubusername, ref=ref)})
+  if (!is.null(githubusername) && !is.null(ref)) {
+    dsadmin.install_github_package(opal, pkg, username=githubusername, ref=ref)
   } else {
-    if((!is.null(ref)) && (!is.null(githubusername))) {
-      query <- list(name=paste(githubusername,pkg,sep="/"),ref=ref)
+    if(is.list(opal)){
+      lapply(opal, function(o){dsadmin.install_package(o, pkg, githubusername=githubusername, ref=ref)})
     } else {
       query <- list(name=pkg)
+      opal.post(opal, "datashield", "packages", query=query)
+      dsadmin.installed_package(opal, pkg)
     }
+  }
+}
+
+#' Install a DataSHIELD package from GitHub
+#' 
+#' Install a package from a DataSHIELD source repository on GitHub.
+#'
+#' @family DataSHIELD functions
+#' @param opal Opal object or list of opal objects. 
+#' @param pkg Package name.
+#' @param username GitHub username/organization of the git repository. Default is 'datashield'.
+#' @param ref Desired git reference (could be a commit, tag, or branch name). Default is 'master'.
+#' @return TRUE if installed
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' dsadmin.install_github_package(o, 'dsOmics', username='isglobal-brge')
+#' opal.logout(o)
+#' }
+#' @export
+dsadmin.install_github_package <- function(opal, pkg, username='datashield', ref='master') {
+  if(is.list(opal)){
+    lapply(opal, function(o){dsadmin.install_github_package(o, pkg, username=username, ref=ref)})
+  } else {
+    query <- list(name=paste(username,pkg,sep="/"),ref=ref)
     opal.post(opal, "datashield", "packages", query=query)
     dsadmin.installed_package(opal, pkg)
+  }
+}
+
+#' Install a DataSHIELD package from a local archive file
+#' 
+#' Install a package from a package archive file, resulting from the build of a server-side DataSHIELD package.
+#' This will upload the archive file and run its installation in the R server.
+#'
+#' @family DataSHIELD functions
+#' @param opal Opal object or list of opal objects. 
+#' @param path Path to the package archive, ending with .
+#' @return TRUE if installed
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
+#' # install a pre-built local archive file
+#' dsadmin.install_local_package(o, '~/dsExposome_1.0.0.tar.gz')
+#' # or build archive file from local package source (in current working folder)
+#' dsadmin.install_local_package(o, devtools::build())
+#' opal.logout(o)
+#' }
+#' @export
+dsadmin.install_local_package <- function(opal, path) {
+  if (!file.exists(path)) {
+    stop("Package archive file cannot be found at: ", path)
+  }
+  filename <- basename(path)
+  if (!endsWith(filename, ".tar.gz")) {
+    stop("Not a package archive file: ", filename)
+  }
+  # strip suffix
+  pkg <- strsplit(filename, "\\.")[[1]][1]
+  # strip version
+  pkg <- strsplit(pkg, "_")[[1]][1]
+  
+  if(is.list(opal)){
+    lapply(opal, function(o){dsadmin.install_local_package(o, path)})
+  } else {
+    tmp <- opal.file_mkdir_tmp(opal)
+    opal.file_upload(opal, path, tmp)
+    opal.file_write(opal, paste0(tmp, filename))
+    opal.file_rm(opal, tmp)
+    opal.execute(opal, paste0("install.packages('", filename, "', repos = NULL, type ='source')"))
+    dsadmin.set_package_methods(opal, pkg)
   }
 }
 

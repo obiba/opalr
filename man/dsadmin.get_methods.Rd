@@ -25,6 +25,8 @@ opal.logout(o)
 Other DataSHIELD functions: 
 \code{\link{dsadmin.get_method}()},
 \code{\link{dsadmin.get_options}()},
+\code{\link{dsadmin.install_github_package}()},
+\code{\link{dsadmin.install_local_package}()},
 \code{\link{dsadmin.install_package}()},
 \code{\link{dsadmin.installed_package}()},
 \code{\link{dsadmin.package_descriptions}()},
