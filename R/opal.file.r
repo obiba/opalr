@@ -205,12 +205,14 @@ opal.file_mkdir <- function(opal, path, parents = FALSE) {
 #' @export
 opal.file_mkdir_tmp <- function(opal) {
   tmpName <- sample(1000000:9999999, 1)
-  tmpExists <- tmpName %in% opal.file_ls(opal, "/tmp")$name
+  basePath <- paste0("/home/", opal$username, "/R")
+  opal.file_mkdir(opal, basePath, parents = TRUE)
+  tmpExists <- tmpName %in% opal.file_ls(opal, basePath)$name
   while(tmpExists) {
     tmpName <- sample(1000000:9999999, 1)
-    tmpExists <- tmpName %in% opal.file_ls(opal, "/tmp")$name
+    tmpExists <- tmpName %in% opal.file_ls(opal, basePath)$name
   }
-  tmp <- paste0("/tmp/.", tmpName, "/")
+  tmp <- paste0(basePath, "/", tmpName, "/")
   opal.file_mkdir(opal, tmp)
   tmp
 }

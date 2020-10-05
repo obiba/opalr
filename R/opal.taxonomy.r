@@ -143,8 +143,7 @@ opal.taxonomy_upload <- function(opal, path) {
   pb <- .newProgress(total = 3)
   
   .tickProgress(pb, tokens = list(what = paste0("Uploading taxonomy file")))
-  tmp <- paste0("/tmp/.", sample(1000000:9999999, 1), "/")
-  opal.file_mkdir(opal, tmp)
+  tmp <- opal.file_mkdir_tmp(opal)
   opal.file_upload(opal, path, tmp)
   filename <- basename(path)
   file <- paste0(tmp, filename)
