@@ -316,3 +316,92 @@ opal.valueset <- function(opal, datasource, table, identifier) {
   }
   valueset
 }
+
+#' Add or update a permission on any table of a project
+#' 
+#' Add or update a permission on any table of a project.
+#' 
+#' @param opal Opal connection object.
+#' @param project Project name where the table will be located.
+#' @param subject A vector of subject identifiers: user names or group names (depending on the type).
+#' @param type The type of subject: user (default) or group.
+#' @param permission The permission to apply: view-values, add, or administrate.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.tables_perm_add(o, 'CNSIM', c('andrei', 'valentina'), 'user', 'administrate')
+#' opal.tables_perm(o, 'CNSIM')
+#' opal.tables_perm_delete(o, 'CNSIM', c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+opal.tables_perm_add <- function(opal, project, subject, type = "user", permission) {
+  if (!(tolower(type) %in% c("user", "group"))) {
+    stop("Not a valid subject type: ", type)
+  }
+  perms <- list('view-values' = 'DATASOURCE_VIEW',
+                'add' = 'TABLE_ADD',
+                'administrate' = 'DATASOURCE_ALL')
+  perm <- perms[[permission]]
+  if (is.null(perm)) {
+    stop("Not a valid tables permission name: ", permission)
+  }
+  opal.tables_perm_delete(opal, project, subject, type)
+  for (i in 1:length(subject)) {
+    ignore <- opal.post(opal, "project", project, "permissions", "datasource", query = list(principal = subject[i], type = toupper(type), permission = perm))
+  }
+}
+
+#' Get the permissions on any table of a project
+#' 
+#' Get the permissions that were applied on any table of a project.
+#' 
+#' @param opal Opal connection object.
+#' @param project Project name.
+#' 
+#' @return A data.frame with columns: subject, type, permission
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.tables_perm_add(o, 'CNSIM', c('andrei', 'valentina'), 'user', 'administrate')
+#' opal.tables_perm(o, 'CNSIM')
+#' opal.tables_perm_delete(o, 'CNSIM', c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+opal.tables_perm <- function(opal, project) {
+  perms <- list('DATASOURCE_VIEW' = 'view-values',
+                'TABLE_ADD' = 'add',
+                'DATASOURCE_ALL' = 'administrate')
+  acls <- opal.get(opal, "project", project, "permissions", "datasource")
+  .aclsToDataFrame(perms, acls)
+}
+
+#' Delete a permission from any table of a project
+#' 
+#' Delete a permission that was applied on any table of a project. Silently returns when there is no such permission.
+#' 
+#' @param opal Opal connection object.
+#' @param project Project name where the table will be located.
+#' @param subject A vector of subject identifiers: user names or group names (depending on the type).
+#' @param type The type of subject: user (default) or group.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.tables_perm_add(o, 'CNSIM', c('andrei', 'valentina'), 'user', 'administrate')
+#' opal.tables_perm(o, 'CNSIM')
+#' opal.tables_perm_delete(o, 'CNSIM', c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+opal.tables_perm_delete <- function(opal, project, subject, type = "user") {
+  if (!(tolower(type) %in% c("user", "group"))) {
+    stop("Not a valid subject type: ", type)
+  }
+  if (length(subject)<1) {
+    stop("At least one subject is required")
+  }
+  for (i in 1:length(subject)) {
+    ignore <- opal.delete(opal, "project", project, "permissions", "datasource", query = list(principal = subject[i], type = toupper(type)))  
+  }
+}

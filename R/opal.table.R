@@ -509,7 +509,7 @@ opal.table_dictionary_get <- function(opal, project, table) {
 #' @param table Destination table name.
 #' @param subject A vector of subject identifiers: user names or group names (depending on the type).
 #' @param type The type of subject: user (default) or group.
-#' @param permission The permission to apply: view, view-value, edit, edit-values, administrate. The 'view' permission
+#' @param permission The permission to apply: view, view-values, edit, edit-values, administrate. The 'view' permission
 #' is suitable for DataSHIELD operations. 
 #' @examples 
 #' \dontrun{
@@ -525,7 +525,7 @@ opal.table_perm_add <- function(opal, project, table, subject, type = "user", pe
     stop("Not a valid subject type: ", type)
   }
   perms <- list('view' = 'TABLE_READ',
-               'view-value' = 'TABLE_VALUES',
+               'view-values' = 'TABLE_VALUES',
                'edit' = 'TABLE_EDIT',
                'edit-values' = 'TABLE_VALUES_EDIT',
                'administrate' = 'TABLE_ALL')
@@ -559,7 +559,7 @@ opal.table_perm_add <- function(opal, project, table, subject, type = "user", pe
 #' @export
 opal.table_perm <- function(opal, project, table) {
   perms <- list('TABLE_READ' = 'view',
-                'TABLE_VALUES' = 'view-value',
+                'TABLE_VALUES' = 'view-values',
                 'TABLE_EDIT' = 'edit',
                 'TABLE_VALUES_EDIT' = 'edit-values',
                 'TABLE_ALL' = 'administrate')

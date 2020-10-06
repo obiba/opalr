@@ -17,7 +17,7 @@ opal.table_perm_add(opal, project, table, subject, type = "user", permission)
 
 \item{type}{The type of subject: user (default) or group.}
 
-\item{permission}{The permission to apply: view, view-value, edit, edit-values, administrate. The 'view' permission
+\item{permission}{The permission to apply: view, view-values, edit, edit-values, administrate. The 'view' permission
 is suitable for DataSHIELD operations.}
 }
 \description{

@@ -154,7 +154,6 @@ opal.project_exists <- function(opal, project) {
   !is.null(res)
 }
 
-
 #' Add or update a permission on a project
 #' 
 #' Add or update a permission on a project.
