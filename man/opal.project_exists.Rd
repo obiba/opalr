@@ -30,6 +30,9 @@ Other project functions:
 \code{\link{opal.project_delete}()},
 \code{\link{opal.projects}()},
 \code{\link{opal.project}()},
+\code{\link{opal.resource_create}()},
+\code{\link{opal.resource_exists}()},
+\code{\link{opal.resource_get}()},
 \code{\link{opal.resources}()},
 \code{\link{opal.resource}()}
 }

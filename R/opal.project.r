@@ -118,6 +118,7 @@ opal.project_create <- function(opal, project, database = NULL, title = NULL, de
 #' @param opal Opal object.
 #' @param project Name of the project
 #' @param archive Logical that is TRUE if the complete removal of the project is requested.
+#' @param silent Warn if project does not exist, default is TRUE.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -125,10 +126,10 @@ opal.project_create <- function(opal, project, database = NULL, title = NULL, de
 #' opal.logout(o)
 #' }
 #' @export
-opal.project_delete <- function(opal, project, archive = FALSE) {
+opal.project_delete <- function(opal, project, archive = FALSE, silent = TRUE) {
   if (opal.project_exists(opal, project)) {
     ignore <- opal.delete(opal, "project", project, query = list(archive = ifelse(archive, "true", "false")))  
-  } else {
+  } else if (!silent) {
     warning("Project ", project, " does not exist or is not accessible.")
   }
 }

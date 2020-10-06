@@ -4,7 +4,7 @@
 \alias{opal.project_delete}
 \title{Delete a project}
 \usage{
-opal.project_delete(opal, project, archive = FALSE)
+opal.project_delete(opal, project, archive = FALSE, silent = TRUE)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -12,6 +12,8 @@ opal.project_delete(opal, project, archive = FALSE)
 \item{project}{Name of the project}
 
 \item{archive}{Logical that is TRUE if the complete removal of the project is requested.}
+
+\item{silent}{Warn if project does not exist, default is TRUE.}
 }
 \description{
 Delete a project and every data what could have been associated to it.
@@ -29,6 +31,9 @@ Other project functions:
 \code{\link{opal.project_exists}()},
 \code{\link{opal.projects}()},
 \code{\link{opal.project}()},
+\code{\link{opal.resource_create}()},
+\code{\link{opal.resource_exists}()},
+\code{\link{opal.resource_get}()},
 \code{\link{opal.resources}()},
 \code{\link{opal.resource}()}
 }
