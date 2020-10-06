@@ -180,7 +180,7 @@ opal.project_perm_add <- function(opal, project, subject, type = "user", permiss
   perms <- list('administrate' = 'PROJECT_ALL')
   perm <- perms[[permission]]
   if (is.null(perm)) {
-    stop("Not a valid table permission name: ", permission)
+    stop("Not a valid project permission name: ", permission)
   }
   opal.project_perm_delete(opal, project, subject, type)
   for (i in 1:length(subject)) {

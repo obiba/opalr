@@ -573,3 +573,85 @@ dsadmin.rm_option <- function (opal, name) {
     ignore <- opal.delete(opal, "datashield", "option", query=list(name=name))
   }
 }
+
+#' Add or update a DataSHIELD permission
+#' 
+#' Add or update a permission on the DataSHIELD service.
+#' 
+#' @param opal Opal connection object.
+#' @param subject A vector of subject identifiers: user names or group names (depending on the type).
+#' @param type The type of subject: user (default) or group.
+#' @param permission The permission to apply: use or administrate.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' dsadmin.perm_add(o, c('andrei', 'valentina'), 'user', 'use')
+#' dsadmin.perm(o)
+#' dsadmin.perm_delete(o, c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+dsadmin.perm_add <- function(opal, subject, type = "user", permission) {
+  if (!(tolower(type) %in% c("user", "group"))) {
+    stop("Not a valid subject type: ", type)
+  }
+  perms <- list('use' = 'DATASHIELD_USE', 'administrate' = 'DATASHIELD_ALL')
+  perm <- perms[[permission]]
+  if (is.null(perm)) {
+    stop("Not a valid DataSHIELD permission name: ", permission)
+  }
+  dsadmin.perm_delete(opal, subject, type)
+  for (i in 1:length(subject)) {
+    ignore <- opal.post(opal, "system", "permissions", "datashield", query = list(principal = subject[i], type = toupper(type), permission = perm))
+  }
+}
+
+#' Get the DataSHIELD permissions
+#' 
+#' Get the permissions that were applied to the DataSHIELD service.
+#' 
+#' @param opal Opal connection object.
+#' 
+#' @return A data.frame with columns: subject, type, permission
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' dsadmin.perm_add(o, c('andrei', 'valentina'), 'user', 'use')
+#' dsadmin.perm(o)
+#' dsadmin.perm_delete(o, c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+dsadmin.perm <- function(opal) {
+  perms <- list('DATASHIELD_USE' = 'use', 'DATASHIELD_ALL' = 'administrate')
+  acls <- opal.get(opal, "system", "permissions", "datashield")
+  .aclsToDataFrame(perms, acls)
+}
+
+#' Delete a DataSHIELD permission
+#' 
+#' Delete a permission that was applied to the DataSHIELD service. Silently returns when there is no such permission.
+#' 
+#' @param opal Opal connection object.
+#' @param subject A vector of subject identifiers: user names or group names (depending on the type).
+#' @param type The type of subject: user (default) or group.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' dsadmin.perm_add(o, c('andrei', 'valentina'), 'user', 'use')
+#' dsadmin.perm(o)
+#' dsadmin.perm_delete(o, c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+dsadmin.perm_delete <- function(opal, subject, type = "user") {
+  if (!(tolower(type) %in% c("user", "group"))) {
+    stop("Not a valid subject type: ", type)
+  }
+  if (length(subject)<1) {
+    stop("At least one subject is required")
+  }
+  for (i in 1:length(subject)) {
+    ignore <- opal.delete(opal, "system", "permissions", "datashield", query = list(principal = subject[i], type = toupper(type)))  
+  }
+}
