@@ -433,7 +433,9 @@ dsadmin.get_methods <- function(opal, type="aggregate") {
     val
   })
   rval <- data.frame(unlist(name), unlist(t), unlist(class), unlist(value), unlist(pkg), unlist(version))
-  colnames(rval) <- c("name","type", "class", "value","package","version")
+  if (nrow(rval)>0) {
+    colnames(rval) <- c("name","type", "class", "value","package","version")
+  }
   rval
 }
 
