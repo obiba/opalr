@@ -492,6 +492,10 @@ opal.table_dictionary_get <- function(opal, project, table) {
     }
     categories <- data.frame(variable = categories.variable, name = categories.name, missing = categories.missing, stringsAsFactors = FALSE)
     for (col in names(categories.attributes)) {
+      times <- length(categories.name) - length(categories.attributes[[col]])
+      if (times>0) {
+        categories.attributes[[col]] <- append(categories.attributes[[col]], rep(NA, times))
+      }
       categories[[col]] <- categories.attributes[[col]]
     }
     list(variables = variables, categories = categories)
