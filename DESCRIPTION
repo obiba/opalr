@@ -1,5 +1,5 @@
 Package: opalr
-Version: 1.5.2
+Version: 1.5.3
 Title: 'Opal' Data Repository Client and 'DataSHIELD' Utils
 Authors@R: 
     c(person(given = "Yannick",
