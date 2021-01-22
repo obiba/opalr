@@ -5,7 +5,7 @@ library(opalr)
 options(opal.username='administrator', 
         opal.password='password', 
         opal.url='http://localhost:8080') 
-table <- "medications.Drugs"
+table <- "CNSIM.CNSIM1"
 
 #
 # start a R session
@@ -24,7 +24,7 @@ opal.command_result(o, rid)
 opal.commands(o)
 
 # assign a large table asynchronously and wait for it to complete
-opal.assign(o, "V", paste0(table,':STRENGTH'))
+opal.assign(o, "V", paste0(table,':GENDER'))
 opal.execute(o, "head(V)")
 V <- opal.execute(o, "V")
 rid <- opal.assign(o, "D", table, async=TRUE)
@@ -38,10 +38,10 @@ opal.command(o, rid, wait=TRUE)
 opal.commands(o)
 opal.symbols(o)
 opal.execute(o, "head(D)")
-opal.assign(o, "CLASS", as.symbol("D$CLASS"), async=FALSE)
-rid <- opal.assign(o, "CLASS", as.symbol("D$CLASS"), async=TRUE)
+opal.assign(o, "LG", as.symbol("D$LAB_GLUC"), async=FALSE)
+rid <- opal.assign(o, "LG", as.symbol("D$LAB_GLUC"), async=TRUE)
 opal.command_result(o, rid, wait=TRUE)
-opal.execute(o, "summary(CLASS)")
+opal.execute(o, "summary(LG)")
 opal.logout(o)
 
 #
@@ -51,8 +51,8 @@ o1 <- opal.login()
 o2 <- opal.login()
 os <- list(o1,o2)
 
-opal.assign(o1, "V", paste0(table,':STRENGTH'))
-opal.assign(o2, "V", paste0(table,':STRENGTH'))
+opal.assign(o1, "V", paste0(table,':GENDER'))
+opal.assign(o2, "V", paste0(table,':GENDER'))
 
 # assign a large table asynchronously in each R session (=in parallel) and wait for them to complete
 rid1 <- opal.assign(o1, "D", table, async=TRUE)
