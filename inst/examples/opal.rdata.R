@@ -7,7 +7,7 @@
 library(opalr)
 
 # https login
-o<-opal.login('administrator', 'password', 'http://localhost:8080')
+o<-opal.login('administrator', 'password', url = 'http://localhost:8080')
 
 # Push an arbitrary data frame to the R server
 opal.assign.data(o, "D", mtcars)
