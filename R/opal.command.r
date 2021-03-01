@@ -148,5 +148,5 @@ opal.command_result <- function(opal, id, wait=FALSE) {
       stop("Command '", cmd$script, "' failed on '", opal$name,"': ", msg, call.=FALSE)
     }
   }
-  opal.get(opal, "r", "session", .getRSessionId(opal), "command", id, "result")
+  opal.get(opal, "r", "session", .getRSessionId(opal), "command", id, "result", acceptType = "application/octet-stream")
 }

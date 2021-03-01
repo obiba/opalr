@@ -23,7 +23,7 @@
 #' @export
 opal.symbols <- function(opal) {
   ignore <- .getRSessionId(opal)
-  opal.get(opal, "r", "session", opal$rid, "symbols")
+  opal.get(opal, "r", "session", opal$rid, "symbols", acceptType = "application/octet-stream")
 }
 
 #' Remove a R symbol

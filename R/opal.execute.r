@@ -32,7 +32,7 @@ opal.execute <- function(opal, script, async=FALSE) {
     query <- list()
     if (async) query <- list(async="true")
     ignore <- .getRSessionId(opal)
-    opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript")
+    opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript", acceptType = "application/octet-stream")
   }
 }
 
@@ -71,7 +71,7 @@ opal.execute.source <- function(opal, path, async=FALSE) {
     query <- list()
     if (async) query <- list(async="true")
     ignore <- .getRSessionId(opal)
-    opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript")
+    opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript", acceptType = "application/octet-stream")
   }
 }
 
