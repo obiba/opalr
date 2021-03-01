@@ -498,7 +498,7 @@ opal.table_dictionary_get <- function(opal, project, table) {
       }
       categories[[col]] <- categories.attributes[[col]]
     }
-    list(variables = variables, categories = categories)
+    list(project = project, table = table, variables = variables, categories = categories)
   } else {
     list()
   }
