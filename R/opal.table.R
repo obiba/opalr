@@ -57,12 +57,18 @@ opal.table_get <- function(opal, project, table, variables = NULL, missings = TR
     opal.assign.table.tibble(opal, symbol = ".D", value = paste0(project, ".", table), variables = variables, missings = missings)
     
     .tickProgress(pb, tokens = list(what = paste0("Saving in R data file")))
-    opal.assign.script(opal, ".file", quote(tempfile(tmpdir = getwd(), fileext = '.rda')))
+    opal.assign.script(opal, ".file", quote(tempfile(tmpdir = getwd(), fileext = '.rds')))
     file <- opal.execute(opal, ".file")
     filename <- basename(file)
-    opal.execute(opal, paste0("save(.D, file=.file)"))
-    opal.symbol_rm(opal, ".D")
-    opal.execute(opal, "gc()")
+    opal.execute(opal, paste0("saveRDS(.D, file=.file)"))
+    
+    # clean up
+    if (opal.version_compare(opal,"4.0")<0) {
+      tryCatch(opal.symbol_rm(opal, ".D"))
+      opal.execute(opal, "gc()")
+    } else {
+      opal.symbol_rm(opal, ".D")
+    }
     
     .tickProgress(pb, tokens = list(what = paste0("Downloading R data file")))
     opalfile <- paste0("/home/", opal$username, "/", filename)
@@ -72,10 +78,8 @@ opal.table_get <- function(opal, project, table, variables = NULL, missings = TR
     opal.file_rm(opal, opalfile)
     
     .tickProgress(pb, tokens = list(what = paste0("Loading R data file")))
-    env <- new.env()
-    load(filename, envir = env)
+    rval <- readRDS(filename)
     unlink(filename)
-    rval <- get(".D", envir = env)
     .tickProgress(pb, tokens = list(what = "Data loaded"))
     rval
   }
@@ -311,8 +315,8 @@ opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, forc
   }
   
   .tickProgress(pb, tokens = list(what = paste0("Saving in R data file")))
-  file <- tempfile(fileext = ".rda")
-  save(tibble, file = file)
+  file <- tempfile(fileext = ".rds")
+  saveRDS(tibble, file = file)
   
   .tickProgress(pb, tokens = list(what = paste0("Uploading R data file")))
   tmp <- opal.file_mkdir_tmp(opal)
@@ -323,16 +327,20 @@ opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, forc
   opal.file_rm(opal, tmp)
   
   .tickProgress(pb, tokens = list(what = paste0("Loading R data file")))
-  opal.execute(opal, paste0("load(file='", filename, "')"))
+  opal.execute(opal, paste0("assign('", table, "', readRDS('", filename, "'))"))
   opal.execute(opal, paste0("unlink('", filename, "')"))
-  opal.execute(opal, paste0("assign('", table, "', tibble)"))
-  opal.execute(opal, paste0("rm(tibble)"))
   
   .tickProgress(pb, tokens = list(what = paste0("Importing ", table, " into ", project)))
   opal.symbol_import(opal, table, project = project, identifiers = identifiers, policy = policy, id.name = id.name, type = type)
   
-  tryCatch(opal.symbol_rm(opal, table))
-  opal.execute(opal, "gc()")
+  # clean up
+  if (opal.version_compare(opal,"4.0")<0) {
+    tryCatch(opal.symbol_rm(opal, table))
+    opal.execute(opal, "gc()")
+  } else {
+    opal.symbol_rm(opal, table)
+  }
+  
   rval <- table %in% opal.datasource(opal, project)$table
   .tickProgress(pb, tokens = list(what = "Save completed"))
   invisible(rval)

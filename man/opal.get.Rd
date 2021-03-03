@@ -8,7 +8,7 @@ opal.get(
   opal,
   ...,
   query = list(),
-  acceptType = "application/octet-stream, application/json",
+  acceptType = "application/json",
   callback = NULL
 )
 }
@@ -19,7 +19,7 @@ opal.get(
 
 \item{query}{Named list of query parameters.}
 
-\item{acceptType}{The type of the body content. Default is 'application/octet-stream, application/json', i.e. a serialized R object or an error message.}
+\item{acceptType}{The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.}
 
 \item{callback}{A callback function to handle the response object.}
 }

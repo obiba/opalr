@@ -299,15 +299,16 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 .handleError <- function(opal, response) {
   headers <- httr::headers(response)
   content <- .getContent(opal, response)
-  msg <- http_status(response)$message
+  msg <- paste0("[", http_status(response)$message, "]")
   if (is.null(content)) {
     stop(msg, call.=FALSE)
   }
   
   if ("status" %in% names(content)) {
-    msg <- paste0(msg, "; ", content$status)
     if ("arguments" %in% names(content)) {
-      msg <- paste0(msg, ": ", paste(content$arguments, collapse = ", "))
+      msg <- paste0(msg, " ", paste(content$arguments, collapse = ", "))
+    } else {
+      msg <- paste0(msg, " ", content$status)
     }
     stop(msg, call.=FALSE)
   }
