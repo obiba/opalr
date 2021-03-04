@@ -284,7 +284,11 @@ opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, forc
   if (!is.character(tibble[[id.name]])) {
     tibble[[id.name]] <- as.character(tibble[[id.name]])  
   }
-  pb <- .newProgress(total = 7)
+  if (opal.version_compare(opal,"4.0")<0) {
+    pb <- .newProgress(total = 7)
+  } else {
+    pb <- .newProgress(total = 6)
+  }
   .tickProgress(pb, tokens = list(what = paste0("Checking ", project, " project")))
   if (opal.table_exists(opal, project, table, view = FALSE)) {
     if (overwrite) {
@@ -323,27 +327,114 @@ opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, forc
   opal.file_upload(opal, file, tmp)
   filename <- basename(file)
   unlink(file)
-  opal.file_write(opal, paste0(tmp, filename))
-  opal.file_rm(opal, tmp)
+  opalFile <- paste0(tmp, filename)
   
-  .tickProgress(pb, tokens = list(what = paste0("Loading R data file")))
-  opal.execute(opal, paste0("assign('", table, "', readRDS('", filename, "'))"))
-  opal.execute(opal, paste0("unlink('", filename, "')"))
-  
-  .tickProgress(pb, tokens = list(what = paste0("Importing ", table, " into ", project)))
-  opal.symbol_import(opal, table, project = project, identifiers = identifiers, policy = policy, id.name = id.name, type = type)
-  
-  # clean up
   if (opal.version_compare(opal,"4.0")<0) {
+    # write file in R session
+    opal.file_write(opal, opalFile)
+    opal.file_rm(opal, tmp)
+    
+    .tickProgress(pb, tokens = list(what = paste0("Loading R data file")))
+    opal.execute(opal, paste0("assign('", table, "', readRDS('", filename, "'))"))
+    opal.execute(opal, paste0("unlink('", filename, "')"))
+    
+    .tickProgress(pb, tokens = list(what = paste0("Importing ", table, " into ", project)))
+    opal.symbol_import(opal, table, project = project, identifiers = identifiers, policy = policy, id.name = id.name, type = type)
+    
+    # clean up R session
     tryCatch(opal.symbol_rm(opal, table))
     opal.execute(opal, "gc()")
   } else {
-    opal.symbol_rm(opal, table)
+    .tickProgress(pb, tokens = list(what = paste0("Importing ", table, " into ", project)))
+    opal.table_import(opal, file = opalFile, project = project, table = table, identifiers = identifiers, policy = policy, id.name = id.name, type = type)
+    opal.file_rm(opal, tmp)
   }
   
   rval <- table %in% opal.datasource(opal, project)$table
   .tickProgress(pb, tokens = list(what = "Save completed"))
   invisible(rval)
+}
+
+#' Import a file as table
+#' 
+#' Import a file as a table in Opal. The file formats supported are: RDS (.rds), SPSS (.sav), 
+#' SPSS compressed (.zsav), SAS (.sas7bdat), SAS Transport (.xpt), Stata (.dta). 
+#' The RDS format is a serialized single R object (expected to be of tibble class), that can be obtained using base::saveRDS().
+#' The other file formats are the ones supported by the haven R package.
+#' This operation creates an importation task in Opal that can be followed (see tasks related functions).
+#' 
+#' @param opal Opal object.
+#' @param file Path in Opal to the file that will be read as a tibble.
+#' @param project Name of the project into which the data are to be imported.
+#' @param table Destination table name.
+#' @param identifiers Name of the identifiers mapping to use when assigning entities to Opal.
+#' @param policy Identifiers policy: 'required' (each identifiers must be mapped prior importation (default)), 'ignore' (ignore unknown identifiers) and 'generate' (generate a system identifier for each unknown identifier). 
+#' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
+#' @param type Entity type (what the data are about). Default is 'Participant'.
+#' @param wait Wait for import task completion. Default is TRUE.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.table_import(o, '/home/administrator/mydataset.rds', 'test', 'mytable')
+#' opal.logout(o)
+#' }
+#' @export
+#' @import tools
+opal.table_import <- function(opal, file, project, table, identifiers=NULL, policy='required', id.name='id', type='Participant', wait=TRUE) {
+  if (!(tools::file_ext(file) %in% c("rds", "sav", "zsav", "sas7bdat", "xpt", "dta"))) {
+    stop("File extension not supported for import: ", tools::file_ext(file))
+  }
+  if (endsWith(file, "rds") && !is.na(opal$version) && opal.version_compare(opal,"4.0")<0) {
+    stop("Importing a RDS data file into a table is not available for opal ", opal$version, " (4.0.0 or higher is required)")
+  } else {
+    # create a transient datasource
+    dsFactory <- list(file=file, symbol=table, entityType=type, idColumn=id.name)
+    if (is.null(identifiers)) {
+      dsFactory <- paste0('{"Magma.RHavenDatasourceFactoryDto.params": ', .listToJson(dsFactory), '}') 
+    } else {
+      idConfig <- list(name=identifiers)
+      if (policy == 'required') {
+        idConfig["allowIdentifierGeneration"] <- TRUE
+        idConfig["ignoreUnknownIdentifier"] <- TRUE
+      } else if (policy == 'ignore') {
+        idConfig["allowIdentifierGeneration"] <- FALSE
+        idConfig["ignoreUnknownIdentifier"] <- TRUE
+      } else {
+        idConfig["allowIdentifierGeneration"] <- FALSE
+        idConfig["ignoreUnknownIdentifier"] <- FALSE
+      }
+      dsFactory <- paste0('{"Magma.RHavenDatasourceFactoryDto.params": ', .listToJson(dsFactory), ', "idConfig":', .listToJson(idConfig),'}')
+    }
+    created <- opal.post(opal, "project", project, "transient-datasources", body=dsFactory, contentType="application/json")
+    # launch a import task
+    importCmd <- list(destination=project, tables=list(paste0(created$name, '.', table)))
+    location <- opal.post(opal, "project", project, "commands", "_import", body=.listToJson(importCmd), contentType="application/json", callback=.handleResponseLocation)
+    if (!is.null(location)) {
+      # /shell/command/<id>
+      task <- substring(location, 16)
+      if (wait) {
+        status <- 'NA'
+        waited <- 0
+        while(!is.element(status, c('SUCCEEDED','FAILED','CANCELED'))) {
+          # delay is proportional to the time waited, but no more than 10s
+          delay <- min(10, max(1, round(waited/10)))
+          Sys.sleep(delay)
+          waited <- waited + delay
+          command <- opal.get(opal, "shell", "command", task)
+          status <- command$status
+        }
+        if (is.element(status, c('FAILED','CANCELED'))) {
+          stop(paste0('Import of "', file, '" ended with status: ', status), call.=FALSE)
+        }
+      } else {
+        # returns the task ID so that task completion can be followed
+        task
+      }
+    } else {
+      # not supposed to be here
+      location
+    }
+  }
 }
 
 #' Update the dictionary of a Opal table
