@@ -299,6 +299,9 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 .handleError <- function(opal, response) {
   headers <- httr::headers(response)
   content <- .getContent(opal, response)
+  if (.is.verbose()) {
+    warning(httr::content(response, as="text", encoding = opal$encoding), call. = FALSE)
+  }
   msg <- paste0("[", http_status(response)$message, "]")
   if (is.null(content)) {
     stop(msg, call.=FALSE)
