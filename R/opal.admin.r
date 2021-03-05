@@ -162,29 +162,6 @@ oadmin.installed_devtools <- function(opal) {
   oadmin.installed_package(opal,'devtools')
 }
 
-#' Install a package from GitHub (deprecated)
-#' 
-#' Install a package from a source repository on GitHub.
-#'
-#' @family administration functions
-#' @param opal Opal object or list of opal objects.
-#' @param pkg Package name.
-#' @param username GitHub user or organization name.
-#' @param ref Desired git reference. Could be a commit, tag, or branch name. Defaults to "master".
-#' @param auth_user (ignored) Your github username if you're attempting to install a package hosted in a private repository (and your username is different to username).
-#' @param password (ignored) Your github password
-#' @examples 
-#' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' oadmin.install_github(o, 'opalr', 'obiba')
-#' opal.logout(o)
-#' }
-#' @export
-oadmin.install_github <- function(opal, pkg , username=getOption("github.user"), ref="master", auth_user=NULL, password=NULL) {
-  warning("Deprecated: oadmin.install_github() is deprecated by oadmin.install_github_package()")
-  oadmin.install_github_package(opal, pkg, username = username, ref = ref)
-}
-
 #' Install a package from GitHub
 #' 
 #' Install a package from a source repository on GitHub.

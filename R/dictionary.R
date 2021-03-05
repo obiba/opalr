@@ -8,36 +8,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Apply the dictionary to a tibble (deprecated)
-#'
-#' Deprecated: use \link{dictionary.apply} instead.
-#'
-#' @param tibble Tibble to be decorated.
-#' @param variables A data frame with one row per variable (column name) and then one column per property/attribute.
-#' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute.
-#' @examples 
-#' \dontrun{
-#' data <- tibble::as_tibble(mtcars)
-#' variables <- tibble::tribble(
-#'   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
-#'   "mpg", "decimal", "Mpg label",  "Value1", "years", 0, 1,
-#'   "cyl", "decimal", "Cyl label",  "Value2", "kg/m2", 0, 2,
-#'   "disp", "decimal", "Disp label", NA, NA, 1, 3
-#' )
-#' categories <- tibble::tribble(
-#'   ~variable, ~name, ~missing, ~`label:en`, ~`label:fr`,
-#'   "cyl", "4", 0, "Four", "Quatre",
-#'   "cyl", "6", 0, "Six", "Six",
-#'   "cyl", "8", 1, "Height", "Huit"
-#' )
-#' data <- dictionary.apply(data, variables, categories)
-#' }
-#' @export
-harmo.dictionary_apply <- function(tibble, variables, categories = NULL) {
-  warning("Deprecated: harmo.dictionary_apply() is replaced by dictionary.apply()")
-  dictionary.apply(tibble, variables, categories = categories)
-}
-
 #' Apply the dictionary to a tibble
 #'
 #' Apply the dictionary described in a Opal Excel format as attributes of the tibble's columns.
@@ -166,38 +136,4 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
   }
   .tickProgress(pb, tokens = list(what = paste0("Dictionary completed")))
   tbl
-}
-
-#' Update the dictionary of a Opal table (deprecated)
-#' 
-#' Deprecated: use \link{opal.table_dictionary_update} instead.
-#' 
-#' @param opal Opal connection object.
-#' @param project Project name where the table will be located.
-#' @param table Destination table name.
-#' @param variables A data frame with one row per variable (column name) and then one column per property/attribute (Opal Excel format).
-#' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute (Opal Excel format). If there are
-#' no categories, this parameter is optional.
-#' @examples 
-#' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' variables <- tibble::tribble(
-#'   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
-#'   "mpg", "decimal", "Mpg label",  "Value1", "years", 0, 1,
-#'   "cyl", "decimal", "Cyl label",  "Value2", "kg/m2", 0, 2,
-#'   "disp", "decimal", "Disp label", NA, NA, 1, 3
-#' )
-#' categories <- tibble::tribble(
-#'   ~variable, ~name, ~missing, ~`label:en`, ~`label:fr`,
-#'   "cyl", "4", 0, "Four", "Quatre",
-#'   "cyl", "6", 0, "Six", "Six",
-#'   "cyl", "8", 1, "Height", "Huit"
-#' )
-#' opal.table_dictionary_update(o, "test", "mtcars", variables, categories)
-#' opal.logout(o)
-#' }
-#' @export
-harmo.dictionary_update <- function(opal, project, table, variables, categories = NULL) {
-  warning("Deprecated: harmo.dictionary_update() is deprecated by opal.table_dictionary_update()")
-  opal.table_dictionary_update(opal, project, table, variables, categories = categories)
 }

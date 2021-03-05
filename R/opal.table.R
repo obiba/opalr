@@ -8,27 +8,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Get a Opal table as a tibble (deprecated)
-#'
-#' Deprecated: use \link{opal.table_get} instead.
-#'
-#' @param opal Opal connection object.
-#' @param project Project name where the table is located.
-#' @param table Table name from which the tibble should be extracted.
-#' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
-#' @param missings Include the missing values (default is TRUE).
-#' @examples 
-#' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
-#' opal.logout(o)
-#' }
-#' @export
-harmo.table_get <- function(opal, project, table, variables = NULL, missings = TRUE) {
-  warning("Deprecated: opal.table_get() is deprecated by opal.table_get()")
-  opal.table_get(opal, project, table, variables = variables, missings = missings)
-}
-
 #' Get a Opal table as a tibble
 #'
 #' Shortcut function to assign a Opal table to a tibble in the R server-side session
@@ -38,8 +17,9 @@ harmo.table_get <- function(opal, project, table, variables = NULL, missings = T
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name from which the tibble should be extracted.
-#' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
-#' @param missings Include the missing values (default is TRUE).
+#' @param id.name The name of the column representing the entity identifiers. Default is 'id'. Requires Opal 4.0+.
+#' @param variables (Deprecated) List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refer to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
+#' @param missings (Deprecated) Include the missing values (default is TRUE).
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -47,39 +27,53 @@ harmo.table_get <- function(opal, project, table, variables = NULL, missings = T
 #' opal.logout(o)
 #' }
 #' @export
-opal.table_get <- function(opal, project, table, variables = NULL, missings = TRUE) {
+opal.table_get <- function(opal, project, table, id.name='id', variables = NULL, missings = TRUE) {
   tblObj <- opal.table(opal, project, table, counts = TRUE)
   if (tblObj$valueSetCount == 0) {
     tibble::tibble()
   } else {
-    pb <- .newProgress(total = 5)
-    .tickProgress(pb, tokens = list(what = paste0("Assigning ", project, ".", table)))
-    opal.assign.table.tibble(opal, symbol = ".D", value = paste0(project, ".", table), variables = variables, missings = missings)
-    
-    .tickProgress(pb, tokens = list(what = paste0("Saving in R data file")))
-    opal.assign.script(opal, ".file", quote(tempfile(tmpdir = getwd(), fileext = '.rds')))
-    file <- opal.execute(opal, ".file")
-    filename <- basename(file)
-    opal.execute(opal, paste0("saveRDS(.D, file=.file)"))
-    
-    # clean up
+    pb <- NULL
+    localfile <- tempfile(fileext = ".rds")
     if (opal.version_compare(opal,"4.0")<0) {
+      pb <- .newProgress(total = 5)
+      .tickProgress(pb, tokens = list(what = paste0("Assigning ", project, ".", table)))
+      opal.assign.table.tibble(opal, symbol = ".D", value = paste0(project, ".", table), variables = variables, missings = missings)
+      
+      .tickProgress(pb, tokens = list(what = paste0("Saving in R data file")))
+      opal.assign.script(opal, ".file", quote(tempfile(tmpdir = getwd(), fileext = '.rds')))
+      file <- opal.execute(opal, ".file")
+      filename <- basename(file)
+      opal.execute(opal, paste0("saveRDS(.D, file=.file)"))
+    
+      # clean up 
       tryCatch(opal.symbol_rm(opal, ".D"))
       opal.execute(opal, "gc()")
+      
+      .tickProgress(pb, tokens = list(what = paste0("Downloading R data file")))
+      opaltmp <- opal.file_mkdir_tmp(opal)
+      opalfile <- paste0(opaltmp, "/", filename)
+      opal.file_read(opal, filename, opalfile)
+      opal.execute(opal, paste0("unlink(.file)"))
+      opal.file_download(opal, opalfile, localfile)
+      opal.file_rm(opal, opaltmp)
+      
     } else {
-      opal.symbol_rm(opal, ".D")
+      pb <- .newProgress(total = 4)
+      .tickProgress(pb, tokens = list(what = paste0("Exporting ", project, ".", table)))
+      localfile <- tempfile(fileext = ".rds")
+      filename <- basename(localfile)
+      opaltmp <- opal.file_mkdir_tmp(opal)
+      opalfile <- paste0(opaltmp, "/", filename)
+      opal.table_export(opal, project, table, file = opalfile, id.name = id.name)
+      
+      .tickProgress(pb, tokens = list(what = paste0("Downloading R data file")))
+      opal.file_download(opal, opalfile, localfile)
+      opal.file_rm(opal, opaltmp)
     }
     
-    .tickProgress(pb, tokens = list(what = paste0("Downloading R data file")))
-    opalfile <- paste0("/home/", opal$username, "/", filename)
-    opal.file_read(opal, filename, opalfile)
-    opal.execute(opal, paste0("unlink(.file)"))
-    opal.file_download(opal, opalfile)
-    opal.file_rm(opal, opalfile)
-    
     .tickProgress(pb, tokens = list(what = paste0("Loading R data file")))
-    rval <- readRDS(filename)
-    unlink(filename)
+    rval <- readRDS(localfile)
+    unlink(localfile)
     .tickProgress(pb, tokens = list(what = "Data loaded"))
     rval
   }
@@ -205,39 +199,6 @@ opal.table_truncate <- function(opal, project, table) {
   } else {
     warning("Table '", table,"' does not exist in project '", project, "' or is a view.")
   }
-}
-
-#' Save a local tibble as a Opal table (deprecated)
-#'
-#' Deprecated: use \link{opal.table_save} instead.
-#'
-#' @param opal Opal connection object.
-#' @param tibble The tibble object to be imported.
-#' @param project Project name where the table will be located.
-#' @param table Destination table name.
-#' @param overwrite If the destination table already exists, it will be replaced (deleted and then
-#' imported). Otherwise the table will be updated (data dictionaries merge may conflict). Default is TRUE.
-#' See also \link{opal.table_truncate} function.
-#' @param force If the destination already exists, stop with an informative message if this flag is FALSE (default).
-#' @param identifiers Name of the identifiers mapping to use when assigning entities to Opal.
-#' @param policy Identifiers policy: 'required' (each identifiers must be mapped prior importation (default)), 'ignore' (ignore unknown identifiers) and 'generate' (generate a system identifier for each unknown identifier).
-#' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
-#' @param type Entity type (what the data are about). Default is 'Participant'
-#' @return An invisible logical indicating whether the destination table exists.
-#' @examples 
-#' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
-#' # do some (meta)data transformations, then save in opal's database
-#' opal.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = TRUE, force = TRUE)
-#' # or overwrite data only (keep original data dictionary)
-#' opal.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = 'values', force = TRUE)
-#' opal.logout(o)
-#' }
-#' @export
-harmo.table_save <- function(opal, tibble, project, table, overwrite = TRUE, force = FALSE, identifiers=NULL, policy='required', id.name='id', type='Participant') {
-  warning("Deprecated: harmo.table_save() is deprecated by opal.table_save()")
-  opal.table_save(opal, tibble, project, table, overwrite = overwrite, force = force, identifiers = identifiers, policy = policy, id.name = id.name, type = type)
 }
 
 #' Save a local tibble as a Opal table
@@ -434,6 +395,79 @@ opal.table_import <- function(opal, file, project, table, identifiers=NULL, poli
       # not supposed to be here
       location
     }
+  }
+}
+
+#' Export a table as a file
+#' 
+#' Export a table as file in the specified format. The file destination is in the Opal server 
+#' file system. See \link{opal.file_download} to download the file locally. See also 
+#' \link{opal.table_get} to get directly the table as an R object.
+#'
+#' @param opal Opal connection object.
+#' @param project Project name where the table is located.
+#' @param table Table name to export.
+#' @param file Destination file in the Opal file system. The expected file extensions are: 
+#' rds (RDS), sav (SPSS), zsav (SPSS compressed), sas7bdat (SAS), xpt (SAS Transport), 
+#' dta (Stata).RDS (serialized single R object) is to be read by base::readRDS(), 
+#' while other formats are supported by the haven R package.
+#' @param identifiers Name of the identifiers mapping to use when exporting entities from Opal.
+#' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
+#' @param wait Wait for import task completion. Default is TRUE.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' cqx <- opal.table_export(o, "CNSIM", "CNSIM1", 
+#'                          file = "/home/administrator/cnsim1.sav")
+#' opal.logout(o)
+#' }
+#' @export
+opal.table_export <- function(opal, project, table, file, identifiers=NULL, id.name='id', wait = TRUE) {
+  format <- tools::file_ext(file)
+  if (!(format %in% c("rds", "sav", "zsav", "sas7bdat", "xpt", "dta"))) {
+    stop("Format not supported for export: ", format)
+  }
+  config <- list(
+    tables = list(paste0(project, ".", table)),
+    format = format,
+    out = file,
+    nonIncremental = TRUE,
+    noVariables = FALSE,
+    copyNullValues = TRUE,
+    entityIdNames = id.name
+  )
+  if (!is.null(identifiers)) {
+    config$idConfig <- list(
+      name = identifiers,
+      allowIdentifierGeneration = FALSE,
+      ignoreUnknownIdentifier = FALSE
+    )
+  }
+  location <- opal.post(opal, "project", project, "commands", "_export", body=jsonlite::toJSON(config, auto_unbox = TRUE), contentType="application/json", callback=.handleResponseLocation)
+  if (!is.null(location)) {
+    # /shell/command/<id>
+    task <- substring(location, 16)
+    if (wait) {
+      status <- 'NA'
+      waited <- 0
+      while(!is.element(status, c('SUCCEEDED','FAILED','CANCELED'))) {
+        # delay is proportional to the time waited, but no more than 10s
+        delay <- min(10, max(1, round(waited/10)))
+        Sys.sleep(delay)
+        waited <- waited + delay
+        command <- opal.get(opal, "shell", "command", task)
+        status <- command$status
+      }
+      if (is.element(status, c('FAILED','CANCELED'))) {
+        stop(paste0('Export of "', project, ".", table, '" ended with status: ', status), call.=FALSE)
+      }
+    } else {
+      # returns the task ID so that task completion can be followed
+      task
+    }
+  } else {
+    # not supposed to be here
+    location
   }
 }
 

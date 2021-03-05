@@ -190,7 +190,7 @@ opal.file_mkdir <- function(opal, path, parents = FALSE) {
 
 #' Make a temporary folder
 #' 
-#' Make a temporary folder in the Opal file system (make sure it does not exists).
+#' Make a user personal temporary folder in the Opal file system (make sure it does not exists).
 #' 
 #' @family file functions
 #' @param opal Opal object.

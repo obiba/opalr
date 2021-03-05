@@ -13,7 +13,7 @@ opal.file_mkdir_tmp(opal)
 The path of the created folder.
 }
 \description{
-Make a temporary folder in the Opal file system (make sure it does not exists).
+Make a user personal temporary folder in the Opal file system (make sure it does not exists).
 }
 \examples{
 \dontrun{

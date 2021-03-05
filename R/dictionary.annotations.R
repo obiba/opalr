@@ -8,29 +8,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' List the annotations (deprecated)
-#'
-#' Deprecated: use \link{dictionary.annotations} instead.
-#'
-#' @param tibble Tibble to be annotated
-#' @param variables A character vector of variable names to be inspected. If NULL or empty, all
-#' the columns of the tibble will be inspected.
-#' @param taxonomy Filter by taxonomy name(s) (if provided).
-#' @param vocabulary Filter by vocabulary name(s) (if provided).
-#' @return A data frame in long format (one row per annotation).
-#' @examples 
-#' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
-#' annot <- dictionary.annotations(cqx, taxonomy = "Mlstr_harmo", vocabulary = "status")
-#' opal.logout(o)
-#' }
-#' @export
-harmo.annotations <- function(tibble, variables = NULL, taxonomy = NULL, vocabulary = NULL) {
-  warning("Deprecated: harmo.annotations() is deprecated by dictionary.annotations()")
-  dictionary.annotations(tibble, variables = variables, taxonomy = taxonomy, vocabulary = vocabulary)
-}
-
 #' List the annotations
 #'
 #' List the annotations of each of the variables.
@@ -84,35 +61,6 @@ dictionary.annotations <- function(tibble, variables = NULL, taxonomy = NULL, vo
   }
 
   data.frame(variable, taxonomy = taxo, vocabulary = voc, term)
-}
-
-#' Set variable annotation with a taxonomy term (deprecated)
-#'
-#' Deprecated: use \link{dictionary.annotate} instead.
-#'
-#' @param tibble Tibble to be annotated.
-#' @param variables A character vector of variable names to be annotated. If NULL or empty, all
-#' the columns of the tibble will be annotated.
-#' @param taxonomy The taxonomy to which the vocabulary belongs. If NULL, the annotation is a simple
-#' attribute (i.e. without a taxonomy reference).
-#' @param vocabulary The vocabulary to which the term belongs.
-#' @param term The term to apply. If NULL, the annotation will be deleted.
-#' @return The annotated tibble
-#' @examples 
-#' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
-#' cqx <- dictionary.annotate(cqx, 
-#'   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
-#'   taxonomy = "Mlstr_area", 
-#'   vocabulary = "Sociodemographic_economic_characteristics", 
-#'   term = "Education")
-#' opal.logout(o)
-#' }
-#' @export
-harmo.annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area", vocabulary, term) {
-  warning("Deprecated: harmo.annotate() is deprecated by dictionary.annotate()")
-  dictionary.annotate(tibble, variables = variables, taxonomy = taxonomy, vocabulary = vocabulary, term = term)
 }
 
 #' Set variable annotation with a taxonomy term
@@ -173,30 +121,6 @@ dictionary.annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area
   tibble
 }
 
-#' Set variable annotation with Harmonization Status term (deprecated)
-#'
-#' Deprecated: use \link{dictionary.annotate.harmo_status} instead.
-#'
-#' @param tibble Tibble to be annotated.
-#' @param variables A character vector of variable names to be annotated. If NULL or empty, all
-#' the columns of the tibble will be annotated.
-#' @param status The harmonization status to apply: 'complete', 'undetermined', 'impossible' or 'na'. If NULL, the annotation will be deleted.
-#' @return The annotated tibble
-#' @examples 
-#' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' cqx <- opal.table_get(o, "CPTP", "Cag_coreqx")
-#' cqx <- dictionary.annotate.harmo_status(cqx, 
-#'   variables = c("A_SDC_EDU_LEVEL", "A_SDC_EDU_LEVEL_AGE"), 
-#'   status = "complete")
-#' opal.logout(o)
-#' }
-#' @export
-harmo.annotate.status <- function(tibble, variables = NULL, status) {
-  warning("Deprecated: harmo.annotate.status() is deprecated by dictionary.annotate.harmo_status()")
-  dictionary.annotate.harmo_status(tibble, variables = variables, status = status)
-}
-
 #' Set variable annotation with Harmonization Status term
 #'
 #' Apply or remove an harmonization status annotation from a set of variables. The harmonization status
@@ -219,7 +143,7 @@ harmo.annotate.status <- function(tibble, variables = NULL, status) {
 #' @export
 dictionary.annotate.harmo_status <- function(tibble, variables = NULL, status) {
   if (is.null(status) || status %in% c("complete", "undetermined", "impossible", "na")) {
-    harmo.annotate(tibble, variables, "Mlstr_harmo", "status", status)
+    dictionary.annotate(tibble, variables, "Mlstr_harmo", "status", status)
   } else {
     stop("Not a valid harmonization status: ", status, call. = FALSE)
   }
