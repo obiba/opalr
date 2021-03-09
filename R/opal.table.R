@@ -236,14 +236,20 @@ opal.table_truncate <- function(opal, project, table) {
 #' @export
 #' @import jsonlite
 opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, force = FALSE, identifiers=NULL, policy='required', id.name='id', type='Participant') {
-  if (!("tbl" %in% class(tibble))) {
-    stop("The tibble parameter must be a tibble.")
+  tbl <- tibble
+  if (!tibble::is_tibble(tibble)) {
+    if (!is.data.frame(tibble))
+      stop("The tibble parameter must be a tibble.")
+    else {
+      warning("Coercing data.frame to a tibble...")
+      tbl <- tibble::as_tibble(tibble)
+    }
   }
-  if (!(id.name %in% names(tibble))) {
+  if (!(id.name %in% names(tbl))) {
     stop("The identifiers column '", id.name,"' is missing.")
   }
-  if (!is.character(tibble[[id.name]])) {
-    tibble[[id.name]] <- as.character(tibble[[id.name]])  
+  if (!is.character(tbl[[id.name]])) {
+    tbl[[id.name]] <- as.character(tbl[[id.name]])  
   }
   if (opal.version_compare(opal,"4.0")<0) {
     pb <- .newProgress(total = 7)
@@ -281,7 +287,7 @@ opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, forc
   
   .tickProgress(pb, tokens = list(what = paste0("Saving in R data file")))
   file <- tempfile(fileext = ".rds")
-  saveRDS(tibble, file = file)
+  saveRDS(tbl, file = file)
   
   .tickProgress(pb, tokens = list(what = paste0("Uploading R data file")))
   tmp <- opal.file_mkdir_tmp(opal)
