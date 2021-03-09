@@ -16,7 +16,7 @@
   list(data = data, variables = variables, categories = categories)
 }
 
-test_that("dico applied to tibble", {
+test_that("Dico applied to tibble", {
   dataset <- .makeTestDataset()
   data <- dataset$data
   variables <- dataset$variables
@@ -38,9 +38,22 @@ test_that("dico applied to tibble", {
   expect_equal(attrs$labels, c("(en) Four"="4", "(en) Six"="6", "(en) Height"="8"))
 })
 
-test_that("dico to JSON", {
+test_that("Dico to JSON", {
   dataset <- .makeTestDataset()
   json <- .toJSONVariables(variables = dataset$variables, categories = dataset$categories)
   #print(json)
   expect_equal(as.character(json), '[{"name":"mpg","valueType":"decimal","entityType":"Participant","unit":"years","isRepeatable":false,"index":1,"attributes":[{"name":"label","locale":"en","value":"Mpg label"},{"name":"description","locale":"en","value":"Mpg description"},{"namespace":"Namespace","name":"Name","value":"Value1"},{"namespace":"Namespace","name":"Name2","locale":"en","value":"ValueA"}]},{"name":"cyl","valueType":"decimal","entityType":"Participant","unit":"kg/m2","isRepeatable":false,"index":2,"attributes":[{"name":"label","locale":"en","value":"Cyl label"},{"name":"description","locale":"en","value":"Cyl description"},{"namespace":"Namespace","name":"Name","value":"Value2"},{"namespace":"Namespace","name":"Name2","locale":"en","value":"ValueB"}],"categories":[{"name":"4","isMissing":false,"attributes":[{"name":"label","locale":"en","value":"Four"},{"name":"label","locale":"fr","value":"Quatre"}]},{"name":"6","isMissing":false,"attributes":[{"name":"label","locale":"en","value":"Six"},{"name":"label","locale":"fr","value":"Six"}]},{"name":"8","isMissing":true,"attributes":[{"name":"label","locale":"en","value":"Height"},{"name":"label","locale":"fr","value":"Huit"}]}]},{"name":"disp","valueType":"decimal","entityType":"Participant","isRepeatable":true,"index":3,"attributes":[{"name":"label","locale":"en","value":"Disp label"},{"name":"description","locale":"en","value":"Disp description"}]}]')
+})
+
+test_that("Dico inspection", {
+  patients <- tibble::tribble(
+    ~id, ~visit_id, ~sex, ~visit_date,
+    1, 1, "M", as.Date("2020-01-01"),
+    2, 2, "F", as.Date("2020-01-02"),
+    3, 3, "M", as.Date("2020-01-03"),
+    3, 4, "M", as.Date("2020-01-04"))
+  expect_true(dictionary.inspect(patients, id.name = "id"))
+  expect_error(dictionary.inspect(patients, id.name = "x"))
+  attributes(patients$visit_date)$opal.repeatable <- 0  
+  expect_warning(dictionary.inspect(patients, id.name = "id"))
 })

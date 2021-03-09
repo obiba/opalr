@@ -251,11 +251,14 @@ opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, forc
   if (!is.character(tbl[[id.name]])) {
     tbl[[id.name]] <- as.character(tbl[[id.name]])  
   }
+  dictionary.inspect(tbl, id.name = id.name)
+  
   if (opal.version_compare(opal,"4.0")<0) {
     pb <- .newProgress(total = 7)
   } else {
     pb <- .newProgress(total = 6)
   }
+  
   .tickProgress(pb, tokens = list(what = paste0("Checking ", project, " project")))
   if (opal.table_exists(opal, project, table, view = FALSE)) {
     if (overwrite) {

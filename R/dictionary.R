@@ -137,3 +137,63 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
   .tickProgress(pb, tokens = list(what = paste0("Dictionary completed")))
   tbl
 }
+
+#' Inspect the dictionary of a tibble
+#'
+#' Inspect the data dictionary, checking for inconsistencies. Error is raised when the identifiers
+#' column cannot be found.
+#'
+#' @param tibble Tibble to be inspected.
+#' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
+#' @param warn Print warning messages. Default is TRUE.
+#' @return TRUE if inspection is successful, FALSE otherwise.
+#' @examples 
+#' \dontrun{
+#' # prepare datasets of visits, several visits for one patient
+#' visits <- tibble::tribble(
+#' ~id, ~patient_id, ~sex, ~visit_date,
+#' 1, 1, "M", as.Date("2020-01-01"),
+#' 2, 2, "F", as.Date("2020-01-02"),
+#' 3, 3, "M", as.Date("2020-01-03"),
+#' 4, 3, "M", as.Date("2020-01-04"))
+#' 
+#' o <- opal.login("administrator", "password", url = "https://opal-demo.obiba.org")
+#' 
+#' # save visits dataset
+#' opal.table_save(o, visits, "RSRC", "visits", type = "Visit", force = TRUE)
+#' 
+#' # get visit and make it a dataset of patients 
+#' patients <- opal.table_get(o, "RSRC", "visits", id.name = "id")
+#' # set dataset IDs
+#' patients$visit_id <- patients$id
+#' patients$id <- patients$patient_id
+#' patients$patient_id <- NULL
+#' patients
+#' 
+#' # save patients dataset, there should be a warning that some variables are not repeatable
+#' # while there are patients with multiple data lines
+#' opal.table_save(o, patients, "RSRC", "patients", type = "Participant", force = TRUE)
+#' 
+#' opal.logout(o)
+#' }
+#' @export
+dictionary.inspect <- function(tibble, id.name = 'id', warn = TRUE) {
+  # check for ID column, mandatory
+  if (!(id.name %in% colnames(tibble))) {
+    stop("No identifiers column with name '", id.name, "'", call. = FALSE)
+  }
+  rval <- TRUE
+  # check whether it is a multilines dataset
+  if (length(unique(tibble[[id.name]]) < nrow(tibble))) {
+    for (n in colnames(tibble)) {
+      if (n != id.name) {
+        attrs <- attributes(tibble[[n]])
+        if (!is.null(attrs$opal.repeatable) && attrs$opal.repeatable == 0) {
+          rval <- FALSE
+          warning("Column is not repeatable in a multilines dataset (identifiers column is '", id.name,"'): ", n, call. = FALSE, immediate. = TRUE)
+        }
+      }
+    }
+  }
+  rval
+}
