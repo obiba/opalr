@@ -184,7 +184,7 @@ dictionary.inspect <- function(tibble, id.name = 'id', warn = TRUE) {
   }
   rval <- TRUE
   # check whether it is a multilines dataset
-  if (length(unique(tibble[[id.name]]) < nrow(tibble))) {
+  if (length(unique(tibble[[id.name]])) < nrow(tibble)) {
     for (n in colnames(tibble)) {
       if (n != id.name) {
         attrs <- attributes(tibble[[n]])

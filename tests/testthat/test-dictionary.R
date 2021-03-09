@@ -46,6 +46,7 @@ test_that("Dico to JSON", {
 })
 
 test_that("Dico inspection", {
+  # multilines
   patients <- tibble::tribble(
     ~id, ~visit_id, ~sex, ~visit_date,
     1, 1, "M", as.Date("2020-01-01"),
@@ -56,4 +57,14 @@ test_that("Dico inspection", {
   expect_error(dictionary.inspect(patients, id.name = "x"))
   attributes(patients$visit_date)$opal.repeatable <- 0  
   expect_warning(dictionary.inspect(patients, id.name = "id"))
+  # no multilines
+  visits <- tibble::tribble(
+    ~id, ~patient_id, ~sex, ~visit_date,
+    1, 1, "M", as.Date("2020-01-01"),
+    2, 2, "F", as.Date("2020-01-02"),
+    3, 3, "M", as.Date("2020-01-03"),
+    4, 3, "M", as.Date("2020-01-04"))
+  expect_true(dictionary.inspect(visits))
+  attributes(visits$visit_date)$opal.repeatable <- 0
+  expect_true(dictionary.inspect(visits))
 })
