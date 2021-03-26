@@ -53,6 +53,7 @@ dsadmin.package_descriptions <- function(opal, fields=NULL, df=TRUE) {
       maintainer <- rep(NA, n)
       aggregateMethods <- rep(NA, n)
       assignMethods <- rep(NA, n)
+      options <- rep(NA, n)
       i <- 1
       for (name in names(packageList)) {
         package[i] <- packageList[[name]]$Package
@@ -67,11 +68,12 @@ dsadmin.package_descriptions <- function(opal, fields=NULL, df=TRUE) {
         maintainer[i] <-  .nullToNA(packageList[[name]]$Maintainer)
         aggregateMethods[i] <- .nullToNA(packageList[[name]]$AggregateMethods)
         assignMethods[i] <- .nullToNA(packageList[[name]]$AssignMethods)
+        options[i] <- .nullToNA(packageList[[name]]$Options)
         i <- i + 1
       }
       data.frame(Package=package, LibPath=libPath, Version=version, Depends=depends, License=license, Built=built, 
                  Title=title, Description=description, Author=author, Maintainer=maintainer, 
-                 AggregateMethods=aggregateMethods, AssignMethods=assignMethods)
+                 AggregateMethods=aggregateMethods, AssignMethods=assignMethods, Options=options)
     } else {
       packageList  
     }
@@ -99,7 +101,10 @@ dsadmin.package_description <- function(opal, pkg, fields=NULL) {
     if (!is.null(fields) && length(fields) > 0) {
       query <- list(fields=paste(fields, collapse=','))
     }
-    dto <- opal.get(opal, "datashield", "package", pkg, query=query)
+    dtos <- opal.get(opal, "datashield", "package", pkg, query=query)
+    dto <- dtos
+    if (is.list(dtos))
+      dto <- dtos[[1]]
     packageDescription <- list()
     for (desc in dto$description) {
       packageDescription[[desc$key]] <- desc$value
