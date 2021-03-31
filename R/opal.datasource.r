@@ -405,3 +405,50 @@ opal.tables_perm_delete <- function(opal, project, subject, type = "user") {
     ignore <- opal.delete(opal, "project", project, "permissions", "datasource", query = list(principal = subject[i], type = toupper(type)))  
   }
 }
+
+#' Execute a SQL query on the tables of a project
+#' 
+#' The SQL query can apply to raw tables and/or views and require the permission to 
+#' view the values of these tables.
+#' 
+#' @param opal Opal connection object.
+#' @param project Project name where the table will be located.
+#' @param query The SQL query statement.
+#' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
+#' @param df Returned value is a data.frame or a list. Default is TRUE.
+#' @return The lists of columns and rows, as a data.frame or a list (see df parameter).
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.sql(o, 'CNSIM', 
+#'   'select avg(LAB_HDL) as HDL_AVG, GENDER from CNSIM1 where LAB_HDL is not null group by GENDER')
+#' opal.logout(o)
+#' }
+#' @export
+opal.sql <- function(opal, project, query, id.name = 'id', df = TRUE) {
+  if (is.na(opal$version) || opal.version_compare(opal,"4.1")<0) {
+    stop("SQL queries are not available for opal ", opal$version, " (4.1.0 or higher is required)")
+  }
+  res <- opal.post(opal, 'datasource', project, '_sql', body = query, query = list(id = id.name), contentType = 'text/plain')
+  if (!is.null(res$error)) {
+    stop(res$error, call. = F)
+  }
+  if (df) {
+    nullToNA <- function(x) {
+      x[sapply(x, is.null)] <- NA
+      return(x)
+    }
+    ldf <- lapply(res$rows, function(row) {
+      rdf <- as.data.frame(nullToNA(row), stringsAsFactors = FALSE)
+      names(rdf) <- res$columns
+      rdf
+    })
+    df <- ldf[[1]]
+    for (i in 2:length(ldf)) {
+      df <- rbind(df, ldf[[i]], stringsAsFactors = FALSE)
+    }
+    df
+  } else {
+    res
+  }
+}
