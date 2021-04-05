@@ -2,18 +2,19 @@
 % Please edit documentation in R/opal.datasource.r
 \name{opal.sql}
 \alias{opal.sql}
-\title{Execute a SQL query on the tables of a project}
+\title{Execute a SQL query on tables}
 \usage{
-opal.sql(opal, project, query, id.name = "id", df = TRUE)
+opal.sql(opal, query, project = NULL, id.name = "_id", df = TRUE)
 }
 \arguments{
 \item{opal}{Opal connection object.}
 
-\item{project}{Project name where the table will be located.}
-
 \item{query}{The SQL query statement.}
 
-\item{id.name}{The name of the column representing the entity identifiers. Default is 'id'.}
+\item{project}{Project name where the table(s) are located. If not provided, the SQL query must refer to the 
+full table name(s) (use backquotes to escape, see examples).}
+
+\item{id.name}{The name of the column representing the entity identifiers. Default is '_id'.}
 
 \item{df}{Returned value is a data.frame or a list. Default is TRUE.}
 }
@@ -22,13 +23,26 @@ The lists of columns and rows, as a data.frame or a list (see df parameter).
 }
 \description{
 The SQL query can apply to raw tables and/or views and require the permission to 
-view the values of these tables.
+view the values of these tables. When all tables belong to a project, it is possible to simplify 
+the SQL query by providing the project name parameter. Otherwise the fully qualified table names 
+(`<project>.<table>`) must be specified in the FROM statements.
 }
 \examples{
 \dontrun{
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-opal.sql(o, 'CNSIM', 
-  'select avg(LAB_HDL) as HDL_AVG, GENDER from CNSIM1 where LAB_HDL is not null group by GENDER')
+# with project context
+opal.sql(o,  
+  'select avg(LAB_HDL) as HDL_AVG, GENDER 
+     from CNSIM1 
+     where LAB_HDL is not null 
+     group by GENDER',
+  'CNSIM')
+# without project context
+opal.sql(o,
+  'select avg(LAB_HDL) as HDL_AVG, GENDER 
+     from `CNSIM.CNSIM1` 
+     where LAB_HDL is not null 
+     group by GENDER')
 opal.logout(o)
 }
 }
