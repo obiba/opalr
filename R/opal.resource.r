@@ -147,27 +147,61 @@ opal.resource_exists <- function(opal, project, resource) {
 #' }
 #' @export
 opal.resource_create <- function(opal, project, name, url, description=NULL, format=NULL, package=NULL, identity=NULL, secret=NULL) {
+  parameters <- list(url = url)
+  parameters$format <- format
+  parameters$`_package` <- package
+  credentials <- list(identity = identity, secret = secret)
+  credentials$identity <- identity
+  credentials$secret <- secret
+  if (length(credentials)==0) {
+    credentials <- NULL
+  }
+  opal.resource_extension_create(opal, project, name, "resourcer", "default", description = description, parameters = parameters, credentials = credentials)
+}
+
+#' Create an extended resource reference in a project
+#' 
+#' @family project functions
+#' @param opal Opal object.
+#' @param project Name of the project.
+#' @param name Name of the resource in the project.
+#' @param provider Name of the R package in which the resource is defined.
+#' @param factory Name of the JS function that turns parameters and credentials into a resource object.
+#' @param parameters A named list of the resource parameters.
+#' @param description The description of the resource (optional).
+#' @param credentials A named list of the resource credentials (optional).
+#' @examples
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.resource_extension_create(o, 'RSRC', 'ga4gh_1000g',
+#'   provider = 'dsOmics', factory = 'ga4gh-htsget',
+#'   parameters = list(
+#'     host = 'https://htsget.ga4gh.org',
+#'     sample = '1000genomes.phase1.chr1',
+#'     reference = '1',
+#'     start = '1',
+#'     end = '100000',
+#'     format = 'GA4GHVCF'
+#'   )
+#' )
+#' opal.logout(o)
+#' }
+#' @export
+opal.resource_extension_create <- function(opal, project, name, provider, factory, parameters, description=NULL, credentials=NULL) {
   if (!is.na(opal$version) && opal.version_compare(opal,"3.0")<0) {
     stop("Resources are not available in opal ", opal$version, " (3.0.0 or higher is required)")
   }
   if (!opal.resource_exists(opal, project, name)) {
-    # {"name":"sdqssd","description":"sdqsd","project":"test","provider":"resourcer","factory":"default","parameters":"{\"url\":\"dremio://example.io/db\", \"format\":\"xf\", \"_package\":\"resourcer\"}","credentials":"{\"identifier\":\"idddd\", \"secret\":\"secre\"}"}
     resjson <- list(
-      provider = "resourcer",
-      factory = "default",
+      provider = provider,
+      factory = factory,
       project = project,
       name = name
     )
     resjson$description <- description
-    parameters <- list(url = url)
-    parameters$format <- format
-    parameters$`_package` <- package
     resjson$parameters <- jsonlite::toJSON(parameters, auto_unbox = TRUE)
-    credentials <- list(identity = identity, secret = secret)
-    credentials$identity <- identity
-    credentials$secret <- secret
-    if (length(credentials)>0) {
-      resjson$credentials <- jsonlite::toJSON(credentials, auto_unbox = TRUE)  
+    if (!is.null(credentials)) {
+      resjson$credentials <- jsonlite::toJSON(credentials, auto_unbox = TRUE)
     }
     body <- jsonlite::toJSON(resjson, auto_unbox = TRUE)
     ignore <- opal.post(opal, "project", project, "resources", contentType = "application/json", body = body)
