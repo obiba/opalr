@@ -443,31 +443,26 @@ opal.sql <- function(opal, query, project = NULL, id.name = '_id', df = TRUE) {
   if (is.na(opal$version) || opal.version_compare(opal,"4.1")<0) {
     stop("SQL queries are not available for opal ", opal$version, " (4.1.0 or higher is required)")
   }
-  res <- NULL
   if (is.null(project)) {
-    res <- opal.post(opal, 'datasources', '_sql', body = query, query = list(id = id.name), contentType = 'text/plain')
+    location <- paste0(c('datasources', '_sql'), collapse = '/')
   } else {
-    res <- opal.post(opal, 'datasource', project, '_sql', body = query, query = list(id = id.name), contentType = 'text/plain')
+    location <- paste0(c('datasource', project, '_sql'), collapse = '/')
   }
-  if (!is.null(res$error)) {
-    stop(res$error, call. = F)
+  out <- tempfile()
+  r <- httr::POST(
+    .url(opal, location),
+    body = list(
+      query = query,
+      id = id.name
+    ),
+    encode = "form",
+    write_disk(out, overwrite = TRUE), accept("application/x-rdata"), 
+    config=opal$config, handle=opal$handle, .verbose()
+  )
+  if (r$status>=300) {
+    .handleError(opal, r)
   }
-  if (df) {
-    nullToNA <- function(x) {
-      x[sapply(x, is.null)] <- NA
-      return(x)
-    }
-    ldf <- lapply(res$rows, function(row) {
-      rdf <- as.data.frame(nullToNA(row), stringsAsFactors = FALSE)
-      names(rdf) <- res$columns
-      rdf
-    })
-    df <- ldf[[1]]
-    for (i in 2:length(ldf)) {
-      df <- rbind(df, ldf[[i]], stringsAsFactors = FALSE)
-    }
-    df
-  } else {
-    res
-  }
+  res <- readRDS(out)
+  unlink(out)
+  res
 }
