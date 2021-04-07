@@ -17,13 +17,14 @@ opal.sql_history(
 \item{opal}{Opal connection object.}
 
 \item{project}{Project name used as the SQL execution context, to filter. If not specified, history from any context 
-is returned. If '*' is specified, the history of SQL executions without context is returned. Default is NULL.}
+is returned. If NA is specified, the history of SQL executions without context is returned. Default is NULL.}
 
 \item{offset}{Number of history items to skip. Default is 0 (note that the items are ordered by most recent first).}
 
 \item{limit}{Maximum number of history items to return. Default is 100.}
 
-\item{user}{Filter by user name, only administrators can retrieve SQL history of other users. Default is the current user name.}
+\item{user}{Filter by user name, only administrators can retrieve SQL history of other users. If NA is specified, the 
+SQL execution history of all users will be retrieved. Default is the current user name.}
 
 \item{df}{Result is a data.frame or a list of raw data.}
 }
