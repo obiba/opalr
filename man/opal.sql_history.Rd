@@ -41,7 +41,7 @@ o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # with project context
 opal.sql_history(o, 'CNSIM')
 # without project context
-opal.sql_history(o, '*')
+opal.sql_history(o, NA)
 # with or without project context
 opal.sql_history(o)
 opal.logout(o)

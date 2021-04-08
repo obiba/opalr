@@ -88,7 +88,7 @@ opal.sql <- function(opal, query, project = NULL, id.name = '_id') {
 #' # with project context
 #' opal.sql_history(o, 'CNSIM')
 #' # without project context
-#' opal.sql_history(o, '*')
+#' opal.sql_history(o, NA)
 #' # with or without project context
 #' opal.sql_history(o)
 #' opal.logout(o)
