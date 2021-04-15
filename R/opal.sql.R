@@ -45,9 +45,9 @@ opal.sql <- function(opal, query, project = NULL, id.name = '_id') {
     stop("SQL queries are not available for opal ", opal$version, " (4.1.0 or higher is required)")
   }
   if (is.null(project)) {
-    location <- paste0(c('datasources', '_sql'), collapse = '/')
+    location <- paste0(c('datasources', '_rsql'), collapse = '/')
   } else {
-    location <- paste0(c('datasource', project, '_sql'), collapse = '/')
+    location <- paste0(c('datasource', project, '_rsql'), collapse = '/')
   }
   out <- tempfile()
   r <- httr::POST(
