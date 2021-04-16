@@ -113,7 +113,6 @@ opal.sql_history <- function(opal, project = NULL, offset = 0, limit = 100, user
   res <- opal.get(opal, "system", "subject-profile", subject, "sql-history", query = q)
   if (df) {
     if (length(res)>0) {
-      id <- replicate(length(res), NA)
       user <- replicate(length(res), opal$username)
       query <- replicate(length(res), NA)
       project <- replicate(length(res), NA)
@@ -123,7 +122,6 @@ opal.sql_history <- function(opal, project = NULL, offset = 0, limit = 100, user
       elapsed <- replicate(length(res), NA)
       for (i in 1:length(res)) {
         item <- res[[i]]
-        id[[i]] <- item$id
         user[[i]] <- item$user
         query[[i]] <- item$query
         if (!is.null(item$datasource))
@@ -134,7 +132,7 @@ opal.sql_history <- function(opal, project = NULL, offset = 0, limit = 100, user
         end[[i]] <- item$end/1000
         elapsed[[i]] <- item$end - item$start
       }
-      data.frame(id, user, query, project, error, start = as.POSIXct(start, origin='1970-01-01'), end = as.POSIXct(end, origin='1970-01-01'), elapsed)  
+      data.frame(user, query, project, error, start = as.POSIXct(start, origin='1970-01-01'), end = as.POSIXct(end, origin='1970-01-01'), elapsed)  
     } else {
       data.frame()
     }
