@@ -74,7 +74,7 @@ opal.tokens <- function(opal, df=TRUE) {
 #' @param name Name of the token
 #' @param projects Vector of project names, to which the token applies. Default is NULL (all projects).
 #' @param access Data access level: 'READ' (read-only) or 'READ_NO_VALUES' (read-only, without access to individual-level data) or NULL (default).
-#' @param commands Task commands that can launched on a project: 'import' or 'export'. Default is NULL (no task commands).
+#' @param commands Task commands that can launched on a project: 'import' and/or 'export'. Default is 'export' (use NULL for no task commands).
 #' @return The token value.
 #' @examples 
 #' \dontrun{
@@ -83,7 +83,7 @@ opal.tokens <- function(opal, df=TRUE) {
 #' opal.logout(o)
 #' }
 #' @export
-opal.token_r_create <- function(opal, name, projects = NULL, access = NULL, commands = NULL) {
+opal.token_r_create <- function(opal, name, projects = NULL, access = NULL, commands = c('export')) {
   token <- .generateToken()
   body <- jsonlite::toJSON(list(name = name, token = token, projects = projects, access = access, commands = commands, useR = TRUE), auto_unbox = TRUE, null = 'null')
   ignore <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
@@ -130,6 +130,27 @@ opal.token_sql_create <- function(opal, name, projects = NULL) {
   body <- jsonlite::toJSON(list(name = name, token = token, projects = projects, access = 'READ', useSQL = TRUE), auto_unbox = TRUE, null = 'null')
   ignore <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
   token
+}
+
+#' Get a personal access token
+#' 
+#' @family token functions
+#' @param opal Opal object.
+#' @param name Name of the token
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.token(o, 'sql-1')
+#' opal.logout(o)
+#' }
+#' @export
+opal.token <- function(opal, name) {
+  tks <- opal.tokens(opal, df = FALSE)
+  res <- tks[sapply(tks, function(tk) { tk$name == name})]
+  if (length(res)>0)
+    res[[1]]
+  else
+    NULL
 }
 
 #' Delete a personal access token

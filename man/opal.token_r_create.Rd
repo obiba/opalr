@@ -9,7 +9,7 @@ opal.token_r_create(
   name,
   projects = NULL,
   access = NULL,
-  commands = NULL
+  commands = c("export")
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ opal.token_r_create(
 
 \item{access}{Data access level: 'READ' (read-only) or 'READ_NO_VALUES' (read-only, without access to individual-level data) or NULL (default).}
 
-\item{commands}{Task commands that can launched on a project: 'import' or 'export'. Default is NULL (no task commands).}
+\item{commands}{Task commands that can launched on a project: 'import' and/or 'export'. Default is 'export' (use NULL for no task commands).}
 }
 \value{
 The token value.
@@ -41,6 +41,7 @@ Other token functions:
 \code{\link{opal.token_datashield_create}()},
 \code{\link{opal.token_delete}()},
 \code{\link{opal.token_sql_create}()},
-\code{\link{opal.tokens}()}
+\code{\link{opal.tokens}()},
+\code{\link{opal.token}()}
 }
 \concept{token functions}

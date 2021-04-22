@@ -26,6 +26,7 @@ Other token functions:
 \code{\link{opal.token_datashield_create}()},
 \code{\link{opal.token_r_create}()},
 \code{\link{opal.token_sql_create}()},
-\code{\link{opal.tokens}()}
+\code{\link{opal.tokens}()},
+\code{\link{opal.token}()}
 }
 \concept{token functions}
