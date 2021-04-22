@@ -100,6 +100,21 @@ test_that("Token SQL creation", {
   expect_true(tk$useSQL)
   opal.logout(o)
   
+  # use token
+  o <- opal.login(token = val)
+  df <- opal.projects(o)
+  expect_true(length(df$name)>0)
+  expect_true("CNSIM" %in% df$name)
+  expect_true("DASIM" %in% df$name)
+  expect_equal(nrow(opal.file_ls(o, "/projects/CNSIM")), 0)
+  expect_error(opal.file_mkdir(o, "/projects/CNSIM/x"))
+  expect_error(opal.assign.table(o, "D", "CNSIM.CNSIM1"))
+  expect_error(opal.table_get(o, "CNSIM", "CNSIM1"))
+  expect_length(opal.valueset(o, "CNSIM", "CNSIM1", "1000"), 11)
+  df <- opal.sql(o, "select count(*) from CNSIM1", "CNSIM")
+  expect_true(nrow(df) == 1)
+  opal.logout(o)
+  
   # clean up
   o <- opal.login("administrator", "password")
   opal.token_delete(o, name)
