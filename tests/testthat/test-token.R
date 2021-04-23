@@ -69,11 +69,11 @@ test_that("Token R creation", {
   df <- opal.table_get(o, "CNSIM", "CNSIM1")
   expect_true(nrow(df)>0)
   expect_length(opal.valueset(o, "CNSIM", "CNSIM1", "1000"), 11)
-  opal.workspace_save(o)
+  wsid <- opal.workspace_save(o)
   df <- opal.workspaces(o)
   expect_true(nrow(df)>0)
-  expect_true(o$rid %in% df$name)
-  opal.workspace_rm(o, o$rid)
+  expect_true(wsid %in% df$name)
+  opal.workspace_rm(o, wsid)
   opal.logout(o)
   
   # clean up

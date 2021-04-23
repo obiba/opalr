@@ -11,13 +11,19 @@ opal.workspace_save(opal, save = TRUE)
 
 \item{save}{Save the workspace with given identifier (default is TRUE, current session ID if TRUE).}
 }
+\value{
+The workspace ID (invisible)
+}
 \description{
 Save the current session in a opal R workspace.
 }
 \examples{
 \dontrun{
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+# provide a workspace ID
 opal.workspace_save(o, 'test')
+# or use default one
+id <- opal.workspace_save(o)
 opal.logout(o)
 }
 }

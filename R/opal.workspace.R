@@ -81,10 +81,14 @@ opal.workspace_rm <- function(opal, ws, user=NULL) {
 #' @family workspace functions
 #' @param opal Opal object.
 #' @param save Save the workspace with given identifier (default is TRUE, current session ID if TRUE).
+#' @return The workspace ID (invisible)
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' # provide a workspace ID
 #' opal.workspace_save(o, 'test')
+#' # or use default one
+#' id <- opal.workspace_save(o)
 #' opal.logout(o)
 #' }
 #' @export
@@ -98,5 +102,6 @@ opal.workspace_save <- function(opal, save=TRUE) {
       saveId <- opal$rid
     }
     res <- opal.post(opal, "r", "session", opal$rid, "workspaces", query=list(save=saveId))
+    invisible(saveId)
   }
 }
