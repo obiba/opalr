@@ -92,7 +92,7 @@ opal.logout <- function(opal, save=FALSE) {
     res <- try(.rmOpalSession(opal), silent = TRUE)
     opal$sid <- NULL
   }
-  if (!is.null(res) && length(res) > 0) {
+  if (!is.null(res) && length(res) > 0 && .is.verbose()) {
     return(res)
   }
 }
