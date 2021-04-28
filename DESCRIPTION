@@ -39,8 +39,11 @@ Description: Data integration Web application for biobanks by 'OBiBa'. 'Opal' is
     web services and to perform operations on the R server side. 'DataSHIELD'
     administration tools are also provided.
 License: GPL-3
-URL: https://www.obiba.org/ https://www.obiba.org/pages/products/opal/ https://doi.org/10.1093/ije/dyx180 http://www.datashield.ac.uk/
-BugReports: https://github.com/obiba/opalr
+URL: https://github.com/obiba/opalr/,
+    https://www.obiba.org/pages/products/opal/,
+    https://doi.org/10.1093/ije/dyx180,
+    https://www.datashield.org/
+BugReports: https://github.com/obiba/opalr/issues/
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Encoding: UTF-8
