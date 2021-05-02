@@ -17,7 +17,7 @@ full table name(s) (use backquotes to escape, see examples).}
 \item{id.name}{The name of the column representing the entity identifiers. Default is '_id'.}
 }
 \value{
-The lists of columns and rows, as a data.frame or a list (see df parameter).
+The lists of columns and rows, as a data.frame.
 }
 \description{
 The SQL query can apply to raw tables and/or views and require the permission to 

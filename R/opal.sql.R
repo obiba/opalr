@@ -20,7 +20,7 @@
 #' @param project Project name where the table(s) are located. If not provided, the SQL query must refer to the 
 #' full table name(s) (use backquotes to escape, see examples).
 #' @param id.name The name of the column representing the entity identifiers. Default is '_id'.
-#' @return The lists of columns and rows, as a data.frame or a list (see df parameter).
+#' @return The lists of columns and rows, as a data.frame.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
