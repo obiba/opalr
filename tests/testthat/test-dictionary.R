@@ -32,10 +32,11 @@ test_that("Dico applied to tibble", {
   expect_equal(attrs$opal.unit, "kg/m2")
   expect_equal(attrs$opal.repeatable, 0)
   expect_equal(attrs$opal.index, 2)
-  expect_equal(class(data$cyl), c("numeric", "haven_labelled"))
+  expect_true("double" %in% class(data$cyl))
+  expect_true("haven_labelled" %in% class(data$cyl))
   expect_false(is.null(attrs$labels))
   expect_equal(length(attrs$labels), 3)
-  expect_equal(attrs$labels, c("(en) Four"="4", "(en) Six"="6", "(en) Height"="8"))
+  expect_equal(attrs$labels, c("(en) Four"=4, "(en) Six"=6, "(en) Height"=8))
 })
 
 test_that("Dico to JSON", {

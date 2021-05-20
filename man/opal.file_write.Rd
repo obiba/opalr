@@ -38,6 +38,7 @@ Other file functions:
 \code{\link{opal.file_mv}()},
 \code{\link{opal.file_read}()},
 \code{\link{opal.file_rm}()},
+\code{\link{opal.file_unzip}()},
 \code{\link{opal.file_upload}()},
 \code{\link{opal.file}()}
 }

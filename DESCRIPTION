@@ -20,7 +20,8 @@ Depends:
 Imports:
     jsonlite,
     mime,
-    progress
+    progress,
+    labelled
 Suggests:
     e1071,
     knitr,

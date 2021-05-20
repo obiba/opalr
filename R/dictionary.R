@@ -33,6 +33,7 @@
 #' data <- dictionary.apply(data, variables, categories)
 #' }
 #' @export
+#' @import labelled
 dictionary.apply <- function(tibble, variables, categories = NULL) {
   tbl <- tibble
   names <- names(tbl)
@@ -67,6 +68,19 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
     }
     rep(naValue, nrow(tbl))
   }
+  asValueType <- function(catNames, valueType) {
+    rval <- catNames
+    if (!is.null(valueType)) {
+      if ("integer" %in% valueType) {
+        rval <- as.integer(catNames)
+      } else if ("decimal" %in% valueType) {
+        rval <- as.numeric(catNames)
+      } else if ("boolean" %in% valueType) {
+        rval <- as.logical(catNames)
+      }
+    }
+    rval
+  }
   pb <- .newProgress(total = 1 + nrow(variables))
   # go through variable descriptions
   for (i in 1:nrow(variables)) {
@@ -76,6 +90,31 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
     if (!(var$name %in% names)) {
       tbl[[var$name]] <- naVector(var$valueType)
       tbl <- tibble::as_tibble(tbl)
+    }
+    # look for categories and apply labels
+    if (!is.null(categories)) {
+      varcats <- categories[categories$variable == var$name,]
+      if (nrow(varcats)>0) {
+        labels <- asValueType(varcats$name, var$valueType)
+        missings <- list()
+        for (n in names(varcats)) {
+          if (startsWith(n, "label")) { # note: multilang labels not supported
+            if (is.null(names(labels))) {
+              names(labels) <- localizedValue(n, varcats[[n]])
+            } else {
+              warning("Multilang labels are not supported yet")
+            }
+          } else if (n == "missing") {
+            missings <- as.logical(sapply(varcats[[n]], .as.zeroOne))
+          }
+        }
+        attrs <- attributes(tbl[[var$name]])
+        labelled::val_labels(tbl[[var$name]]) <- labels
+        attributes(tbl[[var$name]]) <- append(attributes(tbl[[var$name]]), attrs)
+        if (any(missings)) {
+          attributes(tbl[[var$name]])$na_values <- labels[missings]
+        }
+      }
     }
     # make column attributes from variable description
     for (n in names(var)) {
@@ -102,36 +141,6 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
         attrs <- applyAttribute(attrs, n, var[[n]])
       }
       attributes(tbl[[var$name]]) <- attrs
-    }
-    # look for categories
-    if (!is.null(categories)) {
-      varcats <- categories[categories$variable == var$name,]
-      if (nrow(varcats)>0) {
-        labels <- varcats$name
-        missings <- list()
-        for (n in names(varcats)) {
-          if (startsWith(n, "label")) { # note: multilang labels not supported
-            if (is.null(names(labels))) {
-              names(labels) <- localizedValue(n, varcats[[n]])
-            } else {
-              warning("Multilang labels are not supported yet")
-            }
-          } else if (n == "missing") {
-            missings <- as.logical(sapply(varcats[[n]], .as.zeroOne))
-          }
-        }
-        attributes(tbl[[var$name]])$labels <- labels
-        if (any(missings)) {
-          attributes(tbl[[var$name]])$na_values <- labels[missings]
-        }
-        clazz <- class(tbl[[var$name]])
-        if (is.null(clazz)) {
-          clazz <- "haven_labelled"
-        } else if (!("haven_labelled" %in% clazz)) {
-          clazz <- append(clazz, "haven_labelled")
-        }
-        class(tbl[[var$name]]) <- clazz
-      }
     }
   }
   .tickProgress(pb, tokens = list(what = paste0("Dictionary completed")))
