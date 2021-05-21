@@ -370,21 +370,23 @@ opal.file_read <- function(opal, source, destination) {
 #' @param source Path to the file in the Opal file system (must exist and have the ".zip" file extension).
 #' @param destination Path to the destination file or folder in the Opal file system.
 #' @param key Key to decrypt archive.
+#' @return The path of the extracted archive folder in the Opal file system.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # unzip
-#' opal.file_unzip(o, "/tmp/TESTING.zip", "/home/administrator")
+#' path <- opal.file_unzip(o, "/tmp/TESTING.zip", "/home/administrator")
 #' opal.logout(o)
 #' }
 #' @export
 opal.file_unzip <- function(opal, source, destination, key=NULL) {
-  query <- list(destination=destination)
+  query <- list(action = "unzip", destination = destination)
 
   if (!is.null(key)) {
     query["key"] <- key
   }
 
-  location <- append("files", append("_unzip", strsplit(substring(source, 2), "/")[[1]]))
-  res <- opal.post(opal, location, query=query, acceptType='text/plain')
+  location <- append("files", strsplit(substring(source, 2), "/")[[1]])
+  res <- opal.post(opal, location, query=query, contentType = "application/json")
+  res$path
 }
