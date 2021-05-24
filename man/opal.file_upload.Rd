@@ -4,7 +4,7 @@
 \alias{opal.file_upload}
 \title{Upload a file}
 \usage{
-opal.file_upload(opal, source, destination)
+opal.file_upload(opal, source, destination, all.files = FALSE)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -12,9 +12,22 @@ opal.file_upload(opal, source, destination)
 \item{source}{Path to the file in the local file system.}
 
 \item{destination}{Path of the destination folder in the Opal file system.}
+
+\item{all.files}{Upload only visible files (following Unix-style visibility, that is files whose name 
+does not start with a dot). Default is FALSE.}
 }
 \description{
 Upload a file into the Opal file system.
+}
+\examples{
+\dontrun{
+o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+# upload a file
+opal.file_upload(o, 'some_data.csv', '/home/administrator')
+# upload a folder
+opal.file_upload(o, 'some_data', '/home/administrator')
+opal.logout(o)
+}
 }
 \seealso{
 Other file functions: 

@@ -88,15 +88,51 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
 #' @param opal Opal object.
 #' @param source Path to the file in the local file system.
 #' @param destination Path of the destination folder in the Opal file system.
+#' @param all.files	Upload only visible files (following Unix-style visibility, that is files whose name 
+#' does not start with a dot). Default is FALSE.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' # upload a file
+#' opal.file_upload(o, 'some_data.csv', '/home/administrator')
+#' # upload a folder
+#' opal.file_upload(o, 'some_data', '/home/administrator')
+#' opal.logout(o)
+#' }
 #' @export
-opal.file_upload <- function(opal, source, destination) {
-  res <- opal.file_ls(opal, destination)
-  location <- append("files", strsplit(substring(destination, 2), "/")[[1]])
-  r <- POST(.url(opal, location), body=list(file=upload_file(source)), encode = "multipart", 
-            content_type("multipart/form-data"), accept("text/html"), 
-            config=opal$config, handle=opal$handle, .verbose())
-  res <- .handleResponse(opal, r)
-  res <- opal.file_ls(opal, destination)
+opal.file_upload <- function(opal, source, destination, all.files = FALSE) {
+  if (!file.exists(source)) {
+    stop("Source file does not exist")
+  }
+  if (file.info(source)$isdir) {
+    sourceDir <- normalizePath(source)
+    parentDir <- dirname(sourceDir)
+    pb <- .newProgress(total = 2 + length(list.files(sourceDir, recursive = TRUE, include.dirs = TRUE, all.files = all.files)))
+    split_path <- function(x) if (dirname(x)==x) x else c(basename(x),split_path(dirname(x)))
+    
+    lapply(list.dirs(sourceDir, recursive = TRUE), function(d) {
+      if (all.files || !any(startsWith(split_path(d), "."))) {
+        od <- paste0(destination, "/", substring(d, first = nchar(parentDir) + 2))
+        .tickProgress(pb, tokens = list(what = paste0("Make directory ", od)))
+        opal.file_mkdir(opal, od, parents = TRUE)
+        lapply(list.files(d, full.names = TRUE, all.files = all.files), function(f) {
+          if (!file.info(f)$isdir) {
+            .tickProgress(pb, tokens = list(what = paste0("Upload file ", f)))
+            opal.file_upload(opal, source = f, destination = od, all.files = all.files)  
+          }
+        })
+      }
+    })
+    ignore <- .tickProgress(pb, tokens = list(what = paste0("Uploaded: ", source)))
+  } else if (all.files || !startsWith(basename(normalizePath(source)), ".")) {
+    res <- opal.file_ls(opal, destination)
+    location <- append("files", strsplit(substring(destination, 2), "/")[[1]])
+    r <- POST(.url(opal, location), body=list(file=upload_file(source)), encode = "multipart", 
+              content_type("multipart/form-data"), accept("text/html"), 
+              config=opal$config, handle=opal$handle, .verbose())
+    res <- .handleResponse(opal, r)
+    res <- opal.file_ls(opal, destination)  
+  }
 }
 
 #' Move and/or rename a file
