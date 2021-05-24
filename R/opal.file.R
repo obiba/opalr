@@ -380,6 +380,9 @@ opal.file_read <- function(opal, source, destination) {
 #' }
 #' @export
 opal.file_unzip <- function(opal, source, destination, key=NULL) {
+  if (opal.version_compare(opal,"4.2")<0) {
+    stop("Zip archive extraction requires Opal 4.2 or higher.")
+  }
   query <- list(action = "unzip", destination = destination)
 
   if (!is.null(key)) {
