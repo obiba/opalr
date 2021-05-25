@@ -13,8 +13,8 @@ opal.file_upload(opal, source, destination, all.files = TRUE)
 
 \item{destination}{Path of the destination folder in the Opal file system. Folder (and parents) will be created if missing.}
 
-\item{all.files}{Upload only visible files (following Unix-style visibility, that is files whose name 
-does not start with a dot). Default is TRUE}
+\item{all.files}{When FALSE, upload only visible files (following Unix-style visibility, that is files whose name 
+does not start with a dot). Default is TRUE.}
 }
 \description{
 Upload a file into the Opal file system.

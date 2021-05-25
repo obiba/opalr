@@ -88,8 +88,8 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
 #' @param opal Opal object.
 #' @param source Path to the file in the local file system.
 #' @param destination Path of the destination folder in the Opal file system. Folder (and parents) will be created if missing.
-#' @param all.files	Upload only visible files (following Unix-style visibility, that is files whose name 
-#' does not start with a dot). Default is TRUE
+#' @param all.files	When FALSE, upload only visible files (following Unix-style visibility, that is files whose name 
+#' does not start with a dot). Default is TRUE.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
