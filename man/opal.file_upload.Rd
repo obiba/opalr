@@ -4,17 +4,17 @@
 \alias{opal.file_upload}
 \title{Upload a file}
 \usage{
-opal.file_upload(opal, source, destination, all.files = FALSE)
+opal.file_upload(opal, source, destination, all.files = TRUE)
 }
 \arguments{
 \item{opal}{Opal object.}
 
 \item{source}{Path to the file in the local file system.}
 
-\item{destination}{Path of the destination folder in the Opal file system.}
+\item{destination}{Path of the destination folder in the Opal file system. Folder (and parents) will be created if missing.}
 
 \item{all.files}{Upload only visible files (following Unix-style visibility, that is files whose name 
-does not start with a dot). Default is FALSE.}
+does not start with a dot). Default is TRUE}
 }
 \description{
 Upload a file into the Opal file system.
