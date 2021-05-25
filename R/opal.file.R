@@ -80,9 +80,10 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
   }
 }
 
-#' Upload a file
+#' Upload a file or a folder
 #' 
-#' Upload a file into the Opal file system.
+#' Upload a file or a folder into the Opal file system. Creates the destination folder (and parents)
+#' when necessary. Hidden files and folders (with name starting with dot) can be excluded.
 #' 
 #' @family file functions
 #' @param opal Opal object.

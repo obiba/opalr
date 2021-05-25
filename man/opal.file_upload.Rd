@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.file.R
 \name{opal.file_upload}
 \alias{opal.file_upload}
-\title{Upload a file}
+\title{Upload a file or a folder}
 \usage{
 opal.file_upload(opal, source, destination, all.files = TRUE)
 }
@@ -17,7 +17,8 @@ opal.file_upload(opal, source, destination, all.files = TRUE)
 does not start with a dot). Default is TRUE.}
 }
 \description{
-Upload a file into the Opal file system.
+Upload a file or a folder into the Opal file system. Creates the destination folder (and parents)
+when necessary. Hidden files and folders (with name starting with dot) can be excluded.
 }
 \examples{
 \dontrun{
