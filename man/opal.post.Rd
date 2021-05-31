@@ -11,6 +11,7 @@ opal.post(
   body = "",
   contentType = "application/x-rscript",
   acceptType = "application/json",
+  outFile = NULL,
   callback = NULL
 )
 }
@@ -26,6 +27,8 @@ opal.post(
 \item{contentType}{The type of the body content. Default is 'application/x-rscript'.}
 
 \item{acceptType}{The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.}
+
+\item{outFile}{Write response body to file. Ignored if NULL (default).}
 
 \item{callback}{A callback function to handle the response object.}
 }
