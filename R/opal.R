@@ -157,6 +157,7 @@ opal.version_compare <- function(opal, version) {
 #' @param ... Resource path segments.
 #' @param query Named list of query parameters.
 #' @param acceptType The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.
+#' @param outFile Write response body to file. Ignored if NULL (default).
 #' @param callback A callback function to handle the response object.
 #' @import httr
 #' @examples 
@@ -166,8 +167,12 @@ opal.version_compare <- function(opal, version) {
 #' opal.logout(o)
 #' }
 #' @export
-opal.get <- function(opal, ..., query=list(), acceptType='application/json', callback=NULL) {
-  r <- GET(.url(opal, ...), query=query, accept(acceptType), config=opal$config, handle = opal$handle, .verbose())
+opal.get <- function(opal, ..., query=list(), acceptType='application/json', outFile = NULL, callback=NULL) {
+  r <- NULL
+  if (is.null(outFile))
+    r <- GET(.url(opal, ...), query=query, accept(acceptType), config=opal$config, handle = opal$handle, .verbose())
+  else
+    r <- GET(.url(opal, ...), query=query, accept(acceptType), write_disk(outFile, overwrite = TRUE), config=opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -180,6 +185,7 @@ opal.get <- function(opal, ..., query=list(), acceptType='application/json', cal
 #' @param body The body of the request.
 #' @param contentType The type of the body content. Default is 'application/x-rscript'.
 #' @param acceptType The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.
+#' @param outFile Write response body to file. Ignored if NULL (default).
 #' @param callback A callback function to handle the response object.
 #' @import httr
 #' @examples 
@@ -189,8 +195,12 @@ opal.get <- function(opal, ..., query=list(), acceptType='application/json', cal
 #' opal.logout(o)
 #' }
 #' @export
-opal.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', acceptType='application/json', callback=NULL) {
-  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), accept(acceptType), config=opal$config, handle = opal$handle, .verbose())
+opal.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', acceptType='application/json', outFile = NULL, callback=NULL) {
+  r <- NULL
+  if (is.null(outFile))
+    r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), accept(acceptType), config=opal$config, handle = opal$handle, .verbose())
+  else
+    r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), accept(acceptType), write_disk(outFile, overwrite = TRUE), config=opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 

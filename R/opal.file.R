@@ -58,7 +58,6 @@ opal.file <- function(opal, path, key=NULL) {
 #' }
 #' @export
 opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
-  content <- opal.file(opal, source, key)
   name <- basename(source)
   dest <- destination
   if (is.null(destination)) {
@@ -69,14 +68,12 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
   } else if (dirname(destination) != ".") {
     dir.create(dirname(destination), showWarnings=FALSE, recursive=TRUE)
   }
-  if (is.raw(content)) {
-    fh <- file(dest,'wb')
-    writeBin(content, fh)
-    close(fh)
+  p <- append("files", strsplit(substring(source, 2), "/")[[1]])
+  if (is.null(key)) {
+    ignore <- opal.get(opal, p, outFile = dest)
   } else {
-    fh <- file(dest,'wb')
-    writeChar(content, fh)
-    close(fh)
+    body <- paste0("key=", key)
+    ignore <- opal.post(opal, p, body=body, contentType="application/x-www-form-urlencoded", outFile = dest)
   }
 }
 
