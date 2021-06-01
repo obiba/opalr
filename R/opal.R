@@ -21,45 +21,54 @@
 #' @param url Opal url or list of opal urls. Can be provided by "opal.url" option.
 #' @param opts Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.
 #' @param restore Workspace ID to be restored (see also opal.logout)
+#' @param profile R server profile name.
 #' @export
 #' @examples 
 #' \dontrun{
 #' #### The below examples illustrate the different ways to login in opal ####
 #'
 #' # explicite username/password login
-#' o <- opal.login(username='administrator', password='password', url='https://opal-demo.obiba.org')
+#' o <- opal.login(username = 'administrator', password = 'password', 
+#'                 url = 'https://opal-demo.obiba.org')
 #' opal.logout(o)
 #'
 #'  # explicite personal access token login
-#' o <- opal.login(token='HYG16LO0VaX4O0UardNbiqmr2ByBpRke', url='https://opal-demo.obiba.org')
+#' o <- opal.login(token = 'HYG16LO0VaX4O0UardNbiqmr2ByBpRke', 
+#'                 url = 'https://opal-demo.obiba.org')
 #' opal.logout(o)
 #'
 #' # login using options and user credentials
-#' options(opal.username='administrator',
-#'  opal.password='password',
-#'  opal.url='https://opal-demo.obiba.org')
+#' options(opal.username = 'administrator',
+#'  opal.password = 'password',
+#'  opal.url = 'https://opal-demo.obiba.org')
 #' o <- opal.login()
 #' opal.logout(o)
 #' 
 #' # login using options and personal access token
-#' options(opal.token='HYG16LO0VaX4O0UardNbiqmr2ByBpRke',
-#'  opal.url='https://opal-demo.obiba.org')
+#' options(opal.token = 'HYG16LO0VaX4O0UardNbiqmr2ByBpRke',
+#'         opal.url = 'https://opal-demo.obiba.org')
 #' o <- opal.login()
 #' opal.logout(o)
 #'
 #' # login using ssl key pair
-#' options(opal.opts=list(
-#'    sslcert='my-publickey.pem',
-#'    sslkey='my-privatekey.pem'))
-#' o <- opal.login(url='https://opal-demo.obiba.org')
+#' options(opal.opts = list(
+#'           sslcert = 'my-publickey.pem',
+#'           sslkey = 'my-privatekey.pem'))
+#' o <- opal.login(url = 'https://opal-demo.obiba.org')
+#' opal.logout(o)
+#' 
+#' # login with R server profile
+#' o <- opal.login(username = 'administrator', password = 'password', 
+#'                 url = 'https://opal-demo.obiba.org', profile = 'default')
 #' opal.logout(o)
 #'}
-opal.login <- function(username=getOption("opal.username"), password=getOption("opal.password"), token=getOption("opal.token"), url=getOption("opal.url"), opts=getOption("opal.opts", list()), restore=NULL) {
-  if (is.null(url)) stop("opal url is required", call.=FALSE)
+opal.login <- function(username = getOption("opal.username"), password = getOption("opal.password"), token = getOption("opal.token"), url = getOption("opal.url"), 
+                       opts = getOption("opal.opts", list()), profile = getOption("opal.profile"), restore = NULL) {
+  if (is.null(url)) stop("opal url is required", call. = FALSE)
   if(is.list(url)){
-    lapply(url, function(u){opal.login(username, password, token, u, opts=opts, restore=restore)})
+    lapply(url, function(u){opal.login(username, password, token, u, opts = opts, restore = restore)})
   } else {
-    .opal.login(username, password, token, url, opts=opts, restore=restore)
+    .opal.login(username, password, token, url, opts = opts, profile = profile, restore = restore)
   }
 }
 
@@ -72,11 +81,11 @@ opal.login <- function(username=getOption("opal.username"), password=getOption("
 #' @param save Save the workspace with given identifier (default value is FALSE, current session ID if TRUE).
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url = 'https://opal-demo.obiba.org')
 #' opal.logout(o)
 #' }
 #' @export
-opal.logout <- function(opal, save=FALSE) {
+opal.logout <- function(opal, save = FALSE) {
   res <- NULL
   if (is.list(opal)) {
     res <- lapply(opal, function(o){opal.logout(o, save)})  
@@ -86,7 +95,7 @@ opal.logout <- function(opal, save=FALSE) {
         warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
       }
     }
-    res <- try(.rmRSession(opal, save), silent=TRUE)
+    res <- try(.rmRSession(opal, save), silent = TRUE)
     opal$rid <- NULL
     
     res <- try(.rmOpalSession(opal), silent = TRUE)
@@ -106,6 +115,9 @@ print.opal <- function(x, ...) {
   if (!is.null(x$rid)) {
     cat("rid:", x$rid, "\n")  
   }
+  if (!is.null(x$profile)) {
+    cat("profile:", x$profile, "\n")  
+  }
   if (!is.null(x$restore)) {
     cat("restore:", x$restore, "\n")  
   }
@@ -121,17 +133,17 @@ print.opal <- function(x, ...) {
 #' @param version The semantic version string to be compared.
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url = 'https://opal-demo.obiba.org')
 #' opal.version_compare(o, "2.6.0")
 #' opal.logout(o)
 #' }
 #' @export
 opal.version_compare <- function(opal, version) {
   if (is.null(opal$version) || is.na(opal$version)) {
-    stop("opal version is not set", call.=FALSE)
+    stop("opal version is not set", call. = FALSE)
   }
   ov <- strsplit(opal$version, "-")[[1]][1]
-  if (ov == version) return(0)
+  if (ov ==  version) return(0)
   # semver: major.minor.patch
   osv <- as.numeric(strsplit(ov, "\\.")[[1]])
   sv <- as.numeric(strsplit(version, "\\.")[[1]])
@@ -162,17 +174,17 @@ opal.version_compare <- function(opal, version) {
 #' @import httr
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url = 'https://opal-demo.obiba.org')
 #' opal.get(o, 'project', 'datashield')
 #' opal.logout(o)
 #' }
 #' @export
-opal.get <- function(opal, ..., query=list(), acceptType='application/json', outFile = NULL, callback=NULL) {
+opal.get <- function(opal, ..., query = list(), acceptType = 'application/json', outFile = NULL, callback = NULL) {
   r <- NULL
   if (is.null(outFile))
-    r <- GET(.url(opal, ...), query=query, accept(acceptType), config=opal$config, handle = opal$handle, .verbose())
+    r <- GET(.url(opal, ...), query = query, accept(acceptType), config = opal$config, handle = opal$handle, .verbose())
   else
-    r <- GET(.url(opal, ...), query=query, accept(acceptType), write_disk(outFile, overwrite = TRUE), config=opal$config, handle = opal$handle, .verbose())
+    r <- GET(.url(opal, ...), query = query, accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -190,17 +202,17 @@ opal.get <- function(opal, ..., query=list(), acceptType='application/json', out
 #' @import httr
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.post(o, 'some', 'resources', body='{"some":"value"}')
+#' o <- opal.login('administrator','password', url = 'https://opal-demo.obiba.org')
+#' opal.post(o, 'some', 'resources', body = '{"some":"value"}')
 #' opal.logout(o)
 #' }
 #' @export
-opal.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', acceptType='application/json', outFile = NULL, callback=NULL) {
+opal.post <- function(opal, ..., query = list(), body = '', contentType = 'application/x-rscript', acceptType = 'application/json', outFile = NULL, callback = NULL) {
   r <- NULL
   if (is.null(outFile))
-    r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), accept(acceptType), config=opal$config, handle = opal$handle, .verbose())
+    r <- POST(.url(opal, ...), query = query, body = body, content_type(contentType), accept(acceptType), config = opal$config, handle = opal$handle, .verbose())
   else
-    r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), accept(acceptType), write_disk(outFile, overwrite = TRUE), config=opal$config, handle = opal$handle, .verbose())
+    r <- POST(.url(opal, ...), query = query, body = body, content_type(contentType), accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -216,13 +228,13 @@ opal.post <- function(opal, ..., query=list(), body='', contentType='application
 #' @import httr
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.put(o, 'some', 'resource', 'toupdate', body='{"some":"value"}')
+#' o <- opal.login('administrator','password', url = 'https://opal-demo.obiba.org')
+#' opal.put(o, 'some', 'resource', 'toupdate', body = '{"some":"value"}')
 #' opal.logout(o)
 #' }
 #' @export
-opal.put <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  r <- PUT(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, handle = opal$handle, .verbose())
+opal.put <- function(opal, ..., query = list(), body = '', contentType = 'application/x-rscript', callback = NULL) {
+  r <- PUT(.url(opal, ...), query = query, body = body, content_type(contentType), config = opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -236,13 +248,13 @@ opal.put <- function(opal, ..., query=list(), body='', contentType='application/
 #' @import httr
 #' @examples 
 #' \dontrun{
-#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' o <- opal.login('administrator','password', url = 'https://opal-demo.obiba.org')
 #' opal.delete(o, 'some', 'resource')
 #' opal.logout(o)
 #' }
 #' @export
-opal.delete <- function(opal, ..., query=list(), callback=NULL) {
-  r <- DELETE(.url(opal, ...), query=query, config=opal$config, handle = opal$handle, .verbose())
+opal.delete <- function(opal, ..., query = list(), callback = NULL) {
+  r <- DELETE(.url(opal, ...), query = query, config = opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -250,14 +262,14 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 #' @import utils
 #' @keywords internal
 .url <- function(opal, ...) {
-  utils::URLencode(paste(opal$url, "ws", paste(c(...), collapse="/"), sep="/"))
+  utils::URLencode(paste(opal$url, "ws", paste(c(...), collapse = "/"), sep = "/"))
 }
 
 #' Constructs the value for the Authorization header
 #' @import jsonlite
 #' @keywords internal
 .authorizationHeader <- function(username, password) {
-  paste("X-Opal-Auth", jsonlite::base64_enc(paste(username, password, sep=":")))
+  paste("X-Opal-Auth", jsonlite::base64_enc(paste(username, password, sep = ":")))
 }
 
 #' Constructs the value for the X-Opal-Auth header
@@ -269,7 +281,7 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 
 #' Process response with default handler or the provided one
 #' @keywords internal
-.handleResponseOrCallback <- function(opal, response, callback=NULL) {
+.handleResponseOrCallback <- function(opal, response, callback = NULL) {
   if (is.null(callback)) {
     .handleResponse(opal, response)  
   } else {
@@ -292,7 +304,7 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
     opal$sid <- .extractOpalSessionId(httr::cookies(response)) 
   }
   
-  if (response$status>=300) {
+  if (response$status >= 300) {
     .handleError(opal, response)
   }
   
@@ -310,11 +322,11 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   headers <- httr::headers(response)
   content <- .getContent(opal, response)
   if (.is.verbose()) {
-    warning(httr::content(response, as="text", encoding = opal$encoding), call. = FALSE)
+    warning(httr::content(response, as = "text", encoding = opal$encoding), call. = FALSE)
   }
   msg <- paste0("[", http_status(response)$message, "]")
   if (is.null(content)) {
-    stop(msg, call.=FALSE)
+    stop(msg, call. = FALSE)
   }
   
   if ("status" %in% names(content)) {
@@ -323,18 +335,18 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
     } else {
       msg <- paste0(msg, " ", content$status)
     }
-    stop(msg, call.=FALSE)
+    stop(msg, call. = FALSE)
   }
   
   if ("error" %in% names(content)) {
     if ("message" %in% names(content)) {
-      stop(content$message, call.=FALSE)
+      stop(content$message, call. = FALSE)
     } else {
-      stop(content$error, call.=FALSE)  
+      stop(content$error, call. = FALSE)  
     }
   }
   
-  stop(msg, call.=FALSE)
+  stop(msg, call. = FALSE)
 }
 
 #' Default request response Location handler.
@@ -347,7 +359,7 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
     opal$sid <- .extractOpalSessionId(httr::cookies(response))  
   }
 
-  if (response$status>=300) {
+  if (response$status >= 300) {
     .handleError(opal, response)
   }
   
@@ -403,8 +415,8 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   headers <- httr::headers(response)
   if (is.null(headers$`content-type`)) {
     NULL
-  } else if (headers$`content-type` == "application/x-protobuf+json") {
-    jsonlite::fromJSON(httr::content(response, as="text", encoding = opal$encoding))
+  } else if (headers$`content-type` ==  "application/x-protobuf+json") {
+    jsonlite::fromJSON(httr::content(response, as = "text", encoding = opal$encoding))
   } else if (startsWith(headers$`content-type`, "text/")) {
     httr::content(response, as = "text", encoding = opal$encoding)
   } else if (startsWith(headers$`content-type`, "image/")) {
@@ -417,8 +429,8 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 #' Extract opalsid from cookie data frame.
 #' @keywords internal
 .extractOpalSessionId <- function(cookies) {
-  if (nrow(cookies[cookies$name=="opalsid",])>0) {
-    sid <- cookies[cookies$name=="opalsid",]$value
+  if (nrow(cookies[cookies$name == "opalsid",])>0) {
+    sid <- cookies[cookies$name == "opalsid",]$value
     if (!is.na(sid)) {
       return(sid)
     }
@@ -430,16 +442,16 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 #' @keywords internal
 .isContentEmpty <- function(content) {
   return(is.null(content) 
-  || (is.raw(content) && nchar(rawToChar(content))==0)
-  || (is.character(content) && nchar(content)==0))
+  || (is.raw(content) && nchar(rawToChar(content)) == 0)
+  || (is.character(content) && nchar(content) == 0))
 }
 
 #' Create the opal object
 #' @import httr
 #' @keywords internal
-.opal.login <- function(username, password, token, url, opts=list(), restore=NULL) {
-  if (is.null(url)) stop("opal url is required", call.=FALSE)
-  opal <- new.env(parent=globalenv())
+.opal.login <- function(username, password, token, url, opts = list(), profile = profile, restore = NULL) {
+  if (is.null(url)) stop("opal url is required", call. = FALSE)
+  opal <- new.env(parent = globalenv())
   # Username
   opal$username <- username
   # Strip trailing slash
@@ -456,7 +468,7 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   }
   
   # httr/curl options
-  protocol <- strsplit(url, split="://")[[1]][1]
+  protocol <- strsplit(url, split = "://")[[1]][1]
   options <- opts
   # legacy RCurl options to httr
   if (!is.null(options$ssl.verifyhost)) {
@@ -476,7 +488,7 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   } else if (!is.na(token) && !is.null(token) && nchar(token) > 0) {
     # Token header
     opal$token <- .tokenHeader(token)
-  } else if (protocol=="https") {
+  } else if (protocol == "https") {
     # Two-way SSL authentication
     if (!is.null(options$cainfo)) {
       options$cainfo <- .getPEMFilePath(options$cainfo)
@@ -488,7 +500,7 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
       options$sslkey <- .getPEMFilePath(options$sslkey)
     }
   } else {
-    stop("opal authentication strategy not identified: either provide username/password or API access token or SSL certificate/private keys", call.=FALSE)
+    stop("opal authentication strategy not identified: either provide username/password or API access token or SSL certificate/private keys", call. = FALSE)
   }
   
   opal$config <- config()
@@ -496,12 +508,13 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
   opal$handle <- handle(paste0(opal$url, "/", sample(1000:9999, 1))) # append a random number to ensure urls are different
   opal$rid <- NULL
   opal$restore <- restore
+  opal$profile <- profile
   class(opal) <- "opal"
   
   # get user profile to test sign-in
   r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token), handle = opal$handle, .verbose())
-  opal$profile <- .handleResponse(opal, r)
-  opal$username <- opal$profile$principal
+  opal$uprofile <- .handleResponse(opal, r)
+  opal$username <- opal$uprofile$principal
   
   opal
 }
@@ -510,7 +523,7 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 #' @keywords internal
 .getRSessionId <- function(opal) {
   if(is.null(opal$rid)) {
-    opal$rid <- .newSession(opal, restore=opal$restore)
+    opal$rid <- .newSession(opal, restore = opal$restore, profile = opal$profile)
   }
   if(is.null(opal$rid)) {
     stop("Remote R session not available")
@@ -520,12 +533,13 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 
 #' Create a new R session in Opal.
 #' @keywords internal
-.newSession <- function(opal, restore=NULL) {
+.newSession <- function(opal, restore = NULL, profile = NULL) {
   query <- list()
-  if (!is.null(restore)) {
-    query <- list(restore=restore)  
-  }
-  res <- .extractJsonField(opal.post(opal, "r", "sessions", query=query), c("id"), isArray=FALSE)
+  if (!is.null(restore))
+    query$restore <- restore
+  if (!is.null(profile))
+    query$profile <- profile
+  res <- .extractJsonField(opal.post(opal, "r", "sessions", query = query), c("id"), isArray = FALSE)
   return(res$id)
 }
 
@@ -539,15 +553,15 @@ opal.delete <- function(opal, ..., query=list(), callback=NULL) {
 
 #' Remove a R session from Opal.
 #' @keywords internal
-.rmRSession <- function(opal, save=FALSE) {
+.rmRSession <- function(opal, save = FALSE) {
   if (!is.null(opal$rid)) {
     if ((is.logical(save) && save) || is.character(save)) {
       saveId <- save
       if(is.logical(save) && save) {
         saveId <- opal$rid
       }
-      opal.delete(opal, "r", "session", opal$rid, query=list(save=saveId))
-      if(saveId != save) {
+      opal.delete(opal, "r", "session", opal$rid, query = list(save = saveId))
+      if(saveId !=  save) {
         return(saveId)
       }
     } else {

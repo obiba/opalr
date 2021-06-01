@@ -4,7 +4,15 @@
 \alias{.opal.login}
 \title{Create the opal object}
 \usage{
-.opal.login(username, password, token, url, opts = list(), restore = NULL)
+.opal.login(
+  username,
+  password,
+  token,
+  url,
+  opts = list(),
+  profile = profile,
+  restore = NULL
+)
 }
 \description{
 Create the opal object

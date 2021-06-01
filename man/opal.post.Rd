@@ -37,8 +37,8 @@ Generic REST resource creation.
 }
 \examples{
 \dontrun{
-o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-opal.post(o, 'some', 'resources', body='{"some":"value"}')
+o <- opal.login('administrator','password', url = 'https://opal-demo.obiba.org')
+opal.post(o, 'some', 'resources', body = '{"some":"value"}')
 opal.logout(o)
 }
 }

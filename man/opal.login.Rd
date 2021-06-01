@@ -10,6 +10,7 @@ opal.login(
   token = getOption("opal.token"),
   url = getOption("opal.url"),
   opts = getOption("opal.opts", list()),
+  profile = getOption("opal.profile"),
   restore = NULL
 )
 }
@@ -25,6 +26,8 @@ Can be provided by "opal.token" option.}
 
 \item{opts}{Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.}
 
+\item{profile}{R server profile name.}
+
 \item{restore}{Workspace ID to be restored (see also opal.logout)}
 }
 \value{
@@ -38,31 +41,38 @@ Log in Opal(s).
 #### The below examples illustrate the different ways to login in opal ####
 
 # explicite username/password login
-o <- opal.login(username='administrator', password='password', url='https://opal-demo.obiba.org')
+o <- opal.login(username = 'administrator', password = 'password', 
+                url = 'https://opal-demo.obiba.org')
 opal.logout(o)
 
  # explicite personal access token login
-o <- opal.login(token='HYG16LO0VaX4O0UardNbiqmr2ByBpRke', url='https://opal-demo.obiba.org')
+o <- opal.login(token = 'HYG16LO0VaX4O0UardNbiqmr2ByBpRke', 
+                url = 'https://opal-demo.obiba.org')
 opal.logout(o)
 
 # login using options and user credentials
-options(opal.username='administrator',
- opal.password='password',
- opal.url='https://opal-demo.obiba.org')
+options(opal.username = 'administrator',
+ opal.password = 'password',
+ opal.url = 'https://opal-demo.obiba.org')
 o <- opal.login()
 opal.logout(o)
 
 # login using options and personal access token
-options(opal.token='HYG16LO0VaX4O0UardNbiqmr2ByBpRke',
- opal.url='https://opal-demo.obiba.org')
+options(opal.token = 'HYG16LO0VaX4O0UardNbiqmr2ByBpRke',
+        opal.url = 'https://opal-demo.obiba.org')
 o <- opal.login()
 opal.logout(o)
 
 # login using ssl key pair
-options(opal.opts=list(
-   sslcert='my-publickey.pem',
-   sslkey='my-privatekey.pem'))
-o <- opal.login(url='https://opal-demo.obiba.org')
+options(opal.opts = list(
+          sslcert = 'my-publickey.pem',
+          sslkey = 'my-privatekey.pem'))
+o <- opal.login(url = 'https://opal-demo.obiba.org')
+opal.logout(o)
+
+# login with R server profile
+o <- opal.login(username = 'administrator', password = 'password', 
+                url = 'https://opal-demo.obiba.org', profile = 'default')
 opal.logout(o)
 }
 }
