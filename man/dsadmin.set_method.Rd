@@ -4,18 +4,27 @@
 \alias{dsadmin.set_method}
 \title{Set DataSHIELD method}
 \usage{
-dsadmin.set_method(opal, name, func = NULL, path = NULL, type = "aggregate")
+dsadmin.set_method(
+  opal,
+  name,
+  func = NULL,
+  path = NULL,
+  type = "aggregate",
+  profile = NULL
+)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
 \item{name}{Name of the method, as it will be accessed by DataSHIELD users.}
 
-\item{func}{Function name.}
+\item{func}{Function name or function code.}
 
 \item{path}{Path to the R file containing the script (mutually exclusive with func).}
 
 \item{type}{Type of the method: "aggregate" (default) or "assign"}
+
+\item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
 }
 \description{
 Set DataSHIELD method
@@ -23,7 +32,10 @@ Set DataSHIELD method
 \examples{
 \dontrun{
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-dsadmin.set_method(o, 'foo', 'base::mean')
+# as a package's function
+dsadmin.set_method(o, 'foo', func = 'base::mean')
+# as a custom function
+dsadmin.set_method(o, 'foo', func = function(x) { base::mean(x) })
 opal.logout(o)
 }
 }

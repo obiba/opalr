@@ -4,7 +4,7 @@
 \alias{dsadmin.set_option}
 \title{Set DataSHIELD option}
 \usage{
-dsadmin.set_option(opal, name, value)
+dsadmin.set_option(opal, name, value, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -12,6 +12,8 @@ dsadmin.set_option(opal, name, value)
 \item{name}{Name of the option}
 
 \item{value}{Value of the option}
+
+\item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
 }
 \description{
 Set a DataSHIELD option (add or update).

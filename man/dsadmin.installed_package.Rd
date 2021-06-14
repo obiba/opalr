@@ -4,12 +4,14 @@
 \alias{dsadmin.installed_package}
 \title{Check DataSHIELD package}
 \usage{
-dsadmin.installed_package(opal, pkg)
+dsadmin.installed_package(opal, pkg, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
 \item{pkg}{Package name.}
+
+\item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
 }
 \value{
 TRUE if installed

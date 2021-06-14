@@ -4,12 +4,14 @@
 \alias{oadmin.installed_package}
 \title{Check package is installed}
 \usage{
-oadmin.installed_package(opal, pkg)
+oadmin.installed_package(opal, pkg, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
 \item{pkg}{Package name.}
+
+\item{profile}{The R servers profile name to which operation applies. See also \link{opal.profiles}.}
 }
 \value{
 TRUE if installed
@@ -28,6 +30,7 @@ opal.logout(o)
 \seealso{
 Other administration functions: 
 \code{\link{oadmin.install_bioconductor_package}()},
+\code{\link{oadmin.install_cran_package}()},
 \code{\link{oadmin.install_devtools}()},
 \code{\link{oadmin.install_github_package}()},
 \code{\link{oadmin.install_local_package}()},

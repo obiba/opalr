@@ -4,10 +4,12 @@
 \alias{dsadmin.get_options}
 \title{Get the DataSHIELD options}
 \usage{
-dsadmin.get_options(opal)
+dsadmin.get_options(opal, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
+
+\item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
 }
 \description{
 Get the DataSHIELD options

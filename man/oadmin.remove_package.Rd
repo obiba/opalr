@@ -4,12 +4,14 @@
 \alias{oadmin.remove_package}
 \title{Remove package}
 \usage{
-oadmin.remove_package(opal, pkg)
+oadmin.remove_package(opal, pkg, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
 \item{pkg}{Package name.}
+
+\item{profile}{The R servers profile name to which operation applies. See also \link{opal.profiles}.}
 }
 \description{
 Remove package permanently.
@@ -24,6 +26,7 @@ opal.logout(o)
 \seealso{
 Other administration functions: 
 \code{\link{oadmin.install_bioconductor_package}()},
+\code{\link{oadmin.install_cran_package}()},
 \code{\link{oadmin.install_devtools}()},
 \code{\link{oadmin.install_github_package}()},
 \code{\link{oadmin.install_local_package}()},

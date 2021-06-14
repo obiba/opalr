@@ -312,3 +312,14 @@
   jsonlite::toJSON(varArray, pretty = pretty, auto_unbox = TRUE)
 }
 
+#' @keywords internal
+.toSafeProfile <- function(opal, profile) {
+  safeProfile <- profile
+  if (is.null(safeProfile)) {
+    if (is.null(opal$profile))
+      safeProfile <- "default"
+    else
+      safeProfile <- opal$profile
+  }
+  safeProfile
+}

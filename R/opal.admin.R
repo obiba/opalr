@@ -8,14 +8,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Install package
+#' Install CRAN package
 #' 
-#' Install package if not already available in Opal(s). To install the latest version of a package, it has to be removed first.
+#' Install package from CRAN repos. To install the latest version of a package, it has to be removed first.
 #' 
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @param repos Character vector, the base URLs of the repositories to use.
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
 #' @return TRUE if successfully installed
 #' @examples 
 #' \dontrun{
@@ -24,24 +25,23 @@
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.install_package <- function(opal, pkg, repos=NULL) {
+oadmin.install_package <- function(opal, pkg, repos=NULL, profile = NULL) {
   if(is.list(opal)){
     lapply(opal, function(o){oadmin.install_package(o, pkg, repos)})
-  } else {
-    if (!oadmin.installed_package(opal, pkg)) {
-      # default repos
-      defaultrepos <- c(getOption("repos"), "http://cran.obiba.org", "http://cloud.r-project.org")
-      if (getOption("repos") != "@CRAN@") {
-        defaultrepos <- append(defaultrepos, getOption("repos"))
-      }
-      # append user provided ones
-      repostr <- paste('"', append(defaultrepos, repos),'"',collapse=',',sep='')
-      cmd <- paste('install.packages("', pkg, '", repos=c(', repostr ,'), dependencies=TRUE)', sep='')
-      resp <- opal.execute(opal, cmd, FALSE)
-      oadmin.installed_package(opal, pkg)
-    } else {
-      TRUE
+  } else if (opal.version_compare(opal, "4.0")<0) {
+    # default repos
+    defaultrepos <- c(getOption("repos"), "http://cran.obiba.org", "http://cloud.r-project.org")
+    if (getOption("repos") != "@CRAN@") {
+      defaultrepos <- append(defaultrepos, getOption("repos"))
     }
+    # append user provided ones
+    repostr <- paste('"', append(defaultrepos, repos),'"',collapse=',',sep='')
+    cmd <- paste('install.packages("', pkg, '", repos=c(', repostr ,'), dependencies=TRUE)', sep='')
+    resp <- opal.execute(opal, cmd, FALSE)
+    oadmin.installed_package(opal, pkg)
+  } else {
+    oadmin.install_cran_package(opal, pkg, profile = profile)
+    oadmin.installed_package(opal, pkg, profile = profile)
   }
 }
 
@@ -52,6 +52,7 @@ oadmin.install_package <- function(opal, pkg, repos=NULL) {
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -59,8 +60,13 @@ oadmin.install_package <- function(opal, pkg, repos=NULL) {
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.remove_package <- function(opal, pkg) {
-  ignore <- tryCatch(opal.execute(opal, paste('remove.packages("', pkg, '")', sep=''), FALSE), error=function(e){})
+oadmin.remove_package <- function(opal, pkg, profile = NULL) {
+  if (opal.version_compare(opal, "4.0")<0)
+    ignore <- tryCatch(opal.execute(opal, paste('remove.packages("', pkg, '")', sep=''), FALSE), error=function(e){})
+  else {
+    cluster <- .toSafeProfile(opal, profile)
+    ignore <- opal.delete(opal, "service", "r", "cluster", cluster, "package", pkg)
+  }
 }
 
 #' Check package is installed
@@ -68,6 +74,7 @@ oadmin.remove_package <- function(opal, pkg) {
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
 #' @return TRUE if installed
 #' @examples 
 #' \dontrun{
@@ -77,14 +84,23 @@ oadmin.remove_package <- function(opal, pkg) {
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.installed_package <- function(opal, pkg) {
-  opal.execute(opal, paste('require("', pkg, '", character.only=TRUE)', sep=''), FALSE)
+oadmin.installed_package <- function(opal, pkg, profile = NULL) {
+  if (opal.version_compare(opal, "4.0")<0)
+    opal.execute(opal, paste('require("', pkg, '", character.only=TRUE)', sep=''), FALSE)
+  else {
+    cluster <- .toSafeProfile(opal, profile)
+    dto <- tryCatch(opal.get(opal, "service", "r", "cluster", cluster, "package", pkg), error = function(e) { NULL })
+    !is.null(dto)
+  }
 }
 
 #' List installed packages
 #'
+#' Get the installed packages from all the R servers in the cluster described by the profile.
+#'
 #' @family administration functions
-#' @param opal Opal object or list of opal objects.
+#' @param opal Opal object.
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
 #' @return The result of the installed.packages() call
 #' @examples 
 #' \dontrun{
@@ -93,8 +109,38 @@ oadmin.installed_package <- function(opal, pkg) {
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.installed_packages <- function(opal) {
-  opal.execute(opal, "installed.packages()")
+oadmin.installed_packages <- function(opal, profile = NULL) {
+  if (opal.version_compare(opal, "4.0")<0)
+    opal.execute(opal, "installed.packages()")
+  else {
+    cluster <- .toSafeProfile(opal, profile)
+    dtos <- opal.get(opal, "service", "r", "cluster", cluster, "packages")
+    n <- length(dtos)
+    name <- replicate(n, NA)
+    cluster <- replicate(n, NA)
+    rserver <- replicate(n, NA)
+    fields <- list()
+    if (n>0) {
+      # scan for description fields
+      for (i in 1:n) {
+        for (fieldName in sapply(dtos[[i]]$description, function(f) f$key)) 
+          if (!(fieldName %in% names(fields))) 
+            fields[[fieldName]] <- replicate(n, NA)
+      }
+      # populate
+      for (i in 1:n) {
+        name[i] <- dtos[[i]]$name
+        cluster[i] <- dtos[[i]]$cluster
+        rserver[i] <- dtos[[i]]$rserver
+        for (field in dtos[[i]]$description)
+          fields[[field$key]][i] <- .nullToNA(field$value)
+      }
+    }
+    df <- data.frame(name = name, cluster = cluster, rserver = rserver, stringsAsFactors = FALSE)
+    for (fieldName in names(fields))
+      df[[fieldName]] <- fields[[fieldName]]
+    df
+  }
 }
 
 #' Get package description
@@ -103,6 +149,7 @@ oadmin.installed_packages <- function(opal) {
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @param fields A character vector giving the fields to extract from each package's DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -110,10 +157,10 @@ oadmin.installed_packages <- function(opal) {
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.package_description <- function(opal, pkg, fields=NULL) {
+oadmin.package_description <- function(opal, pkg, fields=NULL, profile = NULL) {
   if(is.list(opal)){
     lapply(opal, function(o){oadmin.package_description(o, pkg, fields=fields)})
-  } else {
+  } else if (opal.version_compare(opal, "4.0")<0) {
     # always query for Datashield fields
     fields <- append(c("Title","Description","Author","Maintainer","Date/Publication","AggregateMethods","AssignMethods"), fields)
     inst <- opal.execute(opal, paste('installed.packages(fields=c("', paste(fields, collapse='","') ,'"))', sep=''), FALSE)
@@ -125,6 +172,14 @@ oadmin.package_description <- function(opal, pkg, fields=NULL) {
       }
     }
     return(desc)
+  } else {
+    cluster <- .toSafeProfile(opal, profile)
+    dto <- opal.get(opal, "service", "r", "cluster", cluster, "package", pkg)
+    description <- list()
+    for (entry in dto$description) {
+      description[[entry$key]] <- .nullToNA(entry$value)
+    }
+    description
   }
 }
 
@@ -134,6 +189,7 @@ oadmin.package_description <- function(opal, pkg, fields=NULL) {
 #'
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -141,8 +197,8 @@ oadmin.package_description <- function(opal, pkg, fields=NULL) {
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.install_devtools <- function(opal) {
-  oadmin.install_package(opal,'devtools')
+oadmin.install_devtools <- function(opal, profile = NULL) {
+  oadmin.install_cran_package(opal, 'devtools', profile = profile)
 }
 
 #' Check devtools package
@@ -151,6 +207,7 @@ oadmin.install_devtools <- function(opal) {
 #'
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -158,8 +215,33 @@ oadmin.install_devtools <- function(opal) {
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.installed_devtools <- function(opal) {
-  oadmin.installed_package(opal,'devtools')
+oadmin.installed_devtools <- function(opal, profile = NULL) {
+  oadmin.installed_package(opal, 'devtools', profile = profile)
+}
+
+#' Install a package from CRAN
+#' 
+#' Install a package from configured CRAN repositories.
+#'
+#' @family administration functions
+#' @param opal Opal object or list of opal objects.
+#' @param pkg Package name.
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.install_cran_package(o, 'opalr', 'obiba')
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.install_cran_package <- function(opal, pkg, profile = NULL) {
+  if (opal.version_compare(opal, "4.0")<0)
+    opal.post(opal, "service", "r", "packages", query = list(name = pkg, manager = "cran"))
+  else {
+    cluster <- .toSafeProfile(opal, profile)
+    opal.post(opal, "service", "r", "cluster", cluster, "packages", query = list(name = pkg, manager = "cran"))
+  }
+  oadmin.installed_package(opal, pkg, profile = profile)
 }
 
 #' Install a package from GitHub
@@ -171,6 +253,7 @@ oadmin.installed_devtools <- function(opal) {
 #' @param pkg Package name.
 #' @param username GitHub user or organization name.
 #' @param ref Desired git reference. Could be a commit, tag, or branch name. Defaults to "master".
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -178,9 +261,14 @@ oadmin.installed_devtools <- function(opal) {
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.install_github_package <- function(opal, pkg , username=getOption("github.user"), ref="master") {
-  opal.post(opal, "service", "r", "packages", query = list(name = paste0(username, "%2F", pkg), ref = ref, manager = "gh"))
-  oadmin.installed_package(opal, pkg)
+oadmin.install_github_package <- function(opal, pkg , username=getOption("github.user"), ref="master", profile = NULL) {
+  if (opal.version_compare(opal, "4.0")<0)
+    opal.post(opal, "service", "r", "packages", query = list(name = paste0(username, "%2F", pkg), ref = ref, manager = "gh"))
+  else {
+    cluster <- .toSafeProfile(opal, profile)
+    opal.post(opal, "service", "r", "cluster", cluster, "packages", query = list(name = paste0(username, "%2F", pkg), ref = ref, manager = "gh"))
+  }
+  oadmin.installed_package(opal, pkg, profile = profile)
 }
 
 #' Install a package from Bioconductor
@@ -190,6 +278,7 @@ oadmin.install_github_package <- function(opal, pkg , username=getOption("github
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -197,14 +286,20 @@ oadmin.install_github_package <- function(opal, pkg , username=getOption("github
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.install_bioconductor_package <- function(opal, pkg) {
-  opal.post(opal, "service", "r", "packages", query = list(name = pkg, manager = "bioc"))
-  oadmin.installed_package(opal, pkg)
+oadmin.install_bioconductor_package <- function(opal, pkg, profile = NULL) {
+  if (opal.version_compare(opal, "4.0")<0)
+    opal.post(opal, "service", "r", "packages", query = list(name = pkg, manager = "bioc"))
+  else {
+    cluster <- .toSafeProfile(opal, profile)
+    opal.post(opal, "service", "r", "cluster", cluster, "packages", query = list(name = pkg, manager = "bioc"))
+  }
+  oadmin.installed_package(opal, pkg, profile = profile)
 }
 
 #' Install a package from a local archive file
 #' 
 #' Install a package from a package archive file. This will upload the archive file and run its installation in the R server.
+#' The R server profile to which the operation applies is the one specified at login time.
 #'
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
@@ -238,7 +333,7 @@ oadmin.install_local_package <- function(opal, path) {
   opal.file_rm(opal, tmp)
   opal.execute(opal, paste0("install.packages('", filename, "', repos = NULL, type ='source')"))
   
-  oadmin.installed_package(opal, pkg)
+  oadmin.installed_package(opal, pkg, .toSafeProfile(NULL))
 }
 
 #' Add or update a R permission

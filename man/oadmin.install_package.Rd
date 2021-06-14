@@ -2,9 +2,9 @@
 % Please edit documentation in R/opal.admin.R
 \name{oadmin.install_package}
 \alias{oadmin.install_package}
-\title{Install package}
+\title{Install CRAN package}
 \usage{
-oadmin.install_package(opal, pkg, repos = NULL)
+oadmin.install_package(opal, pkg, repos = NULL, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -12,12 +12,14 @@ oadmin.install_package(opal, pkg, repos = NULL)
 \item{pkg}{Package name.}
 
 \item{repos}{Character vector, the base URLs of the repositories to use.}
+
+\item{profile}{The R servers profile name to which operation applies. See also \link{opal.profiles}.}
 }
 \value{
 TRUE if successfully installed
 }
 \description{
-Install package if not already available in Opal(s). To install the latest version of a package, it has to be removed first.
+Install package from CRAN repos. To install the latest version of a package, it has to be removed first.
 }
 \examples{
 \dontrun{
@@ -29,6 +31,7 @@ opal.logout(o)
 \seealso{
 Other administration functions: 
 \code{\link{oadmin.install_bioconductor_package}()},
+\code{\link{oadmin.install_cran_package}()},
 \code{\link{oadmin.install_devtools}()},
 \code{\link{oadmin.install_github_package}()},
 \code{\link{oadmin.install_local_package}()},

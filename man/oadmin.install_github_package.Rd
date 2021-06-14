@@ -8,7 +8,8 @@ oadmin.install_github_package(
   opal,
   pkg,
   username = getOption("github.user"),
-  ref = "master"
+  ref = "master",
+  profile = NULL
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ oadmin.install_github_package(
 \item{username}{GitHub user or organization name.}
 
 \item{ref}{Desired git reference. Could be a commit, tag, or branch name. Defaults to "master".}
+
+\item{profile}{The R servers profile name to which operation applies. See also \link{opal.profiles}.}
 }
 \description{
 Install a package from a source repository on GitHub.
@@ -33,6 +36,7 @@ opal.logout(o)
 \seealso{
 Other administration functions: 
 \code{\link{oadmin.install_bioconductor_package}()},
+\code{\link{oadmin.install_cran_package}()},
 \code{\link{oadmin.install_devtools}()},
 \code{\link{oadmin.install_local_package}()},
 \code{\link{oadmin.install_package}()},

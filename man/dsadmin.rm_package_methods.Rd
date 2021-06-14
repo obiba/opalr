@@ -4,7 +4,7 @@
 \alias{dsadmin.rm_package_methods}
 \title{Remove DataSHIELD package methods}
 \usage{
-dsadmin.rm_package_methods(opal, pkg, type = NULL)
+dsadmin.rm_package_methods(opal, pkg, type = NULL, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -12,6 +12,8 @@ dsadmin.rm_package_methods(opal, pkg, type = NULL)
 \item{pkg}{Package name.}
 
 \item{type}{Type of the method: "aggregate" or "assign". Default is NULL (=all type of methods).}
+
+\item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
 }
 \description{
 Remove DataSHIELD aggregate and assign methods defined by the package.

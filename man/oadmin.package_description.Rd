@@ -4,7 +4,7 @@
 \alias{oadmin.package_description}
 \title{Get package description}
 \usage{
-oadmin.package_description(opal, pkg, fields = NULL)
+oadmin.package_description(opal, pkg, fields = NULL, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -12,6 +12,8 @@ oadmin.package_description(opal, pkg, fields = NULL)
 \item{pkg}{Package name.}
 
 \item{fields}{A character vector giving the fields to extract from each package's DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.}
+
+\item{profile}{The R servers profile name to which operation applies. See also \link{opal.profiles}.}
 }
 \description{
 Get package description
@@ -26,6 +28,7 @@ opal.logout(o)
 \seealso{
 Other administration functions: 
 \code{\link{oadmin.install_bioconductor_package}()},
+\code{\link{oadmin.install_cran_package}()},
 \code{\link{oadmin.install_devtools}()},
 \code{\link{oadmin.install_github_package}()},
 \code{\link{oadmin.install_local_package}()},

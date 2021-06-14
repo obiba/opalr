@@ -1,6 +1,6 @@
 # Setup
 #options(opal.url = "http://localhost:8080")
-options(opal.url = "https://opal-demo.obiba.org")
+#options(opal.url = "https://opal-demo.obiba.org")
 
 check_skip <- function() {
   skip_on_cran()

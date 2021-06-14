@@ -8,7 +8,8 @@ dsadmin.install_github_package(
   opal,
   pkg,
   username = "datashield",
-  ref = "master"
+  ref = "master",
+  profile = NULL
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ dsadmin.install_github_package(
 \item{username}{GitHub username/organization of the git repository. Default is 'datashield'.}
 
 \item{ref}{Desired git reference (could be a commit, tag, or branch name). Default is 'master'.}
+
+\item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
 }
 \value{
 TRUE if installed

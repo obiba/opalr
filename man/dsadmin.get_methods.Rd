@@ -4,12 +4,14 @@
 \alias{dsadmin.get_methods}
 \title{Get DataSHIELD methods}
 \usage{
-dsadmin.get_methods(opal, type = "aggregate")
+dsadmin.get_methods(opal, type = "aggregate", profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
 \item{type}{Type of the method: "aggregate" (default) or "assign"}
+
+\item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
 }
 \description{
 Get DataSHIELD methods

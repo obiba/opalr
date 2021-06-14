@@ -4,12 +4,14 @@
 \alias{oadmin.install_bioconductor_package}
 \title{Install a package from Bioconductor}
 \usage{
-oadmin.install_bioconductor_package(opal, pkg)
+oadmin.install_bioconductor_package(opal, pkg, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
 \item{pkg}{Package name.}
+
+\item{profile}{The R servers profile name to which operation applies. See also \link{opal.profiles}.}
 }
 \description{
 Install a package from a source repository on GitHub.
@@ -23,6 +25,7 @@ opal.logout(o)
 }
 \seealso{
 Other administration functions: 
+\code{\link{oadmin.install_cran_package}()},
 \code{\link{oadmin.install_devtools}()},
 \code{\link{oadmin.install_github_package}()},
 \code{\link{oadmin.install_local_package}()},

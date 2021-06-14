@@ -26,7 +26,9 @@ Can be provided by "opal.token" option.}
 
 \item{opts}{Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.}
 
-\item{profile}{R server profile name.}
+\item{profile}{R server profile name. This will drive the R server in which a R session will be created. If no remote R session
+is needed (because Opal specific operations are done), this parameter does not need to be provided. Otherwise, if missing, the default 
+R server profile will be applied ('default'). See also \link{opal.profiles}.}
 
 \item{restore}{Workspace ID to be restored (see also opal.logout)}
 }
@@ -70,7 +72,7 @@ options(opal.opts = list(
 o <- opal.login(url = 'https://opal-demo.obiba.org')
 opal.logout(o)
 
-# login with R server profile
+# login with a R server profile
 o <- opal.login(username = 'administrator', password = 'password', 
                 url = 'https://opal-demo.obiba.org', profile = 'default')
 opal.logout(o)
@@ -78,6 +80,7 @@ opal.logout(o)
 }
 \seealso{
 Other connection functions: 
-\code{\link{opal.logout}()}
+\code{\link{opal.logout}()},
+\code{\link{opal.profiles}()}
 }
 \concept{connection functions}

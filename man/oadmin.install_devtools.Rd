@@ -4,10 +4,12 @@
 \alias{oadmin.install_devtools}
 \title{Install devtools package}
 \usage{
-oadmin.install_devtools(opal)
+oadmin.install_devtools(opal, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
+
+\item{profile}{The R servers profile name to which operation applies. See also \link{opal.profiles}.}
 }
 \description{
 Install devtools package if not already available.
@@ -22,6 +24,7 @@ opal.logout(o)
 \seealso{
 Other administration functions: 
 \code{\link{oadmin.install_bioconductor_package}()},
+\code{\link{oadmin.install_cran_package}()},
 \code{\link{oadmin.install_github_package}()},
 \code{\link{oadmin.install_local_package}()},
 \code{\link{oadmin.install_package}()},

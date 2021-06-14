@@ -4,16 +4,18 @@
 \alias{oadmin.installed_packages}
 \title{List installed packages}
 \usage{
-oadmin.installed_packages(opal)
+oadmin.installed_packages(opal, profile = NULL)
 }
 \arguments{
-\item{opal}{Opal object or list of opal objects.}
+\item{opal}{Opal object.}
+
+\item{profile}{The R servers profile name to which operation applies. See also \link{opal.profiles}.}
 }
 \value{
 The result of the installed.packages() call
 }
 \description{
-List installed packages
+Get the installed packages from all the R servers in the cluster described by the profile.
 }
 \examples{
 \dontrun{
@@ -25,6 +27,7 @@ opal.logout(o)
 \seealso{
 Other administration functions: 
 \code{\link{oadmin.install_bioconductor_package}()},
+\code{\link{oadmin.install_cran_package}()},
 \code{\link{oadmin.install_devtools}()},
 \code{\link{oadmin.install_github_package}()},
 \code{\link{oadmin.install_local_package}()},

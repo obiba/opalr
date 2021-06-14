@@ -4,12 +4,14 @@
 \alias{dsadmin.install_local_package}
 \title{Install a DataSHIELD package from a local archive file}
 \usage{
-dsadmin.install_local_package(opal, path)
+dsadmin.install_local_package(opal, path, profile = profile)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
 \item{path}{Path to the package archive, ending with .}
+
+\item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
 }
 \value{
 TRUE if installed

@@ -21,7 +21,9 @@
 #' @param url Opal url or list of opal urls. Can be provided by "opal.url" option.
 #' @param opts Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.
 #' @param restore Workspace ID to be restored (see also opal.logout)
-#' @param profile R server profile name.
+#' @param profile R server profile name. This will drive the R server in which a R session will be created. If no remote R session
+#' is needed (because Opal specific operations are done), this parameter does not need to be provided. Otherwise, if missing, the default 
+#' R server profile will be applied ('default'). See also \link{opal.profiles}.
 #' @export
 #' @examples 
 #' \dontrun{
@@ -57,7 +59,7 @@
 #' o <- opal.login(url = 'https://opal-demo.obiba.org')
 #' opal.logout(o)
 #' 
-#' # login with R server profile
+#' # login with a R server profile
 #' o <- opal.login(username = 'administrator', password = 'password', 
 #'                 url = 'https://opal-demo.obiba.org', profile = 'default')
 #' opal.logout(o)
@@ -120,6 +122,52 @@ print.opal <- function(x, ...) {
   }
   if (!is.null(x$restore)) {
     cat("restore:", x$restore, "\n")  
+  }
+}
+
+#' List R profiles
+#' 
+#' Each R profile corresponds one R servers cluster name. These profiles names can be provided
+#' when login (see \link{opal.login}) and on some package administration operations.
+#' 
+#' @family connection functions
+#' @param opal Opal object.
+#' @param df Return a data.frame (default is TRUE)
+#' @return The R profiles as a data.frame or a list
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url = 'https://opal-demo.obiba.org')
+#' opal.profiles(o)
+#' opal.logout(o)
+#' }
+#' @export
+opal.profiles <- function(opal, df = TRUE) {
+  if (opal.version_compare(opal,"4.2")<0) {
+    warning("DataSHIELD profiles require Opal 4.2 or higher.")
+    # emulated response
+    if (df) {
+      data.frame(name="default", enabled=TRUE, restrictedAccess=FALSE, stringsAsFactors = FALSE)
+    } else {
+      list(name="default", enabled=TRUE, restrictedAccess=FALSE)
+    }
+  } else {
+    dtos <- opal.get(opal, "r", "profiles")
+    if (df) {
+      n <- length(dtos)
+      name <- rep(NA, n)
+      enabled <- rep(NA, n)
+      restrictedAccess <- rep(NA, n)
+      if (n>0) {
+        for (i in 1:n) {
+          name[i] <- dtos[[i]]$name
+          enabled[i] <- dtos[[i]]$enabled
+          restrictedAccess[i] <- dtos[[i]]$restrictedAccess
+        }
+      }
+      data.frame(name=name, enabled = enabled, restrictedAccess = restrictedAccess, stringsAsFactors = FALSE)
+    } else {
+      dtos
+    }
   }
 }
 

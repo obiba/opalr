@@ -4,12 +4,14 @@
 \alias{dsadmin.rm_option}
 \title{Remove a DataSHIELD option}
 \usage{
-dsadmin.rm_option(opal, name)
+dsadmin.rm_option(opal, name, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
 \item{name}{Name of the option}
+
+\item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
 }
 \description{
 Remove a DataSHIELD option
