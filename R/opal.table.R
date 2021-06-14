@@ -390,7 +390,7 @@ opal.table_import <- function(opal, file, project, table, identifiers=NULL, poli
           delay <- min(10, max(1, round(waited/10)))
           Sys.sleep(delay)
           waited <- waited + delay
-          command <- opal.get(opal, "shell", "command", task)
+          command <- opal.get(opal, "project", project, "command", task)
           status <- command$status
         }
         if (is.element(status, c('FAILED','CANCELED'))) {
