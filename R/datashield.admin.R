@@ -370,7 +370,7 @@ dsadmin.package_description <- function(opal, pkg, fields=NULL, profile=NULL) {
     if (!is.null(fields) && length(fields) > 0) {
       query <- list(fields=paste(fields, collapse=','))
     }
-    query$profile <- .toSafeProfile(profile)
+    query$profile <- .toSafeProfile(opal, profile)
     dtos <- opal.get(opal, "datashield", "package", pkg, query=query)
     dto <- dtos
     if (is.list(dtos))
@@ -408,7 +408,7 @@ dsadmin.install_package <- function(opal, pkg, githubusername=NULL, ref=NULL, pr
     if(is.list(opal)){
       lapply(opal, function(o){dsadmin.install_package(o, pkg, githubusername=githubusername, ref=ref, profile=profile)})
     } else {
-      query <- list(name=pkg, profile=.toSafeProfile(profile))
+      query <- list(name=pkg, profile=.toSafeProfile(opal, profile))
       opal.post(opal, "datashield", "packages", query=query)
       dsadmin.installed_package(opal, pkg)
     }
@@ -437,7 +437,7 @@ dsadmin.install_github_package <- function(opal, pkg, username='datashield', ref
   if(is.list(opal)){
     lapply(opal, function(o){dsadmin.install_github_package(o, pkg, username=username, ref=ref, profile=profile)})
   } else {
-    query <- list(name=paste(username,pkg,sep="/"), ref=ref, profile=.toSafeProfile(profile))
+    query <- list(name=paste(username,pkg,sep="/"), ref=ref, profile=.toSafeProfile(opal, profile))
     opal.post(opal, "datashield", "packages", query=query)
     dsadmin.installed_package(opal, pkg)
   }
@@ -507,7 +507,7 @@ dsadmin.remove_package <- function(opal, pkg, profile=profile) {
   if(is.list(opal)){
     resp <- lapply(opal, function(o){dsadmin.remove_package(o, pkg, profile=profile)})
   } else {
-    resp <- opal.delete(opal, "datashield", "package", pkg, query = list(profile=.toSafeProfile(profile)), callback=function(o,r){})
+    resp <- opal.delete(opal, "datashield", "package", pkg, query = list(profile=.toSafeProfile(opal, profile)), callback=function(o,r){})
   }
 }
 
@@ -531,7 +531,7 @@ dsadmin.installed_package <- function(opal, pkg, profile=NULL) {
   if(is.list(opal)){
     resp <- lapply(opal, function(o){dsadmin.installed_package(o, pkg, profile = profile)})
   } else {
-    opal.get(opal, "datashield", "package", pkg, query=list(profile=.toSafeProfile(profile)), callback=function(o,r){
+    opal.get(opal, "datashield", "package", pkg, query=list(profile=.toSafeProfile(opal, profile)), callback=function(o,r){
       code <- status_code(r)
       if(code == 404) {
         FALSE
@@ -590,7 +590,7 @@ dsadmin.set_method <- function(opal, name, func=NULL, path=NULL, type="aggregate
       methodDto <- paste('{"name":"', name, '","DataShield.RFunctionDataShieldMethodDto.method":{"func":"', func, '"}}', sep='')
     }
     dsadmin.rm_method(opal, name, type=type, profile=profile)
-    ignore <- opal.post(opal, "datashield", "env", type, "methods", query=list(profile=.toSafeProfile(profile)), body=methodDto, contentType="application/json");
+    ignore <- opal.post(opal, "datashield", "env", type, "methods", query=list(profile=.toSafeProfile(opal, profile)), body=methodDto, contentType="application/json");
   }
 }
 
@@ -613,7 +613,7 @@ dsadmin.rm_method <- function(opal, name, type="aggregate", profile=NULL) {
     lapply(opal, function(o){dsadmin.rm_method(o, name, type=type, profile=profile)})
   } else {
     # ignore errors and returned value
-    resp <- opal.delete(opal, "datashield", "env", type, "method", name, query=list(profile=.toSafeProfile(profile)), callback=function(o,r){})
+    resp <- opal.delete(opal, "datashield", "env", type, "method", name, query=list(profile=.toSafeProfile(opal, profile)), callback=function(o,r){})
   }
 }
 
@@ -662,7 +662,7 @@ dsadmin.get_method <- function(opal, name, type="aggregate", profile=NULL) {
   if(is.list(opal)){
     lapply(opal, function(o){dsadmin.get_method(o, name, type=type, profile=profile)})
   } else {
-    m <- opal.get(opal, "datashield", "env", type, "method", name, query=list(profile=.toSafeProfile(profile)))
+    m <- opal.get(opal, "datashield", "env", type, "method", name, query=list(profile=.toSafeProfile(opal, profile)))
     class <- "function"
     value <- m$DataShield.RFunctionDataShieldMethodDto.method$func
     pkg <- NA
@@ -698,7 +698,7 @@ dsadmin.get_method <- function(opal, name, type="aggregate", profile=NULL) {
 #' }
 #' @export
 dsadmin.get_methods <- function(opal, type="aggregate", profile=NULL) {
-  rlist <- opal.get(opal, "datashield", "env", type, "methods", query=list(profile=.toSafeProfile(profile)))
+  rlist <- opal.get(opal, "datashield", "env", type, "methods", query=list(profile=.toSafeProfile(opal, profile)))
   name <- lapply(rlist,function(m){
     m$name
   })
@@ -763,7 +763,7 @@ dsadmin.set_package_methods <- function(opal, pkg, type=NULL, profile=NULL) {
   } else {
     if (dsadmin.installed_package(opal,pkg)) {
       # put methods
-      methods <- opal.put(opal, "datashield", "package", pkg, "methods", query=list(profile=.toSafeProfile(profile)))
+      methods <- opal.put(opal, "datashield", "package", pkg, "methods", query=list(profile=.toSafeProfile(opal, profile)))
       TRUE
     } else {
       FALSE
@@ -826,7 +826,7 @@ dsadmin.get_options <- function (opal, profile=NULL) {
     lapply(opal, function(o){dsadmin.get_options(o, profile = profile)})
   } else {
     # get options
-    options <- opal.get(opal, "datashield", "options", query=list(profile=.toSafeProfile(profile)))
+    options <- opal.get(opal, "datashield", "options", query=list(profile=.toSafeProfile(opal, profile)))
     names <- lapply(options, function(opt) {
       opt$name
     })
@@ -862,7 +862,7 @@ dsadmin.set_option <- function (opal, name, value, profile=NULL) {
       name = name,
       value = value
     ), auto_unbox = TRUE)
-    ignore <- opal.post(opal, "datashield", "option", query=list(profile=.toSafeProfile(profile)), body=payload, contentType="application/json")
+    ignore <- opal.post(opal, "datashield", "option", query=list(profile=.toSafeProfile(opal, profile)), body=payload, contentType="application/json")
   }
 }
 
@@ -884,7 +884,7 @@ dsadmin.rm_option <- function (opal, name, profile=NULL) {
     lapply(opal, function(o){dsadmin.rm_option(o, name, profile)})
   } else {
     # rm option
-    ignore <- opal.delete(opal, "datashield", "option", query=list(name=name, profile=.toSafeProfile(profile)))
+    ignore <- opal.delete(opal, "datashield", "option", query=list(name=name, profile=.toSafeProfile(opal, profile)))
   }
 }
 

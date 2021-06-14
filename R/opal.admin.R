@@ -333,7 +333,7 @@ oadmin.install_local_package <- function(opal, path) {
   opal.file_rm(opal, tmp)
   opal.execute(opal, paste0("install.packages('", filename, "', repos = NULL, type ='source')"))
   
-  oadmin.installed_package(opal, pkg, .toSafeProfile(NULL))
+  oadmin.installed_package(opal, pkg, .toSafeProfile(opal, NULL))
 }
 
 #' Add or update a R permission
