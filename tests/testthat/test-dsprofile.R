@@ -12,7 +12,12 @@ test_that("DataSHIELD profile methods and options", {
   dsadmin.profile_create(o, name)
   expect_true(dsadmin.profile_exists(o, name))
   dsadmin.profile_init(o, name, packages = c("resourcer"))
-  
+  expect_equal(nrow(dsadmin.get_methods(o, type = "aggregate", profile = name)), 0)
+  expect_gt(nrow(dsadmin.get_methods(o, type = "assign", profile = name)), 0)
+  expect_equal(unique(dsadmin.get_methods(o, type = "assign", name)$package), "resourcer")
+  expect_equal(nrow(dsadmin.get_options(o, name)), 0)
+  dsadmin.unpublish_package(o, "resourcer", profile = name)
+  expect_equal(nrow(dsadmin.get_methods(o, type = "assign", profile = name)), 0)
   
   dsadmin.profile_delete(o, name)
   
