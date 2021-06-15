@@ -78,30 +78,32 @@ dsadmin.profile_create <- function(opal, name, cluster = "default") {
 
 #' Initialize a DataSHIELD profile
 #' 
-#' Clean the DataSHIELD's profile settings from all methods and options. This settings
-#' can then be repopulated using \link{dsadmin.publish_package}, \link{dsadmin.set_package_methods} 
-#' or \link{dsadmin.set_option}.
+#' Clean the DataSHIELD's profile settings from all methods and options (including custom ones). These settings
+#' are then repopulated with installed DataSHIELD R packages settings, optionaly filtered by the name. 
+#' See also \link{dsadmin.publish_package}, \link{dsadmin.set_package_methods} or \link{dsadmin.set_option}.
 #' 
 #' @family DataSHIELD profiles
 #' @param opal Opal object.
 #' @param name Name of the profile.
+#' @param packages A list DataSHIELD R package names
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' dsadmin.profile_create(o, name = 'survival', cluster = 'demo')
-#' dsadmin.profile_init(o, name = 'survival')
-#' lapply(dsadmin.package_descriptions(o, profile = 'survival')$Package, function(p) {
-#'   dsadmin.publish_package(o, p, profile = 'survival')
-#' })
+#' dsadmin.profile_init(o, name = 'survival', packages = c('dsSurvival'))
 #' opal.logout(o)
 #' }
 #' @export
-dsadmin.profile_init <- function(opal, name) {
+dsadmin.profile_init <- function(opal, name, packages = NULL) {
   if (opal.version_compare(opal,"4.2")<0) {
     stop("DataSHIELD profiles require Opal 4.2 or higher.")
   }
   dsadmin.rm_methods(opal, profile = name)
   dsadmin.rm_options(opal, profile = name)
+  ignore <- lapply(dsadmin.package_descriptions(opal, profile = name)$Package, function(p) {
+    if (is.null(packages) || length(packages)==0 || p %in% packages)
+      dsadmin.publish_package(opal, p, profile = name)
+  })
 }
 
 #' Get a DataSHIELD profile
@@ -881,8 +883,8 @@ dsadmin.rm_package_methods <- function(opal, pkg, type=NULL, profile=NULL) {
   } else {
     # get methods
     do_rm_methods <- function(mtype) {
-      aggs <- dsadmin.get_methods(opal, type = mtype, profile = profile)
-      names <- subset(aggs, aggs$package == pkg)$name
+      ms <- dsadmin.get_methods(opal, type = mtype, profile = profile)
+      names <- subset(ms, ms$package == pkg)$name
       rval <- lapply(names, function(n) {
         dsadmin.rm_method(opal, n, type = mtype, profile = profile)
       })

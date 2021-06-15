@@ -4,26 +4,25 @@
 \alias{dsadmin.profile_init}
 \title{Initialize a DataSHIELD profile}
 \usage{
-dsadmin.profile_init(opal, name)
+dsadmin.profile_init(opal, name, packages = NULL)
 }
 \arguments{
 \item{opal}{Opal object.}
 
 \item{name}{Name of the profile.}
+
+\item{packages}{A list DataSHIELD R package names}
 }
 \description{
-Clean the DataSHIELD's profile settings from all methods and options. This settings
-can then be repopulated using \link{dsadmin.publish_package}, \link{dsadmin.set_package_methods} 
-or \link{dsadmin.set_option}.
+Clean the DataSHIELD's profile settings from all methods and options (including custom ones). These settings
+are then repopulated with installed DataSHIELD R packages settings, optionaly filtered by the name. 
+See also \link{dsadmin.publish_package}, \link{dsadmin.set_package_methods} or \link{dsadmin.set_option}.
 }
 \examples{
 \dontrun{
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 dsadmin.profile_create(o, name = 'survival', cluster = 'demo')
-dsadmin.profile_init(o, name = 'survival')
-lapply(dsadmin.package_descriptions(o, profile = 'survival')$Package, function(p) {
-  dsadmin.publish_package(o, p, profile = 'survival')
-})
+dsadmin.profile_init(o, name = 'survival', packages = c('dsSurvival'))
 opal.logout(o)
 }
 }
