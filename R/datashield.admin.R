@@ -76,6 +76,34 @@ dsadmin.profile_create <- function(opal, name, cluster = "default") {
   ignore <- opal.post(opal, "datashield", "profiles", contentType = "application/json", body = body)
 }
 
+#' Initialize a DataSHIELD profile
+#' 
+#' Clean the DataSHIELD's profile settings from all methods and options. This settings
+#' can then be repopulated using \link{dsadmin.publish_package}, \link{dsadmin.set_package_methods} 
+#' or \link{dsadmin.set_option}.
+#' 
+#' @family DataSHIELD profiles
+#' @param opal Opal object.
+#' @param name Name of the profile.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' dsadmin.profile_create(o, name = 'survival', cluster = 'demo')
+#' dsadmin.profile_init(o, name = 'survival')
+#' lapply(dsadmin.package_descriptions(o, profile = 'survival')$Package, function(p) {
+#'   dsadmin.publish_package(o, p, profile = 'survival')
+#' })
+#' opal.logout(o)
+#' }
+#' @export
+dsadmin.profile_init <- function(opal, name) {
+  if (opal.version_compare(opal,"4.2")<0) {
+    stop("DataSHIELD profiles require Opal 4.2 or higher.")
+  }
+  dsadmin.rm_methods(opal, profile = name)
+  dsadmin.rm_options(opal, profile = name)
+}
+
 #' Get a DataSHIELD profile
 #' 
 #' Note that getting a specific DataSHIELD profile details is not allowed for regular DataSHIELD
@@ -740,6 +768,66 @@ dsadmin.get_methods <- function(opal, type="aggregate", profile=NULL) {
   rval
 }
 
+#' Publish DataSHIELD package settings
+#' 
+#' Declare DataSHIELD aggregate/assign methods and options as defined by the package.
+#'
+#' @family DataSHIELD functions
+#' @param opal Opal object or list of opal objects. 
+#' @param pkg Package name.
+#' @param profile The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.
+#' @return TRUE if successfull
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' dsadmin.publish_package(o, 'dsBase')
+#' opal.logout(o)
+#' }
+#' @export
+dsadmin.publish_package <- function(opal, pkg, profile=NULL) {
+  if(is.list(opal)){
+    lapply(opal, function(o){dsadmin.publish_package(o, pkg, profile)})
+  } else {
+    if (dsadmin.installed_package(opal, pkg, profile = profile)) {
+      # put methods
+      opal.put(opal, "datashield", "package", pkg, "_publish", query=list(profile=.toSafeProfile(opal, profile)))
+      TRUE
+    } else {
+      FALSE
+    }
+  }
+}
+
+#' Unpublish DataSHIELD package settings
+#' 
+#' Remove DataSHIELD aggregate/assign methods and options as defined by the package from the DataSHIELD configuration.
+#'
+#' @family DataSHIELD functions
+#' @param opal Opal object or list of opal objects. 
+#' @param pkg Package name.
+#' @param profile The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.
+#' @return TRUE if successfull
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' dsadmin.unpublish_package(o, 'dsBase')
+#' opal.logout(o)
+#' }
+#' @export
+dsadmin.unpublish_package <- function(opal, pkg, profile=NULL) {
+  if(is.list(opal)){
+    lapply(opal, function(o){dsadmin.unpublish_package(o, pkg, profile)})
+  } else {
+    if (dsadmin.installed_package(opal, pkg, profile = profile)) {
+      # put methods
+      opal.delete(opal, "datashield", "package", pkg, "_publish", query=list(profile=.toSafeProfile(opal, profile)))
+      TRUE
+    } else {
+      FALSE
+    }
+  }
+}
+
 #' Set DataSHIELD package methods
 #' 
 #' Declare DataSHIELD aggregate and assign methods as defined by the package.
@@ -761,7 +849,7 @@ dsadmin.set_package_methods <- function(opal, pkg, type=NULL, profile=NULL) {
   if(is.list(opal)){
     lapply(opal, function(o){dsadmin.set_package_methods(o, pkg, type, profile)})
   } else {
-    if (dsadmin.installed_package(opal,pkg)) {
+    if (dsadmin.installed_package(opal, pkg, profile = profile)) {
       # put methods
       methods <- opal.put(opal, "datashield", "package", pkg, "methods", query=list(profile=.toSafeProfile(opal, profile)))
       TRUE
@@ -885,6 +973,31 @@ dsadmin.rm_option <- function (opal, name, profile=NULL) {
   } else {
     # rm option
     ignore <- opal.delete(opal, "datashield", "option", query=list(name=name, profile=.toSafeProfile(opal, profile)))
+  }
+}
+
+#' Remove all DataSHIELD options
+#'
+#' @family DataSHIELD functions
+#' @param opal Opal object or list of opal objects.
+#' @param profile The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' dsadmin.rm_options(o, 'foo')
+#' opal.logout(o)
+#' }
+#' @export
+dsadmin.rm_options <- function (opal, profile=NULL) {
+  if(is.list(opal)) {
+    lapply(opal, function(o){dsadmin.rm_options(o, profile)})
+  } else {
+    opts <- dsadmin.get_options(opal, profile=profile)
+    if (nrow(opts)>0) {
+      ignore <- lapply(opts$name, function(n) {
+        opal.delete(opal, "datashield", "options", query=list(name=n, profile=.toSafeProfile(opal, profile)))    
+      })
+    }
   }
 }
 
