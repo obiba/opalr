@@ -13,9 +13,6 @@ dsadmin.install_local_package(opal, path, profile = profile)
 
 \item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
 }
-\value{
-TRUE if installed
-}
 \description{
 Install a package from a package archive file, resulting from the build of a server-side DataSHIELD package.
 This will upload the archive file and run its installation in the R server.

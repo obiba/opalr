@@ -4,12 +4,14 @@
 \alias{oadmin.install_local_package}
 \title{Install a package from a local archive file}
 \usage{
-oadmin.install_local_package(opal, path)
+oadmin.install_local_package(opal, path, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
 \item{path}{Path to the package archive file.}
+
+\item{profile}{The R servers profile name to which operation applies. See also \link{opal.profiles}.}
 }
 \description{
 Install a package from a package archive file. This will upload the archive file and run its installation in the R server.

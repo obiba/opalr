@@ -482,7 +482,6 @@ dsadmin.install_github_package <- function(opal, pkg, username='datashield', ref
 #' @param opal Opal object or list of opal objects. 
 #' @param path Path to the package archive, ending with .
 #' @param profile The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.
-#' @return TRUE if installed
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -509,12 +508,18 @@ dsadmin.install_local_package <- function(opal, path, profile=profile) {
   if(is.list(opal)){
     lapply(opal, function(o){dsadmin.install_local_package(o, path, profile=profile)})
   } else {
+    
     tmp <- opal.file_mkdir_tmp(opal)
     opal.file_upload(opal, path, tmp)
-    opal.file_write(opal, paste0(tmp, filename))
+    
+    if (opal.version_compare(opal, "4.2")<0) {
+      opal.file_write(opal, paste0(tmp, filename))
+      opal.execute(opal, paste0("install.packages('", filename, "', repos = NULL, type ='source')"))
+    } else {
+      opal.post(opal, "datashield", "packages", query = list(name = paste0(tmp, filename), manager = "local", profile = .toSafeProfile(opal, profile)))
+    }
+    
     opal.file_rm(opal, tmp)
-    opal.execute(opal, paste0("install.packages('", filename, "', repos = NULL, type ='source')"))
-    dsadmin.set_package_methods(opal, pkg, profile=profile)
   }
 }
 

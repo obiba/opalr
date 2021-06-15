@@ -304,6 +304,7 @@ oadmin.install_bioconductor_package <- function(opal, pkg, profile = NULL) {
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @param path Path to the package archive file.
+#' @param profile The R servers profile name to which operation applies. See also \link{opal.profiles}.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -314,7 +315,7 @@ oadmin.install_bioconductor_package <- function(opal, pkg, profile = NULL) {
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.install_local_package <- function(opal, path) {
+oadmin.install_local_package <- function(opal, path, profile = NULL) {
   if (!file.exists(path)) {
     stop("Package archive file cannot be found at: ", path)
   }
@@ -329,11 +330,17 @@ oadmin.install_local_package <- function(opal, path) {
   
   tmp <- opal.file_mkdir_tmp(opal)
   opal.file_upload(opal, path, tmp)
-  opal.file_write(opal, paste0(tmp, filename))
-  opal.file_rm(opal, tmp)
-  opal.execute(opal, paste0("install.packages('", filename, "', repos = NULL, type ='source')"))
   
-  oadmin.installed_package(opal, pkg, .toSafeProfile(opal, NULL))
+  if (opal.version_compare(opal, "4.2")<0) {
+    opal.file_write(opal, paste0(tmp, filename))
+    opal.execute(opal, paste0("install.packages('", filename, "', repos = NULL, type ='source')"))
+  } else {
+    cluster <- .toSafeProfile(opal, profile)
+    opal.post(opal, "service", "r", "cluster", cluster, "packages", query = list(name = paste0(tmp, filename), manager = "local"))
+  }
+  
+  opal.file_rm(opal, tmp)
+  oadmin.installed_package(opal, pkg, profile = .toSafeProfile(opal, profile))
 }
 
 #' Add or update a R permission

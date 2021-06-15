@@ -1,3 +1,24 @@
+test_that("DataSHIELD profile methods and options", {
+  check_skip()
+  #skip("Temporary skip")
+  
+  o <- opal.login("administrator", "password")
+  expect_true(dsadmin.profile_exists(o, 'default'))
+  
+  name <- 'testthat'
+  if (dsadmin.profile_exists(o, name))
+    dsadmin.profile_delete(o, name)
+  expect_false(dsadmin.profile_exists(o, name))
+  dsadmin.profile_create(o, name)
+  expect_true(dsadmin.profile_exists(o, name))
+  dsadmin.profile_init(o, name, packages = c("resourcer"))
+  
+  
+  dsadmin.profile_delete(o, name)
+  
+  opal.logout(o)
+})
+
 test_that("DataSHIELD profile permissions", {
   check_skip()
   #skip("Temporary skip")
