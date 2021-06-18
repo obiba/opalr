@@ -15,7 +15,7 @@ dsadmin.profile_access(opal, name, restricted = TRUE)
 }
 \description{
 When access is restricted, only users (or group of users) with this profile use permissions
-will be allowed to use this profile. When access is not restricted, all 
+will be allowed to use this profile. When access is not restricted, all
 DataSHIELD users are allowed to use this profile. See also \link{dsadmin.profile_perm}.
 }
 \examples{

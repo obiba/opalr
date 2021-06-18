@@ -9,7 +9,7 @@ dsadmin.package_descriptions(opal, fields = NULL, df = TRUE, profile = NULL)
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
 
-\item{fields}{A character vector giving the fields to extract from each package's 
+\item{fields}{A character vector giving the fields to extract from each package's
 DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.}
 
 \item{df}{Return a data.frame (default is TRUE)}

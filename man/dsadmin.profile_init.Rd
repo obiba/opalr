@@ -15,7 +15,7 @@ dsadmin.profile_init(opal, name, packages = NULL)
 }
 \description{
 Clean the DataSHIELD's profile settings from all methods and options (including custom ones). These settings
-are then repopulated with installed DataSHIELD R packages settings, optionaly filtered by the name. 
+are then repopulated with installed DataSHIELD R packages settings, optionaly filtered by the name.
 See also \link{dsadmin.publish_package}, \link{dsadmin.set_package_methods} or \link{dsadmin.set_option}.
 }
 \examples{

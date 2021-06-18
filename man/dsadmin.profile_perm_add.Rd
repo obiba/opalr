@@ -24,7 +24,7 @@ dsadmin.profile_perm_add(
 \item{permission}{The permission to apply: use.}
 }
 \description{
-When adding/updating some permissions on a DataSHIELD profile, this profile 
+When adding/updating some permissions on a DataSHIELD profile, this profile
 is automatically set in restricted access mode.
 }
 \examples{

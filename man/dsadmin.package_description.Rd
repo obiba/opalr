@@ -11,7 +11,7 @@ dsadmin.package_description(opal, pkg, fields = NULL, profile = NULL)
 
 \item{pkg}{Package name.}
 
-\item{fields}{A character vector giving the fields to extract from each package's 
+\item{fields}{A character vector giving the fields to extract from each package's
 DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.}
 
 \item{profile}{The DataSHIELD profile name to which operation applies. See also \link{dsadmin.profiles}.}
