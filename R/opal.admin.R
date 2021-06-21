@@ -354,13 +354,13 @@ oadmin.install_local_package <- function(opal, path, profile = NULL) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' oadmin.perm_add(o, c('andrei', 'valentina'), 'user', 'use')
-#' oadmin.perm(o)
-#' oadmin.perm_delete(o, c('andrei', 'valentina'), 'user')
+#' oadmin.r_perm_add(o, c('andrei', 'valentina'), 'user', 'use')
+#' oadmin.r_perm(o)
+#' oadmin.r_perm_delete(o, c('andrei', 'valentina'), 'user')
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.perm_add <- function(opal, subject, type = "user", permission) {
+oadmin.r_perm_add <- function(opal, subject, type = "user", permission = 'use') {
   if (!(tolower(type) %in% c("user", "group"))) {
     stop("Not a valid subject type: ", type)
   }
@@ -369,7 +369,7 @@ oadmin.perm_add <- function(opal, subject, type = "user", permission) {
   if (is.null(perm)) {
     stop("Not a valid R permission name: ", permission)
   }
-  oadmin.perm_delete(opal, subject, type)
+  oadmin.r_perm_delete(opal, subject, type)
   for (i in 1:length(subject)) {
     ignore <- opal.post(opal, "system", "permissions", "r", query = list(principal = subject[i], type = toupper(type), permission = perm))
   }
@@ -385,14 +385,14 @@ oadmin.perm_add <- function(opal, subject, type = "user", permission) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' oadmin.perm_add(o, c('andrei', 'valentina'), 'user', 'use')
-#' oadmin.perm(o)
-#' oadmin.perm_delete(o, c('andrei', 'valentina'), 'user')
+#' oadmin.r_perm_add(o, c('andrei', 'valentina'), 'user', 'use')
+#' oadmin.r_perm(o)
+#' oadmin.r_perm_delete(o, c('andrei', 'valentina'), 'user')
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.perm <- function(opal) {
-  perms <- list('R_USE' = 'use', 'R_ALL' = 'administrate')
+oadmin.r_perm <- function(opal) {
+  perms <- list('R_USE' = 'use')
   acls <- opal.get(opal, "system", "permissions", "r")
   .aclsToDataFrame(perms, acls)
 }
@@ -407,13 +407,13 @@ oadmin.perm <- function(opal) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' oadmin.perm_add(o, c('andrei', 'valentina'), 'user', 'use')
-#' oadmin.perm(o)
-#' oadmin.perm_delete(o, c('andrei', 'valentina'), 'user')
+#' oadmin.r_perm_add(o, c('andrei', 'valentina'), 'user', 'use')
+#' oadmin.r_perm(o)
+#' oadmin.r_perm_delete(o, c('andrei', 'valentina'), 'user')
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.perm_delete <- function(opal, subject, type = "user") {
+oadmin.r_perm_delete <- function(opal, subject, type = "user") {
   if (!(tolower(type) %in% c("user", "group"))) {
     stop("Not a valid subject type: ", type)
   }
@@ -423,4 +423,153 @@ oadmin.perm_delete <- function(opal, subject, type = "user") {
   for (i in 1:length(subject)) {
     ignore <- opal.delete(opal, "system", "permissions", "r", query = list(principal = subject[i], type = toupper(type)))  
   }
+}
+
+#' Add or update a System permission
+#' 
+#' Add or update a permission on the whole system.
+#' 
+#' @param opal Opal connection object.
+#' @param subject A vector of subject identifiers: user names or group names (depending on the type).
+#' @param type The type of subject: user (default) or group.
+#' @param permission The permission to apply: project_add or administrate.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.system_perm_add(o, c('andrei', 'valentina'), 'user', 'project_add')
+#' oadmin.system_perm(o)
+#' oadmin.system_perm_delete(o, c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.system_perm_add <- function(opal, subject, type = "user", permission) {
+  if (!(tolower(type) %in% c("user", "group"))) {
+    stop("Not a valid subject type: ", type)
+  }
+  perms <- list('project_add' = 'PROJECT_ADD', 'administrate' = 'SYSTEM_ALL')
+  perm <- perms[[permission]]
+  if (is.null(perm)) {
+    stop("Not a valid system permission name: ", permission)
+  }
+  oadmin.system_perm_delete(opal, subject, type)
+  for (i in 1:length(subject)) {
+    ignore <- opal.post(opal, "system", "permissions", "administration", query = list(principal = subject[i], type = toupper(type), permission = perm))
+  }
+}
+
+#' Get the System permissions
+#' 
+#' Get the permissions that were applied to the whole system.
+#' 
+#' @param opal Opal connection object.
+#' 
+#' @return A data.frame with columns: subject, type, permission
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.system_perm_add(o, c('andrei', 'valentina'), 'user', 'project_add')
+#' oadmin.system_perm(o)
+#' oadmin.system_perm_delete(o, c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.system_perm <- function(opal) {
+  perms <- list('PROJECT_ADD' = 'project_add', 'SYSTEM_ALL' = 'administrate')
+  acls <- opal.get(opal, "system", "permissions", "administration")
+  .aclsToDataFrame(perms, acls)
+}
+
+#' Delete a System permission
+#' 
+#' Delete a permission that was applied to the whole system. Silently returns when there is no such permission.
+#' 
+#' @param opal Opal connection object.
+#' @param subject A vector of subject identifiers: user names or group names (depending on the type).
+#' @param type The type of subject: user (default) or group.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.system_perm_add(o, c('andrei', 'valentina'), 'user', 'project_add')
+#' oadmin.system_perm(o)
+#' oadmin.system_perm_delete(o, c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.system_perm_delete <- function(opal, subject, type = "user") {
+  if (!(tolower(type) %in% c("user", "group"))) {
+    stop("Not a valid subject type: ", type)
+  }
+  if (length(subject)<1) {
+    stop("At least one subject is required")
+  }
+  for (i in 1:length(subject)) {
+    ignore <- opal.delete(opal, "system", "permissions", "administration", query = list(principal = subject[i], type = toupper(type)))  
+  }
+}
+
+#
+# Deprecated functions
+#
+
+#' Add or update a R permission (deprecated)
+#' 
+#' Deprecated, use \link{oadmin.r_perm_add}.
+#' 
+#' @param opal Opal connection object.
+#' @param subject A vector of subject identifiers: user names or group names (depending on the type).
+#' @param type The type of subject: user (default) or group.
+#' @param permission The permission to apply: use.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.r_perm_add(o, c('andrei', 'valentina'), 'user', 'use')
+#' oadmin.r_perm(o)
+#' oadmin.r_perm_delete(o, c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.perm_add <- function(opal, subject, type = "user", permission) {
+  warning("Deprecated: use oadmin.r_perm_add()")
+  oadmin.r_perm_add(opal, subject, type, permission)
+}
+
+#' Get the R permissions (deprecated)
+#' 
+#' Deprecated, use \link{oadmin.r_perm}.
+#' 
+#' @param opal Opal connection object.
+#' 
+#' @return A data.frame with columns: subject, type, permission
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.r_perm_add(o, c('andrei', 'valentina'), 'user', 'use')
+#' oadmin.r_perm(o)
+#' oadmin.r_perm_delete(o, c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.perm <- function(opal) {
+  warning("Deprecated: use oadmin.r_perm()")
+  oadmin.r_perm(opal)
+}
+
+#' Delete a R permission (deprecated)
+#' 
+#' Deprecated, use \link{oadmin.r_perm_delete}.
+#' 
+#' @param opal Opal connection object.
+#' @param subject A vector of subject identifiers: user names or group names (depending on the type).
+#' @param type The type of subject: user (default) or group.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.r_perm_add(o, c('andrei', 'valentina'), 'user', 'use')
+#' oadmin.r_perm(o)
+#' oadmin.r_perm_delete(o, c('andrei', 'valentina'), 'user')
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.perm_delete <- function(opal, subject, type = "user") {
+  oadmin.perm_delete(opal, subject, type)
 }

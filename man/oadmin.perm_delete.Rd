@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.admin.R
 \name{oadmin.perm_delete}
 \alias{oadmin.perm_delete}
-\title{Delete a R permission}
+\title{Delete a R permission (deprecated)}
 \usage{
 oadmin.perm_delete(opal, subject, type = "user")
 }
@@ -14,14 +14,14 @@ oadmin.perm_delete(opal, subject, type = "user")
 \item{type}{The type of subject: user (default) or group.}
 }
 \description{
-Delete a permission that was applied to the R service. Silently returns when there is no such permission.
+Deprecated, use \link{oadmin.r_perm_delete}.
 }
 \examples{
 \dontrun{
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-oadmin.perm_add(o, c('andrei', 'valentina'), 'user', 'use')
-oadmin.perm(o)
-oadmin.perm_delete(o, c('andrei', 'valentina'), 'user')
+oadmin.r_perm_add(o, c('andrei', 'valentina'), 'user', 'use')
+oadmin.r_perm(o)
+oadmin.r_perm_delete(o, c('andrei', 'valentina'), 'user')
 opal.logout(o)
 }
 }
