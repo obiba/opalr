@@ -88,7 +88,8 @@ opal.project <- function(opal, project) {
 #' @param opal Opal object.
 #' @param project Name of the project
 #' @param database The database name (as declared in Opal) to be used to store project's data. If not provided, the project
-#' can have views and resources but no raw tables. 
+#' can have views and resources but no raw tables. If the the value is a logical and is TRUE, the default database will be 
+#' selected or the first one if there is no default.
 #' @param title The title of the project (optional).
 #' @param description The description of the project (optional).
 #' @param tags A list of tag names (optional).
@@ -96,7 +97,12 @@ opal.project <- function(opal, project) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' # with named database
 #' opal.project_create(o, 'test', database='opal_data', title='This is a test', tags=list('Test'))
+#' # with default database
+#' opal.project_create(o, 'test_default_db', database = TRUE)
+#' # no database, for views and resources only
+#' opal.project_create(o, 'test_no_db')
 #' opal.logout(o)
 #' }
 #' @export
@@ -104,12 +110,24 @@ opal.project_create <- function(opal, project, database = NULL, title = NULL, de
   if (!opal.project_exists(opal, project)) {
     # {"name":"test","title":"This is the title","description":"This is the description","database":"opal_data","vcfStoreService":null,"exportFolder":"/home/administrator/export","tags":["DataSHIELD,","Resources"]}
     projson <- list(name = project)
-    if (!is.null(database)) {
-      dbNames <- opal.projects_databases(opal)
-      if (!(database %in% dbNames)) {
-        stop("Not a valid project database name: '", database, "'. Expecting one of: '", paste0(dbNames, collapse = "', '"), "'")
+    if (!.is.empty(database)) {
+      dbs <- opal.get(opal, "system", "databases", query = list(usage = "storage"))
+      dbNames <- sapply(dbs, function(db) db$name)
+      if (is.logical(database)) {
+        if (database && length(dbNames)>0) {
+          projson$database <- dbNames[1]
+          # apply default db, if there is any
+          lapply(dbs, function(db) {
+            if (db$defaultStorage)
+              projson$database <- db$name
+          })
+        }
+      } else {
+        if (!(database %in% dbNames)) {
+          stop("Not a valid project database name: '", database, "'. Expecting one of: '", paste0(dbNames, collapse = "', '"), "'")
+        }
+        projson$database <- database
       }
-      projson$database <- database
     }
     if (!is.null(title)) {
       projson$title <- title
@@ -127,6 +145,17 @@ opal.project_create <- function(opal, project, database = NULL, title = NULL, de
     }
     body <- jsonlite::toJSON(projson, auto_unbox = TRUE)
     ignore <- opal.post(opal, "projects", contentType = "application/json", body = body)
+    if (!.is.empty(database)) {
+      pObj <- opal.project(opal, project)
+      waited <- 0
+      while(pObj$datasourceStatus != "READY") {
+        # delay is proportional to the time waited, but no more than 10s
+        delay <- min(10, max(1, round(waited/10)))
+        Sys.sleep(delay)
+        waited <- waited + delay
+        pObj <- opal.project(opal, project)
+      }
+    }
   } else {
     warning("Project ", project, " already exists.")
   }
@@ -195,6 +224,7 @@ opal.project_exists <- function(opal, project) {
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' opal.project_backup(o, 'GREENSPACE', '/home/administrator/backup/GREENSPACE')
+#' opal.file_download(o, '/home/administrator/backup/GREENSPACE', 'GREENSPACE.zip')
 #' opal.logout(o)
 #' }
 #' @export
@@ -246,8 +276,11 @@ opal.project_backup <- function(opal, project, archive, viewsAsTables = FALSE, o
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.project_backup(o, 'GREENSPACE', '/home/administrator/backup/GREENSPACE')
-#' opal.project_restore(o, 'GREENSPACE2', '/home/administrator/backup/GREENSPACE')
+#' # create the project to restore, with the default database (to store tables)
+#' opal.project_create(o, 'GREENSPACE2', database = TRUE)
+#' # upload backup zip and launch restore task
+#' opal.file_upload(o, 'GREENSPACE.zip', '/home/administrator')
+#' opal.project_restore(o, 'GREENSPACE2', '/home/administrator/GREENSPACE.zip')
 #' opal.logout(o)
 #' }
 #' @export

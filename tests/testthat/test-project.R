@@ -22,7 +22,7 @@ test_that("Project creation", {
   expect_true(opal.project_exists(o, name))
   project <- opal.project(o, name)
   expect_equal(project$database, dbs[1])
-  expect_true(project$datasourceStatus %in% c("LOADING", "READY"))
+  expect_equal(project$datasourceStatus, "READY")
   opal.project_delete(o, name)
   
   opal.logout(o)
@@ -64,7 +64,7 @@ test_that("Project backup and restore", {
   archive <- paste0("/tmp/", basename(tmp))
   if (opal.project_exists(o, name))
     opal.project_delete(o, name)
-  opal.project_create(o, name, database = opal.projects_databases(o)[1])
+  opal.project_create(o, name, database = TRUE)
   opal.project_restore(o, name, archive)
   expect_equal(opal.tables(o, name)$name, opal.tables(o, project)$name)
   expect_equal(opal.resources(o, name)$name, opal.resources(o, project)$name)

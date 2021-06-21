@@ -39,6 +39,7 @@ permissions, view change history, table analysis, report executions etc.
 \dontrun{
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 opal.project_backup(o, 'GREENSPACE', '/home/administrator/backup/GREENSPACE')
+opal.file_download(o, '/home/administrator/backup/GREENSPACE', 'GREENSPACE.zip')
 opal.logout(o)
 }
 }

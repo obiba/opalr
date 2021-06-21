@@ -38,8 +38,11 @@ already exist (override can be forced).
 \examples{
 \dontrun{
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-opal.project_backup(o, 'GREENSPACE', '/home/administrator/backup/GREENSPACE')
-opal.project_restore(o, 'GREENSPACE2', '/home/administrator/backup/GREENSPACE')
+# create the project to restore, with the default database (to store tables)
+opal.project_create(o, 'GREENSPACE2', database = TRUE)
+# upload backup zip and launch restore task
+opal.file_upload(o, 'GREENSPACE.zip', '/home/administrator')
+opal.project_restore(o, 'GREENSPACE2', '/home/administrator/GREENSPACE.zip')
 opal.logout(o)
 }
 }
