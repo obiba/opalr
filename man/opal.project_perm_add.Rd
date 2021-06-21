@@ -4,7 +4,13 @@
 \alias{opal.project_perm_add}
 \title{Add or update a permission on a project}
 \usage{
-opal.project_perm_add(opal, project, subject, type = "user", permission)
+opal.project_perm_add(
+  opal,
+  project,
+  subject,
+  type = "user",
+  permission = "administrate"
+)
 }
 \arguments{
 \item{opal}{Opal connection object.}

@@ -25,3 +25,19 @@ opal.resource_delete(o, "RSRC", "CNSIM4")
 opal.logout(o)
 }
 }
+\seealso{
+Other resource functions: 
+\code{\link{opal.resource_create}()},
+\code{\link{opal.resource_exists}()},
+\code{\link{opal.resource_extension_create}()},
+\code{\link{opal.resource_get}()},
+\code{\link{opal.resource_perm_add}()},
+\code{\link{opal.resource_perm_delete}()},
+\code{\link{opal.resource_perm}()},
+\code{\link{opal.resources_perm_add}()},
+\code{\link{opal.resources_perm_delete}()},
+\code{\link{opal.resources_perm}()},
+\code{\link{opal.resources}()},
+\code{\link{opal.resource}()}
+}
+\concept{resource functions}

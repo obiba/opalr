@@ -10,7 +10,7 @@
 
 #' Get the resource references of a project
 #' 
-#' @family project functions
+#' @family resource functions
 #' @param opal Opal object.
 #' @param project Name of the project.
 #' @param df Return a data.frame (default is TRUE)
@@ -55,7 +55,7 @@ opal.resources <- function(opal, project, df=TRUE) {
 
 #' Get a resource reference of a project
 #' 
-#' @family project functions
+#' @family resource functions
 #' @param opal Opal object.
 #' @param project Name of the project.
 #' @param resource Name of the resource in the project.
@@ -75,7 +75,7 @@ opal.resource <- function(opal, project, resource) {
 
 #' Get the resource object of a project
 #' 
-#' @family project functions
+#' @family resource functions
 #' @param opal Opal object.
 #' @param project Name of the project.
 #' @param resource Name of the resource in the project.
@@ -107,7 +107,7 @@ opal.resource_get <- function(opal, project, resource) {
 #' 
 #' Check whether a resource already exists in the project (and is visible by the requesting user).
 #' 
-#' @family project functions
+#' @family resource functions
 #' @param opal Opal object.
 #' @param project Name of the project.
 #' @param resource Name of the resource in the project.
@@ -127,7 +127,7 @@ opal.resource_exists <- function(opal, project, resource) {
 
 #' Create a resource reference in a project
 #' 
-#' @family project functions
+#' @family resource functions
 #' @param opal Opal object.
 #' @param project Name of the project.
 #' @param name Name of the resource in the project.
@@ -161,7 +161,7 @@ opal.resource_create <- function(opal, project, name, url, description=NULL, for
 
 #' Create an extended resource reference in a project
 #' 
-#' @family project functions
+#' @family resource functions
 #' @param opal Opal object.
 #' @param project Name of the project.
 #' @param name Name of the resource in the project.
@@ -214,6 +214,7 @@ opal.resource_extension_create <- function(opal, project, name, provider, factor
 #'
 #' Removes the reference to a resource. The targeted resource remains untouched.
 #'
+#' @family resource functions
 #' @param opal Opal connection object.
 #' @param project Project name where the resource is located.
 #' @param resource Resource name to be deleted.
@@ -237,6 +238,7 @@ opal.resource_delete <- function(opal, project, resource, silent = TRUE) {
 #' 
 #' Add or update a permission on a resource
 #' 
+#' @family resource functions
 #' @param opal Opal connection object.
 #' @param project The project name.
 #' @param resource The resource name.
@@ -273,6 +275,7 @@ opal.resource_perm_add <- function(opal, project, resource, subject, type = "use
 #' 
 #' Get the permissions that were applied on a resource.
 #' 
+#' @family resource functions
 #' @param opal Opal connection object.
 #' @param project The project name.
 #' @param resource The resource name.
@@ -298,6 +301,7 @@ opal.resource_perm <- function(opal, project, resource) {
 #' 
 #' Delete a permission that was applied on a resource. Silently returns when there is no such permission.
 #' 
+#' @family resource functions
 #' @param opal Opal connection object.
 #' @param project The project name.
 #' @param resource The resource name.
@@ -328,6 +332,7 @@ opal.resource_perm_delete <- function(opal, project, resource, subject, type = "
 #' 
 #' Add or update a global permission on the project's resources
 #' 
+#' @family resource functions
 #' @param opal Opal connection object.
 #' @param project The project name.
 #' @param subject A vector of subject identifiers: user names or group names (depending on the type).
@@ -363,6 +368,7 @@ opal.resources_perm_add <- function(opal, project, subject, type = "user", permi
 #' 
 #' Get the permissions that were applied globally on the project's resources.
 #' 
+#' @family resource functions
 #' @param opal Opal connection object.
 #' @param project The project name.
 #' 
@@ -387,6 +393,7 @@ opal.resources_perm <- function(opal, project) {
 #' 
 #' Delete a permission that was applied globally on the project's resources. Silently returns when there is no such permission.
 #' 
+#' @family resource functions
 #' @param opal Opal connection object.
 #' @param project The project name.
 #' @param subject A vector of subject identifiers: user names or group names (depending on the type).

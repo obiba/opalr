@@ -29,13 +29,8 @@ opal.logout(o)
 Other project functions: 
 \code{\link{opal.project_create}()},
 \code{\link{opal.project_exists}()},
+\code{\link{opal.projects_databases}()},
 \code{\link{opal.projects}()},
-\code{\link{opal.project}()},
-\code{\link{opal.resource_create}()},
-\code{\link{opal.resource_exists}()},
-\code{\link{opal.resource_extension_create}()},
-\code{\link{opal.resource_get}()},
-\code{\link{opal.resources}()},
-\code{\link{opal.resource}()}
+\code{\link{opal.project}()}
 }
 \concept{project functions}

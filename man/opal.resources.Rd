@@ -24,16 +24,18 @@ opal.logout(o)
 }
 }
 \seealso{
-Other project functions: 
-\code{\link{opal.project_create}()},
-\code{\link{opal.project_delete}()},
-\code{\link{opal.project_exists}()},
-\code{\link{opal.projects}()},
-\code{\link{opal.project}()},
+Other resource functions: 
 \code{\link{opal.resource_create}()},
+\code{\link{opal.resource_delete}()},
 \code{\link{opal.resource_exists}()},
 \code{\link{opal.resource_extension_create}()},
 \code{\link{opal.resource_get}()},
+\code{\link{opal.resource_perm_add}()},
+\code{\link{opal.resource_perm_delete}()},
+\code{\link{opal.resource_perm}()},
+\code{\link{opal.resources_perm_add}()},
+\code{\link{opal.resources_perm_delete}()},
+\code{\link{opal.resources_perm}()},
 \code{\link{opal.resource}()}
 }
-\concept{project functions}
+\concept{resource functions}

@@ -14,6 +14,7 @@
 #' and then retrieve it into the R client-side session. Requires to have the permission to
 #' see the individual values of the table and to perform R assignments.
 #'
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name from which the tibble should be extracted.
@@ -84,6 +85,7 @@ opal.table_get <- function(opal, project, table, id.name='id', variables = NULL,
 #' Removes both values and data dictionary of a table, or remove the table's logic if the table is a view.
 #' Fails if the table does not exist. See also \link{opal.table_truncate}.
 #'
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name to be deleted.
@@ -108,6 +110,7 @@ opal.table_delete <- function(opal, project, table, silent = TRUE) {
 #' Check whether a Opal table exists (and is visible). Optionally check whether the table is a raw table 
 #' or a view.
 #'
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name.
@@ -147,6 +150,7 @@ opal.table_exists <- function(opal, project, table, view = NA) {
 #' the table will be a view. The table/view created will have no dictionary, use 
 #' \link{opal.table_dictionary_update} to apply a dictionary.
 #'
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name to be deleted.
@@ -183,6 +187,7 @@ opal.table_create <- function(opal, project, table, type = "Participant", tables
 #' Removes the values of a table and keep the dictionary untouched. Fails if the table does
 #' not exist or is a view. See also \link{opal.table_delete}.
 #'
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name to be truncated.
@@ -206,6 +211,7 @@ opal.table_truncate <- function(opal, project, table) {
 #' Upload a local tibble to the R server side through Opal, assign this tibble to the provided
 #' symbol name and import it as a table into a Opal project.
 #'
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param tibble The tibble object to be imported.
 #' @param project Project name where the table will be located.
@@ -333,6 +339,7 @@ opal.table_save <- function(opal, tibble, project, table, overwrite = TRUE, forc
 #' The other file formats are the ones supported by the haven R package.
 #' This operation creates an importation task in Opal that can be followed (see tasks related functions).
 #' 
+#' @family table functions
 #' @param opal Opal object.
 #' @param file Path in Opal to the file that will be read as a tibble.
 #' @param project Name of the project into which the data are to be imported.
@@ -413,6 +420,7 @@ opal.table_import <- function(opal, file, project, table, identifiers=NULL, poli
 #' file system. See \link{opal.file_download} to download the file locally. See also 
 #' \link{opal.table_get} to get directly the table as an R object.
 #'
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table is located.
 #' @param table Table name to export.
@@ -484,6 +492,7 @@ opal.table_export <- function(opal, project, table, file, identifiers=NULL, id.n
 #' 
 #' Directly update the dictionary of a Opal table with the provided dictionary.
 #' 
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table will be located.
 #' @param table Destination table name.
@@ -518,6 +527,7 @@ opal.table_dictionary_update <- function(opal, project, table, variables, catego
 #' 
 #' Get the dictionary of a Opal table in a format that can be re-applied with opal.table_dictionary_update.
 #' 
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table will be located.
 #' @param table Table name.
@@ -650,6 +660,7 @@ opal.table_dictionary_get <- function(opal, project, table) {
 #' 
 #' Add or update a permission on a table.
 #' 
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table will be located.
 #' @param table Destination table name.
@@ -689,6 +700,7 @@ opal.table_perm_add <- function(opal, project, table, subject, type = "user", pe
 #' 
 #' Get the permissions that were applied on a table.
 #' 
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table will be located.
 #' @param table Destination table name.
@@ -717,6 +729,7 @@ opal.table_perm <- function(opal, project, table) {
 #' 
 #' Delete a permission that was applied on a table. Silently returns when there is no such permission.
 #' 
+#' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table will be located.
 #' @param table Destination table name.

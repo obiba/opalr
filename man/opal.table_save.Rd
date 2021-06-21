@@ -62,3 +62,19 @@ opal.table_save(o, cqx, "CPTP", "Cag_coreqx", overwrite = 'values', force = TRUE
 opal.logout(o)
 }
 }
+\seealso{
+Other table functions: 
+\code{\link{opal.table_create}()},
+\code{\link{opal.table_delete}()},
+\code{\link{opal.table_dictionary_get}()},
+\code{\link{opal.table_dictionary_update}()},
+\code{\link{opal.table_exists}()},
+\code{\link{opal.table_export}()},
+\code{\link{opal.table_get}()},
+\code{\link{opal.table_import}()},
+\code{\link{opal.table_perm_add}()},
+\code{\link{opal.table_perm_delete}()},
+\code{\link{opal.table_perm}()},
+\code{\link{opal.table_truncate}()}
+}
+\concept{table functions}

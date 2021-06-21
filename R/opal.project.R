@@ -48,6 +48,24 @@ opal.projects <- function(opal, df=TRUE) {
   }
 }
 
+#' Get projects databases
+#' 
+#' When creating a project for storing data, it is required to name the database to be associated.
+#' 
+#' @family project functions
+#' @param opal Opal object.
+#' @return A character vector of databases names.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.projects_databases(o)
+#' opal.logout(o)
+#' }
+#' @export
+opal.projects_databases <- function(opal) {
+  sapply(opal.get(opal, "system", "databases", query = list(usage = "storage")), function(db) db$name)
+}
+
 #' Get a project
 #' 
 #' @family project functions
@@ -87,6 +105,10 @@ opal.project_create <- function(opal, project, database = NULL, title = NULL, de
     # {"name":"test","title":"This is the title","description":"This is the description","database":"opal_data","vcfStoreService":null,"exportFolder":"/home/administrator/export","tags":["DataSHIELD,","Resources"]}
     projson <- list(name = project)
     if (!is.null(database)) {
+      dbNames <- opal.projects_databases(opal)
+      if (!(database %in% dbNames)) {
+        stop("Not a valid project database name: '", database, "'. Expecting one of: '", paste0(dbNames, collapse = "', '"), "'")
+      }
       projson$database <- database
     }
     if (!is.null(title)) {
@@ -173,7 +195,7 @@ opal.project_exists <- function(opal, project) {
 #' opal.logout(o)
 #' }
 #' @export
-opal.project_perm_add <- function(opal, project, subject, type = "user", permission) {
+opal.project_perm_add <- function(opal, project, subject, type = "user", permission = "administrate") {
   if (!(tolower(type) %in% c("user", "group"))) {
     stop("Not a valid subject type: ", type)
   }
