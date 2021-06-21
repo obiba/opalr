@@ -5,7 +5,7 @@ test_that("Users management", {
   name <- "testthat"
   o <- opal.login("administrator", "password")
   if (oadmin.user_exists(o, name))
-    oadmin.user_rm(o, name)
+    oadmin.user_delete(o, name)
   pwd <- oadmin.user_add(o, name, groups = c("a", "b"))
   expect_false(is.null(pwd))
   expect_true(nchar(pwd)>10)
@@ -13,7 +13,7 @@ test_that("Users management", {
   users <- oadmin.users(o)
   user <- as.list(users[users$name == name,])
   expect_equal(user$groups, paste0(c("a", "b"), collapse = ", "))
-  oadmin.user_rm(o, name)
+  oadmin.user_delete(o, name)
   pwd <- oadmin.user_add(o, name)
   users <- oadmin.users(o)
   user <- as.list(users[users$name == name,])
@@ -44,9 +44,20 @@ test_that("Users management", {
   
   expect_error(opal.login(name, pwd2))
   
+  o <- opal.login("administrator", "password")
+  profiles <- oadmin.user_profiles(o)
+  profile <- as.list(profiles[profiles$principal == name,])
+  expect_equal(profile$principal, name)
+  expect_equal(profile$realm, "opal-user-realm")
+  expect_equal(profile$groups, "opal-user-realm")
+  oadmin.user_profile_delete(o, name)
+  profiles <- oadmin.user_profiles(o)
+  expect_false(name %in% profiles$principal)
+  opal.logout(o)
+  
   # clean up
   o <- opal.login("administrator", "password")
-  oadmin.user_rm(o, name)
+  oadmin.user_delete(o, name)
   expect_false(oadmin.user_exists(o, name))
   opal.logout(o)
   

@@ -204,9 +204,9 @@ oadmin.user_enable <- function(opal, name, enabled = TRUE) {
   ignore <- opal.put(opal, "system", "subject-credential", name, body = jsonlite::toJSON(user, auto_unbox = TRUE), contentType = "application/json")
 }
 
-#' Remove a user
+#' Delete a user
 #' 
-#' Remove a user from Opal internal users registry. Fails silently if user does not exist.
+#' Delete a user from Opal internal users registry. Fails silently if user does not exist.
 #' 
 #' @family user functions
 #' @param opal Opal object.
@@ -215,12 +215,36 @@ oadmin.user_enable <- function(opal, name, enabled = TRUE) {
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' pwd <- oadmin.user_add(o, "foo", groups = c("datashield", "CNSIM"))
-#' oadmin.user_rm(o, "foo")
+#' oadmin.user_delete(o, "foo")
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.user_rm <- function(opal, name) {
+oadmin.user_delete <- function(opal, name) {
   if (.is.empty(name))
     stop("User name is required")
   ignore <- tryCatch(opal.delete(opal, "system", "subject-credential", name), error = function(e) {})
+}
+
+#' Delete a user profile
+#' 
+#' Delete a user profile without deleting user if this one is defined in the Opal internal users registry.
+#' Fails silently if user profile does not exist.
+#' A user profile is the footprint of a user, created at first login. It keeps track of its activity, the realm
+#' from which he/she was authenticated, its groups at time of the last login and more.
+#' 
+#' @family user functions
+#' @param opal Opal object.
+#' @param name User name
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' pwd <- oadmin.user_add(o, "foo", groups = c("datashield", "CNSIM"))
+#' oadmin.user_profile_delete(o, "foo")
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.user_profile_delete <- function(opal, name) {
+  if (.is.empty(name))
+    stop("User name is required")
+  ignore <- tryCatch(opal.delete(opal, "system", "subject-profile", name), error = function(e) {})
 }

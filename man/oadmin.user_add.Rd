@@ -27,11 +27,12 @@ opal.logout(o)
 }
 \seealso{
 Other user functions: 
+\code{\link{oadmin.user_delete}()},
 \code{\link{oadmin.user_enable}()},
 \code{\link{oadmin.user_exists}()},
+\code{\link{oadmin.user_profile_delete}()},
 \code{\link{oadmin.user_profiles}()},
 \code{\link{oadmin.user_reset_password}()},
-\code{\link{oadmin.user_rm}()},
 \code{\link{oadmin.users}()}
 }
 \concept{user functions}
