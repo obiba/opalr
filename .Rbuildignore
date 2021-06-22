@@ -12,3 +12,4 @@
 ^docs$
 ^appveyor\.yml$
 ^\.httr-oauth$
+^pkgdown$

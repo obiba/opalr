@@ -5,10 +5,10 @@
 *.Rproj
 .Rproj.user
 *.md
-*.html
 *.sav
 figure
 .RData
 inst/doc
 vignettes/*.R
+vignettes/*.html
 .httr-oauth
