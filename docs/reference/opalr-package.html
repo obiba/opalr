@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Execute a R file script — opal.execute.source • opalr</title>
+<title>opalr: 'Opal' Data Repository Client and 'DataSHIELD' Utils — opalr-package • opalr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,17 @@
 
 
 
-<meta property="og:title" content="Execute a R file script — opal.execute.source" />
-<meta property="og:description" content="Upload a R file script and execute it in the remote R session with source()." />
+<meta property="og:title" content="opalr: 'Opal' Data Repository Client and 'DataSHIELD' Utils — opalr-package" />
+<meta property="og:description" content="Data integration Web application for biobanks by 'OBiBa'. 'Opal' is
+    the core database application for biobanks. Participant data, once
+    collected from any data source, must be integrated and stored in a central
+    data repository under a uniform model. 'Opal' is such a central repository.
+    It can import, process, validate, query, analyze, report, and export data.
+    'Opal' is typically used in a research center to analyze the data acquired at
+    assessment centres. Its ultimate purpose is to achieve seamless
+    data-sharing among biobanks. This 'Opal' client allows to interact with 'Opal'
+    web services and to perform operations on the R server side. 'DataSHIELD'
+    administration tools are also provided." />
 
 
 
@@ -126,49 +135,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Execute a R file script</h1>
-    <small class="dont-index">Source: <a href='https://github.com/obiba/opalr/blob/master/R/opal.execute.R'><code>R/opal.execute.R</code></a></small>
-    <div class="hidden name"><code>opal.execute.source.Rd</code></div>
+    <h1>opalr: 'Opal' Data Repository Client and 'DataSHIELD' Utils</h1>
+    <small class="dont-index">Source: <a href='https://github.com/obiba/opalr/blob/master/R/opalr-package.R'><code>R/opalr-package.R</code></a></small>
+    <div class="hidden name"><code>opalr-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Upload a R file script and execute it in the remote R session with source().</p>
+    <p>Data integration Web application for biobanks by 'OBiBa'. 'Opal' is
+    the core database application for biobanks. Participant data, once
+    collected from any data source, must be integrated and stored in a central
+    data repository under a uniform model. 'Opal' is such a central repository.
+    It can import, process, validate, query, analyze, report, and export data.
+    'Opal' is typically used in a research center to analyze the data acquired at
+    assessment centres. Its ultimate purpose is to achieve seamless
+    data-sharing among biobanks. This 'Opal' client allows to interact with 'Opal'
+    web services and to perform operations on the R server side. 'DataSHIELD'
+    administration tools are also provided.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>opal.execute.source</span>(<span class='kw'>opal</span>, <span class='kw'>path</span>, async = <span class='fl'>FALSE</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>opal</th>
-      <td><p>Opal object or list of opal objects.</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>Path to the R file script to execute.</p></td>
-    </tr>
-    <tr>
-      <th>async</th>
-      <td><p>R script is executed asynchronously within the session (default is FALSE). 
-If TRUE, the value returned is the ID of the command to look for (from Opal 2.1).</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other execution functions: 
-<code><a href='opal.execute.html'>opal.execute</a>()</code>,
-<code><a href='opal.load_package.html'>opal.load_package</a>()</code>,
-<code><a href='opal.unload_package.html'>opal.unload_package</a>()</code></p></div>
+    <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://github.com/obiba/opalr/'>https://github.com/obiba/opalr/</a></p></li>
+<li><p><a href='https://www.obiba.org/pages/products/opal/'>https://www.obiba.org/pages/products/opal/</a></p></li>
+<li><p><a href='https://doi.org/10.1093/ije/dyx180'>https://doi.org/10.1093/ije/dyx180</a></p></li>
+<li><p><a href='https://www.datashield.org/'>https://www.datashield.org/</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/obiba/opalr/issues/'>https://github.com/obiba/opalr/issues/</a></p></li>
+</ul>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span>(<span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url=<span class='st'>'https://opal-demo.obiba.org'</span>)
-<span class='fu'>opal.execute.source</span>(<span class='kw'>o</span>, <span class='st'>"myscript.R"</span>)
-<span class='fu'><a href='opal.logout.html'>opal.logout</a></span>(<span class='kw'>o</span>)
-}
-</div></pre>
+</div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p><strong>Maintainer</strong>: Yannick Marcon <a href='mailto:yannick.marcon@obiba.org'>yannick.marcon@obiba.org</a> (<a href='https://orcid.org/0000-0003-0138-2023'>ORCID</a>)</p>
+<p>Other contributors:</p><ul>
+<li><p>Amadou Gaye (<a href='https://orcid.org/0000-0002-1180-2792'>ORCID</a>) [contributor]</p></li>
+<li><p>OBiBa group <a href='mailto:info@obiba.org'>info@obiba.org</a> [copyright holder]</p></li>
+</ul>
+
+
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
