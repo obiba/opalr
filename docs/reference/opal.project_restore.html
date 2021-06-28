@@ -141,14 +141,14 @@ The destination project must exist and can have a name different from the origin
 already exist (override can be forced).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>opal.project_restore</span>(
-  <span class='kw'>opal</span>,
-  <span class='kw'>project</span>,
-  <span class='kw'>archive</span>,
-  password = <span class='kw'>NULL</span>,
-  override = <span class='fl'>TRUE</span>,
-  wait = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>opal.project_restore</span><span class='op'>(</span>
+  <span class='va'>opal</span>,
+  <span class='va'>project</span>,
+  <span class='va'>archive</span>,
+  password <span class='op'>=</span> <span class='cn'>NULL</span>,
+  override <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  wait <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,15 +184,15 @@ already exist (override can be forced).</p>
     <p>The project command ID if wait parameter is FALSE. See <a href='opal.project_command.html'>opal.project_command</a> to retrieve asynchronous command state.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span>(<span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url=<span class='st'>'https://opal-demo.obiba.org'</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span><span class='op'>(</span><span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url<span class='op'>=</span><span class='st'>'https://opal-demo.obiba.org'</span><span class='op'>)</span>
 <span class='co'># create the project to restore, with the default database (to store tables)</span>
-<span class='fu'><a href='opal.project_create.html'>opal.project_create</a></span>(<span class='kw'>o</span>, <span class='st'>'GREENSPACE2'</span>, database = <span class='fl'>TRUE</span>)
+<span class='fu'><a href='opal.project_create.html'>opal.project_create</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>'GREENSPACE2'</span>, database <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># upload backup zip and launch restore task</span>
-<span class='fu'><a href='opal.file_upload.html'>opal.file_upload</a></span>(<span class='kw'>o</span>, <span class='st'>'GREENSPACE.zip'</span>, <span class='st'>'/home/administrator'</span>)
-<span class='fu'>opal.project_restore</span>(<span class='kw'>o</span>, <span class='st'>'GREENSPACE2'</span>, <span class='st'>'/home/administrator/GREENSPACE.zip'</span>)
-<span class='fu'><a href='opal.logout.html'>opal.logout</a></span>(<span class='kw'>o</span>)
-}
+<span class='fu'><a href='opal.file_upload.html'>opal.file_upload</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>'GREENSPACE.zip'</span>, <span class='st'>'/home/administrator'</span><span class='op'>)</span>
+<span class='fu'>opal.project_restore</span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>'GREENSPACE2'</span>, <span class='st'>'/home/administrator/GREENSPACE.zip'</span><span class='op'>)</span>
+<span class='fu'><a href='opal.logout.html'>opal.logout</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

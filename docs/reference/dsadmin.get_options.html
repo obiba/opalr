@@ -135,7 +135,7 @@
     <p>Get the DataSHIELD options</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dsadmin.get_options</span>(<span class='kw'>opal</span>, profile = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>dsadmin.get_options</span><span class='op'>(</span><span class='va'>opal</span>, profile <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,11 +174,11 @@
 <code><a href='dsadmin.unpublish_package.html'>dsadmin.unpublish_package</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span>(<span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url=<span class='st'>'https://opal-demo.obiba.org'</span>)
-<span class='fu'>dsadmin.get_options</span>(<span class='kw'>o</span>)
-<span class='fu'><a href='opal.logout.html'>opal.logout</a></span>(<span class='kw'>o</span>)
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span><span class='op'>(</span><span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url<span class='op'>=</span><span class='st'>'https://opal-demo.obiba.org'</span><span class='op'>)</span>
+<span class='fu'>dsadmin.get_options</span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span>
+<span class='fu'><a href='opal.logout.html'>opal.logout</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

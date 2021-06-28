@@ -135,18 +135,18 @@
     <p>Assign a Opal table to a data.frame identified by a R symbol in the current R session.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>opal.assign.table</span>(
-  <span class='kw'>opal</span>,
-  <span class='kw'>symbol</span>,
-  <span class='kw'>value</span>,
-  variables = <span class='kw'>NULL</span>,
-  missings = <span class='fl'>FALSE</span>,
-  identifiers = <span class='kw'>NULL</span>,
-  id.name = <span class='kw'>NULL</span>,
-  updated.name = <span class='kw'>NULL</span>,
-  class = <span class='st'>"data.frame"</span>,
-  async = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>opal.assign.table</span><span class='op'>(</span>
+  <span class='va'>opal</span>,
+  <span class='va'>symbol</span>,
+  <span class='va'>value</span>,
+  variables <span class='op'>=</span> <span class='cn'>NULL</span>,
+  missings <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  identifiers <span class='op'>=</span> <span class='cn'>NULL</span>,
+  id.name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  updated.name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  class <span class='op'>=</span> <span class='st'>"data.frame"</span>,
+  async <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,19 +203,19 @@
 <code><a href='opal.assign.html'>opal.assign</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span>(<span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url=<span class='st'>'https://opal-demo.obiba.org'</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span><span class='op'>(</span><span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url<span class='op'>=</span><span class='st'>'https://opal-demo.obiba.org'</span><span class='op'>)</span>
 <span class='co'># assign a list of variables from table CNSIM1</span>
-<span class='fu'>opal.assign.table</span>(<span class='kw'>o</span>, symbol=<span class='st'>"D"</span>, value=<span class='st'>"datashield.CNSIM1"</span>, variables=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"GENDER"</span>,<span class='st'>"LAB_TSC"</span>))
-<span class='fu'><a href='opal.execute.html'>opal.execute</a></span>(<span class='kw'>o</span>, <span class='st'>"colnames(D)"</span>)
+<span class='fu'>opal.assign.table</span><span class='op'>(</span><span class='va'>o</span>, symbol<span class='op'>=</span><span class='st'>"D"</span>, value<span class='op'>=</span><span class='st'>"datashield.CNSIM1"</span>, variables<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"GENDER"</span>,<span class='st'>"LAB_TSC"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='opal.execute.html'>opal.execute</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>"colnames(D)"</span><span class='op'>)</span>
 <span class='co'># assign a table CNSIM1 with a identifiers column</span>
-<span class='fu'>opal.assign.table</span>(<span class='kw'>o</span>, symbol=<span class='st'>"H"</span>, value=<span class='st'>"datashield.CNSIM1"</span>, id.name=<span class='st'>"id"</span>)
-<span class='fu'><a href='opal.execute.html'>opal.execute</a></span>(<span class='kw'>o</span>, <span class='st'>"colnames(H)"</span>)
+<span class='fu'>opal.assign.table</span><span class='op'>(</span><span class='va'>o</span>, symbol<span class='op'>=</span><span class='st'>"H"</span>, value<span class='op'>=</span><span class='st'>"datashield.CNSIM1"</span>, id.name<span class='op'>=</span><span class='st'>"id"</span><span class='op'>)</span>
+<span class='fu'><a href='opal.execute.html'>opal.execute</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>"colnames(H)"</span><span class='op'>)</span>
 <span class='co'># assign all the variables matching 'LAB' from table HOP of opal object o</span>
-<span class='fu'>opal.assign.table</span>(<span class='kw'>o</span>, symbol=<span class='st'>"D"</span>, value=<span class='st'>"datashield.CNSIM1"</span>, variables=<span class='st'>"name().matches('LAB_')"</span>)
-<span class='fu'><a href='opal.execute.html'>opal.execute</a></span>(<span class='kw'>o</span>, <span class='st'>"colnames(D)"</span>)
-<span class='fu'><a href='opal.logout.html'>opal.logout</a></span>(<span class='kw'>o</span>)
-}
+<span class='fu'>opal.assign.table</span><span class='op'>(</span><span class='va'>o</span>, symbol<span class='op'>=</span><span class='st'>"D"</span>, value<span class='op'>=</span><span class='st'>"datashield.CNSIM1"</span>, variables<span class='op'>=</span><span class='st'>"name().matches('LAB_')"</span><span class='op'>)</span>
+<span class='fu'><a href='opal.execute.html'>opal.execute</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>"colnames(D)"</span><span class='op'>)</span>
+<span class='fu'><a href='opal.logout.html'>opal.logout</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

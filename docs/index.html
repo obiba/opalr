@@ -100,14 +100,14 @@
 <p>Opal R Client for the <a href="https://www.obiba.org/pages/products/opal/">Opal</a> data warehouse. Most of the web services of Opal can be reached by an <code>opalr</code> function: import/export, data dictionaries, projects, tables, resources, permissions, users, DataSHIELD profiles etc.</p>
 <p>See <a href="https://obiba.github.io/opalr/">opalr documentation</a>.</p>
 <p>Basic usage:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#install.packages("opalr")</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(opalr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>o &lt;-<span class="st"> </span><span class="kw">opal.login</span>(<span class="st">'administrator'</span>, <span class="st">'password'</span>, <span class="dt">url =</span> <span class="st">'https://opal-demo.obiba.org'</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># Assign some variables as a data.frame to a R symbol</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">opal.assign</span>(o, <span class="st">'D'</span>, <span class="st">'CNSIM.CNSIM1'</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">opal.execute</span>(o, <span class="st">'summary(D$GENDER)'</span>)</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">opal.execute</span>(o, <span class="st">'summary(D$LAB_GLUC)'</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">opal.logout</span>(o)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("opalr")</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(opalr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>o <span class="ot">&lt;-</span> <span class="fu">opal.login</span>(<span class="st">'administrator'</span>, <span class="st">'password'</span>, <span class="at">url =</span> <span class="st">'https://opal-demo.obiba.org'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign some variables as a data.frame to a R symbol</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">opal.assign</span>(o, <span class="st">'D'</span>, <span class="st">'CNSIM.CNSIM1'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">opal.execute</span>(o, <span class="st">'summary(D$GENDER)'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">opal.execute</span>(o, <span class="st">'summary(D$LAB_GLUC)'</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">opal.logout</span>(o)</span></code></pre></div>
 <div id="datashield-client" class="section level2">
 <h2 class="hasAnchor">
 <a href="#datashield-client" class="anchor"></a>DataSHIELD Client</h2>

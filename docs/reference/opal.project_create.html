@@ -135,15 +135,15 @@
     <p>Create a project</p>
     </div>
 
-    <pre class="usage"><span class='fu'>opal.project_create</span>(
-  <span class='kw'>opal</span>,
-  <span class='kw'>project</span>,
-  database = <span class='kw'>NULL</span>,
-  title = <span class='kw'>NULL</span>,
-  description = <span class='kw'>NULL</span>,
-  tags = <span class='kw'>NULL</span>,
-  exportFolder = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>opal.project_create</span><span class='op'>(</span>
+  <span class='va'>opal</span>,
+  <span class='va'>project</span>,
+  database <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  description <span class='op'>=</span> <span class='cn'>NULL</span>,
+  tags <span class='op'>=</span> <span class='cn'>NULL</span>,
+  exportFolder <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,16 +190,16 @@ selected or the first one if there is no default.</p></td>
 <code><a href='opal.project.html'>opal.project</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span>(<span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url=<span class='st'>'https://opal-demo.obiba.org'</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span><span class='op'>(</span><span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url<span class='op'>=</span><span class='st'>'https://opal-demo.obiba.org'</span><span class='op'>)</span>
 <span class='co'># with named database</span>
-<span class='fu'>opal.project_create</span>(<span class='kw'>o</span>, <span class='st'>'test'</span>, database=<span class='st'>'opal_data'</span>, title=<span class='st'>'This is a test'</span>, tags=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>'Test'</span>))
+<span class='fu'>opal.project_create</span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>'test'</span>, database<span class='op'>=</span><span class='st'>'opal_data'</span>, title<span class='op'>=</span><span class='st'>'This is a test'</span>, tags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>'Test'</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># with default database</span>
-<span class='fu'>opal.project_create</span>(<span class='kw'>o</span>, <span class='st'>'test_default_db'</span>, database = <span class='fl'>TRUE</span>)
+<span class='fu'>opal.project_create</span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>'test_default_db'</span>, database <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># no database, for views and resources only</span>
-<span class='fu'>opal.project_create</span>(<span class='kw'>o</span>, <span class='st'>'test_no_db'</span>)
-<span class='fu'><a href='opal.logout.html'>opal.logout</a></span>(<span class='kw'>o</span>)
-}
+<span class='fu'>opal.project_create</span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>'test_no_db'</span><span class='op'>)</span>
+<span class='fu'><a href='opal.logout.html'>opal.logout</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

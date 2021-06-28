@@ -137,18 +137,18 @@ symbol name and import it as a table into a Opal project." />
 symbol name and import it as a table into a Opal project.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>opal.table_save</span>(
-  <span class='kw'>opal</span>,
-  <span class='kw'>tibble</span>,
-  <span class='kw'>project</span>,
-  <span class='kw'>table</span>,
-  overwrite = <span class='fl'>TRUE</span>,
-  force = <span class='fl'>FALSE</span>,
-  identifiers = <span class='kw'>NULL</span>,
-  policy = <span class='st'>"required"</span>,
-  id.name = <span class='st'>"id"</span>,
-  type = <span class='st'>"Participant"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>opal.table_save</span><span class='op'>(</span>
+  <span class='va'>opal</span>,
+  <span class='va'>tibble</span>,
+  <span class='va'>project</span>,
+  <span class='va'>table</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  force <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  identifiers <span class='op'>=</span> <span class='cn'>NULL</span>,
+  policy <span class='op'>=</span> <span class='st'>"required"</span>,
+  id.name <span class='op'>=</span> <span class='st'>"id"</span>,
+  type <span class='op'>=</span> <span class='st'>"Participant"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -221,15 +221,15 @@ each unknown identifier).</p></td>
 <code><a href='opal.table_truncate.html'>opal.table_truncate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span>(<span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url=<span class='st'>'https://opal-demo.obiba.org'</span>)
-<span class='kw'>cqx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.table_get.html'>opal.table_get</a></span>(<span class='kw'>o</span>, <span class='st'>"CPTP"</span>, <span class='st'>"Cag_coreqx"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span><span class='op'>(</span><span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url<span class='op'>=</span><span class='st'>'https://opal-demo.obiba.org'</span><span class='op'>)</span>
+<span class='va'>cqx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.table_get.html'>opal.table_get</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>"CPTP"</span>, <span class='st'>"Cag_coreqx"</span><span class='op'>)</span>
 <span class='co'># do some (meta)data transformations, then save in opal's database</span>
-<span class='fu'>opal.table_save</span>(<span class='kw'>o</span>, <span class='kw'>cqx</span>, <span class='st'>"CPTP"</span>, <span class='st'>"Cag_coreqx"</span>, overwrite = <span class='fl'>TRUE</span>, force = <span class='fl'>TRUE</span>)
+<span class='fu'>opal.table_save</span><span class='op'>(</span><span class='va'>o</span>, <span class='va'>cqx</span>, <span class='st'>"CPTP"</span>, <span class='st'>"Cag_coreqx"</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>, force <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># or overwrite data only (keep original data dictionary)</span>
-<span class='fu'>opal.table_save</span>(<span class='kw'>o</span>, <span class='kw'>cqx</span>, <span class='st'>"CPTP"</span>, <span class='st'>"Cag_coreqx"</span>, overwrite = <span class='st'>'values'</span>, force = <span class='fl'>TRUE</span>)
-<span class='fu'><a href='opal.logout.html'>opal.logout</a></span>(<span class='kw'>o</span>)
-}
+<span class='fu'>opal.table_save</span><span class='op'>(</span><span class='va'>o</span>, <span class='va'>cqx</span>, <span class='st'>"CPTP"</span>, <span class='st'>"Cag_coreqx"</span>, overwrite <span class='op'>=</span> <span class='st'>'values'</span>, force <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='opal.logout.html'>opal.logout</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

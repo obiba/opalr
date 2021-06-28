@@ -135,13 +135,13 @@
     <p>Directly update the dictionary of a Opal table with the provided dictionary.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>opal.table_dictionary_update</span>(
-  <span class='kw'>opal</span>,
-  <span class='kw'>project</span>,
-  <span class='kw'>table</span>,
-  <span class='kw'>variables</span>,
-  categories = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>opal.table_dictionary_update</span><span class='op'>(</span>
+  <span class='va'>opal</span>,
+  <span class='va'>project</span>,
+  <span class='va'>table</span>,
+  <span class='va'>variables</span>,
+  categories <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,23 +186,23 @@ no categories, this parameter is optional.</p></td>
 <code><a href='opal.table_truncate.html'>opal.table_truncate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span>(<span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url=<span class='st'>'https://opal-demo.obiba.org'</span>)
-<span class='kw'>variables</span> <span class='op'>&lt;-</span> <span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-  <span class='op'>~</span><span class='kw'>name</span>, <span class='op'>~</span><span class='kw'>valueType</span>, <span class='op'>~</span><span class='kw'>`label:en`</span>,  <span class='op'>~</span><span class='kw'>`Namespace::Name`</span>, <span class='op'>~</span><span class='kw'>unit</span>, <span class='op'>~</span><span class='kw'>repeatable</span>, <span class='op'>~</span><span class='kw'>index</span>,
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span><span class='op'>(</span><span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url<span class='op'>=</span><span class='st'>'https://opal-demo.obiba.org'</span><span class='op'>)</span>
+<span class='va'>variables</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+  <span class='op'>~</span><span class='va'>name</span>, <span class='op'>~</span><span class='va'>valueType</span>, <span class='op'>~</span><span class='va'>`label:en`</span>,  <span class='op'>~</span><span class='va'>`Namespace::Name`</span>, <span class='op'>~</span><span class='va'>unit</span>, <span class='op'>~</span><span class='va'>repeatable</span>, <span class='op'>~</span><span class='va'>index</span>,
   <span class='st'>"mpg"</span>, <span class='st'>"decimal"</span>, <span class='st'>"Mpg label"</span>,  <span class='st'>"Value1"</span>, <span class='st'>"years"</span>, <span class='fl'>0</span>, <span class='fl'>1</span>,
   <span class='st'>"cyl"</span>, <span class='st'>"decimal"</span>, <span class='st'>"Cyl label"</span>,  <span class='st'>"Value2"</span>, <span class='st'>"kg/m2"</span>, <span class='fl'>0</span>, <span class='fl'>2</span>,
-  <span class='st'>"disp"</span>, <span class='st'>"decimal"</span>, <span class='st'>"Disp label"</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>1</span>, <span class='fl'>3</span>
-)
-<span class='kw'>categories</span> <span class='op'>&lt;-</span> <span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-  <span class='op'>~</span><span class='kw'>variable</span>, <span class='op'>~</span><span class='kw'>name</span>, <span class='op'>~</span><span class='kw'>missing</span>, <span class='op'>~</span><span class='kw'>`label:en`</span>, <span class='op'>~</span><span class='kw'>`label:fr`</span>,
+  <span class='st'>"disp"</span>, <span class='st'>"decimal"</span>, <span class='st'>"Disp label"</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>1</span>, <span class='fl'>3</span>
+<span class='op'>)</span>
+<span class='va'>categories</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+  <span class='op'>~</span><span class='va'>variable</span>, <span class='op'>~</span><span class='va'>name</span>, <span class='op'>~</span><span class='va'>missing</span>, <span class='op'>~</span><span class='va'>`label:en`</span>, <span class='op'>~</span><span class='va'>`label:fr`</span>,
   <span class='st'>"cyl"</span>, <span class='st'>"4"</span>, <span class='fl'>0</span>, <span class='st'>"Four"</span>, <span class='st'>"Quatre"</span>,
   <span class='st'>"cyl"</span>, <span class='st'>"6"</span>, <span class='fl'>0</span>, <span class='st'>"Six"</span>, <span class='st'>"Six"</span>,
   <span class='st'>"cyl"</span>, <span class='st'>"8"</span>, <span class='fl'>1</span>, <span class='st'>"Height"</span>, <span class='st'>"Huit"</span>
-)
-<span class='fu'>opal.table_dictionary_update</span>(<span class='kw'>o</span>, <span class='st'>"test"</span>, <span class='st'>"mtcars"</span>, <span class='kw'>variables</span>, <span class='kw'>categories</span>)
-<span class='fu'><a href='opal.logout.html'>opal.logout</a></span>(<span class='kw'>o</span>)
-}
+<span class='op'>)</span>
+<span class='fu'>opal.table_dictionary_update</span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>"test"</span>, <span class='st'>"mtcars"</span>, <span class='va'>variables</span>, <span class='va'>categories</span><span class='op'>)</span>
+<span class='fu'><a href='opal.logout.html'>opal.logout</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

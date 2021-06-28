@@ -135,13 +135,13 @@
     <p>Apply or remove an annotation from a set of variables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dictionary.annotate</span>(
-  <span class='kw'>tibble</span>,
-  variables = <span class='kw'>NULL</span>,
-  taxonomy = <span class='st'>"Mlstr_area"</span>,
-  <span class='kw'>vocabulary</span>,
-  <span class='kw'>term</span>
-)</pre>
+    <pre class="usage"><span class='fu'>dictionary.annotate</span><span class='op'>(</span>
+  <span class='va'>tibble</span>,
+  variables <span class='op'>=</span> <span class='cn'>NULL</span>,
+  taxonomy <span class='op'>=</span> <span class='st'>"Mlstr_area"</span>,
+  <span class='va'>vocabulary</span>,
+  <span class='va'>term</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,16 +175,16 @@ attribute (i.e. without a taxonomy reference).</p></td>
     <p>The annotated tibble</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span>(<span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url=<span class='st'>'https://opal-demo.obiba.org'</span>)
-<span class='kw'>cqx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.table_get.html'>opal.table_get</a></span>(<span class='kw'>o</span>, <span class='st'>"CPTP"</span>, <span class='st'>"Cag_coreqx"</span>)
-<span class='kw'>cqx</span> <span class='op'>&lt;-</span> <span class='fu'>dictionary.annotate</span>(<span class='kw'>cqx</span>, 
-  variables = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A_SDC_EDU_LEVEL"</span>, <span class='st'>"A_SDC_EDU_LEVEL_AGE"</span>), 
-  taxonomy = <span class='st'>"Mlstr_area"</span>, 
-  vocabulary = <span class='st'>"Sociodemographic_economic_characteristics"</span>, 
-  term = <span class='st'>"Education"</span>)
-<span class='fu'><a href='opal.logout.html'>opal.logout</a></span>(<span class='kw'>o</span>)
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span><span class='op'>(</span><span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url<span class='op'>=</span><span class='st'>'https://opal-demo.obiba.org'</span><span class='op'>)</span>
+<span class='va'>cqx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.table_get.html'>opal.table_get</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>"CPTP"</span>, <span class='st'>"Cag_coreqx"</span><span class='op'>)</span>
+<span class='va'>cqx</span> <span class='op'>&lt;-</span> <span class='fu'>dictionary.annotate</span><span class='op'>(</span><span class='va'>cqx</span>, 
+  variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A_SDC_EDU_LEVEL"</span>, <span class='st'>"A_SDC_EDU_LEVEL_AGE"</span><span class='op'>)</span>, 
+  taxonomy <span class='op'>=</span> <span class='st'>"Mlstr_area"</span>, 
+  vocabulary <span class='op'>=</span> <span class='st'>"Sociodemographic_economic_characteristics"</span>, 
+  term <span class='op'>=</span> <span class='st'>"Education"</span><span class='op'>)</span>
+<span class='fu'><a href='opal.logout.html'>opal.logout</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

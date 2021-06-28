@@ -137,7 +137,7 @@ is described by the &quot;status&quot; vocabulary in the &quot;Mlstr_harmo&quot;
 is described by the "status" vocabulary in the "Mlstr_harmo" taxonomy.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dictionary.annotate.harmo_status</span>(<span class='kw'>tibble</span>, variables = <span class='kw'>NULL</span>, <span class='kw'>status</span>)</pre>
+    <pre class="usage"><span class='fu'>dictionary.annotate.harmo_status</span><span class='op'>(</span><span class='va'>tibble</span>, variables <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>status</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,14 +162,14 @@ the columns of the tibble will be annotated.</p></td>
     <p>The annotated tibble</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span>(<span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url=<span class='st'>'https://opal-demo.obiba.org'</span>)
-<span class='kw'>cqx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.table_get.html'>opal.table_get</a></span>(<span class='kw'>o</span>, <span class='st'>"CPTP"</span>, <span class='st'>"Cag_coreqx"</span>)
-<span class='kw'>cqx</span> <span class='op'>&lt;-</span> <span class='fu'>dictionary.annotate.harmo_status</span>(<span class='kw'>cqx</span>, 
-  variables = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A_SDC_EDU_LEVEL"</span>, <span class='st'>"A_SDC_EDU_LEVEL_AGE"</span>), 
-  status = <span class='st'>"complete"</span>)
-<span class='fu'><a href='opal.logout.html'>opal.logout</a></span>(<span class='kw'>o</span>)
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span><span class='op'>(</span><span class='st'>'administrator'</span>,<span class='st'>'password'</span>, url<span class='op'>=</span><span class='st'>'https://opal-demo.obiba.org'</span><span class='op'>)</span>
+<span class='va'>cqx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.table_get.html'>opal.table_get</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>"CPTP"</span>, <span class='st'>"Cag_coreqx"</span><span class='op'>)</span>
+<span class='va'>cqx</span> <span class='op'>&lt;-</span> <span class='fu'>dictionary.annotate.harmo_status</span><span class='op'>(</span><span class='va'>cqx</span>, 
+  variables <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A_SDC_EDU_LEVEL"</span>, <span class='st'>"A_SDC_EDU_LEVEL_AGE"</span><span class='op'>)</span>, 
+  status <span class='op'>=</span> <span class='st'>"complete"</span><span class='op'>)</span>
+<span class='fu'><a href='opal.logout.html'>opal.logout</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

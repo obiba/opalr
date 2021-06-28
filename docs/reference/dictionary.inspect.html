@@ -137,7 +137,7 @@ column cannot be found." />
 column cannot be found.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dictionary.inspect</span>(<span class='kw'>tibble</span>, id.name = <span class='st'>"id"</span>, warn = <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>dictionary.inspect</span><span class='op'>(</span><span class='va'>tibble</span>, id.name <span class='op'>=</span> <span class='st'>"id"</span>, warn <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,34 +161,34 @@ column cannot be found.</p>
     <p>TRUE if inspection is successful, FALSE otherwise.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># prepare datasets of visits, several visits for one patient</span>
-<span class='kw'>visits</span> <span class='op'>&lt;-</span> <span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-<span class='op'>~</span><span class='kw'>id</span>, <span class='op'>~</span><span class='kw'>patient_id</span>, <span class='op'>~</span><span class='kw'>sex</span>, <span class='op'>~</span><span class='kw'>visit_date</span>,
-<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='st'>"M"</span>, <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-01"</span>),
-<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='st'>"F"</span>, <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-02"</span>),
-<span class='fl'>3</span>, <span class='fl'>3</span>, <span class='st'>"M"</span>, <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-03"</span>),
-<span class='fl'>4</span>, <span class='fl'>3</span>, <span class='st'>"M"</span>, <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-04"</span>))
+<span class='va'>visits</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+<span class='op'>~</span><span class='va'>id</span>, <span class='op'>~</span><span class='va'>patient_id</span>, <span class='op'>~</span><span class='va'>sex</span>, <span class='op'>~</span><span class='va'>visit_date</span>,
+<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='st'>"M"</span>, <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2020-01-01"</span><span class='op'>)</span>,
+<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='st'>"F"</span>, <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2020-01-02"</span><span class='op'>)</span>,
+<span class='fl'>3</span>, <span class='fl'>3</span>, <span class='st'>"M"</span>, <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2020-01-03"</span><span class='op'>)</span>,
+<span class='fl'>4</span>, <span class='fl'>3</span>, <span class='st'>"M"</span>, <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2020-01-04"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span>(<span class='st'>"administrator"</span>, <span class='st'>"password"</span>, url = <span class='st'>"https://opal-demo.obiba.org"</span>)
+<span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.login.html'>opal.login</a></span><span class='op'>(</span><span class='st'>"administrator"</span>, <span class='st'>"password"</span>, url <span class='op'>=</span> <span class='st'>"https://opal-demo.obiba.org"</span><span class='op'>)</span>
 
 <span class='co'># save visits dataset</span>
-<span class='fu'><a href='opal.table_save.html'>opal.table_save</a></span>(<span class='kw'>o</span>, <span class='kw'>visits</span>, <span class='st'>"RSRC"</span>, <span class='st'>"visits"</span>, type = <span class='st'>"Visit"</span>, force = <span class='fl'>TRUE</span>)
+<span class='fu'><a href='opal.table_save.html'>opal.table_save</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='va'>visits</span>, <span class='st'>"RSRC"</span>, <span class='st'>"visits"</span>, type <span class='op'>=</span> <span class='st'>"Visit"</span>, force <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># get visit and make it a dataset of patients </span>
-<span class='kw'>patients</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.table_get.html'>opal.table_get</a></span>(<span class='kw'>o</span>, <span class='st'>"RSRC"</span>, <span class='st'>"visits"</span>, id.name = <span class='st'>"id"</span>)
+<span class='va'>patients</span> <span class='op'>&lt;-</span> <span class='fu'><a href='opal.table_get.html'>opal.table_get</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='st'>"RSRC"</span>, <span class='st'>"visits"</span>, id.name <span class='op'>=</span> <span class='st'>"id"</span><span class='op'>)</span>
 <span class='co'># set dataset IDs</span>
-<span class='kw'>patients</span><span class='op'>$</span><span class='kw'>visit_id</span> <span class='op'>&lt;-</span> <span class='kw'>patients</span><span class='op'>$</span><span class='kw'>id</span>
-<span class='kw'>patients</span><span class='op'>$</span><span class='kw'>id</span> <span class='op'>&lt;-</span> <span class='kw'>patients</span><span class='op'>$</span><span class='kw'>patient_id</span>
-<span class='kw'>patients</span><span class='op'>$</span><span class='kw'>patient_id</span> <span class='op'>&lt;-</span> <span class='kw'>NULL</span>
-<span class='kw'>patients</span>
+<span class='va'>patients</span><span class='op'>$</span><span class='va'>visit_id</span> <span class='op'>&lt;-</span> <span class='va'>patients</span><span class='op'>$</span><span class='va'>id</span>
+<span class='va'>patients</span><span class='op'>$</span><span class='va'>id</span> <span class='op'>&lt;-</span> <span class='va'>patients</span><span class='op'>$</span><span class='va'>patient_id</span>
+<span class='va'>patients</span><span class='op'>$</span><span class='va'>patient_id</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='va'>patients</span>
 
 <span class='co'># save patients dataset, there should be a warning that some variables are not repeatable</span>
 <span class='co'># while there are patients with multiple data lines</span>
-<span class='fu'><a href='opal.table_save.html'>opal.table_save</a></span>(<span class='kw'>o</span>, <span class='kw'>patients</span>, <span class='st'>"RSRC"</span>, <span class='st'>"patients"</span>, type = <span class='st'>"Participant"</span>, force = <span class='fl'>TRUE</span>)
+<span class='fu'><a href='opal.table_save.html'>opal.table_save</a></span><span class='op'>(</span><span class='va'>o</span>, <span class='va'>patients</span>, <span class='st'>"RSRC"</span>, <span class='st'>"patients"</span>, type <span class='op'>=</span> <span class='st'>"Participant"</span>, force <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'><a href='opal.logout.html'>opal.logout</a></span>(<span class='kw'>o</span>)
-}
+<span class='fu'><a href='opal.logout.html'>opal.logout</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
