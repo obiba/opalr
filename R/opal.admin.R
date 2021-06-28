@@ -425,6 +425,28 @@ oadmin.r_perm_delete <- function(opal, subject, type = "user") {
   }
 }
 
+#' Get system metrics
+#' 
+#' Get some metrics about the Opal system status. The following information are returned:
+#' `timestamp` (the EPOC time at which the metrics were collected),
+#' `uptime` (the running time in millis),
+#' `heapMemory` (the memory currently used),
+#' `nonHeapMemory` (the memory that can be used),
+#' `threads` (the current (count) and maximum (peak) numbers of threads),
+#' `gcs` (the garbage collectors activity).
+#' 
+#' @param opal Opal connection object.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.system_metrics(o)
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.system_metrics <- function(opal) {
+  opal.get(opal, "system", "status")
+}
+
 #' Add or update a System permission
 #' 
 #' Add or update a permission on the whole system.

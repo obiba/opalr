@@ -21,6 +21,7 @@ Data integration Web application for biobanks by 'OBiBa'. 'Opal' is
 Useful links:
 \itemize{
   \item \url{https://github.com/obiba/opalr/}
+  \item \url{https://www.obiba.org/opalr/}
   \item \url{https://www.obiba.org/pages/products/opal/}
   \item \url{https://doi.org/10.1093/ije/dyx180}
   \item \url{https://www.datashield.org/}
