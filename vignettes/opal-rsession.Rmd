@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-[Opal](https://www.obiba.org/pages/products/opal/) is connected with a R server. Each Opal user having the appropriate permissions can create a R session on the server side through Opal. See the [R Server](http://opaldoc.obiba.org/en/latest/admin/rserver.html) documentation page that explains the relationship beteen Opal and the R server. The Opal R package exposes data management related functions:
+[Opal](https://www.obiba.org/pages/products/opal/) is connected with one or more R servers. Each Opal user having the appropriate permissions can create a R session on the server side through Opal. See the [R Server](http://opaldoc.obiba.org/en/latest/admin/rserver.html) documentation page that explains the relationship beteen Opal and the R servers. The Opal R package exposes data management related functions:
 
 * assignment of Opal data into the remote R session,
 * execution of R expressions on server side,
@@ -17,23 +17,23 @@ vignette: >
 
 Note that these functions do create a R session on the server side.
 
-Setup the connection with Opal:
+Setup the connection with Opal, specifying that the R server session must be created with the "default" profile, i.e. in the "default" R servers cluster (note that the profile parameter is optional):
 
 ```{r eval=FALSE}
 library(opalr)
-o <- opal.login("administrator", "password", "https://opal-demo.obiba.org")
+o <- opal.login("administrator", "password", "https://opal-demo.obiba.org", profile = "default")
 ```
 
 Assign a Opal table to a *data.frame* (if user has permission to see values of the Opal table):
 
 ```{r eval=FALSE}
-opal.assign.table(o, symbol = "df", value = "datashield.CNSIM1")
+opal.assign.table(o, symbol = "df", value = "CNSIM.CNSIM1")
 ```
 
 In place of a standard *data.frame*, Opal can assign data into a [tibble](https://tibble.tidyverse.org/) which has the advantage of containing the data dictionary:
 
 ```{r eval=FALSE}
-opal.assign.table.tibble(o, symbol = "tbl", value = "datashield.CNSIM1")
+opal.assign.table.tibble(o, symbol = "tbl", value = "CNSIM.CNSIM1")
 ```
 
 List the R symbols that lives in the remote R session:
@@ -45,13 +45,15 @@ opal.symbols(o)
 R expressions can be executed on the server side:
 
 ```{r eval=FALSE}
+opal.execute(o, script = "class(df)")
+opal.execute(o, script = "class(tbl)")
 opal.execute(o, script = "names(tbl)")
 ```
 
 The remote data can be downloaded into the client side R session:
 
 ```{r eval=FALSE}
-tbl <- opal.execute(o, script = "tbl")
+GENDER <- opal.execute(o, script = "tbl$GENDER")
 ```
 
 The image of the remote R session can be saved in a *workspace* (to be restored at login time):

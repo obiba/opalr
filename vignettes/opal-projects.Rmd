@@ -50,6 +50,19 @@ List the tables in a datasource, with their count of variables and entities:
 opal.tables(o, "CNSIM", counts = TRUE)
 ```
 
+Create a project, linked to a database (default or first one):
+
+```{r eval=FALSE}
+opal.project_create(o, "dummy", database = TRUE)
+opal.project(o, "dummy")
+```
+
+Delete a project:
+
+```{r eval=FALSE}
+opal.project_delete(o, "dummy")
+```
+
 ## Table Operations
 
 The table object can be retrieved as follow:
