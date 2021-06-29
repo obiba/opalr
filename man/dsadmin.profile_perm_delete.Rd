@@ -37,6 +37,7 @@ Other DataSHIELD profiles:
 \code{\link{dsadmin.profile_init}()},
 \code{\link{dsadmin.profile_perm_add}()},
 \code{\link{dsadmin.profile_perm}()},
+\code{\link{dsadmin.profile_rparser}()},
 \code{\link{dsadmin.profiles}()},
 \code{\link{dsadmin.profile}()}
 }

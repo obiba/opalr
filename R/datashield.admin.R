@@ -61,6 +61,8 @@ dsadmin.profiles <- function(opal, df=TRUE) {
 #' @param opal Opal object.
 #' @param name Name of the profile.
 #' @param cluster Name of the R servers cluster to which the profile will be attached to. Default value is 'default'.
+#' @param rParser Version of the DataSHIELD R parser that applies to this profile. If not
+#' specified, the system's default one will be used. A valid version would be one of 'v1' or 'v2'.
 #' @examples
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -68,12 +70,15 @@ dsadmin.profiles <- function(opal, df=TRUE) {
 #' opal.logout(o)
 #' }
 #' @export
-dsadmin.profile_create <- function(opal, name, cluster = "default") {
+dsadmin.profile_create <- function(opal, name, cluster = "default", rParser = NULL) {
   if (opal.version_compare(opal,"4.2")<0) {
     stop("DataSHIELD profiles require Opal 4.2 or higher.")
   }
-  body <- jsonlite::toJSON(list(name = name, cluster = cluster, enabled = FALSE, restrictedAccess = FALSE), auto_unbox = TRUE)
-  ignore <- opal.post(opal, "datashield", "profiles", contentType = "application/json", body = body)
+  profile <- list(name = name, cluster = cluster, enabled = FALSE, restrictedAccess = FALSE)
+  if (!.is.empty(rParser)) {
+    profile$rParser <- rParser
+  }
+  ignore <- opal.post(opal, "datashield", "profiles", contentType = "application/json", body = jsonlite::toJSON(profile, auto_unbox = TRUE))
 }
 
 #' Initialize a DataSHIELD profile
@@ -213,6 +218,34 @@ dsadmin.profile_access <- function(opal, name, restricted = TRUE) {
     ignore <- opal.put(opal, "datashield", "profile", name, "_access")
   else
     ignore <- opal.delete(opal, "datashield", "profile", name, "_access")
+}
+
+#' Set or remove the R parser version of a DataSHIELD profile
+#'
+#' @family DataSHIELD profiles
+#' @param opal Opal object.
+#' @param name Name of the profile.
+#' @param rParser Version of the DataSHIELD R parser that applies to this profile. If not
+#' specified, the system's default one will be used. A valid version would be one of 'v1' or 'v2'.
+#' @examples
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' dsadmin.profile_create(o, name = 'survival', cluster = 'demo')
+#' # apply R parser version v2
+#' dsadmin.profile_rparser(o, name = 'survival', rParser = 'v2')
+#' # apply system's default R parser version
+#' dsadmin.profile_rparser(o, name = 'survival')
+#' opal.logout(o)
+#' }
+#' @export
+dsadmin.profile_rparser <- function(opal, name, rParser = NULL) {
+  if (opal.version_compare(opal,"4.2")<0) {
+    stop("DataSHIELD profiles require Opal 4.2 or higher.")
+  }
+  if (.is.empty(rParser))
+    ignore <- opal.delete(opal, "datashield", "profile", name, "_rparser")
+  else
+    ignore <- opal.put(opal, "datashield", "profile", name, "_rparser", query = list(version = rParser))
 }
 
 #' Add or update a permission on a DataSHIELD profile

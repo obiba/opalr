@@ -63,6 +63,12 @@ test_that("DataSHIELD profile permissions", {
   expect_false(profile$restrictedAccess)
   perms <- dsadmin.profile_perm(o, name)
   expect_equal(nrow(perms), 0)
+  dsadmin.profile_rparser(o, name, rParser = 'v2')
+  profile <- dsadmin.profile(o, name)
+  expect_equal(profile$rParser, 'v2')
+  dsadmin.profile_rparser(o, name)
+  profile <- dsadmin.profile(o, name)
+  expect_null(profile$rParser)
   
   dsadmin.profile_delete(o, name)
   

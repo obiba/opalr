@@ -4,7 +4,7 @@
 \alias{dsadmin.profile_create}
 \title{Create a DataSHIELD profile}
 \usage{
-dsadmin.profile_create(opal, name, cluster = "default")
+dsadmin.profile_create(opal, name, cluster = "default", rParser = NULL)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -12,6 +12,9 @@ dsadmin.profile_create(opal, name, cluster = "default")
 \item{name}{Name of the profile.}
 
 \item{cluster}{Name of the R servers cluster to which the profile will be attached to. Default value is 'default'.}
+
+\item{rParser}{Version of the DataSHIELD R parser that applies to this profile. If not
+specified, the system's default one will be used. A valid version would be one of 'v1' or 'v2'.}
 }
 \description{
 The created DataSHIELD profile will not be enabled and no access restrictions is applied.
@@ -33,6 +36,7 @@ Other DataSHIELD profiles:
 \code{\link{dsadmin.profile_perm_add}()},
 \code{\link{dsadmin.profile_perm_delete}()},
 \code{\link{dsadmin.profile_perm}()},
+\code{\link{dsadmin.profile_rparser}()},
 \code{\link{dsadmin.profiles}()},
 \code{\link{dsadmin.profile}()}
 }
