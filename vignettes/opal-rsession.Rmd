@@ -1,10 +1,10 @@
 ---
-title: "Opal R Session API"
+title: "Opal R Session"
 author: "Yannick Marcon"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Opal R Session API}
+  %\VignetteIndexEntry{Opal R Session}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

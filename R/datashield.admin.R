@@ -500,7 +500,7 @@ dsadmin.install_github_package <- function(opal, pkg, username='datashield', ref
   if(is.list(opal)){
     lapply(opal, function(o){dsadmin.install_github_package(o, pkg, username=username, ref=ref, profile=profile)})
   } else {
-    query <- list(name=paste(username,pkg,sep="/"), ref=ref, profile=.toSafeProfile(opal, profile))
+    query <- list(name=paste(username,pkg,sep="/"), ref=ref, manager = "github", profile=.toSafeProfile(opal, profile))
     opal.post(opal, "datashield", "packages", query=query)
     dsadmin.installed_package(opal, pkg)
   }

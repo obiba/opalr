@@ -9,18 +9,39 @@ permissions, users, DataSHIELD profiles etc.
 
 See [opalr documentation](https://obiba.github.io/opalr/).
 
+Installation:
+
+```
+# install from CRAN
+install.packages("opalr")
+
+# or install latest development version
+remotes::install_github("obiba/opalr")
+```
+
 Basic usage:
 
-    #install.packages("opalr")
-    library(opalr)
-    o <- opal.login('administrator', 'password', url = 'https://opal-demo.obiba.org')
-    # Assign some variables as a data.frame to a R symbol
-    opal.assign(o, 'D', 'CNSIM.CNSIM1')
-    opal.execute(o, 'summary(D$GENDER)')
-    opal.execute(o, 'summary(D$LAB_GLUC)')
-    opal.logout(o)
+```
+library(opalr)
+o <- opal.login('administrator', 'password', url = 'https://opal-demo.obiba.org')
+
+# assign a table (as a data.frame) to a R symbol
+opal.assign(o, 'D', 'CNSIM.CNSIM1')
+
+# perform R operations on the server side
+opal.execute(o, 'summary(D$GENDER)')
+opal.execute(o, 'summary(D$LAB_GLUC)')
+
+opal.logout(o)
+```
+
+## Cookbooks
+
+* How to perform [DataSHIELD Administration](https://www.obiba.org/opalr/articles/datashield-admin.html)
+* How to manage [Opal Files](https://www.obiba.org/opalr/articles/opal-files.html)
+* How to manage [Opal Projects](https://www.obiba.org/opalr/articles/opal-projects.html)
+* How to interact with an [Opal R Session](https://www.obiba.org/opalr/articles/opal-rsession.html)
 
 ## DataSHIELD Client
 
-See [DSOpal](https://datashield.github.io/DSOpal/).
-    
+See the [DSOpal](https://datashield.github.io/DSOpal/) documentation.

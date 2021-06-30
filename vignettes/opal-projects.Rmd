@@ -1,10 +1,10 @@
 ---
-title: "Opal Projects API"
+title: "Opal Projects"
 author: "Yannick Marcon"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Opal Projects API}
+  %\VignetteIndexEntry{Opal Projects}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -30,7 +30,7 @@ library(opalr)
 o <- opal.login("administrator", "password", url = "https://opal-demo.obiba.org")
 ```
 
-## Project Operations
+## Project
 
 List the projects:
 
@@ -38,32 +38,27 @@ List the projects:
 opal.projects(o)
 ```
 
-List the datasources (there is one per project) to get the details about how the data are persisted and what are the tables:
-
-```{r eval=FALSE}
-opal.datasources(o)
-```
-
-List the tables in a datasource, with their count of variables and entities:
-
-```{r eval=FALSE}
-opal.tables(o, "CNSIM", counts = TRUE)
-```
-
 Create a project, linked to a database (default or first one):
 
 ```{r eval=FALSE}
+if (opal.project_exists(o, "dummy"))
+  opal.project_delete(o, "dummy")  
 opal.project_create(o, "dummy", database = TRUE)
 opal.project(o, "dummy")
 ```
 
-Delete a project:
+## Tables
+
+In Opal there are two kinds of tables:
+
+* raw tables, which data are stored in a database,
+* views, which are logical tables, using per-variable transformation algorithms.
+
+List the tables in a project, with their count of variables and entities:
 
 ```{r eval=FALSE}
-opal.project_delete(o, "dummy")
+opal.tables(o, "CNSIM", counts = TRUE)
 ```
-
-## Table Operations
 
 The table object can be retrieved as follow:
 
@@ -77,26 +72,24 @@ The existence of a table can be checked:
 opal.table_exists(o, "CNSIM", "CNSIM1")
 ```
 
-And more specifically, it is easy to verify whether a table is a view or not:
+And more specifically, verify whether a table is a view or not:
 
 ```{r eval=FALSE}
 opal.table_exists(o, "CNSIM", "CNSIM1", view = TRUE)
 ```
 
-A table can be created, either as a raw table or a view:
+A table can be created, either as a raw table or a view. To create a view, specify which tables are referred:
 
 ```{r eval=FALSE}
 # drop table if it exists
 opal.table_delete(o, "CNSIM", "CNSIM123")
 # then create a view, no variables
 opal.table_create(o, "CNSIM", "CNSIM123", tables = c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
-opal.table(o, "CNSIM", "CNSIM123", counts = TRUE)
 ```
 
+### Dictionaries
 
-### Table Dictionary Operations
-
-List the variables of a table and get the details of the variable annotations (one column per variable attribute with namespace). This list also includes the category properties:
+List the variables of a table and get the details of the variable annotations (one column per variable attribute with namespace). This is a summary dictionary, as it includes the concatenated category properties:
 
 ```{r eval=FALSE}
 opal.variables(o, "CNSIM", "CNSIM1")
@@ -124,8 +117,14 @@ opal.table_dictionary_update(o, "CNSIM", "CNSIM123", variables = dico$variables,
 opal.table(o, "CNSIM", "CNSIM123", counts = TRUE)
 ```
 
+Assign this view to a symbol in the R server, and get the summary statics:
 
-### Table Values Operations
+```{r eval=FALSE}
+opal.assign(o, "D", "CNSIM.CNSIM123")
+opal.execute(o, "summary(D)")
+```
+
+### Values
 
 Get the values in a table for a specific Participant entity:
 
@@ -144,11 +143,17 @@ cnsim3 <- opal.table_get(o, "CNSIM", "CNSIM3")
 Then do some alterations on this data.frame and save it back as a raw table:
 
 ```{r eval=FALSE}
+# make sure IDs are unique
+cnsim1$id <- paste0(cnsim1$id, "-1")
+cnsim2$id <- paste0(cnsim2$id, "-2")
+cnsim3$id <- paste0(cnsim3$id, "-3")
+# bind tables
 cnsim123 <- rbind(cnsim1, cnsim2, cnsim3)
+# remove some columns
 cnsim123$DIS_AMI <- NULL
 cnsim123$DIS_CVA <- NULL
 cnsim123$DIS_DIAB <- NULL
-cnsim123
+# save as a raw table
 opal.table_save(o, cnsim123, "CNSIM", "CNSIM", overwrite = TRUE, force = TRUE)
 opal.table(o, "CNSIM", "CNSIM", counts = TRUE)
 ```
@@ -156,10 +161,10 @@ opal.table(o, "CNSIM", "CNSIM", counts = TRUE)
 Verify that this raw table resulting from the merge of the other tables as same values for a given Participant:
 
 ```{r eval=FALSE}
-opal.valueset(o, "CNSIM", "CNSIM", identifier = "1454")
+opal.valueset(o, "CNSIM", "CNSIM", identifier = "1454-1")
 ```
 
-It is possible to truncate a table, i.e. delete ALL the values of a table (which must not be a view):
+It is possible to truncate a table, i.e. delete ALL the values of a table (which must not be a view), without modifying the dictionary:
 
 ```{r eval=FALSE}
 opal.table_truncate(o, "CNSIM", "CNSIM")

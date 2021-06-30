@@ -1,10 +1,10 @@
 ---
-title: "Opal Files API"
+title: "Opal Files"
 author: "Yannick Marcon"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Opal Files API}
+  %\VignetteIndexEntry{Opal Files}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

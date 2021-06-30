@@ -1,0 +1,213 @@
+---
+title: "DataSHIELD Administration"
+author: "Yannick Marcon"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{DataSHIELD Administration}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+[Opal](https://www.obiba.org/pages/products/opal/) is the reference implementation of the [DataSHIELD](https://datashield.org/) infrastructure. All the DataSHIELD administration tasks can be performed programmatically using functions starting with `dsadmin.*`:
+
+* DataSHIELD R packages management,
+* creation and initialization of a DataSHIELD profile,
+* DataSHIELD profile settings management,
+* user and permissions management.
+
+See also the [Opal DataSHIELD Administration documentation](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/datashield.html) to learn how to administrate DataSHIELD using the graphical user interface.
+
+## Setup
+
+Setup the connection with Opal:
+
+```{r eval=FALSE}
+library(opalr)
+o <- opal.login("administrator", "password", "https://opal-demo.obiba.org")
+```
+
+## R Packages
+
+Opal can handle clusters of R servers. R packages are handled at the cluster level (because all the R servers in a cluster are expected to be identical). See [Opal and R server documentation](https://opaldoc.obiba.org/en/latest/admin/rserver.html).
+
+List installed DataSHIELD R packages:
+
+```{r eval=FALSE}
+dsadmin.package_descriptions(o, profile = "default")
+```
+Install a DataSHIELD R package from the configured CRAN repositories (most likely the [DataSHIELD repo](https://cran.datashield.org/)):
+
+```{r eval=FALSE}
+dsadmin.install_package(o, pkg = "dsBase", profile = "default")
+```
+R packages which source code is one GitHub can be installed directly:
+
+```{r eval=FALSE}
+dsadmin.install_github_package(o, pkg = "dsSurvival", username = "neelsoumya", ref = "v1.0.0", profile = "default")
+```
+When developing a new DataSHIELD R package, it can be built and installed as follow (from the root of the R package source directory):
+
+```{r eval=FALSE}
+dsadmin.install_local_package(o, devtools::build(), profile = "default")
+```
+
+To remove a DataSHIELD R package:
+
+```{r eval=FALSE}
+dsadmin.remove_package(o, pkg = "dsSurvival", profile = "default")
+```
+
+Note that removing a package does not update the DataSHIELD settings of the associated profiles. See the following sections to administrate the profiles and their settings.
+
+## Profiles
+
+A DataSHIELD profile is based on a R servers cluster. In the most simple setup, there is only one cluster of one R server and this cluster is called `default`, and the profile is named the same.
+
+It is possible to define several profiles based on the same cluster. The benefit of doing this is to:
+
+* have different configurations (allowed aggregate and assigned functions, and R option values),
+* restrict access to some users/groups.
+
+To list the DataSHIELD profiles:
+
+```{r eval=FALSE}
+dsadmin.profiles(o)
+```
+
+To create a new DataSHIELD profile, to initialize it the DataSHIELD settings as declared by the installed packages and to enable it, use the following.
+
+```{r eval=FALSE}
+# ensure the profile does not exist
+if (dsadmin.profile_exists(o, "demo"))
+  dsadmin.profile_delete(o, "demo")
+# create a profile, disabled
+dsadmin.profile_create(o, "demo", cluster = "default")
+# make only dsBase and resourcer packages visible
+dsadmin.profile_init(o, "demo", packages = c("dsBase", "resourcer"))
+# ready to be used
+dsadmin.profile_enable(o, "demo")
+```
+
+When a DataSHIELD R package is installed but should be used only by a restricted group of users, proceed as follow:
+
+```{r eval=FALSE}
+dsadmin.profile_perm_add(o, "demo", subject = "testers", type = "group")
+# verify permissions
+dsadmin.profile_perm(o, "demo")
+```
+
+## Settings
+
+The DataSHIELD settings are defined per profile (DataSHIELD Profiles section). The settings can be minimally initialized by reading the declared settings from the installed DataSHIELD R packages. They can also be amended afterwards. 
+
+### Methods
+
+The DataSHIELD methods define the allowed function calls and their mapping to a server side 
+function call.
+
+To list the aggregation functions:
+
+```{r eval=FALSE}
+dsadmin.get_methods(o, type = "aggregate", profile = "demo")
+```
+
+Fully custom settings can be defined (useful for developers).
+
+```{r eval=FALSE}
+dsadmin.set_method(o, "hello", func = function(x) { paste0("Hello ", x, "!") }, type = "aggregate", profile = "demo")
+# verfiy custom method 
+dsadmin.get_method(o, "hello", type = "aggregate", profile = "demo")
+```
+
+A simple test of our custom `hello()` function would be:
+
+```{r eval=FALSE}
+library(DSOpal)
+builder <- DSI::newDSLoginBuilder()
+builder$append(server = "study1",  url = "https://opal-demo.obiba.org",
+               user = "administrator", password = "password",
+               profile = "demo")
+logindata <- builder$build()
+conns <- DSI::datashield.login(logins = logindata)
+# call the hello() function on the R server
+datashield.aggregate(conns, expr = quote(hello('friends')))
+datashield.logout(conns)
+```
+
+### Options
+
+The DataSHIELD R options affects the behaviour of some methods.
+
+To modify an R option:
+
+```{r eval=FALSE}
+dsadmin.set_option(o, "datashield.privacyLevel", "10", profile = "demo")
+# verify options
+dsadmin.get_options(o, profile = "demo")
+```
+
+### R Parser
+
+An advanced setting, mostly for backward compatibility issues, is the possibility to chose which R parser should be used by Opal when validating the submitted R code (remember that only a subset of the R language is allowed). See [datashield4j library documentation](https://github.com/obiba/datashield4j/blob/master/README.md) for possible values.
+
+To set the legacy R parser:
+
+```{r eval=FALSE}
+dsadmin.profile_rparser(o, "demo", rParser = "v1")
+```
+
+## Users and Permissions
+
+The DataSHIELD requires permissions: permissions to access the data (whether these are in a table or a resource) and permission to use the DataSHIELD service.
+
+### Users
+
+To facilitate permissions maintenance, create users in appropriate group(s). Groups can represent data access and DataSHIELD service access.
+
+```{r eval=FALSE}
+if (oadmin.user_exists(o, "userx"))
+  oadmin.user_delete(o, "userx")
+# generated password
+password <- oadmin.user_add(o, "userx", groups = c("demo", "datashield"))
+# verify user
+subset(oadmin.users(o), name == "userx")
+```
+### Permissions
+
+To set some DataSHIELD-compatible permissions (view without accessing individual-level data) to each tables of a project, use the following:
+
+```{r eval=FALSE}
+lapply(opal.tables(o, "CNSIM")$name, function(table) {
+  opal.table_perm_add(o, "CNSIM", table, subject = "demo", type = "group", permission = "view")
+})
+# verify table permissions
+opal.table_perm(o, "CNSIM", "CNSIM1")
+```
+
+Similarly, permissions to use all the resources of a project in a DataSHIELD context is even simpler:
+
+```{r eval=FALSE}
+opal.resources_perm_add(o, "RSRC", subject = "demo", type = "group", permission = "view")
+# verify permissions
+opal.resources_perm(o, "RSRC")
+```
+
+Then grant permission ot use the DataSHIELD service to a group of users:
+
+```{r eval=FALSE}
+dsadmin.perm_add(o, subject = "datashield", type = "group", permission = "use")
+# verify permissions
+dsadmin.perm(o)
+```
+
+Note that it is also possible to grant permission to access a specific DataSHIELD profile (see Profiles section).
+
+## Teardown
+
+Good practice is to free server resources by sending a logout request:
+
+```{r eval=FALSE}
+opal.logout(o)
+```
+
