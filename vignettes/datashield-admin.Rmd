@@ -193,7 +193,7 @@ opal.resources_perm_add(o, "RSRC", subject = "demo", type = "group", permission 
 opal.resources_perm(o, "RSRC")
 ```
 
-Then grant permission ot use the DataSHIELD service to a group of users:
+Then grant permission to use the DataSHIELD service to a group of users:
 
 ```{r eval=FALSE}
 dsadmin.perm_add(o, subject = "datashield", type = "group", permission = "use")

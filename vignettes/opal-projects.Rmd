@@ -11,7 +11,9 @@ editor_options:
   chunk_output_type: console
 ---
 
-[Opal](https://www.obiba.org/pages/products/opal/) stores data and meta-data in projects that are accessible through web services. See the [Variables and Data](http://opaldoc.obiba.org/en/latest/variables-data.html) documentation page that explains the data model of Opal. The Opal R package exposes projects related functions:
+[Opal](https://www.obiba.org/pages/products/opal/) stores data and meta-data (dictionaries) in projects that are accessible through web services. See the [Variables and Data](http://opaldoc.obiba.org/en/latest/variables-data.html) documentation page that explains the data model of Opal. See also the [Resources](https://opaldoc.obiba.org/en/latest/resources.html) documentation for an alternate way of accessing data in a project.
+
+The Opal R package exposes projects related functions:
 
 * list projects,
 * list tables,
