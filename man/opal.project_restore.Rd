@@ -8,7 +8,7 @@ opal.project_restore(
   opal,
   project,
   archive,
-  password = NULL,
+  key = NULL,
   override = TRUE,
   wait = TRUE
 )
@@ -20,7 +20,7 @@ opal.project_restore(
 
 \item{archive}{Archive directory or zip file path in the Opal file system.}
 
-\item{password}{Archive zip file password (if applies).}
+\item{key}{Archive zip file password (if applies).}
 
 \item{override}{Overwrite existing items (table, view, resource, report). Project files override is not checked. Default is TRUE.}
 

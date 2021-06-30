@@ -34,10 +34,11 @@ test_that("Project backup and restore", {
   
   name <- "testthat"
   project <- "GREENSPACE"
-  archive <- "/home/administrator/backup/"
+  archive <- "/home/administrator/backup-testthat/"
   o <- opal.login("administrator", "password")
   
   # backup
+  opal.file_rm(o, archive)
   opal.project_backup(o, project, archive = paste0(archive, project), override = TRUE, wait = TRUE)
   ls <- opal.file_ls(o, archive)
   expect_true(nrow(ls)>0)

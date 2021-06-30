@@ -269,7 +269,7 @@ opal.project_backup <- function(opal, project, archive, viewsAsTables = FALSE, o
 #' @param opal Opal object.
 #' @param project Name of the project.
 #' @param archive Archive directory or zip file path in the Opal file system.
-#' @param password Archive zip file password (if applies).
+#' @param key Archive zip file password (if applies).
 #' @param override Overwrite existing items (table, view, resource, report). Project files override is not checked. Default is TRUE.
 #' @param wait Wait for restore task completion. Default is TRUE.
 #' @return The project command ID if wait parameter is FALSE. See \link{opal.project_command} to retrieve asynchronous command state.
@@ -284,10 +284,10 @@ opal.project_backup <- function(opal, project, archive, viewsAsTables = FALSE, o
 #' opal.logout(o)
 #' }
 #' @export
-opal.project_restore <- function(opal, project, archive, password = NULL, override = TRUE, wait=TRUE) {
+opal.project_restore <- function(opal, project, archive, key = NULL, override = TRUE, wait=TRUE) {
   params <- list(archive = archive, override = override)
-  if (!.is.empty(password)) {
-    params["password"] <- password
+  if (!.is.empty(key)) {
+    params["password"] <- key
   }
   location <- opal.post(opal, "project", project, "commands", "_restore", body = jsonlite::toJSON(params, auto_unbox = TRUE), contentType = "application/json", callback=.handleResponseLocation)
   if (!is.null(location)) {

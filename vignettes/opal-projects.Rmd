@@ -47,6 +47,24 @@ opal.project_create(o, "dummy", database = TRUE)
 opal.project(o, "dummy")
 ```
 
+### Backup and Restore
+
+Backup a project and download the backup archive (encrypted): 
+
+```{r eval=FALSE}
+opal.project_backup(o, 'CNSIM', '/home/administrator/backup/CNSIM')
+opal.file_download(o, '/home/administrator/backup/CNSIM', '/tmp/CNSIM.zip', key = "12345abcdef")
+```
+
+Restore a project from an uploaded (and encrypted) archive:
+
+```{r eval=FALSE}
+opal.file_upload(o, '/tmp/CNSIM.zip', '/home/administrator')
+opal.project_restore(o, 'dummy', '/home/administrator/CNSIM.zip', key = "12345abcdef")
+# verify tables
+opal.tables(o, "CNSIM")
+```
+
 ## Tables
 
 In Opal there are two kinds of tables:
@@ -171,9 +189,11 @@ opal.table_truncate(o, "CNSIM", "CNSIM")
 opal.table(o, "CNSIM", "CNSIM", counts = TRUE)
 ```
 
-## Taxonomy Operations
+### Annotations
 
-Variable attributes can be described by taxonomies. List the taxonomies:
+Variables can be described by [taxonomy terms](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
+
+List the taxonomies:
 
 ```{r eval=FALSE}
 opal.taxonomies(o)
@@ -190,6 +210,39 @@ List the terms of a vocabulary:
 ```{r eval=FALSE}
 opal.terms(o, taxonomy = "Mlstr_area", vocabulary = "Lifestyle_behaviours")
 ```
+
+To apply a taxonomy term to a table dictionary, use the following for batch annotation:
+
+```{r eval=FALSE}
+annotations <- tibble::tribble(
+  ~variable, ~taxonomy, ~vocabulary, ~term,
+  "LAB_TSC", "Mlstr_area", "Physical_measures", "Physical_characteristics",
+  "LAB_TRIG", "Mlstr_area", "Physical_measures", "Physical_characteristics",
+  "LAB_HDL", "Mlstr_area", "Physical_measures", "Physical_characteristics",
+  "LAB_GLUC_ADJUSTED", "Mlstr_area", "Physical_measures", "Physical_characteristics"
+)
+opal.annotate(o, "CNSIM", "CNSIM123", annotations = annotations)
+```
+
+To list the variable annotations: 
+
+```{r eval=FALSE}
+opal.annotations(o, "CNSIM", "CNSIM123")
+opal.resource_perm()
+```
+
+## Resources
+
+
+## Permissions
+
+Permissions can be managed (list, add, delete) at different levels:
+
+* project: `opal.project_perm()`,
+* tables: `opal.tables_perm()`,
+* table: `opal.table_perm()`,
+* resources: `opal.resources_perm()`,
+* resource: `opal.resource_perm()`.
 
 ## Teardown
 
