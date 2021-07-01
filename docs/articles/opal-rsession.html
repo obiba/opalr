@@ -154,11 +154,21 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.execute.source.html">opal.execute.source</a></span><span class="op">(</span><span class="va">o</span>, path <span class="op">=</span> <span class="st">"/path/to/some_code.R"</span><span class="op">)</span></code></pre></div>
 </div>
+<div id="files" class="section level2">
+<h2 class="hasAnchor">
+<a href="#files" class="anchor"></a>Files</h2>
+<p>Files can be written from the Opal file system to the R server session folder:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_write.html">opal.file_write</a></span><span class="op">(</span><span class="va">o</span>, source <span class="op">=</span> <span class="st">"/projects/CNSIM/CNSIM3.zip"</span>, <span class="st">"test.zip"</span><span class="op">)</span></code></pre></div>
+<p>Similarly, files can be read from the R server session folder into the Opal file system:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_read.html">opal.file_read</a></span><span class="op">(</span><span class="va">o</span>, source <span class="op">=</span> <span class="st">"test.zip"</span>, destination <span class="op">=</span> <span class="st">"/tmp"</span><span class="op">)</span></code></pre></div>
+</div>
 <div id="workspace" class="section level2">
 <h2 class="hasAnchor">
 <a href="#workspace" class="anchor"></a>Workspace</h2>
 <p>The image of the remote R session can be saved in a <em>workspace</em> (to be restored at login time):</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.workspace_save.html">opal.workspace_save</a></span><span class="op">(</span><span class="va">o</span>, save<span class="op">=</span><span class="st">"demo"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/opal.workspaces.html">opal.workspaces</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
 </div>
@@ -166,7 +176,7 @@
 <h2 class="hasAnchor">
 <a href="#teardown" class="anchor"></a>Teardown</h2>
 <p>Good practice is to free server resources by sending a logout request:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
 </div>
   </div>

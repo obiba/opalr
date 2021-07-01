@@ -84,6 +84,19 @@ To execute more complex R code, use a local source file:
 opal.execute.source(o, path = "/path/to/some_code.R")
 ```
 
+## Files
+
+Files can be written from the Opal file system to the R server session folder:
+
+```{r eval=FALSE}
+opal.file_write(o, source = "/projects/CNSIM/CNSIM3.zip", "test.zip")
+```
+Similarly, files can be read from the R server session folder into the Opal file system:
+
+```{r eval=FALSE}
+opal.file_read(o, source = "test.zip", destination = "/tmp")
+```
+
 ## Workspace
 
 The image of the remote R session can be saved in a *workspace* (to be restored at login time):
