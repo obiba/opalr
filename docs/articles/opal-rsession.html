@@ -91,7 +91,7 @@
       <h1 data-toc-skip>Opal R Session</h1>
                         <h4 class="author">Yannick Marcon</h4>
             
-            <h4 class="date">2021-06-30</h4>
+            <h4 class="date">2021-07-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/obiba/opalr/blob/master/vignettes/opal-rsession.Rmd"><code>vignettes/opal-rsession.Rmd</code></a></small>
       <div class="hidden name"><code>opal-rsession.Rmd</code></div>
@@ -107,39 +107,75 @@
 <li>management of R workspace image.</li>
 </ul>
 <p>Note that these functions do create a R session on the server side.</p>
+<div id="setup" class="section level2">
+<h2 class="hasAnchor">
+<a href="#setup" class="anchor"></a>Setup</h2>
 <p>Setup the connection with Opal, specifying that the R server session must be created with the “default” profile, i.e. in the “default” R servers cluster (note that the profile parameter is optional):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obiba/opalr/">opalr</a></span><span class="op">)</span>
 <span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">"administrator"</span>, <span class="st">"password"</span>, <span class="st">"https://opal-demo.obiba.org"</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="assign" class="section level2">
+<h2 class="hasAnchor">
+<a href="#assign" class="anchor"></a>Assign</h2>
 <p>Assign a Opal table to a <em>data.frame</em> (if user has permission to see values of the Opal table):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.assign.table.html">opal.assign.table</a></span><span class="op">(</span><span class="va">o</span>, symbol <span class="op">=</span> <span class="st">"df"</span>, value <span class="op">=</span> <span class="st">"CNSIM.CNSIM1"</span><span class="op">)</span></code></pre></div>
-<p>In place of a standard <em>data.frame</em>, Opal can assign data into a <a href="https://tibble.tidyverse.org/">tibble</a> which has the advantage of containing the data dictionary:</p>
+<p>In place of a standard <em>data.frame</em>, Opal can assign data into a <a href="https://tibble.tidyverse.org/">tibble</a>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.assign.table.tibble.html">opal.assign.table.tibble</a></span><span class="op">(</span><span class="va">o</span>, symbol <span class="op">=</span> <span class="st">"tbl"</span>, value <span class="op">=</span> <span class="st">"CNSIM.CNSIM1"</span><span class="op">)</span></code></pre></div>
-<p>List the R symbols that lives in the remote R session:</p>
+<p>Resource objects can be assigned to the R server session:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.symbols.html">opal.symbols</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
-<p>R expressions can be executed on the server side:</p>
+<code class="sourceCode R"><span class="fu"><a href="../reference/opal.assign.resource.html">opal.assign.resource</a></span><span class="op">(</span><span class="va">o</span>, symbol <span class="op">=</span> <span class="st">"rsrc"</span>, value <span class="op">=</span> <span class="st">"RSRC.CNSIM3"</span><span class="op">)</span></code></pre></div>
+<p>An R expression can also be assigned to a symbol (use <code><a href="https://rdrr.io/r/base/substitute.html">quote()</a></code> to not interpret the expression in the client side R session). As an example assign a function body:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, script <span class="op">=</span> <span class="st">"class(df)"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, script <span class="op">=</span> <span class="st">"class(tbl)"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, script <span class="op">=</span> <span class="st">"names(tbl)"</span><span class="op">)</span></code></pre></div>
-<p>The remote data can be downloaded into the client side R session:</p>
+<code class="sourceCode R"><span class="fu"><a href="../reference/opal.assign.script.html">opal.assign.script</a></span><span class="op">(</span><span class="va">o</span>, symbol <span class="op">=</span> <span class="st">"hello"</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Hello "</span>, <span class="va">x</span>, <span class="st">"!"</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>List the R symbols that lives in the remote R session:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">GENDER</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, script <span class="op">=</span> <span class="st">"tbl$GENDER"</span><span class="op">)</span></code></pre></div>
-<p>The image of the remote R session can be saved in a <em>workspace</em> (to be restored at login time):</p>
+<code class="sourceCode R"><span class="fu"><a href="../reference/opal.symbols.html">opal.symbols</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="execute" class="section level2">
+<h2 class="hasAnchor">
+<a href="#execute" class="anchor"></a>Execute</h2>
+<p>R expressions can be executed on the server side:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.workspace_save.html">opal.workspace_save</a></span><span class="op">(</span><span class="va">o</span>, save<span class="op">=</span><span class="st">"cnsim1"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.workspaces.html">opal.workspaces</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
-<p>Good practice is to free server resources by sending a logout request:</p>
+<code class="sourceCode R"><span class="co"># column names</span>
+<span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, script <span class="op">=</span> <span class="st">"names(tbl)"</span><span class="op">)</span>
+<span class="co"># get variable description from column attributes</span>
+<span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, script <span class="op">=</span> <span class="st">"attributes(tbl$GENDER)"</span><span class="op">)</span>
+<span class="co"># coerce resource to a data.frame and plot histogram of one column</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, script <span class="op">=</span> <span class="st">"hist(as.data.frame(rsrc)$LAB_HDL)"</span><span class="op">)</span><span class="op">)</span>
+<span class="co"># execute the custom function</span>
+<span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, script <span class="op">=</span> <span class="st">"hello('friends')"</span><span class="op">)</span></code></pre></div>
+<p>The remote data can be downloaded into the client side R session:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">GENDER</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, script <span class="op">=</span> <span class="st">"tbl$GENDER"</span><span class="op">)</span></code></pre></div>
+<p>To execute more complex R code, use a local source file:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/opal.execute.source.html">opal.execute.source</a></span><span class="op">(</span><span class="va">o</span>, path <span class="op">=</span> <span class="st">"/path/to/some_code.R"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="workspace" class="section level2">
+<h2 class="hasAnchor">
+<a href="#workspace" class="anchor"></a>Workspace</h2>
+<p>The image of the remote R session can be saved in a <em>workspace</em> (to be restored at login time):</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/opal.workspace_save.html">opal.workspace_save</a></span><span class="op">(</span><span class="va">o</span>, save<span class="op">=</span><span class="st">"demo"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/opal.workspaces.html">opal.workspaces</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="teardown" class="section level2">
+<h2 class="hasAnchor">
+<a href="#teardown" class="anchor"></a>Teardown</h2>
+<p>Good practice is to free server resources by sending a logout request:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 

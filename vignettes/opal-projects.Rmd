@@ -230,11 +230,53 @@ To list the variable annotations:
 
 ```{r eval=FALSE}
 opal.annotations(o, "CNSIM", "CNSIM123")
-opal.resource_perm()
 ```
 
 ## Resources
 
+Resources are an alternative way of accessing data or computation systems. In a project are stored references to resources, i.e. how to build a resource object in R and the permissions to use this resource.
+
+To list the resource references:
+
+```{r eval=FALSE}
+opal.resources(o, "RSRC")
+```
+
+To create a reference to a resource (a compressed CSV file, stored in a Opal file system, authorized by a personal access token):
+
+```{r eval=FALSE}
+if (opal.resource_exists(o, "RSRC", "CNSIM4"))
+  opal.resource_delete(o, "RSRC", "CNSIM4")
+opal.resource_create(o, "RSRC", "CNSIM4", 
+   url = "opal+https://opal-demo.obiba.org/ws/files/projects/RSRC/CNSIM3.zip", 
+   format = "csv", secret = "EeTtQGIob6haio5bx6FUfVvIGkeZJfGq")
+# verify the resource reference object
+opal.resource(o, "RSRC", "CNSIM4")
+```
+
+From a resource reference, it is possible to build and get the resource object in the local R session:
+
+```{r eval=FALSE}
+opal.resource_get(o, "RSRC", "CNSIM4")
+```
+
+Depending on the nature of the resource, it may be possible to coerce it to a data.frame in the client side:
+
+```{r eval=FALSE}
+library(resourcer)
+as.data.frame(opal.resource_get(o, "RSRC", "CNSIM4"))
+```
+
+The same operation can be done on the R server side:
+
+```{r eval=FALSE}
+# assign the resource object
+opal.assign.resource(o, "rsrc", "RSRC.CNSIM4")
+# coerce it to a data.frame
+opal.assign.script(o, "D", quote(as.data.frame(rsrc)))
+# get some summary statistics
+opal.execute(o, "summary(as.factor(D$GENDER))")
+```
 
 ## Permissions
 

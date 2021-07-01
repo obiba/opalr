@@ -91,7 +91,7 @@
       <h1 data-toc-skip>Opal Projects</h1>
                         <h4 class="author">Yannick Marcon</h4>
             
-            <h4 class="date">2021-06-30</h4>
+            <h4 class="date">2021-07-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/obiba/opalr/blob/master/vignettes/opal-projects.Rmd"><code>vignettes/opal-projects.Rmd</code></a></small>
       <div class="hidden name"><code>opal-projects.Rmd</code></div>
@@ -254,13 +254,40 @@
 <span class="fu"><a href="../reference/opal.annotate.html">opal.annotate</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>, annotations <span class="op">=</span> <span class="va">annotations</span><span class="op">)</span></code></pre></div>
 <p>To list the variable annotations:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.annotations.html">opal.annotations</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.resource_perm.html">opal.resource_perm</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/opal.annotations.html">opal.annotations</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="resources" class="section level2">
 <h2 class="hasAnchor">
 <a href="#resources" class="anchor"></a>Resources</h2>
+<p>Resources are an alternative way of accessing data or computation systems. In a project are stored references to resources, i.e. how to build a resource object in R and the permissions to use this resource.</p>
+<p>To list the resource references:</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/opal.resources.html">opal.resources</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span><span class="op">)</span></code></pre></div>
+<p>To create a reference to a resource (a compressed CSV file, stored in a Opal file system, authorized by a personal access token):</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/opal.resource_exists.html">opal.resource_exists</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"CNSIM4"</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/opal.resource_delete.html">opal.resource_delete</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"CNSIM4"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/opal.resource_create.html">opal.resource_create</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"CNSIM4"</span>, 
+   url <span class="op">=</span> <span class="st">"opal+https://opal-demo.obiba.org/ws/files/projects/RSRC/CNSIM3.zip"</span>, 
+   format <span class="op">=</span> <span class="st">"csv"</span>, secret <span class="op">=</span> <span class="st">"EeTtQGIob6haio5bx6FUfVvIGkeZJfGq"</span><span class="op">)</span>
+<span class="co"># verify the resource reference object</span>
+<span class="fu"><a href="../reference/opal.resource.html">opal.resource</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"CNSIM4"</span><span class="op">)</span></code></pre></div>
+<p>From a resource reference, it is possible to build and get the resource object in the local R session:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/opal.resource_get.html">opal.resource_get</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"CNSIM4"</span><span class="op">)</span></code></pre></div>
+<p>Depending on the nature of the resource, it may be possible to coerce it to a data.frame in the client side:</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">resourcer</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/opal.resource_get.html">opal.resource_get</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"CNSIM4"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>The same operation can be done on the R server side:</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># assign the resource object</span>
+<span class="fu"><a href="../reference/opal.assign.resource.html">opal.assign.resource</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"rsrc"</span>, <span class="st">"RSRC.CNSIM4"</span><span class="op">)</span>
+<span class="co"># coerce it to a data.frame</span>
+<span class="fu"><a href="../reference/opal.assign.script.html">opal.assign.script</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"D"</span>, <span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">rsrc</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co"># get some summary statistics</span>
+<span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"summary(as.factor(D$GENDER))"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="permissions" class="section level2">
 <h2 class="hasAnchor">
@@ -278,7 +305,7 @@
 <h2 class="hasAnchor">
 <a href="#teardown" class="anchor"></a>Teardown</h2>
 <p>Good practice is to free server resources by sending a logout request:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
 </div>
   </div>
