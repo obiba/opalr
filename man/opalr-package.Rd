@@ -23,7 +23,8 @@ Useful links:
   \item \url{https://github.com/obiba/opalr/}
   \item \url{https://www.obiba.org/opalr/}
   \item \url{https://www.obiba.org/pages/products/opal/}
-  \item \url{https://doi.org/10.1093/ije/dyx180}
+  \item \url{https://academic.oup.com/ije/article/46/5/1372/4102813}
+  \item \url{https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008880}
   \item \url{https://www.datashield.org/}
   \item Report bugs at \url{https://github.com/obiba/opalr/issues/}
 }
