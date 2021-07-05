@@ -7,7 +7,7 @@ Opal R Client for the [Opal](https://www.obiba.org/pages/products/opal/) data wa
 of Opal can be reached by an `opalr` function: import/export, data dictionaries, projects, tables, resources, 
 permissions, users, DataSHIELD profiles etc.
 
-See [opalr documentation](https://obiba.github.io/opalr/).
+See [opalr documentation](https://www.obiba.org/opalr/).
 
 Installation:
 
