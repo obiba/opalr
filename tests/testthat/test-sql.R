@@ -6,7 +6,7 @@ test_that("Table SQL with project context", {
   q <- 'select avg(LAB_HDL) as HDL_AVG, GENDER from CNSIM1 where LAB_HDL is not null group by GENDER'
   df <- opal.sql(o, q, 'CNSIM')
   expect_equal(df$HDL_AVG, c(1.517015, 1.622344), tolerance = 0.000001)
-  expect_equal(df$GENDER, as.factor(c("0", "1")))
+  expect_equal(df$GENDER, c(0, 1))
   h <- opal.sql_history(o, limit = 1)
   expect_equal(h[[1,1]], "administrator")
   expect_equal(h[[1,2]], q)
@@ -44,7 +44,7 @@ test_that("Table SQL without project context", {
   q <- 'select avg(LAB_HDL) as HDL_AVG, GENDER from `CNSIM.CNSIM1` where LAB_HDL is not null group by GENDER'
   df <- opal.sql(o, q)
   expect_equal(df$HDL_AVG, c(1.517015, 1.622344), tolerance = 0.000001)
-  expect_equal(df$GENDER, as.factor(c("0", "1")))
+  expect_equal(df$GENDER, c(0, 1))
   h <- opal.sql_history(o, limit = 1)
   expect_equal(h[[1,1]], "administrator")
   expect_equal(h[[1,2]], q)
