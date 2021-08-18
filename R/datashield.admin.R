@@ -525,7 +525,7 @@ dsadmin.install_github_package <- function(opal, pkg, username='datashield', ref
 #' opal.logout(o)
 #' }
 #' @export
-dsadmin.install_local_package <- function(opal, path, profile=profile) {
+dsadmin.install_local_package <- function(opal, path, profile=NULL) {
   if (!file.exists(path)) {
     stop("Package archive file cannot be found at: ", path)
   }
@@ -571,7 +571,7 @@ dsadmin.install_local_package <- function(opal, path, profile=profile) {
 #' opal.logout(o)
 #' }
 #' @export
-dsadmin.remove_package <- function(opal, pkg, profile=profile) {
+dsadmin.remove_package <- function(opal, pkg, profile=NULL) {
   if(is.list(opal)){
     resp <- lapply(opal, function(o){dsadmin.remove_package(o, pkg, profile=profile)})
   } else {

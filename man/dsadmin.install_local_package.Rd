@@ -4,7 +4,7 @@
 \alias{dsadmin.install_local_package}
 \title{Install a DataSHIELD package from a local archive file}
 \usage{
-dsadmin.install_local_package(opal, path, profile = profile)
+dsadmin.install_local_package(opal, path, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}

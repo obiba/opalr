@@ -4,7 +4,7 @@
 \alias{dsadmin.remove_package}
 \title{Remove DataSHIELD package}
 \usage{
-dsadmin.remove_package(opal, pkg, profile = profile)
+dsadmin.remove_package(opal, pkg, profile = NULL)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
