@@ -1,6 +1,6 @@
 # Opal R
 
-[![Build Status](https://travis-ci.com/obiba/opalr.svg?branch=master)](https://travis-ci.com/obiba/opalr)
+[![Build Status](https://app.travis-ci.com/obiba/opalr.svg?branch=master)](https://app.travis-ci.com/github/obiba/opalr)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/opalr)](https://cran.r-project.org/package=opalr)
 
 Opal R Client for the [Opal](https://www.obiba.org/pages/products/opal/) data warehouse. Most of the web services
