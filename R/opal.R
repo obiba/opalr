@@ -143,7 +143,7 @@ print.opal <- function(x, ...) {
 #' @export
 opal.profiles <- function(opal, df = TRUE) {
   if (opal.version_compare(opal,"4.2")<0) {
-    warning("DataSHIELD profiles require Opal 4.2 or higher.")
+    warning("R profiles require Opal 4.2 or higher.")
     # emulated response
     if (df) {
       data.frame(name="default", enabled=TRUE, restrictedAccess=FALSE, stringsAsFactors = FALSE)
@@ -223,7 +223,7 @@ opal.version_compare <- function(opal, version) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url = 'https://opal-demo.obiba.org')
-#' opal.get(o, 'project', 'datashield')
+#' opal.get(o, 'project', 'CNSIM')
 #' opal.logout(o)
 #' }
 #' @export
