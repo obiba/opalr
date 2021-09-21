@@ -15,15 +15,17 @@ opal.command_rm(opal, id)
 Remove an asynchronous R commands in the remote R session.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.command_rm(o, '1234')
 opal.logout(o)
 }
 }
 \seealso{
-Other command functions: \code{\link{opal.command_result}},
-  \code{\link{opal.commands_rm}},
-  \code{\link{opal.commands}}, \code{\link{opal.command}}
+Other command functions: 
+\code{\link{opal.command_result}()},
+\code{\link{opal.commands_rm}()},
+\code{\link{opal.commands}()},
+\code{\link{opal.command}()}
 }
 \concept{command functions}

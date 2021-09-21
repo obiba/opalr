@@ -4,8 +4,15 @@
 \alias{opal.post}
 \title{Generic REST resource creation.}
 \usage{
-opal.post(opal, ..., query = list(), body = "",
-  contentType = "application/x-rscript", callback = NULL)
+opal.post(
+  opal,
+  ...,
+  query = list(),
+  body = "",
+  contentType = "application/x-rscript",
+  acceptType = "application/json",
+  callback = NULL
+)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -18,20 +25,24 @@ opal.post(opal, ..., query = list(), body = "",
 
 \item{contentType}{The type of the body content.}
 
+\item{acceptType}{The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.}
+
 \item{callback}{A callback function to handle the response object.}
 }
 \description{
 Generic REST resource creation.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.post(o, 'some', 'resources', body='{"some":"value"}')
 opal.logout(o)
 }
 }
 \seealso{
-Other REST functions: \code{\link{opal.delete}},
-  \code{\link{opal.get}}, \code{\link{opal.put}}
+Other REST functions: 
+\code{\link{opal.delete}()},
+\code{\link{opal.get}()},
+\code{\link{opal.put}()}
 }
 \concept{REST functions}

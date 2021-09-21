@@ -25,8 +25,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other command functions: \code{\link{opal.command_rm}},
-  \code{\link{opal.commands_rm}},
-  \code{\link{opal.commands}}, \code{\link{opal.command}}
+Other command functions: 
+\code{\link{opal.command_rm}()},
+\code{\link{opal.commands_rm}()},
+\code{\link{opal.commands}()},
+\code{\link{opal.command}()}
 }
 \concept{command functions}

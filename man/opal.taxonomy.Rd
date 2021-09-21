@@ -15,16 +15,17 @@ opal.taxonomy(opal, taxonomy)
 Get a specific taxonomy details.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.taxonomy(o, 'Mlstr_area')
 opal.logout(o)
 }
 }
 \seealso{
-Other taxonomy functions: \code{\link{opal.taxonomies}},
-  \code{\link{opal.terms}},
-  \code{\link{opal.vocabularies}},
-  \code{\link{opal.vocabulary}}
+Other taxonomy functions: 
+\code{\link{opal.taxonomies}()},
+\code{\link{opal.terms}()},
+\code{\link{opal.vocabularies}()},
+\code{\link{opal.vocabulary}()}
 }
 \concept{taxonomy functions}

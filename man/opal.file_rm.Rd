@@ -15,7 +15,7 @@ opal.file_rm(opal, path)
 Remove a file or a folder from the Opal file system.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # remove a file
 opal.file_rm(o, '/home/administrator/export/some-data.csv')
@@ -25,12 +25,15 @@ opal.logout(o)
 }
 }
 \seealso{
-Other file functions: \code{\link{opal.file_cp}},
-  \code{\link{opal.file_download}},
-  \code{\link{opal.file_ls}},
-  \code{\link{opal.file_mkdir}},
-  \code{\link{opal.file_mv}}, \code{\link{opal.file_read}},
-  \code{\link{opal.file_upload}},
-  \code{\link{opal.file_write}}, \code{\link{opal.file}}
+Other file functions: 
+\code{\link{opal.file_cp}()},
+\code{\link{opal.file_download}()},
+\code{\link{opal.file_ls}()},
+\code{\link{opal.file_mkdir}()},
+\code{\link{opal.file_mv}()},
+\code{\link{opal.file_read}()},
+\code{\link{opal.file_upload}()},
+\code{\link{opal.file_write}()},
+\code{\link{opal.file}()}
 }
 \concept{file functions}

@@ -21,7 +21,7 @@
 #' @param restore Workspace ID to be restored (see also opal.logout)
 #' @export
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' #### The below examples illustrate the different ways to login in opal ####
 #'
 #' # explicite username/password login
@@ -59,7 +59,7 @@ opal.login <- function(username=getOption("opal.username"), password=getOption("
 #' @param opal Opal object or a list of opals.
 #' @param save Save the workspace with given identifier (default value is FALSE, current session ID if TRUE).
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.logout(o)
 #' }
@@ -108,7 +108,7 @@ print.opal <- function(x, ...) {
 #' @param opal Opal object.
 #' @param version The semantic version string to be compared.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.version_compare(o, "2.6.0")
 #' opal.logout(o)
@@ -144,17 +144,18 @@ opal.version_compare <- function(opal, version) {
 #' @param opal Opal object.
 #' @param ... Resource path segments.
 #' @param query Named list of query parameters.
+#' @param acceptType The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.
 #' @param callback A callback function to handle the response object.
 #' @import httr
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.get(o, 'project', 'datashield')
 #' opal.logout(o)
 #' }
 #' @export
-opal.get <- function(opal, ..., query=list(), callback=NULL) {
-  r <- GET(.url(opal, ...), query=query, config=opal$config, handle = opal$handle, .verbose())
+opal.get <- function(opal, ..., query=list(), acceptType = 'application/json', callback=NULL) {
+  r <- GET(.url(opal, ...), query=query, accept(acceptType), config=opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -166,17 +167,18 @@ opal.get <- function(opal, ..., query=list(), callback=NULL) {
 #' @param query Named list of query parameters.
 #' @param body The body of the request.
 #' @param contentType The type of the body content.
+#' @param acceptType The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.
 #' @param callback A callback function to handle the response object.
 #' @import httr
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.post(o, 'some', 'resources', body='{"some":"value"}')
 #' opal.logout(o)
 #' }
 #' @export
-opal.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, handle = opal$handle, .verbose())
+opal.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', acceptType = 'application/json', callback=NULL) {
+  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), accept(acceptType), config=opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 

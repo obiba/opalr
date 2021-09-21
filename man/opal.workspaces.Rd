@@ -13,14 +13,15 @@ opal.workspaces(opal)
 Get the R workspaces from a opal.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.workspaces(o)
 opal.logout(o)
 }
 }
 \seealso{
-Other workspace functions: \code{\link{opal.workspace_rm}},
-  \code{\link{opal.workspace_save}}
+Other workspace functions: 
+\code{\link{opal.workspace_rm}()},
+\code{\link{opal.workspace_save}()}
 }
 \concept{workspace functions}

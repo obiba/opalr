@@ -4,9 +4,18 @@
 \alias{opal.assign.table}
 \title{Data assignment to a data.frame}
 \usage{
-opal.assign.table(opal, symbol, value, variables = NULL,
-  missings = FALSE, identifiers = NULL, id.name = NULL,
-  updated.name = NULL, class = "data.frame", async = FALSE)
+opal.assign.table(
+  opal,
+  symbol,
+  value,
+  variables = NULL,
+  missings = FALSE,
+  identifiers = NULL,
+  id.name = NULL,
+  updated.name = NULL,
+  class = "data.frame",
+  async = FALSE
+)
 }
 \arguments{
 \item{opal}{Opal object or list of opal objects.}
@@ -33,7 +42,7 @@ opal.assign.table(opal, symbol, value, variables = NULL,
 Assign a Opal table to a data.frame identified by a R symbol in the current R session.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # assign a list of variables from table CNSIM1
 opal.assign.table(o, symbol="D", value="datashield.CNSIM1", variables=list("GENDER","LAB_TSC"))
@@ -48,9 +57,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other assignment functions: \code{\link{opal.assign.data}},
-  \code{\link{opal.assign.script}},
-  \code{\link{opal.assign.table.tibble}},
-  \code{\link{opal.assign}}
+Other assignment functions: 
+\code{\link{opal.assign.data}()},
+\code{\link{opal.assign.script}()},
+\code{\link{opal.assign.table.tibble}()},
+\code{\link{opal.assign}()}
 }
 \concept{assignment functions}

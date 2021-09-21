@@ -15,14 +15,15 @@ opal.load_package(opal, pkg)
 Load package in the remote R session.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.load_package(o, 'stats')
 opal.logout(o)
 }
 }
 \seealso{
-Other execution functions: \code{\link{opal.execute}},
-  \code{\link{opal.unload_package}}
+Other execution functions: 
+\code{\link{opal.execute}()},
+\code{\link{opal.unload_package}()}
 }
 \concept{execution functions}

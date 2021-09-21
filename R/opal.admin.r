@@ -53,7 +53,7 @@ oadmin.install_package <- function(opal, pkg, repos=NULL) {
 #' @param opal Opal object or list of opal objects.
 #' @param pkg Package name.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' oadmin.remove_package(o, 'xxx')
 #' opal.logout(o)
@@ -70,7 +70,7 @@ oadmin.remove_package <- function(opal, pkg) {
 #' @param pkg Package name.
 #' @return TRUE if installed
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' oadmin.installed_package(o, 'xxx')
 #' oadmin.installed_package(o, 'stats')
@@ -87,7 +87,7 @@ oadmin.installed_package <- function(opal, pkg) {
 #' @param opal Opal object or list of opal objects.
 #' @return The result of the installed.packages() call
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' oadmin.installed_packages(o)
 #' opal.logout(o)
@@ -104,7 +104,7 @@ oadmin.installed_packages <- function(opal) {
 #' @param pkg Package name.
 #' @param fields A character vector giving the fields to extract from each package's DESCRIPTION file in addition to the default ones, or NULL (default). Unavailable fields result in NA values.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' oadmin.package_description(o, 'stats')
 #' opal.logout(o)
@@ -152,7 +152,7 @@ oadmin.install_devtools <- function(opal) {
 #' @family administration functions
 #' @param opal Opal object or list of opal objects.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' oadmin.installed_devtools(o)
 #' opal.logout(o)
@@ -174,7 +174,7 @@ oadmin.installed_devtools <- function(opal) {
 #' @param auth_user Your github username if you're attempting to install a package hosted in a private repository (and your username is different to username).
 #' @param password Your github password
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' oadmin.install_github(o, 'opalr', 'obiba')
 #' opal.logout(o)

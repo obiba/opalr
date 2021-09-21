@@ -4,8 +4,12 @@
 \alias{.extractLabel}
 \title{Extract label for locale. If not found, fallback to undefined language label (if any).}
 \usage{
-.extractLabel(locale = "en", labels = list(), localeKey = "locale",
-  valueKey = "value")
+.extractLabel(
+  locale = "en",
+  labels = list(),
+  localeKey = "locale",
+  valueKey = "value"
+)
 }
 \description{
 Extract label for locale. If not found, fallback to undefined language label (if any).

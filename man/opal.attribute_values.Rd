@@ -17,7 +17,7 @@ opal.attribute_values(attributes, namespace = NULL, name = "label")
 Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 var <- opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
 opal.attribute_values(var$attributes)
@@ -25,13 +25,17 @@ opal.logout(o)
 }
 }
 \seealso{
-Other datasource functions: \code{\link{opal.annotate}},
-  \code{\link{opal.annotations}},
-  \code{\link{opal.datasources}},
-  \code{\link{opal.datasource}},
-  \code{\link{opal.projects}}, \code{\link{opal.project}},
-  \code{\link{opal.tables}}, \code{\link{opal.table}},
-  \code{\link{opal.valueset}},
-  \code{\link{opal.variables}}, \code{\link{opal.variable}}
+Other datasource functions: 
+\code{\link{opal.annotate}()},
+\code{\link{opal.annotations}()},
+\code{\link{opal.datasources}()},
+\code{\link{opal.datasource}()},
+\code{\link{opal.projects}()},
+\code{\link{opal.project}()},
+\code{\link{opal.tables}()},
+\code{\link{opal.table}()},
+\code{\link{opal.valueset}()},
+\code{\link{opal.variables}()},
+\code{\link{opal.variable}()}
 }
 \concept{datasource functions}

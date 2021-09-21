@@ -15,14 +15,16 @@ opal.task(opal, id)
 Get the details of a specific task.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.task(o, '1')
 opal.logout(o)
 }
 }
 \seealso{
-Other task functions: \code{\link{opal.task_cancel}},
-  \code{\link{opal.task_wait}}, \code{\link{opal.tasks}}
+Other task functions: 
+\code{\link{opal.task_cancel}()},
+\code{\link{opal.task_wait}()},
+\code{\link{opal.tasks}()}
 }
 \concept{task functions}

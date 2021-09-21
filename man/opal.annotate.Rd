@@ -22,7 +22,7 @@ Set the provided annotations (as the one that can be retrieved from \link{opal.a
 to the table's data dictionary. Variables that do not exists in the table are ignored.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 annots <- opal.annotations(o, 'CPTP', 'Coreqx_final')
 opal.annotate(o, 'CPTP', 'Cag_coreqx', annots)
@@ -30,13 +30,17 @@ opal.logout(o)
 }
 }
 \seealso{
-Other datasource functions: \code{\link{opal.annotations}},
-  \code{\link{opal.attribute_values}},
-  \code{\link{opal.datasources}},
-  \code{\link{opal.datasource}},
-  \code{\link{opal.projects}}, \code{\link{opal.project}},
-  \code{\link{opal.tables}}, \code{\link{opal.table}},
-  \code{\link{opal.valueset}},
-  \code{\link{opal.variables}}, \code{\link{opal.variable}}
+Other datasource functions: 
+\code{\link{opal.annotations}()},
+\code{\link{opal.attribute_values}()},
+\code{\link{opal.datasources}()},
+\code{\link{opal.datasource}()},
+\code{\link{opal.projects}()},
+\code{\link{opal.project}()},
+\code{\link{opal.tables}()},
+\code{\link{opal.table}()},
+\code{\link{opal.valueset}()},
+\code{\link{opal.variables}()},
+\code{\link{opal.variable}()}
 }
 \concept{datasource functions}

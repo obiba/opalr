@@ -4,8 +4,14 @@
 \alias{opal.put}
 \title{Generic REST resource update.}
 \usage{
-opal.put(opal, ..., query = list(), body = "",
-  contentType = "application/x-rscript", callback = NULL)
+opal.put(
+  opal,
+  ...,
+  query = list(),
+  body = "",
+  contentType = "application/x-rscript",
+  callback = NULL
+)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -31,7 +37,9 @@ opal.logout(o)
 }
 }
 \seealso{
-Other REST functions: \code{\link{opal.delete}},
-  \code{\link{opal.get}}, \code{\link{opal.post}}
+Other REST functions: 
+\code{\link{opal.delete}()},
+\code{\link{opal.get}()},
+\code{\link{opal.post}()}
 }
 \concept{REST functions}

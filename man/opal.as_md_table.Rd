@@ -4,8 +4,14 @@
 \alias{opal.as_md_table}
 \title{Array to Markdown}
 \usage{
-opal.as_md_table(table, icons = TRUE, digits = getOption("digits"),
-  col.names = colnames(table), align, caption = NULL)
+opal.as_md_table(
+  table,
+  icons = TRUE,
+  digits = getOption("digits"),
+  col.names = colnames(table),
+  align,
+  caption = NULL
+)
 }
 \arguments{
 \item{table}{An array, including a matrix or a data.frame.}
@@ -24,7 +30,7 @@ opal.as_md_table(table, icons = TRUE, digits = getOption("digits"),
 Helper function for turning an array into its Markdown representation.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.as_md_table(opal.variables(o, 'datashield', 'CNSIM1'))
 opal.logout(o)

@@ -20,26 +20,27 @@ TRUE if successfull
 Declare DataSHIELD aggregate and assign methods as defined by the package.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 dsadmin.set_package_methods(o, 'dsBase')
 opal.logout(o)
 }
 }
 \seealso{
-Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
-  \code{\link{dsadmin.get_method}},
-  \code{\link{dsadmin.get_options}},
-  \code{\link{dsadmin.install_package}},
-  \code{\link{dsadmin.installed_package}},
-  \code{\link{dsadmin.package_descriptions}},
-  \code{\link{dsadmin.package_description}},
-  \code{\link{dsadmin.remove_package}},
-  \code{\link{dsadmin.rm_methods}},
-  \code{\link{dsadmin.rm_method}},
-  \code{\link{dsadmin.rm_option}},
-  \code{\link{dsadmin.rm_package_methods}},
-  \code{\link{dsadmin.set_method}},
-  \code{\link{dsadmin.set_option}}
+Other DataSHIELD functions: 
+\code{\link{dsadmin.get_methods}()},
+\code{\link{dsadmin.get_method}()},
+\code{\link{dsadmin.get_options}()},
+\code{\link{dsadmin.install_package}()},
+\code{\link{dsadmin.installed_package}()},
+\code{\link{dsadmin.package_descriptions}()},
+\code{\link{dsadmin.package_description}()},
+\code{\link{dsadmin.remove_package}()},
+\code{\link{dsadmin.rm_methods}()},
+\code{\link{dsadmin.rm_method}()},
+\code{\link{dsadmin.rm_option}()},
+\code{\link{dsadmin.rm_package_methods}()},
+\code{\link{dsadmin.set_method}()},
+\code{\link{dsadmin.set_option}()}
 }
 \concept{DataSHIELD functions}

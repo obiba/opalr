@@ -4,9 +4,18 @@
 \alias{opal.assign.table.tibble}
 \title{Data assignment to a tibble}
 \usage{
-opal.assign.table.tibble(opal, symbol, value, variables = NULL,
-  missings = FALSE, identifiers = NULL, id.name = "id",
-  with.factors = FALSE, updated.name = NULL, async = FALSE)
+opal.assign.table.tibble(
+  opal,
+  symbol,
+  value,
+  variables = NULL,
+  missings = FALSE,
+  identifiers = NULL,
+  id.name = "id",
+  with.factors = FALSE,
+  updated.name = NULL,
+  async = FALSE
+)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -33,7 +42,7 @@ opal.assign.table.tibble(opal, symbol, value, variables = NULL,
 Assign a Opal table to a tibble identified by a R symbol in the current R session.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # assign a function and call it
 opal.assign.table.tibble(o, 'D', 'datashield.CNSIM1')
@@ -42,9 +51,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other assignment functions: \code{\link{opal.assign.data}},
-  \code{\link{opal.assign.script}},
-  \code{\link{opal.assign.table}},
-  \code{\link{opal.assign}}
+Other assignment functions: 
+\code{\link{opal.assign.data}()},
+\code{\link{opal.assign.script}()},
+\code{\link{opal.assign.table}()},
+\code{\link{opal.assign}()}
 }
 \concept{assignment functions}

@@ -18,7 +18,7 @@ TRUE if installed
 Check package is installed
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 oadmin.installed_package(o, 'xxx')
 oadmin.installed_package(o, 'stats')
@@ -26,12 +26,13 @@ opal.logout(o)
 }
 }
 \seealso{
-Other administration functions: \code{\link{oadmin.install_devtools}},
-  \code{\link{oadmin.install_github}},
-  \code{\link{oadmin.install_package}},
-  \code{\link{oadmin.installed_devtools}},
-  \code{\link{oadmin.installed_packages}},
-  \code{\link{oadmin.package_description}},
-  \code{\link{oadmin.remove_package}}
+Other administration functions: 
+\code{\link{oadmin.install_devtools}()},
+\code{\link{oadmin.install_github}()},
+\code{\link{oadmin.install_package}()},
+\code{\link{oadmin.installed_devtools}()},
+\code{\link{oadmin.installed_packages}()},
+\code{\link{oadmin.package_description}()},
+\code{\link{oadmin.remove_package}()}
 }
 \concept{administration functions}

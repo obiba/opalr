@@ -15,14 +15,15 @@ opal.workspace_save(opal, save = TRUE)
 Save the current session in a opal R workspace.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.workspace_save(o, 'test')
 opal.logout(o)
 }
 }
 \seealso{
-Other workspace functions: \code{\link{opal.workspace_rm}},
-  \code{\link{opal.workspaces}}
+Other workspace functions: 
+\code{\link{opal.workspace_rm}()},
+\code{\link{opal.workspaces}()}
 }
 \concept{workspace functions}

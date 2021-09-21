@@ -19,20 +19,24 @@ opal.tables(opal, datasource, counts = FALSE, df = TRUE)
 Get tables of a datasource
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.tables(o, 'datashield')
 opal.logout(o)
 }
 }
 \seealso{
-Other datasource functions: \code{\link{opal.annotate}},
-  \code{\link{opal.annotations}},
-  \code{\link{opal.attribute_values}},
-  \code{\link{opal.datasources}},
-  \code{\link{opal.datasource}},
-  \code{\link{opal.projects}}, \code{\link{opal.project}},
-  \code{\link{opal.table}}, \code{\link{opal.valueset}},
-  \code{\link{opal.variables}}, \code{\link{opal.variable}}
+Other datasource functions: 
+\code{\link{opal.annotate}()},
+\code{\link{opal.annotations}()},
+\code{\link{opal.attribute_values}()},
+\code{\link{opal.datasources}()},
+\code{\link{opal.datasource}()},
+\code{\link{opal.projects}()},
+\code{\link{opal.project}()},
+\code{\link{opal.table}()},
+\code{\link{opal.valueset}()},
+\code{\link{opal.variables}()},
+\code{\link{opal.variable}()}
 }
 \concept{datasource functions}

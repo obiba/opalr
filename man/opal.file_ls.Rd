@@ -15,7 +15,7 @@ opal.file_ls(opal, path)
 List content of a folder in the Opal file system.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # list content of a folder
 opal.file_ls(o, '/home/administrator')
@@ -23,12 +23,15 @@ opal.logout(o)
 }
 }
 \seealso{
-Other file functions: \code{\link{opal.file_cp}},
-  \code{\link{opal.file_download}},
-  \code{\link{opal.file_mkdir}},
-  \code{\link{opal.file_mv}}, \code{\link{opal.file_read}},
-  \code{\link{opal.file_rm}},
-  \code{\link{opal.file_upload}},
-  \code{\link{opal.file_write}}, \code{\link{opal.file}}
+Other file functions: 
+\code{\link{opal.file_cp}()},
+\code{\link{opal.file_download}()},
+\code{\link{opal.file_mkdir}()},
+\code{\link{opal.file_mv}()},
+\code{\link{opal.file_read}()},
+\code{\link{opal.file_rm}()},
+\code{\link{opal.file_upload}()},
+\code{\link{opal.file_write}()},
+\code{\link{opal.file}()}
 }
 \concept{file functions}

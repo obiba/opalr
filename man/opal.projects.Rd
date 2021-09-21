@@ -15,20 +15,24 @@ opal.projects(opal, df = TRUE)
 Get projects
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.projects(o)
 opal.logout(o)
 }
 }
 \seealso{
-Other datasource functions: \code{\link{opal.annotate}},
-  \code{\link{opal.annotations}},
-  \code{\link{opal.attribute_values}},
-  \code{\link{opal.datasources}},
-  \code{\link{opal.datasource}},
-  \code{\link{opal.project}}, \code{\link{opal.tables}},
-  \code{\link{opal.table}}, \code{\link{opal.valueset}},
-  \code{\link{opal.variables}}, \code{\link{opal.variable}}
+Other datasource functions: 
+\code{\link{opal.annotate}()},
+\code{\link{opal.annotations}()},
+\code{\link{opal.attribute_values}()},
+\code{\link{opal.datasources}()},
+\code{\link{opal.datasource}()},
+\code{\link{opal.project}()},
+\code{\link{opal.tables}()},
+\code{\link{opal.table}()},
+\code{\link{opal.valueset}()},
+\code{\link{opal.variables}()},
+\code{\link{opal.variable}()}
 }
 \concept{datasource functions}

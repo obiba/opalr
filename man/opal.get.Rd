@@ -4,7 +4,13 @@
 \alias{opal.get}
 \title{Generic REST resource getter.}
 \usage{
-opal.get(opal, ..., query = list(), callback = NULL)
+opal.get(
+  opal,
+  ...,
+  query = list(),
+  acceptType = "application/json",
+  callback = NULL
+)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -13,20 +19,24 @@ opal.get(opal, ..., query = list(), callback = NULL)
 
 \item{query}{Named list of query parameters.}
 
+\item{acceptType}{The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.}
+
 \item{callback}{A callback function to handle the response object.}
 }
 \description{
 Generic REST resource getter.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.get(o, 'project', 'datashield')
 opal.logout(o)
 }
 }
 \seealso{
-Other REST functions: \code{\link{opal.delete}},
-  \code{\link{opal.post}}, \code{\link{opal.put}}
+Other REST functions: 
+\code{\link{opal.delete}()},
+\code{\link{opal.post}()},
+\code{\link{opal.put}()}
 }
 \concept{REST functions}

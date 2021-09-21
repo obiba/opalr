@@ -19,7 +19,7 @@ opal.assign.data(opal, symbol, value, async = FALSE)
 Assign a R object to a R symbol in the current R session.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # push an arbitrary data frame to the R server
 opal.assign.data(o, "D", mtcars)
@@ -31,9 +31,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other assignment functions: \code{\link{opal.assign.script}},
-  \code{\link{opal.assign.table.tibble}},
-  \code{\link{opal.assign.table}},
-  \code{\link{opal.assign}}
+Other assignment functions: 
+\code{\link{opal.assign.script}()},
+\code{\link{opal.assign.table.tibble}()},
+\code{\link{opal.assign.table}()},
+\code{\link{opal.assign}()}
 }
 \concept{assignment functions}

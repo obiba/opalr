@@ -19,15 +19,17 @@ opal.vocabularies(opal, taxonomy, locale = "en", df = TRUE)
 Get all the vocabularies of a taxonomy. A vocabulary describes the possible values of variable annotations.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.vocabularies(o, 'Mlstr_area')
 opal.logout(o)
 }
 }
 \seealso{
-Other taxonomy functions: \code{\link{opal.taxonomies}},
-  \code{\link{opal.taxonomy}}, \code{\link{opal.terms}},
-  \code{\link{opal.vocabulary}}
+Other taxonomy functions: 
+\code{\link{opal.taxonomies}()},
+\code{\link{opal.taxonomy}()},
+\code{\link{opal.terms}()},
+\code{\link{opal.vocabulary}()}
 }
 \concept{taxonomy functions}

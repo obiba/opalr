@@ -19,7 +19,7 @@ opal.assign.script(opal, symbol, value, async = FALSE)
 Assign a R script or expression to a R symbol in the current R session.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 # assign a function and call it
 opal.assign.script(o, 'hello', quote(function(x) { print(paste0('Hello ', x , '!'))}))
@@ -28,9 +28,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other assignment functions: \code{\link{opal.assign.data}},
-  \code{\link{opal.assign.table.tibble}},
-  \code{\link{opal.assign.table}},
-  \code{\link{opal.assign}}
+Other assignment functions: 
+\code{\link{opal.assign.data}()},
+\code{\link{opal.assign.table.tibble}()},
+\code{\link{opal.assign.table}()},
+\code{\link{opal.assign}()}
 }
 \concept{assignment functions}

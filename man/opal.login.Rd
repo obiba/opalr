@@ -4,9 +4,13 @@
 \alias{opal.login}
 \title{Opal login}
 \usage{
-opal.login(username = getOption("opal.username"),
-  password = getOption("opal.password"), url = getOption("opal.url"),
-  opts = getOption("opal.opts", list()), restore = NULL)
+opal.login(
+  username = getOption("opal.username"),
+  password = getOption("opal.password"),
+  url = getOption("opal.url"),
+  opts = getOption("opal.opts", list()),
+  restore = NULL
+)
 }
 \arguments{
 \item{username}{User name in opal(s). Can be provided by "opal.username" option.}
@@ -26,7 +30,7 @@ A opal object or a list of opal objects.
 Log in Opal(s).
 }
 \examples{
-\donttest{
+\dontrun{
 #### The below examples illustrate the different ways to login in opal ####
 
 # explicite username/password login
@@ -49,6 +53,7 @@ opal.logout(o)
 }
 }
 \seealso{
-Other connection functions: \code{\link{opal.logout}}
+Other connection functions: 
+\code{\link{opal.logout}()}
 }
 \concept{connection functions}

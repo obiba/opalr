@@ -4,9 +4,16 @@
 \alias{opal.symbol_import}
 \title{Import a tibble}
 \usage{
-opal.symbol_import(opal, symbol, project, identifiers = NULL,
-  policy = "required", id.name = "id", type = "Participant",
-  wait = TRUE)
+opal.symbol_import(
+  opal,
+  symbol,
+  project,
+  identifiers = NULL,
+  policy = "required",
+  id.name = "id",
+  type = "Participant",
+  wait = TRUE
+)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -37,9 +44,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other symbol functions: \code{\link{opal.rm}},
-  \code{\link{opal.symbol_rm}},
-  \code{\link{opal.symbol_save}},
-  \code{\link{opal.symbols}}
+Other symbol functions: 
+\code{\link{opal.rm}()},
+\code{\link{opal.symbol_rm}()},
+\code{\link{opal.symbol_save}()},
+\code{\link{opal.symbols}()}
 }
 \concept{symbol functions}

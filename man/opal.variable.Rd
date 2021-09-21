@@ -19,20 +19,24 @@ opal.variable(opal, datasource, table, variable)
 Get a variable of a table
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
 opal.logout(o)
 }
 }
 \seealso{
-Other datasource functions: \code{\link{opal.annotate}},
-  \code{\link{opal.annotations}},
-  \code{\link{opal.attribute_values}},
-  \code{\link{opal.datasources}},
-  \code{\link{opal.datasource}},
-  \code{\link{opal.projects}}, \code{\link{opal.project}},
-  \code{\link{opal.tables}}, \code{\link{opal.table}},
-  \code{\link{opal.valueset}}, \code{\link{opal.variables}}
+Other datasource functions: 
+\code{\link{opal.annotate}()},
+\code{\link{opal.annotations}()},
+\code{\link{opal.attribute_values}()},
+\code{\link{opal.datasources}()},
+\code{\link{opal.datasource}()},
+\code{\link{opal.projects}()},
+\code{\link{opal.project}()},
+\code{\link{opal.tables}()},
+\code{\link{opal.table}()},
+\code{\link{opal.valueset}()},
+\code{\link{opal.variables}()}
 }
 \concept{datasource functions}

@@ -22,26 +22,27 @@ TRUE if installed
 Install a package from DataSHIELD public package repository or (if Git reference and GitHub username is provided) from DataSHIELD source repository on GitHub.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 dsadmin.install_package(o, 'dsBase')
 opal.logout(o)
 }
 }
 \seealso{
-Other DataSHIELD functions: \code{\link{dsadmin.get_methods}},
-  \code{\link{dsadmin.get_method}},
-  \code{\link{dsadmin.get_options}},
-  \code{\link{dsadmin.installed_package}},
-  \code{\link{dsadmin.package_descriptions}},
-  \code{\link{dsadmin.package_description}},
-  \code{\link{dsadmin.remove_package}},
-  \code{\link{dsadmin.rm_methods}},
-  \code{\link{dsadmin.rm_method}},
-  \code{\link{dsadmin.rm_option}},
-  \code{\link{dsadmin.rm_package_methods}},
-  \code{\link{dsadmin.set_method}},
-  \code{\link{dsadmin.set_option}},
-  \code{\link{dsadmin.set_package_methods}}
+Other DataSHIELD functions: 
+\code{\link{dsadmin.get_methods}()},
+\code{\link{dsadmin.get_method}()},
+\code{\link{dsadmin.get_options}()},
+\code{\link{dsadmin.installed_package}()},
+\code{\link{dsadmin.package_descriptions}()},
+\code{\link{dsadmin.package_description}()},
+\code{\link{dsadmin.remove_package}()},
+\code{\link{dsadmin.rm_methods}()},
+\code{\link{dsadmin.rm_method}()},
+\code{\link{dsadmin.rm_option}()},
+\code{\link{dsadmin.rm_package_methods}()},
+\code{\link{dsadmin.set_method}()},
+\code{\link{dsadmin.set_option}()},
+\code{\link{dsadmin.set_package_methods}()}
 }
 \concept{DataSHIELD functions}

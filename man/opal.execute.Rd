@@ -18,7 +18,7 @@ If TRUE, the value returned is the ID of the command to look for (from Opal 2.1)
 Execute a R script in the remote R session.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.execute(o, "x <- 'foo'")
 opal.execute(o, "ls()")
@@ -26,7 +26,8 @@ opal.logout(o)
 }
 }
 \seealso{
-Other execution functions: \code{\link{opal.load_package}},
-  \code{\link{opal.unload_package}}
+Other execution functions: 
+\code{\link{opal.load_package}()},
+\code{\link{opal.unload_package}()}
 }
 \concept{execution functions}

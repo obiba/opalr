@@ -15,7 +15,7 @@
 #' @family symbol functions
 #' @param opal Opal object.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.symbols(o)
 #' opal.logout(o)
@@ -34,7 +34,7 @@ opal.symbols <- function(opal) {
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.symbol_rm(o, 'D')
 #' opal.logout(o)
@@ -53,7 +53,7 @@ opal.symbol_rm <- function(opal, symbol) {
 #' @param opal Opal object.
 #' @param symbol Name of the R symbol.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #' o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 #' opal.rm(o, 'D')
 #' opal.logout(o)

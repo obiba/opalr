@@ -15,14 +15,16 @@ opal.task_cancel(opal, id)
 Tries to cancel a task.
 }
 \examples{
-\donttest{
+\dontrun{
 o <- opal.login('administrator','password','https://opal-demo.obiba.org')
 opal.task_cancel(o, '1')
 opal.logout(o)
 }
 }
 \seealso{
-Other task functions: \code{\link{opal.task_wait}},
-  \code{\link{opal.tasks}}, \code{\link{opal.task}}
+Other task functions: 
+\code{\link{opal.task_wait}()},
+\code{\link{opal.tasks}()},
+\code{\link{opal.task}()}
 }
 \concept{task functions}
