@@ -4,7 +4,13 @@
 \alias{opal.get}
 \title{Generic REST resource getter.}
 \usage{
-opal.get(opal, ..., query = list(), callback = NULL)
+opal.get(
+  opal,
+  ...,
+  query = list(),
+  acceptType = "application/json",
+  callback = NULL
+)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -12,6 +18,8 @@ opal.get(opal, ..., query = list(), callback = NULL)
 \item{...}{Resource path segments.}
 
 \item{query}{Named list of query parameters.}
+
+\item{acceptType}{The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.}
 
 \item{callback}{A callback function to handle the response object.}
 }

@@ -156,6 +156,7 @@ opal.version_compare <- function(opal, version) {
 #' @param opal Opal object.
 #' @param ... Resource path segments.
 #' @param query Named list of query parameters.
+#' @param acceptType The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.
 #' @param callback A callback function to handle the response object.
 #' @import httr
 #' @examples 
@@ -165,8 +166,8 @@ opal.version_compare <- function(opal, version) {
 #' opal.logout(o)
 #' }
 #' @export
-opal.get <- function(opal, ..., query=list(), callback=NULL) {
-  r <- GET(.url(opal, ...), query=query, config=opal$config, handle = opal$handle, .verbose())
+opal.get <- function(opal, ..., query=list(), acceptType = 'application/json', callback=NULL) {
+  r <- GET(.url(opal, ...), query=query, accept(acceptType), config=opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -178,6 +179,7 @@ opal.get <- function(opal, ..., query=list(), callback=NULL) {
 #' @param query Named list of query parameters.
 #' @param body The body of the request.
 #' @param contentType The type of the body content.
+#' @param acceptType The type of the body content. Default is 'application/json', i.e. a serialized R object or an error message.
 #' @param callback A callback function to handle the response object.
 #' @import httr
 #' @examples 
@@ -187,8 +189,8 @@ opal.get <- function(opal, ..., query=list(), callback=NULL) {
 #' opal.logout(o)
 #' }
 #' @export
-opal.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', callback=NULL) {
-  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), config=opal$config, handle = opal$handle, .verbose())
+opal.post <- function(opal, ..., query=list(), body='', contentType='application/x-rscript', acceptType = 'application/json', callback=NULL) {
+  r <- POST(.url(opal, ...), query=query, body=body, content_type(contentType), accept(acceptType), config=opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
