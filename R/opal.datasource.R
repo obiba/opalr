@@ -35,12 +35,18 @@ opal.datasources <- function(opal, df=TRUE) {
     for (i in 1:n) {
       item <- res[[i]]
       name[i] <- item$name
-      type[i] <- item$type
+      if (!is.null(item$type) && item$type != "null")
+        type[i] <- item$type
       if (!is.null(item$table)) {
         tables[i] <- paste0(item$table, collapse = "|")
       }
-      created[i] <- item$timestamps$created
-      lastUpdate[i] <- item$timestamps$lastUpdate
+      if (!is.null(item$timestamps)) {
+        if (!is.null(item$timestamps$created))
+          created[i] <- item$timestamps$created
+        if (!is.null(item$timestamps$lastUpdate)) {
+          lastUpdate[i] <- item$timestamps$lastUpdate
+        }
+      }
     }
     data.frame(name, tables, type, created, lastUpdate)
   } else {
