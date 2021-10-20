@@ -64,6 +64,10 @@ test_that("Table save and get", {
   expect_equal(summary(ds2$cyl), summary(ds$cyl))
   expect_equal(summary(as.factor(ds2$vs)), summary(as.factor(ds$vs)))
   expect_true(all(colnames(ds) %in% colnames(ds2)))
+  
+  dico <- opal.table_dictionary_get(o, "RSRC", "mtcars")
+  expect_true(!all(dico$variables$repeatable))
+  
   opal.table_delete(o, "RSRC", "mtcars")
   
   # check no R session created
@@ -94,6 +98,9 @@ test_that("Table with repeatables save and get", {
   ds1.nas <- ds1[is.na(ds1$sex),]
   ds2.nas <- ds2[is.na(ds2$sex),]
   expect_true(all.equal(ds1.nas, ds2.nas, check.attributes = FALSE))
+  
+  dico <- opal.table_dictionary_get(o, "RSRC", "repeatables")
+  expect_true(all(dico$variables$repeatable))
   
   opal.table_delete(o, "RSRC", "repeatables")
   

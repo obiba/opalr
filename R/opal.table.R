@@ -579,7 +579,7 @@ opal.table_dictionary_get <- function(opal, project, table) {
       unit[i] <- .nullToNA(var$unit)
       referencedEntityType[i] <- .nullToNA(var$referencedEntityType)
       mimeType[i] <- .nullToNA(var$mimeType)
-      repeatable[i] <- ifelse(is.null(var$isRepeatable), FALSE, TRUE)
+      repeatable[i] <- ifelse(is.null(var$isRepeatable), FALSE, var$isRepeatable)
       occurrenceGroup[i] <- .nullToNA(var$occurrenceGroup)
       index[i] <- var$index
       
