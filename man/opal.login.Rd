@@ -22,7 +22,7 @@ opal.login(
 \item{token}{Personal access token (since opal 2.15). Only effective if the username or the password is NULL or empty. 
 Can be provided by "opal.token" option.}
 
-\item{url}{Opal url or list of opal urls. Can be provided by "opal.url" option.}
+\item{url}{Opal url or list of opal urls. Can be provided by "opal.url" option. Secure http (https) connection is required.}
 
 \item{opts}{Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.}
 

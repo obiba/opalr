@@ -127,9 +127,9 @@ oadmin.user_add <- function(opal, name, groups = NULL, password = NULL) {
     stop("A user already exists with same name")
   pwd <- password
   if (.is.empty(pwd))
-    pwd <- .generateToken()
-  else if (nchar(pwd)<10)
-    stop("User password is too short, minimum length is 10")
+    pwd <- .generatePwd()
+  else if (nchar(pwd)<8)
+    stop("User password is too short, minimum length is 8")
   gps <- unlist(groups)
   if (is.null(gps))
     gps <- NA
@@ -168,9 +168,9 @@ oadmin.user_reset_password <- function(opal, name, password = NULL) {
     stop("User name is required")
   pwd <- password
   if (.is.empty(pwd))
-    pwd <- .generateToken()
-  else if (nchar(pwd)<10)
-    stop("User password is too short, minimum length is 10")
+    pwd <- .generatePwd()
+  else if (nchar(pwd)<8)
+    stop("User password is too short, minimum length is 8")
   user <- opal.get(opal, "system", "subject-credential", name)
   user$password <- pwd
   ignore <- opal.put(opal, "system", "subject-credential", name, body = jsonlite::toJSON(user, auto_unbox = TRUE), contentType = "application/json")
@@ -247,4 +247,23 @@ oadmin.user_profile_delete <- function(opal, name) {
   if (.is.empty(name))
     stop("User name is required")
   ignore <- tryCatch(opal.delete(opal, "system", "subject-profile", name), error = function(e) {})
+}
+
+#' @keywords internal
+.generatePwd <- function() {
+  lower <- 'abcdefghijklmnopqrstuvwxyz'
+  upper <- 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  digit <- '1234567890'
+  special <- '@#$%^&+=!'
+  x <- paste0(lower, upper, digit, special)
+  pwd <- ''
+  valid <- FALSE
+  while (!valid) {
+    pwd <- ''
+    for (i in sample(1:71, 32)) {
+      pwd <- paste0(pwd, substr(x, i, i))
+    }
+    valid <- grepl('[[:digit:]]', pwd) && grepl('[[:lower:]]', pwd) && grepl('[[:upper:]]', pwd) && grepl('[@#$%^&+=!]', pwd)
+  }
+  pwd
 }
