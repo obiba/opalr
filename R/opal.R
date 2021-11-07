@@ -18,7 +18,7 @@
 #' @param password User password in opal(s). Can be provided by "opal.password" option.
 #' @param token Personal access token (since opal 2.15). Only effective if the username or the password is NULL or empty. 
 #'  Can be provided by "opal.token" option.
-#' @param url Opal url or list of opal urls. Can be provided by "opal.url" option.
+#' @param url Opal url or list of opal urls. Can be provided by "opal.url" option. Secure http (https) connection is required.
 #' @param opts Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.
 #' @param restore Workspace ID to be restored (see also opal.logout)
 #' @param profile R server profile name. This will drive the R server in which a R session will be created. If no remote R session
@@ -499,11 +499,20 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
 #' @keywords internal
 .opal.login <- function(username, password, token, url, opts = list(), profile = profile, restore = NULL) {
   if (is.null(url)) stop("opal url is required", call. = FALSE)
+  opalUrl <- url
+  if (startsWith(url, "http://localhost:8080")) {
+    opalUrl <- gsub("http://localhost:8080", "https://localhost:8443", url)
+    warning("Deprecation: connecting through secure http is required. Replacing http://localhost:8080 by https://localhost:8443.")
+  } else if (startsWith(url, "http://")) {
+    stop("Deprecation: connecting through secure http is required.")
+  }
+  urlObj <- httr::parse_url(opalUrl)
+  
   opal <- new.env(parent = globalenv())
   # Username
   opal$username <- username
   # Strip trailing slash
-  opal$url <- sub("/$", "", url)
+  opal$url <- sub("/$", "", opalUrl)
   # Domain name
   opal$name <- gsub("[:/].*", "", gsub("http[s]*://", "", opal$url))
   # Version default value
@@ -514,6 +523,8 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
     opal$encoding <- opts$encoding
     opts$encoding <- NULL # not a httr/curl option
   }
+  
+  
   
   # httr/curl options
   protocol <- strsplit(url, split = "://")[[1]][1]
@@ -527,6 +538,14 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
     options$ssl_verifypeer = options$ssl.verifypeer
     options$ssl.verifypeer <- NULL
   }
+  if (urlObj$hostname == "localhost") {
+    if (is.null(options$ssl_verifyhost)) {
+      options$ssl_verifyhost <- FALSE
+    }
+    if (is.null(options$ssl_verifypeer)) {
+      options$ssl_verifypeer <- FALSE
+    }
+  }
   
   # authentication strategies
   if(!is.na(username) && !is.null(username) && nchar(username) > 0 
@@ -536,17 +555,13 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   } else if (!is.na(token) && !is.null(token) && nchar(token) > 0) {
     # Token header
     opal$token <- .tokenHeader(token)
-  } else if (protocol == "https") {
+  } else if (!is.null(options$sslcert) && !is.null(options$sslkey)) {
     # Two-way SSL authentication
     if (!is.null(options$cainfo)) {
       options$cainfo <- .getPEMFilePath(options$cainfo)
     }
-    if (!is.null(options$sslcert)) {
-      options$sslcert <- .getPEMFilePath(options$sslcert)
-    }
-    if (!is.null(options$sslkey)) {
-      options$sslkey <- .getPEMFilePath(options$sslkey)
-    }
+    options$sslcert <- .getPEMFilePath(options$sslcert)
+    options$sslkey <- .getPEMFilePath(options$sslkey)
   } else {
     stop("opal authentication strategy not identified: either provide username/password or API access token or SSL certificate/private keys", call. = FALSE)
   }
