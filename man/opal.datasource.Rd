@@ -17,7 +17,7 @@ Get a datasource
 \examples{
 \dontrun{
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-opal.datasource(o, 'datashield')
+opal.datasource(o, 'CNSIM')
 opal.logout(o)
 }
 }
@@ -30,6 +30,7 @@ Other datasource functions:
 \code{\link{opal.tables}()},
 \code{\link{opal.table}()},
 \code{\link{opal.valueset}()},
+\code{\link{opal.variable_summary}()},
 \code{\link{opal.variables}()},
 \code{\link{opal.variable}()}
 }

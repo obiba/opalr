@@ -62,7 +62,7 @@ opal.datasources <- function(opal, df=TRUE) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.datasource(o, 'datashield')
+#' opal.datasource(o, 'CNSIM')
 #' opal.logout(o)
 #' }
 #' @export
@@ -80,7 +80,7 @@ opal.datasource <- function(opal, datasource) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.tables(o, 'datashield')
+#' opal.tables(o, 'CNSIM')
 #' opal.logout(o)
 #' }
 #' @export
@@ -133,7 +133,7 @@ opal.tables <- function(opal, datasource, counts=FALSE, df=TRUE) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.table(o, 'datashield', 'CNSIM1')
+#' opal.table(o, 'CNSIM', 'CNSIM1')
 #' opal.logout(o)
 #' }
 #' @export
@@ -156,7 +156,7 @@ opal.table <- function(opal, datasource, table, counts=FALSE) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.variables(o, 'datashield', 'CNSIM1')
+#' opal.variables(o, 'CNSIM', 'CNSIM1')
 #' opal.logout(o)
 #' }
 #' @export
@@ -249,7 +249,7 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
+#' opal.variable(o, 'CNSIM', 'CNSIM1', 'GENDER')
 #' opal.logout(o)
 #' }
 #' @export
@@ -257,9 +257,29 @@ opal.variable <- function(opal, datasource, table, variable) {
   opal.get(opal, "datasource", datasource, "table", table, "variable", variable)
 }
 
-#' Get a vector of values
+#' Get summary statistics of a variable of a table
 #' 
-#' Get a vector of values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.
+#' @family datasource functions
+#' @param opal Opal object.
+#' @param datasource Name of the datasource.
+#' @param table Name of the table in the datasource.
+#' @param variable Name of the variable in the table.
+#' @param cached Get cached summary if exists. When FALSE, the cached summary is 
+#' evicted and replaced by the newly calculated one. Default is TRUE.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.variable_summary(o, 'CNSIM', 'CNSIM1', 'GENDER')
+#' opal.logout(o)
+#' }
+#' @export
+opal.variable_summary <- function(opal, datasource, table, variable, cached = TRUE) {
+  opal.get(opal, "datasource", datasource, "table", table, "variable", variable, "summary", query = list(fullIfCached = TRUE, resetCache = !cached))
+}
+
+#' Get a vector of attribute values
+#' 
+#' Get a vector of attribute values (for each locale) matching the given attribute namespace and name. Vector is null if no such attribute is found.
 #' 
 #' @family datasource functions
 #' @param attributes A list of attributes, usually variable or category attributes.
@@ -268,7 +288,7 @@ opal.variable <- function(opal, datasource, table, variable) {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' var <- opal.variable(o, 'datashield', 'CNSIM1', 'GENDER')
+#' var <- opal.variable(o, 'CNSIM', 'CNSIM1', 'GENDER')
 #' opal.attribute_values(var$attributes)
 #' opal.logout(o)
 #' }
@@ -301,7 +321,7 @@ opal.attribute_values <- function(attributes, namespace=NULL, name="label") {
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-#' opal.valueset(o, 'datashield', 'CNSIM1', '1008573362')
+#' opal.valueset(o, 'CNSIM', 'CNSIM1', '1008573362')
 #' opal.logout(o)
 #' }
 #' @export

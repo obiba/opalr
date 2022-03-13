@@ -6,16 +6,7 @@
 \alias{opalr-package}
 \title{opalr: 'Opal' Data Repository Client and 'DataSHIELD' Utils}
 \description{
-Data integration Web application for biobanks by 'OBiBa'. 'Opal' is
-    the core database application for biobanks. Participant data, once
-    collected from any data source, must be integrated and stored in a central
-    data repository under a uniform model. 'Opal' is such a central repository.
-    It can import, process, validate, query, analyze, report, and export data.
-    'Opal' is typically used in a research center to analyze the data acquired at
-    assessment centres. Its ultimate purpose is to achieve seamless
-    data-sharing among biobanks. This 'Opal' client allows to interact with 'Opal'
-    web services and to perform operations on the R server side. 'DataSHIELD'
-    administration tools are also provided.
+Data integration Web application for biobanks by 'OBiBa'. 'Opal' is the core database application for biobanks. Participant data, once collected from any data source, must be integrated and stored in a central data repository under a uniform model. 'Opal' is such a central repository. It can import, process, validate, query, analyze, report, and export data. 'Opal' is typically used in a research center to analyze the data acquired at assessment centres. Its ultimate purpose is to achieve seamless data-sharing among biobanks. This 'Opal' client allows to interact with 'Opal' web services and to perform operations on the R server side. 'DataSHIELD' administration tools are also provided.
 }
 \seealso{
 Useful links:

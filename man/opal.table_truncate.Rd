@@ -26,6 +26,8 @@ opal.logout(o)
 }
 \seealso{
 Other table functions: 
+\code{\link{opal.resource_view_create}()},
+\code{\link{opal.resource_view_reconnect}()},
 \code{\link{opal.table_create}()},
 \code{\link{opal.table_delete}()},
 \code{\link{opal.table_dictionary_get}()},
@@ -37,6 +39,7 @@ Other table functions:
 \code{\link{opal.table_perm_add}()},
 \code{\link{opal.table_perm_delete}()},
 \code{\link{opal.table_perm}()},
-\code{\link{opal.table_save}()}
+\code{\link{opal.table_save}()},
+\code{\link{opal.table_view_create}()}
 }
 \concept{table functions}

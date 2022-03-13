@@ -21,7 +21,7 @@ Get the values of an entity in a table.
 \examples{
 \dontrun{
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
-opal.valueset(o, 'datashield', 'CNSIM1', '1008573362')
+opal.valueset(o, 'CNSIM', 'CNSIM1', '1008573362')
 opal.logout(o)
 }
 }
@@ -34,6 +34,7 @@ Other datasource functions:
 \code{\link{opal.datasource}()},
 \code{\link{opal.tables}()},
 \code{\link{opal.table}()},
+\code{\link{opal.variable_summary}()},
 \code{\link{opal.variables}()},
 \code{\link{opal.variable}()}
 }

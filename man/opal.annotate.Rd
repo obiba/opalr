@@ -38,6 +38,7 @@ Other datasource functions:
 \code{\link{opal.tables}()},
 \code{\link{opal.table}()},
 \code{\link{opal.valueset}()},
+\code{\link{opal.variable_summary}()},
 \code{\link{opal.variables}()},
 \code{\link{opal.variable}()}
 }

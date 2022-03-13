@@ -418,3 +418,70 @@ opal.resources_perm_delete <- function(opal, project, subject, type = "user") {
     ignore <- opal.delete(opal, "project", project, "permissions", "resources", query = list(principal = subject[i], type = toupper(type)))
   }
 }
+
+#' Create an Opal view over a resource reference
+#'
+#' Create an Opal view if a table with same name does not already exist. The resource 
+#' reference is required.The dictionary of the created view will be discovered at 
+#' initialization time. Use \link{opal.table_dictionary_update} to apply a dictionary.
+#'
+#' @family table functions
+#' @param opal Opal connection object.
+#' @param project Project name where the view will be located.
+#' @param table View name to be created.
+#' @param resource Fully qualified resource name.
+#' @param type Entity type, default is "Participant".
+#' @param idColumn Name of the column which contains the entity identifiers. 
+#' If not specified, the first column will be used.
+#' @param profile R server profile to use for establishing the connection with the 
+#' resource. If not specifed, the profile will guessed based on the resource definition.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' # make a view over a resource
+#' opal.resource_view_create(o, "CNSIM", "CNSIM4", resource = "RSRC.CNSIM1")
+#' opal.resource_view_create(o, "CNSIM", "FEMALE_2439", 
+#'                           resource = "RSRC.FEMALE_2439", idColumn = "Name")
+#' opal.logout(o)
+#' }
+#' @export
+opal.resource_view_create <- function(opal, project, table, resource, type = "Participant", idColumn = NULL, profile = NULL) {
+  if (!opal.table_exists(opal, project, table)) {
+    params <- list(entityType = type)
+    if (!is.null(idColumn)) {
+      params$idColumn <- idColumn
+    }
+    if (!is.null(profile)) {
+      params$profile <- profile
+    }
+    body <- jsonlite::toJSON(list(name = table, from = list(resource), "Magma.ResourceViewDto.view" = params), auto_unbox = TRUE)
+    ignore <- opal.post(opal, "datasource", project, "views", contentType = "application/json", body = body)
+  } else {
+    stop("Table '", table,"' already exists in project '", project, "'.")
+  }
+}
+
+#' Reconnect an Opal view to its underlying resource
+#'
+#' A view over a resource handles a connection to this resource. When the resource 
+#' changes (data update, broken connection etc.), the connection to this resource
+#' can be re-initialized.
+#'
+#' @family table functions
+#' @param opal Opal connection object.
+#' @param project Project name where the view is located.
+#' @param table View name to be reconnected.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' # make a view over a resource
+#' opal.resource_view_create(o, "CNSIM", "CNSIM4", resource = "RSRC.CNSIM1")
+#' # re-initialize the view's connection to the resource
+#' opal.resource_view_reconnect(o, "CNSIM", "CNSIM4")
+#' opal.logout(o)
+#' }
+#' @export
+opal.resource_view_reconnect <- function(opal, project, table) {
+  invisible(opal.put(opal, "datasource", project, "view", table, "_init"))
+}
+

@@ -144,16 +144,16 @@ opal.table_exists <- function(opal, project, table, view = NA) {
   }
 }
 
-#' Create a Opal table or view
+#' Create an Opal table or view
 #'
-#' Create a Opal table if it does not already exist. If a list of table references are provided,
+#' Create an Opal table if it does not already exist. If a list of table references are provided,
 #' the table will be a view. The table/view created will have no dictionary, use 
 #' \link{opal.table_dictionary_update} to apply a dictionary.
 #'
 #' @family table functions
 #' @param opal Opal connection object.
-#' @param project Project name where the table is located.
-#' @param table Table name to be deleted.
+#' @param project Project name where the table will be located.
+#' @param table Table name to be created
 #' @param type Entity type, default is "Participant". Ignored if some table references are 
 #' provided.
 #' @param tables List of the fully qualified table names that are referred by the view.
@@ -175,8 +175,40 @@ opal.table_create <- function(opal, project, table, type = "Participant", tables
       ignore <- opal.post(opal, "datasource", project, "tables", contentType = "application/json", body = body)
     } else {
       body <- jsonlite::toJSON(list(name = table, from = tables, "Magma.VariableListViewDto.view" = list(variables = list())), auto_unbox = TRUE)
-      ignore <- opal.post(opal, "datasource", project, "views", contentType = "application/json", body = body)    
+      ignore <- opal.post(opal, "datasource", project, "views", contentType = "application/json", body = body)
     }
+  } else {
+    stop("Table '", table,"' already exists in project '", project, "'.")
+  }
+}
+
+
+#' Create an Opal view over tables
+#'
+#' Create an Opal view if a table with same name does not already exist. The view
+#' created will have no dictionary, use \link{opal.table_dictionary_update} to 
+#' apply a dictionary.
+#'
+#' @family table functions
+#' @param opal Opal connection object.
+#' @param project Project name where the table will be located.
+#' @param table Table name to be created
+#' @param tables List of the fully qualified table names that are referred by the view.
+#' @param type Entity type, default is "Participant". Ignored if some table references are 
+#' provided.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' # make a view
+#' opal.table_view_create(o, "CNSIM", "CNSIM123", 
+#'                        c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
+#' opal.logout(o)
+#' }
+#' @export
+opal.table_view_create <- function(opal, project, table, tables, type = "Participant") {
+  if (!opal.table_exists(opal, project, table)) {
+    body <- jsonlite::toJSON(list(name = table, from = tables, "Magma.VariableListViewDto.view" = list(variables = list())), auto_unbox = TRUE)
+    ignore <- opal.post(opal, "datasource", project, "views", contentType = "application/json", body = body)
   } else {
     stop("Table '", table,"' already exists in project '", project, "'.")
   }
