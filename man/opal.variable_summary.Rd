@@ -4,7 +4,14 @@
 \alias{opal.variable_summary}
 \title{Get summary statistics of a variable of a table}
 \usage{
-opal.variable_summary(opal, datasource, table, variable, cached = TRUE)
+opal.variable_summary(
+  opal,
+  datasource,
+  table,
+  variable,
+  cached = TRUE,
+  nature = NULL
+)
 }
 \arguments{
 \item{opal}{Opal object.}
@@ -17,6 +24,9 @@ opal.variable_summary(opal, datasource, table, variable, cached = TRUE)
 
 \item{cached}{Get cached summary if exists. When FALSE, the cached summary is 
 evicted and replaced by the newly calculated one. Default is TRUE.}
+
+\item{nature}{Force summary nature, independently from the variable.
+Possible values are: CATEGORICAL, CONTINUOUS, TEMPORAL, GEO, BINARY, UNDETERMINED.}
 }
 \description{
 Get summary statistics of a variable of a table

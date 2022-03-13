@@ -266,6 +266,8 @@ opal.variable <- function(opal, datasource, table, variable) {
 #' @param variable Name of the variable in the table.
 #' @param cached Get cached summary if exists. When FALSE, the cached summary is 
 #' evicted and replaced by the newly calculated one. Default is TRUE.
+#' @param nature Force summary nature, independently from the variable.
+#' Possible values are: CATEGORICAL, CONTINUOUS, TEMPORAL, GEO, BINARY, UNDETERMINED.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -273,8 +275,12 @@ opal.variable <- function(opal, datasource, table, variable) {
 #' opal.logout(o)
 #' }
 #' @export
-opal.variable_summary <- function(opal, datasource, table, variable, cached = TRUE) {
-  opal.get(opal, "datasource", datasource, "table", table, "variable", variable, "summary", query = list(fullIfCached = TRUE, resetCache = !cached))
+opal.variable_summary <- function(opal, datasource, table, variable, cached = TRUE, nature = NULL) {
+  q <- list(fullIfCached = TRUE, resetCache = !cached)
+  if (!is.null(nature)) {
+    q$nature <- nature
+  }
+  opal.get(opal, "datasource", datasource, "table", table, "variable", variable, "summary", query = q)
 }
 
 #' Get a vector of attribute values
