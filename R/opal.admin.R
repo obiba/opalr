@@ -263,10 +263,10 @@ oadmin.install_cran_package <- function(opal, pkg, profile = NULL) {
 #' @export
 oadmin.install_github_package <- function(opal, pkg , username=getOption("github.user"), ref="master", profile = NULL) {
   if (opal.version_compare(opal, "4.0")<0)
-    opal.post(opal, "service", "r", "packages", query = list(name = paste0(username, "%2F", pkg), ref = ref, manager = "gh"))
+    opal.post(opal, "service", "r", "packages", query = list(name = paste0(username, "/", pkg), ref = ref, manager = "gh"))
   else {
     cluster <- .toSafeProfile(opal, profile)
-    opal.post(opal, "service", "r", "cluster", cluster, "packages", query = list(name = paste0(username, "%2F", pkg), ref = ref, manager = "gh"))
+    opal.post(opal, "service", "r", "cluster", cluster, "packages", query = list(name = paste0(username, "/", pkg), ref = ref, manager = "gh"))
   }
   oadmin.installed_package(opal, pkg, profile = profile)
 }
