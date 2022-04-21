@@ -8,7 +8,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Log in Opal(s).
+#' Log in Opal(s). Different login strategies are possible: (1) by providing username/password, or (2) by providing
+#' username/password and a one-time password code (TOPT) when user has activated two-factor authentication, 
+#' or (3) by providing a personal access token (PAT), or (4) by providing a key pair in PEM format.
 #' 
 #' @title Opal login
 #' 
