@@ -524,8 +524,6 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
     opts$encoding <- NULL # not a httr/curl option
   }
   
-  
-  
   # httr/curl options
   protocol <- strsplit(url, split = "://")[[1]][1]
   options <- opts
@@ -576,6 +574,14 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   
   # get user profile to test sign-in
   r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token), handle = opal$handle, .verbose())
+  if (httr::status_code(r) == 401) {
+    headers <- httr::headers(r)
+    if (headers[tolower('WWW-Authenticate')] == 'X-Opal-TOTP' || headers[tolower('WWW-Authenticate')] == 'TOTP') {
+      # TOTP code is required
+      code <- readline(prompt = 'Enter 6-digits code: ')
+      r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token, 'X-Opal-TOTP' = code), handle = opal$handle, .verbose())
+    }
+  }
   opal$uprofile <- .handleResponse(opal, r)
   opal$username <- opal$uprofile$principal
   
