@@ -27,7 +27,8 @@ opal.token_r_create(
 The token value.
 }
 \description{
-Create a personal access token for R usage
+Create a personal access token for R (server) usage. Like for the other token functions, 
+this operation requires the user to authenticate with username/password credentials.
 }
 \examples{
 \dontrun{
@@ -40,6 +41,7 @@ opal.logout(o)
 Other token functions: 
 \code{\link{opal.token_datashield_create}()},
 \code{\link{opal.token_delete}()},
+\code{\link{opal.token_renew}()},
 \code{\link{opal.token_sql_create}()},
 \code{\link{opal.tokens}()},
 \code{\link{opal.token}()}

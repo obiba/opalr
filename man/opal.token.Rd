@@ -12,7 +12,8 @@ opal.token(opal, name)
 \item{name}{Name of the token}
 }
 \description{
-Get a personal access token
+Get a personal access token details. Like for the other token functions, 
+this operation requires the user to authenticate with username/password credentials.
 }
 \examples{
 \dontrun{
@@ -26,6 +27,7 @@ Other token functions:
 \code{\link{opal.token_datashield_create}()},
 \code{\link{opal.token_delete}()},
 \code{\link{opal.token_r_create}()},
+\code{\link{opal.token_renew}()},
 \code{\link{opal.token_sql_create}()},
 \code{\link{opal.tokens}()}
 }

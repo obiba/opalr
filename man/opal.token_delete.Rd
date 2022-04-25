@@ -12,7 +12,8 @@ opal.token_delete(opal, name)
 \item{name}{Name of the token}
 }
 \description{
-Delete a personal access token
+Delete a personal access token permanently. Like for the other token functions, 
+this operation requires the user to authenticate with username/password credentials.
 }
 \examples{
 \dontrun{
@@ -25,6 +26,7 @@ opal.logout(o)
 Other token functions: 
 \code{\link{opal.token_datashield_create}()},
 \code{\link{opal.token_r_create}()},
+\code{\link{opal.token_renew}()},
 \code{\link{opal.token_sql_create}()},
 \code{\link{opal.tokens}()},
 \code{\link{opal.token}()}

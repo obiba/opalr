@@ -8,7 +8,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#' Get the personal access tokens
+#' Get the list of personal access tokens. Like for the other token functions, 
+#' this operation requires the user to authenticate with username/password credentials.
+#' 
+#' @title Get the personal access tokens
 #' 
 #' @family token functions
 #' @param opal Opal object.
@@ -41,7 +44,11 @@ opal.tokens <- function(opal, df=TRUE) {
     useDatashield <- rep(NA, n)
     useSQL <- rep(NA, n)
     sysAdmin <- rep(NA, n)
+    inactive <- rep(NA, n)
     created <- rep(NA, n)
+    lastUpdate <- rep(NA, n)
+    inactiveAt <- rep(NA, n)
+    expiresAt <- rep(NA, n)
     for (i in 1:n) {
       item <- res[[i]]
       name[i] <- item$name
@@ -59,15 +66,26 @@ opal.tokens <- function(opal, df=TRUE) {
       useDatashield[i] <- item$useDatashield
       useSQL[i] <- item$useSQL
       sysAdmin[i] <- item$sysAdmin
+      inactive[i] <- item$inactive
       created[i] <- item$created
+      lastUpdate[i] <- item$lastUpdate
+      inactiveAt[i] <- item$inactiveAt
+      if (!is.null(item$expiresAt))
+        expiresAt[i] <- item$expiresAt
     }
-    data.frame(name, projects, access, commands, createProject, updateProject, deleteProject, useR, useDatashield, useSQL, sysAdmin, created) 
+    data.frame(name, projects, access, commands, 
+               createProject, updateProject, deleteProject, 
+               useR, useDatashield, useSQL, sysAdmin, 
+               inactive, created, lastUpdate, inactiveAt, expiresAt) 
   } else {
     data.frame()
   }
 }
 
-#' Create a personal access token for R usage
+#' Create a personal access token for R (server) usage. Like for the other token functions, 
+#' this operation requires the user to authenticate with username/password credentials.
+#' 
+#' @title Create a personal access token for R usage
 #' 
 #' @family token functions
 #' @param opal Opal object.
@@ -90,7 +108,10 @@ opal.token_r_create <- function(opal, name, projects = NULL, access = NULL, comm
   token
 }
 
-#' Create a personal access token for Datashield usage
+#' Create a personal access token for Datashield usage. Like for the other token functions, 
+#' this operation requires the user to authenticate with username/password credentials.
+#' 
+#' @title Create a personal access token for Datashield usage
 #' 
 #' @family token functions
 #' @param opal Opal object.
@@ -111,7 +132,10 @@ opal.token_datashield_create <- function(opal, name, projects = NULL) {
   token
 }
 
-#' Create a personal access token for SQL usage
+#' Create a personal access token for SQL usage. Like for the other token functions, 
+#' this operation requires the user to authenticate with username/password credentials.
+#' 
+#' @title Create a personal access token for SQL usage
 #' 
 #' @family token functions
 #' @param opal Opal object.
@@ -132,7 +156,10 @@ opal.token_sql_create <- function(opal, name, projects = NULL) {
   token
 }
 
-#' Get a personal access token
+#' Get a personal access token details. Like for the other token functions, 
+#' this operation requires the user to authenticate with username/password credentials.
+#' 
+#' @title Get a personal access token
 #' 
 #' @family token functions
 #' @param opal Opal object.
@@ -153,7 +180,10 @@ opal.token <- function(opal, name) {
     NULL
 }
 
-#' Delete a personal access token
+#' Delete a personal access token permanently. Like for the other token functions, 
+#' this operation requires the user to authenticate with username/password credentials.
+#' 
+#' @title Delete a personal access token
 #' 
 #' @family token functions
 #' @param opal Opal object.
@@ -167,6 +197,25 @@ opal.token <- function(opal, name) {
 #' @export
 opal.token_delete <- function(opal, name) {
   ignore <- tryCatch(opal.delete(opal, "system", "subject-token", "_current", "token", name))
+}
+
+#' Renew an inactive personal access token after it has been marked as being inactive. Like for the other token functions, 
+#' this operation requires the user to authenticate with username/password credentials.
+#' 
+#' @title Renew an inactive personal access token
+#' 
+#' @family token functions
+#' @param opal Opal object.
+#' @param name Name of the token
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.token_renew(o, 'sql-1')
+#' opal.logout(o)
+#' }
+#' @export
+opal.token_renew <- function(opal, name) {
+  ignore <- tryCatch(opal.put(opal, "system", "subject-token", "_current", "token", name, "_renew"))
 }
 
 #' @keywords internal
