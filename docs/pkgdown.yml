@@ -1,10 +1,10 @@
 pandoc: 2.11.4
-pkgdown: 1.6.1
+pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   datashield-admin: datashield-admin.html
   opal-files: opal-files.html
   opal-projects: opal-projects.html
   opal-rsession: opal-rsession.html
-last_built: 2021-07-05T09:51Z
+last_built: 2022-05-02T13:43Z
 
