@@ -575,13 +575,18 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   class(opal) <- "opal"
   
   # get user profile to test sign-in
-  r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token), handle = opal$handle, .verbose())
+  profileUrl <- .url(opal, "system", "subject-profile", "_current")
+  r <- GET(profileUrl, config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token), handle = opal$handle, .verbose())
   if (httr::status_code(r) == 401) {
     headers <- httr::headers(r)
-    if (headers[tolower('WWW-Authenticate')] == 'X-Opal-TOTP') {
+    optHeader <- headers[tolower('WWW-Authenticate')]
+    if (optHeader == 'X-Opal-TOTP' || optHeader == 'X-Obiba-TOTP') {
       # TOTP code is required
       code <- readline(prompt = 'Enter 6-digits code: ')
-      r <- GET(.url(opal, "system", "subject-profile", "_current"), config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token, 'X-Opal-TOTP' = code), handle = opal$handle, .verbose())
+      if (optHeader == 'X-Opal-TOTP')
+        r <- GET(profileUrl, config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token, 'X-Opal-TOTP' = code), handle = opal$handle, .verbose())
+      else
+        r <- GET(profileUrl, config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token, 'X-Obiba-TOTP' = code), handle = opal$handle, .verbose())
     }
   }
   opal$uprofile <- .handleResponse(opal, r)
