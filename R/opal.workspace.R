@@ -105,3 +105,26 @@ opal.workspace_save <- function(opal, save=TRUE) {
     invisible(saveId)
   }
 }
+
+#' Restore a R workspace from a opal.
+#' 
+#' @family workspace functions
+#' @param opal Opal object.
+#' @param ws The workspace name
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.workspace_restore(o, 'test')
+#' opal.logout(o)
+#' }
+#' @export
+opal.workspace_restore <- function(opal, ws) {
+  if (!is.na(opal$version) && opal.version_compare(opal,"4.5")<0) {
+    warning("Workspace restore is not available for opal ", opal$version, " (4.5.0 or higher is required)")
+  } else {
+    if (length(ws) == 0) {
+      stop("Workspace name is missing or empty.")
+    }
+    ignore <- opal.put(opal, "r", "session", opal$rid, "workspace", ws)  
+  }
+}
