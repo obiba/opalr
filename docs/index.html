@@ -28,6 +28,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,23 +42,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">opalr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.3.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -79,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/obiba/opalr/">
+  <a href="https://github.com/obiba/opalr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -96,95 +92,105 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="opal-r" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#opal-r" class="anchor"></a>Opal R</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="opal-r">Opal R<a class="anchor" aria-label="anchor" href="#opal-r"></a>
+</h1></div>
 
-<p>Opal R Client for the <a href="https://www.obiba.org/pages/products/opal/">Opal</a> data warehouse. Most of the web services of Opal can be reached by an <code>opalr</code> function: import/export, data dictionaries, projects, tables, resources, permissions, users, DataSHIELD profiles etc.</p>
-<p>See <a href="https://www.obiba.org/opalr/">opalr documentation</a>.</p>
+<p>Opal R Client for the <a href="https://www.obiba.org/pages/products/opal/" class="external-link">Opal</a> data warehouse. Most of the web services of Opal can be reached by an <code>opalr</code> function: import/export, data dictionaries, projects, tables, resources, permissions, users, DataSHIELD profiles etc.</p>
+<p>See <a href="https://www.obiba.org/opalr/" class="external-link">opalr documentation</a>.</p>
 <p>Installation:</p>
-<pre><code><a href="https://rdrr.io/r/utils/install.packages.html"># install from CRAN
-install.packages("opalr")
+<pre><code><span class="co"># install from CRAN</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"opalr"</span><span class="op">)</span>
 
-# or install latest development version
-remotes::install_github("obiba/opalr")</a></code></pre>
+<span class="co"># or install latest development version</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"obiba/opalr"</span><span class="op">)</span></code></pre>
 <p>Basic usage:</p>
-<pre><code><a href="https://github.com/obiba/opalr/">library(opalr)
-o &lt;- opal.login('administrator', 'password', url = 'https://opal-demo.obiba.org')
+<pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obiba/opalr/" class="external-link">opalr</a></span><span class="op">)</span>
+<span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>, <span class="st">'password'</span>, url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span>
 
-# assign a table (as a data.frame) to a R symbol
-opal.assign(o, 'D', 'CNSIM.CNSIM1')
+<span class="co"># assign a table (as a data.frame) to a R symbol</span>
+<span class="fu"><a href="reference/opal.assign.html">opal.assign</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'D'</span>, <span class="st">'CNSIM.CNSIM1'</span><span class="op">)</span>
 
-# perform R operations on the server side
-opal.execute(o, 'summary(D$GENDER)')
-opal.execute(o, 'summary(D$LAB_GLUC)')
+<span class="co"># perform R operations on the server side</span>
+<span class="fu"><a href="reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'summary(D$GENDER)'</span><span class="op">)</span>
+<span class="fu"><a href="reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'summary(D$LAB_GLUC)'</span><span class="op">)</span>
 
-opal.logout(o)</a></code></pre>
-<div id="cookbooks" class="section level2">
-<h2 class="hasAnchor">
-<a href="#cookbooks" class="anchor"></a>Cookbooks</h2>
+<span class="fu"><a href="reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre>
+<div class="section level2">
+<h2 id="cookbooks">Cookbooks<a class="anchor" aria-label="anchor" href="#cookbooks"></a>
+</h2>
 <ul>
-<li>How to perform <a href="https://www.obiba.org/opalr/articles/datashield-admin.html">DataSHIELD Administration</a>
+<li>How to perform <a href="https://www.obiba.org/opalr/articles/datashield-admin.html" class="external-link">DataSHIELD Administration</a>
 </li>
-<li>How to manage <a href="https://www.obiba.org/opalr/articles/opal-files.html">Opal Files</a>
+<li>How to manage <a href="https://www.obiba.org/opalr/articles/opal-files.html" class="external-link">Opal Files</a>
 </li>
-<li>How to manage <a href="https://www.obiba.org/opalr/articles/opal-projects.html">Opal Projects</a>
+<li>How to manage <a href="https://www.obiba.org/opalr/articles/opal-projects.html" class="external-link">Opal Projects</a>
 </li>
-<li>How to interact with an <a href="https://www.obiba.org/opalr/articles/opal-rsession.html">Opal R Session</a>
+<li>How to interact with an <a href="https://www.obiba.org/opalr/articles/opal-rsession.html" class="external-link">Opal R Session</a>
 </li>
 </ul>
 </div>
-<div id="datashield-client" class="section level2">
-<h2 class="hasAnchor">
-<a href="#datashield-client" class="anchor"></a>DataSHIELD Client</h2>
-<p>See the <a href="https://datashield.github.io/DSOpal/">DSOpal</a> documentation.</p>
+<div class="section level2">
+<h2 id="datashield-client">DataSHIELD Client<a class="anchor" aria-label="anchor" href="#datashield-client"></a>
+</h2>
+<p>See the <a href="https://datashield.github.io/DSOpal/" class="external-link">DSOpal</a> documentation.</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=opalr">https://​cloud.r-project.org/​package=opalr</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/obiba/opalr/">https://​github.com/​obiba/​opalr/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/obiba/opalr/issues/">https://​github.com/​obiba/​opalr/​issues/​</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Yannick Marcon <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-0138-2023" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://cloud.r-project.org/package=opalr" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/obiba/opalr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/obiba/opalr/issues/" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.com/obiba/opalr"><img src="https://travis-ci.com/obiba/opalr.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://cran.r-project.org/package=opalr"><img src="http://www.r-pkg.org/badges/version/opalr" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing opalr</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Yannick Marcon <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-0138-2023" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://app.travis-ci.com/github/obiba/opalr" class="external-link"><img src="https://app.travis-ci.com/obiba/opalr.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://cran.r-project.org/package=opalr" class="external-link"><img src="http://www.r-pkg.org/badges/version/opalr" alt="CRAN_Status_Badge"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Yannick Marcon.</p>
+  <p></p>
+<p>Developed by Yannick Marcon.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -192,6 +198,8 @@ opal.logout(o)</a></code></pre>
 
   
 
+
+  
 
   </body>
 </html>
