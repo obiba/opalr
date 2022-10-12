@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">opalr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.2.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -70,7 +66,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/obiba/opalr/">
+  <a href="https://github.com/obiba/opalr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -85,22 +81,22 @@
 
       
 
-      </header><script src="opal-projects_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Opal Projects</h1>
-                        <h4 class="author">Yannick Marcon</h4>
+                        <h4 data-toc-skip class="author">Yannick Marcon</h4>
             
-            <h4 class="date">2021-07-05</h4>
+            <h4 data-toc-skip class="date">2022-10-12</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/obiba/opalr/blob/master/vignettes/opal-projects.Rmd"><code>vignettes/opal-projects.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/obiba/opalr/blob/HEAD/vignettes/opal-projects.Rmd" class="external-link"><code>vignettes/opal-projects.Rmd</code></a></small>
       <div class="hidden name"><code>opal-projects.Rmd</code></div>
 
     </div>
 
     
     
-<p><a href="https://www.obiba.org/pages/products/opal/">Opal</a> stores data and meta-data (dictionaries) in projects that are accessible through web services. See the <a href="http://opaldoc.obiba.org/en/latest/variables-data.html">Variables and Data</a> documentation page that explains the data model of Opal. See also the <a href="https://opaldoc.obiba.org/en/latest/resources.html">Resources</a> documentation for an alternate way of accessing data in a project.</p>
+<p><a href="https://www.obiba.org/pages/products/opal/" class="external-link">Opal</a> stores data and meta-data (dictionaries) in projects that are accessible through web services. See the <a href="http://opaldoc.obiba.org/en/latest/variables-data.html" class="external-link">Variables and Data</a> documentation page that explains the data model of Opal. See also the <a href="https://opaldoc.obiba.org/en/latest/resources.html" class="external-link">Resources</a> documentation for an alternate way of accessing data in a project.</p>
 <p>The Opal R package exposes projects related functions:</p>
 <ul>
 <li>list projects,</li>
@@ -110,17 +106,17 @@
 <li>and functions for getting all associated details (of a project, a table, a variable etc.) …</li>
 </ul>
 <p>Note that these functions do not create a R session on the server side: it is only accessing the content of the Opal server (permission checks apply).</p>
-<div id="setup" class="section level2">
-<h2 class="hasAnchor">
-<a href="#setup" class="anchor"></a>Setup</h2>
+<div class="section level2">
+<h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h2>
 <p>Setup the connection with Opal:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obiba/opalr/">opalr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obiba/opalr/" class="external-link">opalr</a></span><span class="op">)</span>
 <span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">"administrator"</span>, <span class="st">"password"</span>, url <span class="op">=</span> <span class="st">"https://opal-demo.obiba.org"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="project" class="section level2">
-<h2 class="hasAnchor">
-<a href="#project" class="anchor"></a>Project</h2>
+<div class="section level2">
+<h2 id="project">Project<a class="anchor" aria-label="anchor" href="#project"></a>
+</h2>
 <p>List the projects:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.projects.html">opal.projects</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
@@ -130,9 +126,9 @@
   <span class="fu"><a href="../reference/opal.project_delete.html">opal.project_delete</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"dummy"</span><span class="op">)</span>  
 <span class="fu"><a href="../reference/opal.project_create.html">opal.project_create</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"dummy"</span>, database <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="../reference/opal.project.html">opal.project</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"dummy"</span><span class="op">)</span></code></pre></div>
-<div id="backup-and-restore" class="section level3">
-<h3 class="hasAnchor">
-<a href="#backup-and-restore" class="anchor"></a>Backup and Restore</h3>
+<div class="section level3">
+<h3 id="backup-and-restore">Backup and Restore<a class="anchor" aria-label="anchor" href="#backup-and-restore"></a>
+</h3>
 <p>Backup a project and download the backup archive (encrypted):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.project_backup.html">opal.project_backup</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'CNSIM'</span>, <span class="st">'/home/administrator/backup/CNSIM'</span><span class="op">)</span>
@@ -145,9 +141,9 @@
 <span class="fu"><a href="../reference/opal.tables.html">opal.tables</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="tables" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tables" class="anchor"></a>Tables</h2>
+<div class="section level2">
+<h2 id="tables">Tables<a class="anchor" aria-label="anchor" href="#tables"></a>
+</h2>
 <p>In Opal there are two kinds of tables:</p>
 <ul>
 <li>raw tables, which data are stored in a database,</li>
@@ -170,10 +166,10 @@
 <code class="sourceCode R"><span class="co"># drop table if it exists</span>
 <span class="fu"><a href="../reference/opal.table_delete.html">opal.table_delete</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span><span class="op">)</span>
 <span class="co"># then create a view, no variables</span>
-<span class="fu"><a href="../reference/opal.table_create.html">opal.table_create</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>, tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CNSIM.CNSIM1"</span>, <span class="st">"CNSIM.CNSIM2"</span>, <span class="st">"CNSIM.CNSIM3"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div id="dictionaries" class="section level3">
-<h3 class="hasAnchor">
-<a href="#dictionaries" class="anchor"></a>Dictionaries</h3>
+<span class="fu"><a href="../reference/opal.table_create.html">opal.table_create</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>, tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNSIM.CNSIM1"</span>, <span class="st">"CNSIM.CNSIM2"</span>, <span class="st">"CNSIM.CNSIM3"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="section level3">
+<h3 id="dictionaries">Dictionaries<a class="anchor" aria-label="anchor" href="#dictionaries"></a>
+</h3>
 <p>List the variables of a table and get the details of the variable annotations (one column per variable attribute with namespace). This is a summary dictionary, as it includes the concatenated category properties:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.variables.html">opal.variables</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM1"</span><span class="op">)</span></code></pre></div>
@@ -184,7 +180,7 @@
 <span class="va">dico</span><span class="op">$</span><span class="va">categories</span></code></pre></div>
 <p>Here we modify the data dictionary by appending a derivation script to each of the variables:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dico</span><span class="op">$</span><span class="va">variables</span><span class="op">$</span><span class="va">script</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"$('"</span>, <span class="va">dico</span><span class="op">$</span><span class="va">variables</span><span class="op">$</span><span class="va">name</span>, <span class="st">"')"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">dico</span><span class="op">$</span><span class="va">variables</span><span class="op">$</span><span class="va">script</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"$('"</span>, <span class="va">dico</span><span class="op">$</span><span class="va">variables</span><span class="op">$</span><span class="va">name</span>, <span class="st">"')"</span><span class="op">)</span>
 <span class="va">dico</span><span class="op">$</span><span class="va">variables</span></code></pre></div>
 <p>Then we apply this derived variables dictionary to the view we have previously created and verify the counts of columns (variables) and rows (entities) in this table:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -195,9 +191,9 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.assign.html">opal.assign</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"D"</span>, <span class="st">"CNSIM.CNSIM123"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"summary(D)"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="values" class="section level3">
-<h3 class="hasAnchor">
-<a href="#values" class="anchor"></a>Values</h3>
+<div class="section level3">
+<h3 id="values">Values<a class="anchor" aria-label="anchor" href="#values"></a>
+</h3>
 <p>Get the values in a table for a specific Participant entity:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.valueset.html">opal.valueset</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>, identifier <span class="op">=</span> <span class="st">"1454"</span><span class="op">)</span></code></pre></div>
@@ -209,11 +205,11 @@
 <p>Then do some alterations on this data.frame and save it back as a raw table:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># make sure IDs are unique</span>
-<span class="va">cnsim1</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">cnsim1</span><span class="op">$</span><span class="va">id</span>, <span class="st">"-1"</span><span class="op">)</span>
-<span class="va">cnsim2</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">cnsim2</span><span class="op">$</span><span class="va">id</span>, <span class="st">"-2"</span><span class="op">)</span>
-<span class="va">cnsim3</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">cnsim3</span><span class="op">$</span><span class="va">id</span>, <span class="st">"-3"</span><span class="op">)</span>
+<span class="va">cnsim1</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">cnsim1</span><span class="op">$</span><span class="va">id</span>, <span class="st">"-1"</span><span class="op">)</span>
+<span class="va">cnsim2</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">cnsim2</span><span class="op">$</span><span class="va">id</span>, <span class="st">"-2"</span><span class="op">)</span>
+<span class="va">cnsim3</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">cnsim3</span><span class="op">$</span><span class="va">id</span>, <span class="st">"-3"</span><span class="op">)</span>
 <span class="co"># bind tables</span>
-<span class="va">cnsim123</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">cnsim1</span>, <span class="va">cnsim2</span>, <span class="va">cnsim3</span><span class="op">)</span>
+<span class="va">cnsim123</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">cnsim1</span>, <span class="va">cnsim2</span>, <span class="va">cnsim3</span><span class="op">)</span>
 <span class="co"># remove some columns</span>
 <span class="va">cnsim123</span><span class="op">$</span><span class="va">DIS_AMI</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
 <span class="va">cnsim123</span><span class="op">$</span><span class="va">DIS_CVA</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
@@ -229,10 +225,10 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.table_truncate.html">opal.table_truncate</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/opal.table.html">opal.table</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM"</span>, counts <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="annotations" class="section level3">
-<h3 class="hasAnchor">
-<a href="#annotations" class="anchor"></a>Annotations</h3>
-<p>Variables can be described by <a href="https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html">taxonomy terms</a>.</p>
+<div class="section level3">
+<h3 id="annotations">Annotations<a class="anchor" aria-label="anchor" href="#annotations"></a>
+</h3>
+<p>Variables can be described by <a href="https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html" class="external-link">taxonomy terms</a>.</p>
 <p>List the taxonomies:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.taxonomies.html">opal.taxonomies</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
@@ -244,7 +240,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.terms.html">opal.terms</a></span><span class="op">(</span><span class="va">o</span>, taxonomy <span class="op">=</span> <span class="st">"Mlstr_area"</span>, vocabulary <span class="op">=</span> <span class="st">"Lifestyle_behaviours"</span><span class="op">)</span></code></pre></div>
 <p>To apply a taxonomy term to a table dictionary, use the following for batch annotation:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">annotations</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">annotations</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
   <span class="op">~</span><span class="va">variable</span>, <span class="op">~</span><span class="va">taxonomy</span>, <span class="op">~</span><span class="va">vocabulary</span>, <span class="op">~</span><span class="va">term</span>,
   <span class="st">"LAB_TSC"</span>, <span class="st">"Mlstr_area"</span>, <span class="st">"Physical_measures"</span>, <span class="st">"Physical_characteristics"</span>,
   <span class="st">"LAB_TRIG"</span>, <span class="st">"Mlstr_area"</span>, <span class="st">"Physical_measures"</span>, <span class="st">"Physical_characteristics"</span>,
@@ -257,9 +253,9 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.annotations.html">opal.annotations</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="resources" class="section level2">
-<h2 class="hasAnchor">
-<a href="#resources" class="anchor"></a>Resources</h2>
+<div class="section level2">
+<h2 id="resources">Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
+</h2>
 <p>Resources are an alternative way of accessing data or computation systems. In a project are stored references to resources, i.e. how to build a resource object in R and the permissions to use this resource.</p>
 <p>To list the resource references:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
@@ -278,20 +274,20 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.resource_get.html">opal.resource_get</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"CNSIM4"</span><span class="op">)</span></code></pre></div>
 <p>Depending on the nature of the resource, it may be possible to coerce it to a data.frame in the client side:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">resourcer</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/opal.resource_get.html">opal.resource_get</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"CNSIM4"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">resourcer</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/opal.resource_get.html">opal.resource_get</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"CNSIM4"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The same operation can be done on the R server side:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># assign the resource object</span>
 <span class="fu"><a href="../reference/opal.assign.resource.html">opal.assign.resource</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"rsrc"</span>, <span class="st">"RSRC.CNSIM4"</span><span class="op">)</span>
 <span class="co"># coerce it to a data.frame</span>
-<span class="fu"><a href="../reference/opal.assign.script.html">opal.assign.script</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"D"</span>, <span class="fu"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">rsrc</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/opal.assign.script.html">opal.assign.script</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"D"</span>, <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">rsrc</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># get some summary statistics</span>
 <span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"summary(as.factor(D$GENDER))"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="permissions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#permissions" class="anchor"></a>Permissions</h2>
+<div class="section level2">
+<h2 id="permissions">Permissions<a class="anchor" aria-label="anchor" href="#permissions"></a>
+</h2>
 <p>Permissions can be managed (list, add, delete) at different levels:</p>
 <ul>
 <li>project: <code><a href="../reference/opal.project_perm.html">opal.project_perm()</a></code>,</li>
@@ -301,9 +297,9 @@
 <li>resource: <code><a href="../reference/opal.resource_perm.html">opal.resource_perm()</a></code>.</li>
 </ul>
 </div>
-<div id="teardown" class="section level2">
-<h2 class="hasAnchor">
-<a href="#teardown" class="anchor"></a>Teardown</h2>
+<div class="section level2">
+<h2 id="teardown">Teardown<a class="anchor" aria-label="anchor" href="#teardown"></a>
+</h2>
 <p>Good practice is to free server resources by sending a logout request:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
@@ -321,11 +317,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Yannick Marcon.</p>
+  <p></p>
+<p>Developed by Yannick Marcon.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -333,6 +331,8 @@
 
   
 
+
+  
 
   </body>
 </html>
