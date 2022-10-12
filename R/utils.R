@@ -157,6 +157,17 @@
 }
 
 #' @keywords internal
+.mergeCharVectors <- function(left, right) {
+  for (i in 1:max(length(left), length(right))) {
+    oval <- ifelse(i>length(left), NA, left[i])
+    nval <- ifelse(i>length(right), NA, right[i])
+    if (!is.na(nval))
+      left[i] <- ifelse(is.na(oval), nval, paste0(oval, " | ", nval)) 
+  }
+  left
+}
+
+#' @keywords internal
 .splitAttributeKey <- function(key) {
   str <- strsplit(key, ":")[[1]]
   namespace <- NULL

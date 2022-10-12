@@ -42,8 +42,10 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
     if (is.null(rval)) {
       rval <- list()
       rval[[name]] <- value
-    } else {
+    } else if (is.null(rval[[name]])) {
       rval[[name]] <- value
+    } else {
+      rval[[name]] <- paste0(rval[[name]], " | ", value)
     }
     rval
   }
@@ -102,7 +104,7 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
             if (is.null(names(labels))) {
               names(labels) <- localizedValue(n, varcats[[n]])
             } else {
-              warning("Multilang labels are not supported yet")
+              names(labels) <- .mergeCharVectors(names(labels), localizedValue(n, varcats[[n]])) 
             }
           } else if (n == "missing") {
             missings <- as.logical(sapply(varcats[[n]], .as.zeroOne))
