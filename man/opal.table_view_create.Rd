@@ -48,6 +48,7 @@ Other table functions:
 \code{\link{opal.table_perm_delete}()},
 \code{\link{opal.table_perm}()},
 \code{\link{opal.table_save}()},
-\code{\link{opal.table_truncate}()}
+\code{\link{opal.table_truncate}()},
+\code{\link{opal.table_view_update}()}
 }
 \concept{table functions}

@@ -214,6 +214,35 @@ opal.table_view_create <- function(opal, project, table, tables, type = "Partici
   }
 }
 
+#' Update the table references of an Opal view
+#'
+#' Update the table references of an existing Opal view. The view
+#' dictionary will NOT be modified (use \link{opal.table_dictionary_update} to
+#' apply a dictionary).
+#'
+#' @family table functions
+#' @param opal Opal connection object.
+#' @param project Project name where the table will be located.
+#' @param table Table name to be created
+#' @param tables List of the fully qualified table names that are referred by the view.
+#' @examples
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' # make a view
+#' opal.table_view_create(o, "CNSIM", "CNSIM123",
+#'                        c("CNSIM.CNSIM1"))
+#' # update the table references
+#' opal.table_view_update(o, "CNSIM", "CNSIM123",
+#'                        c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
+#' opal.logout(o)
+#' }
+#' @export
+opal.table_view_update <- function(opal, project, table, tables) {
+  view <- opal.get(opal, "datasource", project, "view", table)
+  view$from <- tables
+  ignore <- opal.put(opal, "datasource", project, "view", table, body = jsonlite::toJSON(view, auto_unbox = TRUE), contentType = "application/json")
+}
+
 #' Truncate a Opal table
 #'
 #' Removes the values of a table and keep the dictionary untouched. Fails if the table does
