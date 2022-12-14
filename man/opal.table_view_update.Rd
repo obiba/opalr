@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.table.R
 \name{opal.table_view_update}
 \alias{opal.table_view_update}
-\title{Update the table references of an Opal view}
+\title{Update the table references and the entity filter of an Opal view}
 \usage{
 opal.table_view_update(opal, project, table, tables = NULL, where = NULL)
 }
@@ -18,7 +18,7 @@ opal.table_view_update(opal, project, table, tables = NULL, where = NULL)
 \item{where}{The entity filter script. Not modified when NULL (default). To remove the filter, set an empty string.}
 }
 \description{
-Update the table references of an existing Opal view. The view
+Update the table references and/or the entity filter of an existing Opal view. The view
 dictionary will NOT be modified (use \link{opal.table_dictionary_update} to
 apply a dictionary).
 }
@@ -28,9 +28,21 @@ o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # make a view
 opal.table_view_create(o, "CNSIM", "CNSIM123",
                        c("CNSIM.CNSIM1"))
+
 # update the table references
 opal.table_view_update(o, "CNSIM", "CNSIM123",
-                       c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
+                       tables = c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
+
+# update the entity filter
+opal.table_view_update(o, "CNSIM", "CNSIM123", where = "$('LAB_TSC').ge(5)")
+
+# remove the entity filter
+opal.table_view_update(o, "CNSIM", "CNSIM123", where = "")
+
+# update both the table references and the entity filter
+opal.table_view_update(o, "CNSIM", "CNSIM123",
+                       tables = c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"),
+                       where = "$('LAB_TSC').ge(5)")
 opal.logout(o)
 }
 }
