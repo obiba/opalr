@@ -223,8 +223,9 @@ opal.table_view_create <- function(opal, project, table, tables, type = "Partici
 #' @family table functions
 #' @param opal Opal connection object.
 #' @param project Project name where the table will be located.
-#' @param table Table name to be created
-#' @param tables List of the fully qualified table names that are referred by the view.
+#' @param table Table name to be created.
+#' @param tables List of the fully qualified table names that are referred by the view. Not modified when NULL (default).
+#' @param where The entity filter script. Not modified when NULL (default). To remove the filter, set an empty string.
 #' @examples
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -237,9 +238,18 @@ opal.table_view_create <- function(opal, project, table, tables, type = "Partici
 #' opal.logout(o)
 #' }
 #' @export
-opal.table_view_update <- function(opal, project, table, tables) {
+opal.table_view_update <- function(opal, project, table, tables = NULL, where = NULL) {
   view <- opal.get(opal, "datasource", project, "view", table)
-  view$from <- tables
+  if (!is.null(tables)) {
+    view$from <- tables  
+  }
+  if (!is.null(where)) {
+    if (nchar(where) == 0) {
+      view$where <- NULL
+    } else {
+      view$where <- where  
+    }
+  }
   ignore <- opal.put(opal, "datasource", project, "view", table, body = jsonlite::toJSON(view, auto_unbox = TRUE), contentType = "application/json")
 }
 

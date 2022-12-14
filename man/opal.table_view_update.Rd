@@ -4,30 +4,32 @@
 \alias{opal.table_view_update}
 \title{Update the table references of an Opal view}
 \usage{
-opal.table_view_update(opal, project, table, tables)
+opal.table_view_update(opal, project, table, tables = NULL, where = NULL)
 }
 \arguments{
 \item{opal}{Opal connection object.}
 
 \item{project}{Project name where the table will be located.}
 
-\item{table}{Table name to be created}
+\item{table}{Table name to be created.}
 
-\item{tables}{List of the fully qualified table names that are referred by the view.}
+\item{tables}{List of the fully qualified table names that are referred by the view. Not modified when NULL (default).}
+
+\item{where}{The entity filter script. Not modified when NULL (default). To remove the filter, set an empty string.}
 }
 \description{
 Update the table references of an existing Opal view. The view
-dictionary will NOT be modified (use \link{opal.table_dictionary_update} to 
+dictionary will NOT be modified (use \link{opal.table_dictionary_update} to
 apply a dictionary).
 }
 \examples{
 \dontrun{
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # make a view
-opal.table_view_create(o, "CNSIM", "CNSIM123", 
+opal.table_view_create(o, "CNSIM", "CNSIM123",
                        c("CNSIM.CNSIM1"))
-# update the table references 
-opal.table_view_update(o, "CNSIM", "CNSIM123", 
+# update the table references
+opal.table_view_update(o, "CNSIM", "CNSIM123",
                        c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3"))
 opal.logout(o)
 }
