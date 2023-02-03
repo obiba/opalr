@@ -85,9 +85,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Opal Files</h1>
-                        <h4 data-toc-skip class="author">Yannick Marcon</h4>
+                        <h4 data-toc-skip class="author">Yannick
+Marcon</h4>
             
-            <h4 data-toc-skip class="date">2022-10-12</h4>
+            <h4 data-toc-skip class="date">2023-02-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/obiba/opalr/blob/HEAD/vignettes/opal-files.Rmd" class="external-link"><code>vignettes/opal-files.Rmd</code></a></small>
       <div class="hidden name"><code>opal-files.Rmd</code></div>
@@ -96,7 +97,9 @@
 
     
     
-<p><a href="https://www.obiba.org/pages/products/opal/" class="external-link">Opal</a> has an internal file system that is accessible through web services. The Opal R package exposes files management related functions:</p>
+<p><a href="https://www.obiba.org/pages/products/opal/" class="external-link">Opal</a> has an
+internal file system that is accessible through web services. The Opal R
+package exposes files management related functions:</p>
 <ul>
 <li>upload a file or folder,</li>
 <li>download a file or folder (optionaly encrypted),</li>
@@ -138,7 +141,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.file_unzip.html">opal.file_unzip</a></span><span class="op">(</span><span class="va">o</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">barDir</span>, <span class="st">"/CNSIM.zip"</span><span class="op">)</span>, <span class="va">barDir</span><span class="op">)</span>
 <span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">out</span><span class="op">)</span></code></pre></div>
-<p>Write a file from the Opal file system into the R server session workspace:</p>
+<p>Write a file from the Opal file system into the R server session
+workspace:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_write.html">opal.file_write</a></span><span class="op">(</span><span class="va">o</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">barDir</span>, <span class="st">"/CNSIM.zip"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"list.files()"</span><span class="op">)</span></code></pre></div>
@@ -150,7 +154,8 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_rm.html">opal.file_rm</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">barDir</span><span class="op">)</span>
 <span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/projects/CNSIM"</span><span class="op">)</span></code></pre></div>
-<p>Good practice is to free server resources by sending a logout request:</p>
+<p>Good practice is to free server resources by sending a logout
+request:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># clean server side</span>
 <span class="fu"><a href="../reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span>
