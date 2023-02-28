@@ -151,7 +151,7 @@ opal.resource_create <- function(opal, project, name, url, description=NULL, for
   parameters$format <- format
   parameters$`_package` <- package
   credentials <- list(identity = identity, secret = secret)
-  credentials$identity <- identity
+  credentials$identifier <- identity
   credentials$secret <- secret
   if (length(credentials)==0) {
     credentials <- NULL
