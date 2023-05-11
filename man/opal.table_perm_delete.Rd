@@ -31,6 +31,7 @@ opal.logout(o)
 }
 \seealso{
 Other table functions: 
+\code{\link{opal.perms}()},
 \code{\link{opal.resource_view_create}()},
 \code{\link{opal.resource_view_reconnect}()},
 \code{\link{opal.table_create}()},
