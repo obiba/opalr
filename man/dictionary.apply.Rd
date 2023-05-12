@@ -4,7 +4,7 @@
 \alias{dictionary.apply}
 \title{Apply the dictionary to a tibble}
 \usage{
-dictionary.apply(tibble, variables, categories = NULL)
+dictionary.apply(tibble, variables, categories = NULL, merge = FALSE)
 }
 \arguments{
 \item{tibble}{Tibble to be decorated.}
@@ -12,6 +12,8 @@ dictionary.apply(tibble, variables, categories = NULL)
 \item{variables}{A data frame with one row per variable (column name) and then one column per property/attribute.}
 
 \item{categories}{A data frame with one row per category (columns variable and name) and then column per property/attribute.}
+
+\item{merge}{Either append attributes to existing ones or replace them. Default is FALSE, for dictionary consistency.}
 }
 \description{
 Apply the dictionary described in a Opal Excel format as attributes of the tibble's columns.
@@ -20,10 +22,10 @@ Apply the dictionary described in a Opal Excel format as attributes of the tibbl
 \dontrun{
 data <- tibble::as_tibble(mtcars)
 variables <- tibble::tribble(
-  ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
-  "mpg", "decimal", "Mpg label",  "Value1", "years", 0, 1,
-  "cyl", "decimal", "Cyl label",  "Value2", "kg/m2", 0, 2,
-  "disp", "decimal", "Disp label", NA, NA, 1, 3
+  ~name, ~valueType, ~`label:en`, ~`label:fr`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
+  "mpg", "decimal", "Mpg label", "Mpg libellé",  "Value1", "years", 0, 1,
+  "cyl", "decimal", "Cyl label", "Cyl libellé",  "Value2", "kg/m2", 0, 2,
+  "disp", "decimal", "Disp label", "Disp libellé", NA, NA, 1, 3
 )
 categories <- tibble::tribble(
   ~variable, ~name, ~missing, ~`label:en`, ~`label:fr`,

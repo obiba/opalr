@@ -15,14 +15,15 @@
 #' @param tibble Tibble to be decorated.
 #' @param variables A data frame with one row per variable (column name) and then one column per property/attribute.
 #' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute.
+#' @param merge Either append attributes to existing ones or replace them. Default is FALSE, for dictionary consistency.
 #' @examples 
 #' \dontrun{
 #' data <- tibble::as_tibble(mtcars)
 #' variables <- tibble::tribble(
-#'   ~name, ~valueType, ~`label:en`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
-#'   "mpg", "decimal", "Mpg label",  "Value1", "years", 0, 1,
-#'   "cyl", "decimal", "Cyl label",  "Value2", "kg/m2", 0, 2,
-#'   "disp", "decimal", "Disp label", NA, NA, 1, 3
+#'   ~name, ~valueType, ~`label:en`, ~`label:fr`,  ~`Namespace::Name`, ~unit, ~repeatable, ~index,
+#'   "mpg", "decimal", "Mpg label", "Mpg libellé",  "Value1", "years", 0, 1,
+#'   "cyl", "decimal", "Cyl label", "Cyl libellé",  "Value2", "kg/m2", 0, 2,
+#'   "disp", "decimal", "Disp label", "Disp libellé", NA, NA, 1, 3
 #' )
 #' categories <- tibble::tribble(
 #'   ~variable, ~name, ~missing, ~`label:en`, ~`label:fr`,
@@ -34,18 +35,20 @@
 #' }
 #' @export
 #' @import labelled
-dictionary.apply <- function(tibble, variables, categories = NULL) {
+dictionary.apply <- function(tibble, variables, categories = NULL, merge = FALSE) {
   tbl <- tibble
   names <- names(tbl)
-  applyAttribute <- function(attrs, name, value) {
+  applyAttribute <- function(attrs, name, value, append = FALSE) {
     rval <- attrs
     if (is.null(rval)) {
       rval <- list()
       rval[[name]] <- value
     } else if (is.null(rval[[name]])) {
       rval[[name]] <- value
-    } else {
+    } else if (isTRUE(append)) {
       rval[[name]] <- paste0(rval[[name]], " | ", value)
+    } else {
+      rval[[name]] <- value
     }
     rval
   }
@@ -93,6 +96,9 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
       tbl[[var$name]] <- naVector(var$valueType)
       tbl <- tibble::as_tibble(tbl)
     }
+    if (isFALSE(merge)) {
+      attributes(tbl[[var$name]]) <- list()
+    }
     # look for categories and apply labels
     if (!is.null(categories)) {
       varcats <- categories[categories$variable == var$name,]
@@ -111,6 +117,9 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
           }
         }
         attrs <- attributes(tbl[[var$name]])
+        if (is.null(attrs)) {
+          attrs <- list()
+        }
         labelled::val_labels(tbl[[var$name]]) <- labels
         attributes(tbl[[var$name]]) <- append(attributes(tbl[[var$name]]), attrs)
         if (any(missings)) {
@@ -122,9 +131,9 @@ dictionary.apply <- function(tibble, variables, categories = NULL) {
     for (n in names(var)) {
       attrs <- attributes(tbl[[var$name]])
       if (startsWith(n, "label")) {
-        attrs <- applyAttribute(attrs, "label", localizedValue(n, var[[n]]))
+        attrs <- applyAttribute(attrs, "label", localizedValue(n, var[[n]]), append = TRUE)
       } else if (startsWith(n, "description")) {
-        attrs <- applyAttribute(attrs, "description", localizedValue(n, var[[n]]))
+        attrs <- applyAttribute(attrs, "description", localizedValue(n, var[[n]]), append = TRUE)
       } else if (n == "valueType") {
         attrs <- applyAttribute(attrs, "opal.value_type", var[[n]])
       } else if (n == "unit") {
