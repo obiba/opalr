@@ -93,7 +93,7 @@ opal.perms <- function(opal, subject, type = "user") {
   if (length(dsProfiles)>0) {
     for (i in 1:length(dsProfiles)) {
       profile <- as.list(dsProfiles[i,])
-      if (profile$restrictedAccess) {
+      if (isTRUE(profile$restrictedAccess)) {
         acls <- opal.get(opal, "datashield", "profile", profile$name, "permissions")
         all_perms <- .append_acls(all_perms, acls, principal = subject)
       }
