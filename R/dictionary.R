@@ -96,7 +96,7 @@ dictionary.apply <- function(tibble, variables, categories = NULL, merge = FALSE
       tbl[[var$name]] <- naVector(var$valueType)
       tbl <- tibble::as_tibble(tbl)
     }
-    if (isFALSE(merge)) {
+    if (base::isFALSE(merge)) {
       attributes(tbl[[var$name]]) <- list()
     }
     # look for categories and apply labels

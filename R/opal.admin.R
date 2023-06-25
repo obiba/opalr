@@ -595,3 +595,104 @@ oadmin.perm <- function(opal) {
 oadmin.perm_delete <- function(opal, subject, type = "user") {
   oadmin.perm_delete(opal, subject, type)
 }
+
+
+#' Get R activity
+#'
+#' Get the recorded R session metrics. 
+#'
+#' @param opal Opal connection object.
+#' @param user Optional user name.
+#' @param profile Optional profile name.
+#' @param from Optional start date.
+#' @param to Optional end date.
+#' @param df Return a data.frame (default is TRUE)
+#' @examples
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' # all sessions metrics
+#' oadmin.activity(o)
+#' # user and profile specific session metrics
+#' oadmin.activity(o, user = 'dsuser', profile = 'default')
+#' # user sessions in a time range
+#' oadmin.activity(o, user = "dsuser", from = "2022-07-01", to = "2023-01-01")
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.activity <- function(opal, user = NULL, profile = NULL, from = NULL, to = NULL, df = TRUE) {
+  if (opal.version_compare(opal,"4.6")<0) {
+    stop("R activity requires Opal 4.6 or higher.")
+  }
+  dtos <- opal.get(opal, "service", "r", "activity", query = list(context = "R", user = user, profile = profile, from = from, to = to))
+  if (df) {
+    n <- length(dtos)
+    profile <- rep(NA, n)
+    user <- rep(NA, n)
+    created <- rep(NA, n)
+    updated <- rep(NA, n)
+    executionTimeMillis <- rep(NA, n)
+    if (n>0) {
+      for (i in 1:n) {
+        profile[i] <- dtos[[i]]$profile
+        user[i] <- dtos[[i]]$user
+        created[i] <- dtos[[i]]$createdDate
+        updated[i] <- dtos[[i]]$updatedDate
+        executionTimeMillis[i] <- dtos[[i]]$executionTimeMillis
+      }
+    }
+    data.frame(profile = profile, user = user, created = created, updated = updated, executionTimeMillis = executionTimeMillis, stringsAsFactors = FALSE)
+  } else {
+    dtos
+  }
+}
+
+#' Get R activity summary
+#'
+#' Get the recorded R session metrics, grouped by profile and user. 
+#'
+#' @param opal Opal connection object.
+#' @param user Optional user name.
+#' @param profile Optional profile name.
+#' @param from Optional start date.
+#' @param to Optional end date.
+#' @param df Return a data.frame (default is TRUE)
+#' @examples
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' # all sessions metrics
+#' oadmin.activity_summary(o)
+#' # user and profile specific session metrics
+#' oadmin.activity_summary(o, user = 'dsuser', profile = 'default')
+#' # user sessions in a time range
+#' oadmin.activity_summary(o, user = "dsuser", from = "2022-07-01", to = "2023-01-01")
+#' opal.logout(o)
+#' }
+#' @export
+oadmin.activity_summary <- function(opal, user = NULL, profile = NULL, from = NULL, to = NULL, df = TRUE) {
+  if (opal.version_compare(opal,"4.6")<0) {
+    stop("DataSHIELD activity requires Opal 4.6 or higher.")
+  }
+  dtos <- opal.get(opal, "service", "r", "activity", "_summary",  query = list(context = "R", user = user, profile = profile, from = from, to = to))
+  if (df) {
+    n <- length(dtos)
+    profile <- rep(NA, n)
+    user <- rep(NA, n)
+    start <- rep(NA, n)
+    end <- rep(NA, n)
+    executionTimeMillis <- rep(NA, n)
+    sessionsCount <- rep(NA, n)
+    if (n>0) {
+      for (i in 1:n) {
+        profile[i] <- dtos[[i]]$profile
+        user[i] <- dtos[[i]]$user
+        start[i] <- dtos[[i]]$start
+        end[i] <- dtos[[i]]$end
+        executionTimeMillis[i] <- dtos[[i]]$executionTimeMillis
+        sessionsCount[i] <- dtos[[i]]$sessionsCount
+      }
+    }
+    data.frame(profile = profile, user = user, start = start, end = end, executionTimeMillis = executionTimeMillis, sessionsCount = sessionsCount, stringsAsFactors = FALSE)
+  } else {
+    dtos
+  }
+}
