@@ -4,10 +4,12 @@
 \alias{dsadmin.log}
 \title{Get DataSHIELD logs}
 \usage{
-dsadmin.log(opal)
+dsadmin.log(opal, all = TRUE)
 }
 \arguments{
 \item{opal}{Opal connection object.}
+
+\item{all}{Get all or only latest log messages.}
 }
 \description{
 The DataSHIELD log is structured as follows:

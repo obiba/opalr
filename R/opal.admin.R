@@ -696,3 +696,63 @@ oadmin.activity_summary <- function(opal, user = NULL, profile = NULL, from = NU
     dtos
   }
 }
+
+#' Get Opal main logs
+#' 
+#' @param opal Opal connection object.
+#' @param all Get all or only latest log messages.
+#' @examples
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.log(o)
+#' opal.logout(o)
+#' }
+#' @export
+#' @import readr
+oadmin.log <- function(opal, all = TRUE) {
+  tmp <- tempfile()
+  opal.get(opal, "system", "log", "opal.log", acceptType = "text/plain", query = list(all = all), outFile = tmp)
+  rval <- readr::read_lines(tmp)
+  unlink(tmp)
+  rval
+}
+
+#' Get Opal REST API logs
+#' 
+#' @param opal Opal connection object.
+#' @param all Get all or only latest log messages.
+#' @examples
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.log_rest(o)
+#' opal.logout(o)
+#' }
+#' @export
+#' @import jsonlite
+oadmin.log_rest <- function(opal, all = TRUE) {
+  tmp <- tempfile()
+  opal.get(opal, "system", "log", "rest.log", acceptType = "text/plain", query = list(all = all), outFile = tmp)
+  rval <- jsonlite::stream_in(file(tmp))
+  unlink(tmp)
+  rval
+}
+
+#' Get Opal SQL API logs
+#' 
+#' @param opal Opal connection object.
+#' @param all Get all or only latest log messages.
+#' @examples
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' oadmin.log_sql(o)
+#' opal.logout(o)
+#' }
+#' @export
+#' @import jsonlite
+oadmin.log_sql <- function(opal, all = TRUE) {
+  tmp <- tempfile()
+  opal.get(opal, "system", "log", "sql.log", acceptType = "text/plain", query = list(all = all), outFile = tmp)
+  rval <- jsonlite::stream_in(file(tmp))
+  unlink(tmp)
+  rval
+}

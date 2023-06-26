@@ -1282,6 +1282,7 @@ dsadmin.activity_summary <- function(opal, user = NULL, profile = NULL, from = N
 #' }
 #' 
 #' @param opal Opal connection object.
+#' @param all Get all or only latest log messages.
 #' @examples
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -1290,7 +1291,10 @@ dsadmin.activity_summary <- function(opal, user = NULL, profile = NULL, from = N
 #' }
 #' @export
 #' @import jsonlite
-dsadmin.log <- function(opal) {
-  logtxt <- opal.get(opal, "system", "log", "datashield.log", acceptType = "text/plain")
-  jsonlite::stream_in(textConnection(logtxt))
+dsadmin.log <- function(opal, all = TRUE) {
+  tmp <- tempfile()
+  opal.get(opal, "system", "log", "datashield.log", acceptType = "text/plain", query = list(all = all), outFile = tmp)
+  rval <- jsonlite::stream_in(file(tmp))
+  unlink(tmp)
+  rval
 }
