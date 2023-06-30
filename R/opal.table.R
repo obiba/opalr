@@ -670,7 +670,7 @@ opal.table_dictionary_get <- function(opal, project, table) {
       if (!is.null(var$attributes)) {
         for (attribute in var$attributes) {
           key <- toAttributeKey(attribute)
-          if (!(key %in% c("class", "labels_names"))) {
+          if (!(key %in% c("class", "labels_names") || startsWith(key, "opal."))) {
             if (!(key %in% names(variables.attributes))) {
               a <- list()
               a[[key]] <- rep(NA, n)

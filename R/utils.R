@@ -264,7 +264,7 @@
     } else {
       varObj$isRepeatable <- jsonlite::unbox(FALSE)
     }
-    if ("occurrenceGroup" %in% varCols && !is.empty(var$occurrenceGroup)) {
+    if ("occurrenceGroup" %in% varCols && !is.empty(var$occurrenceGroup) && isTRUE(nchar(var$occurrenceGroup) > 0)) {
       varObj$occurrenceGroup <- jsonlite::unbox(var$occurrenceGroup)
     }
     if ("index" %in% varCols && !is.empty(var$index)) {

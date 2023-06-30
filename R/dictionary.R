@@ -142,8 +142,8 @@ dictionary.apply <- function(tibble, variables, categories = NULL, merge = FALSE
         attrs <- applyAttribute(attrs, "opal.referenced_entity_type", var[[n]])
       } else if (n == "mimeType") {
         attrs <- applyAttribute(attrs, "opal.mime_type", var[[n]])
-      } else if (n == "occurrenceGroupe") {
-        attrs <- applyAttribute(attrs, "opal.occurrence_group", var[[n]])
+      } else if (n == "occurrenceGroup") {
+        attrs <- applyAttribute(attrs, "opal.occurrence_group", ifelse(isTRUE(nchar(var[[n]]) > 0), var[[n]], NA))
       } else if (n == "repeatable") {
         attrs <- applyAttribute(attrs, "opal.repeatable", .as.zeroOne(var[[n]]))
       } else if (n == "index") {
