@@ -143,7 +143,7 @@ dictionary.apply <- function(tibble, variables, categories = NULL, merge = FALSE
       } else if (n == "mimeType") {
         attrs <- applyAttribute(attrs, "opal.mime_type", var[[n]])
       } else if (n == "occurrenceGroup") {
-        attrs <- applyAttribute(attrs, "opal.occurrence_group", ifelse(isTRUE(nchar(var[[n]]) > 0), var[[n]], NA))
+        attrs <- applyAttribute(attrs, "opal.occurrence_group", as.character(ifelse(isTRUE(nchar(var[[n]]) > 0), var[[n]], NA_character_)))
       } else if (n == "repeatable") {
         attrs <- applyAttribute(attrs, "opal.repeatable", .as.zeroOne(var[[n]]))
       } else if (n == "index") {

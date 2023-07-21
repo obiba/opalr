@@ -637,15 +637,15 @@ opal.table_dictionary_get <- function(opal, project, table) {
   res <- opal.get(opal, "datasource", project, "table", table, "variables")
   n <- length(res)
   if (n > 0) {
-    name <- rep(NA, n)
-    entityType <- rep(NA, n)
-    valueType <- rep(NA, n)
-    unit <- rep(NA, n)
-    referencedEntityType <- rep(NA, n)
-    mimeType <- rep(NA, n)
+    name <- rep(NA_character_, n)
+    entityType <- rep(NA_character_, n)
+    valueType <- rep(NA_character_, n)
+    unit <- rep(NA_character_, n)
+    referencedEntityType <- rep(NA_character_, n)
+    mimeType <- rep(NA_character_, n)
     repeatable <- rep(FALSE, n)
-    occurrenceGroup <- rep(NA, n)
-    index <- rep(NA, n)
+    occurrenceGroup <- rep(NA_character_, n)
+    index <- rep(NA_integer_, n)
     variables.attributes <- list()
     
     categories.variable <- c()
@@ -659,11 +659,11 @@ opal.table_dictionary_get <- function(opal, project, table) {
       name[i] <- var$name
       entityType[i] <- var$entityType
       valueType[i] <- var$valueType
-      unit[i] <- .nullToNA(var$unit)
-      referencedEntityType[i] <- .nullToNA(var$referencedEntityType)
-      mimeType[i] <- .nullToNA(var$mimeType)
+      unit[i] <- as.character(.nullToNA(var$unit))
+      referencedEntityType[i] <- as.character(.nullToNA(var$referencedEntityType))
+      mimeType[i] <- as.character(.nullToNA(var$mimeType))
       repeatable[i] <- ifelse(is.null(var$isRepeatable), FALSE, var$isRepeatable)
-      occurrenceGroup[i] <- .nullToNA(var$occurrenceGroup)
+      occurrenceGroup[i] <- as.character(.nullToNA(var$occurrenceGroup))
       index[i] <- var$index
       
       # read variable's attributes
@@ -696,7 +696,7 @@ opal.table_dictionary_get <- function(opal, project, table) {
               key <- toAttributeKey(attribute)
               if (!(key %in% names(cat.attributes))) {
                 a <- list()
-                a[[key]] <- rep(NA, catn)
+                a[[key]] <- rep(NA_character_, catn)
                 cat.attributes <- append(cat.attributes, a)
               }
               cat.attributes[[key]][j] <- attribute$value

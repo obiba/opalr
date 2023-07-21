@@ -167,22 +167,22 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
   }
   n <- length(res)
   if (n > 0) {
-    name <- rep(NA, n)
+    name <- rep(NA_character_, n)
     ds <- rep(datasource, n)
     tbl <- rep(table, n)
-    label <- rep(NA, n)
-    description <- rep(NA, n)
-    entityType <- rep(NA, n)
-    valueType <- rep(NA, n)
-    unit <- rep(NA, n)
-    referencedEntityType <- rep(NA, n)
-    mimeType <- rep(NA, n)
+    label <- rep(NA_character_, n)
+    description <- rep(NA_character_, n)
+    entityType <- rep(NA_character_, n)
+    valueType <- rep(NA_character_, n)
+    unit <- rep(NA_character_, n)
+    referencedEntityType <- rep(NA_character_, n)
+    mimeType <- rep(NA_character_, n)
     repeatable <- rep(FALSE, n)
-    occurrenceGroup <- rep(NA, n)
-    index <- rep(NA, n)
-    categories <- rep(NA, n)
-    categories.missing <- rep(NA, n)
-    categories.label <- rep(NA, n)
+    occurrenceGroup <- rep(NA_character_, n)
+    index <- rep(NA_integer_, n)
+    categories <- rep(NA_character_, n)
+    categories.missing <- rep(NA_character_, n)
+    categories.label <- rep(NA_character_, n)
     annotations <- list()
     for (i in 1:n) {
       item <- res[[i]]
@@ -205,12 +205,12 @@ opal.variables <- function(opal, datasource, table, locale="en", df=TRUE) {
       }
       entityType[i] <- item$entityType
       valueType[i] <- item$valueType
-      unit[i] <- .nullToNA(item$unit)
-      referencedEntityType[i] <- .nullToNA(item$referencedEntityType)
-      mimeType[i] <- .nullToNA(item$mimeType)
+      unit[i] <- as.character(.nullToNA(item$unit))
+      referencedEntityType[i] <- as.character(.nullToNA(item$referencedEntityType))
+      mimeType[i] <- as.character(.nullToNA(item$mimeType))
       repeatable[i] <- ifelse(is.null(item$repeatable), FALSE, TRUE)
-      occurrenceGroup[i] <- .nullToNA(item$occurrenceGroup)
-      index[i] <- item$index
+      occurrenceGroup[i] <- as.character(.nullToNA(item$occurrenceGroup))
+      index[i] <- as.integer(item$index)
       if (!is.null(item$categories)) {
         categories[i] <- paste0(lapply(item$categories, function(cat) cat$name), collapse = "|")
         categories.missing[i] <- paste0(lapply(item$categories, function(cat) ifelse(cat$isMissing, "T", "F")), collapse = "|")

@@ -239,25 +239,25 @@
   varArray <- list()
   for (i in 1:nrow(vars)) {
     var <- vars[i,]
-    varObj <- list(name=jsonlite::unbox(var$name))
+    varObj <- list(name=jsonlite::unbox(as.character(var$name)))
     if ("valueType" %in% varCols && !is.empty(var$valueType)) {
-      varObj$valueType <- jsonlite::unbox(var$valueType)
+      varObj$valueType <- jsonlite::unbox(as.character(var$valueType))
     } else {
       varObj$valueType <- jsonlite::unbox("text")
     }
     if ("entityType" %in% varCols && !is.empty(var$entityType)) {
-      varObj$entityType <- jsonlite::unbox(var$entityType)
+      varObj$entityType <- jsonlite::unbox(as.character(var$entityType))
     } else {
       varObj$entityType <- jsonlite::unbox("Participant")
     }
     if ("unit" %in% varCols && !is.empty(var$unit)) {
-      varObj$unit <- jsonlite::unbox(var$unit)
+      varObj$unit <- jsonlite::unbox(as.character(var$unit))
     }
     if ("mimeType" %in% varCols && !is.empty(var$mimeType)) {
-      varObj$mimeType <- jsonlite::unbox(var$mimeType)
+      varObj$mimeType <- jsonlite::unbox(as.character(var$mimeType))
     }
     if ("referencedEntityType" %in% varCols && !is.empty(var$referencedEntityType)) {
-      varObj$referencedEntityType <- jsonlite::unbox(var$referencedEntityType)
+      varObj$referencedEntityType <- jsonlite::unbox(as.character(var$referencedEntityType))
     }
     if ("repeatable" %in% varCols && !is.empty(var$repeatable)) {
       varObj$isRepeatable <- jsonlite::unbox(as.logical(.as.zeroOne(var$repeatable)))
@@ -265,7 +265,7 @@
       varObj$isRepeatable <- jsonlite::unbox(FALSE)
     }
     if ("occurrenceGroup" %in% varCols && !is.empty(var$occurrenceGroup) && isTRUE(nchar(var$occurrenceGroup) > 0)) {
-      varObj$occurrenceGroup <- jsonlite::unbox(var$occurrenceGroup)
+      varObj$occurrenceGroup <- jsonlite::unbox(as.character(var$occurrenceGroup))
     }
     if ("index" %in% varCols && !is.empty(var$index)) {
       varObj$index <- jsonlite::unbox(as.numeric(var$index))
