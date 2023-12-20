@@ -95,27 +95,27 @@
 <div class="section level1">
 <div class="page-header"><h1 id="opal-r">Opal R<a class="anchor" aria-label="anchor" href="#opal-r"></a>
 </h1></div>
-
+<p><a href="https://app.travis-ci.com/github/obiba/opalr" class="external-link"><img src="https://app.travis-ci.com/obiba/opalr.svg?branch=master" alt="Build Status"></a> <a href="https://cran.r-project.org/package=opalr" class="external-link"><img src="http://www.r-pkg.org/badges/version/opalr" alt="CRAN_Status_Badge"></a></p>
 <p>Opal R Client for the <a href="https://www.obiba.org/pages/products/opal/" class="external-link">Opal</a> data warehouse. Most of the web services of Opal can be reached by an <code>opalr</code> function: import/export, data dictionaries, projects, tables, resources, permissions, users, DataSHIELD profiles etc.</p>
 <p>See <a href="https://www.obiba.org/opalr/" class="external-link">opalr documentation</a>.</p>
 <p>Installation:</p>
-<pre><code><span class="co"># install from CRAN</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"opalr"</span><span class="op">)</span>
-
-<span class="co"># or install latest development version</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"obiba/opalr"</span><span class="op">)</span></code></pre>
+<pre><code><span><span class="co"># install from CRAN</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"opalr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># or install latest development version</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"obiba/opalr"</span><span class="op">)</span></span></code></pre>
 <p>Basic usage:</p>
-<pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obiba/opalr/" class="external-link">opalr</a></span><span class="op">)</span>
-<span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>, <span class="st">'password'</span>, url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span>
-
-<span class="co"># assign a table (as a data.frame) to a R symbol</span>
-<span class="fu"><a href="reference/opal.assign.html">opal.assign</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'D'</span>, <span class="st">'CNSIM.CNSIM1'</span><span class="op">)</span>
-
-<span class="co"># perform R operations on the server side</span>
-<span class="fu"><a href="reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'summary(D$GENDER)'</span><span class="op">)</span>
-<span class="fu"><a href="reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'summary(D$LAB_GLUC)'</span><span class="op">)</span>
-
-<span class="fu"><a href="reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obiba/opalr/" class="external-link">opalr</a></span><span class="op">)</span></span>
+<span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>, <span class="st">'password'</span>, url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># assign a table (as a data.frame) to a R symbol</span></span>
+<span><span class="fu"><a href="reference/opal.assign.html">opal.assign</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'D'</span>, <span class="st">'CNSIM.CNSIM1'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># perform R operations on the server side</span></span>
+<span><span class="fu"><a href="reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'summary(D$GENDER)'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'summary(D$LAB_GLUC)'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></code></pre>
 <div class="section level2">
 <h2 id="cookbooks">Cookbooks<a class="anchor" aria-label="anchor" href="#cookbooks"></a>
 </h2>
@@ -171,13 +171,7 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://app.travis-ci.com/github/obiba/opalr" class="external-link"><img src="https://app.travis-ci.com/obiba/opalr.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://cran.r-project.org/package=opalr" class="external-link"><img src="http://www.r-pkg.org/badges/version/opalr" alt="CRAN_Status_Badge"></a></li>
-</ul>
-</div>
+
 
   </div>
 </div>
@@ -190,7 +184,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

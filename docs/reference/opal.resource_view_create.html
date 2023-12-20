@@ -73,15 +73,15 @@ initialization time. Use <a href="opal.table_dictionary_update.html">opal.table_
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">opal.resource_view_create</span><span class="op">(</span>
-  <span class="va">opal</span>,
-  <span class="va">project</span>,
-  <span class="va">table</span>,
-  <span class="va">resource</span>,
-  type <span class="op">=</span> <span class="st">"Participant"</span>,
-  idColumn <span class="op">=</span> <span class="cn">NULL</span>,
-  profile <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">opal.resource_view_create</span><span class="op">(</span></span>
+<span>  <span class="va">opal</span>,</span>
+<span>  <span class="va">project</span>,</span>
+<span>  <span class="va">table</span>,</span>
+<span>  <span class="va">resource</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"Participant"</span>,</span>
+<span>  idColumn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  profile <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -119,6 +119,7 @@ resource. If not specifed, the profile will guessed based on the resource defini
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other table functions: 
+<code><a href="opal.perms.html">opal.perms</a>()</code>,
 <code><a href="opal.resource_view_reconnect.html">opal.resource_view_reconnect</a>()</code>,
 <code><a href="opal.table_create.html">opal.table_create</a>()</code>,
 <code><a href="opal.table_delete.html">opal.table_delete</a>()</code>,
@@ -139,14 +140,14 @@ resource. If not specifed, the profile will guessed based on the resource defini
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>,<span class="st">'password'</span>, url<span class="op">=</span><span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># make a view over a resource</span></span>
-<span class="r-in"><span class="fu">opal.resource_view_create</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM4"</span>, resource <span class="op">=</span> <span class="st">"RSRC.CNSIM1"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">opal.resource_view_create</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"FEMALE_2439"</span>, </span>
-<span class="r-in">                          resource <span class="op">=</span> <span class="st">"RSRC.FEMALE_2439"</span>, idColumn <span class="op">=</span> <span class="st">"Name"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>,<span class="st">'password'</span>, url<span class="op">=</span><span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># make a view over a resource</span></span></span>
+<span class="r-in"><span><span class="fu">opal.resource_view_create</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM4"</span>, resource <span class="op">=</span> <span class="st">"RSRC.CNSIM1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">opal.resource_view_create</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"FEMALE_2439"</span>, </span></span>
+<span class="r-in"><span>                          resource <span class="op">=</span> <span class="st">"RSRC.FEMALE_2439"</span>, idColumn <span class="op">=</span> <span class="st">"Name"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -161,7 +162,7 @@ resource. If not specifed, the profile will guessed based on the resource defini
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

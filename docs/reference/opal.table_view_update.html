@@ -73,7 +73,7 @@ apply a dictionary).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">opal.table_view_update</span><span class="op">(</span><span class="va">opal</span>, <span class="va">project</span>, <span class="va">table</span>, tables <span class="op">=</span> <span class="cn">NULL</span>, where <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">opal.table_view_update</span><span class="op">(</span><span class="va">opal</span>, <span class="va">project</span>, <span class="va">table</span>, tables <span class="op">=</span> <span class="cn">NULL</span>, where <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -101,6 +101,7 @@ apply a dictionary).</p>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other table functions: 
+<code><a href="opal.perms.html">opal.perms</a>()</code>,
 <code><a href="opal.resource_view_create.html">opal.resource_view_create</a>()</code>,
 <code><a href="opal.resource_view_reconnect.html">opal.resource_view_reconnect</a>()</code>,
 <code><a href="opal.table_create.html">opal.table_create</a>()</code>,
@@ -121,28 +122,28 @@ apply a dictionary).</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>,<span class="st">'password'</span>, url<span class="op">=</span><span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># make a view</span></span>
-<span class="r-in"><span class="fu"><a href="opal.table_view_create.html">opal.table_view_create</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>,</span>
-<span class="r-in">                       <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNSIM.CNSIM1"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># update the table references</span></span>
-<span class="r-in"><span class="fu">opal.table_view_update</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>,</span>
-<span class="r-in">                       tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNSIM.CNSIM1"</span>, <span class="st">"CNSIM.CNSIM2"</span>, <span class="st">"CNSIM.CNSIM3"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># update the entity filter</span></span>
-<span class="r-in"><span class="fu">opal.table_view_update</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>, where <span class="op">=</span> <span class="st">"$('LAB_TSC').ge(5)"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># remove the entity filter</span></span>
-<span class="r-in"><span class="fu">opal.table_view_update</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>, where <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># update both the table references and the entity filter</span></span>
-<span class="r-in"><span class="fu">opal.table_view_update</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>,</span>
-<span class="r-in">                       tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNSIM.CNSIM1"</span>, <span class="st">"CNSIM.CNSIM2"</span>, <span class="st">"CNSIM.CNSIM3"</span><span class="op">)</span>,</span>
-<span class="r-in">                       where <span class="op">=</span> <span class="st">"$('LAB_TSC').ge(5)"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>,<span class="st">'password'</span>, url<span class="op">=</span><span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># make a view</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.table_view_create.html">opal.table_view_create</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>,</span></span>
+<span class="r-in"><span>                       <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNSIM.CNSIM1"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># update the table references</span></span></span>
+<span class="r-in"><span><span class="fu">opal.table_view_update</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>,</span></span>
+<span class="r-in"><span>                       tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNSIM.CNSIM1"</span>, <span class="st">"CNSIM.CNSIM2"</span>, <span class="st">"CNSIM.CNSIM3"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># update the entity filter</span></span></span>
+<span class="r-in"><span><span class="fu">opal.table_view_update</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>, where <span class="op">=</span> <span class="st">"$('LAB_TSC').ge(5)"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># remove the entity filter</span></span></span>
+<span class="r-in"><span><span class="fu">opal.table_view_update</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>, where <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># update both the table references and the entity filter</span></span></span>
+<span class="r-in"><span><span class="fu">opal.table_view_update</span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM123"</span>,</span></span>
+<span class="r-in"><span>                       tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CNSIM.CNSIM1"</span>, <span class="st">"CNSIM.CNSIM2"</span>, <span class="st">"CNSIM.CNSIM3"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                       where <span class="op">=</span> <span class="st">"$('LAB_TSC').ge(5)"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -157,7 +158,7 @@ apply a dictionary).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

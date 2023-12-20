@@ -124,6 +124,12 @@
     <loc>/reference/dot-verbose.html</loc>
   </url>
   <url>
+    <loc>/reference/dsadmin.activity.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dsadmin.activity_summary.html</loc>
+  </url>
+  <url>
     <loc>/reference/dsadmin.get_method.html</loc>
   </url>
   <url>
@@ -143,6 +149,9 @@
   </url>
   <url>
     <loc>/reference/dsadmin.installed_package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dsadmin.log.html</loc>
   </url>
   <url>
     <loc>/reference/dsadmin.package_description.html</loc>
@@ -232,6 +241,12 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/oadmin.activity.html</loc>
+  </url>
+  <url>
+    <loc>/reference/oadmin.activity_summary.html</loc>
+  </url>
+  <url>
     <loc>/reference/oadmin.install_bioconductor_package.html</loc>
   </url>
   <url>
@@ -257,6 +272,15 @@
   </url>
   <url>
     <loc>/reference/oadmin.installed_packages.html</loc>
+  </url>
+  <url>
+    <loc>/reference/oadmin.log.html</loc>
+  </url>
+  <url>
+    <loc>/reference/oadmin.log_rest.html</loc>
+  </url>
+  <url>
+    <loc>/reference/oadmin.log_sql.html</loc>
   </url>
   <url>
     <loc>/reference/oadmin.package_description.html</loc>
@@ -425,6 +449,9 @@
   </url>
   <url>
     <loc>/reference/opal.logout.html</loc>
+  </url>
+  <url>
+    <loc>/reference/opal.perms.html</loc>
   </url>
   <url>
     <loc>/reference/opal.post.html</loc>

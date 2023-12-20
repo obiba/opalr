@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">Yannick
 Marcon</h4>
             
-            <h4 data-toc-skip class="date">2023-02-03</h4>
+            <h4 data-toc-skip class="date">2023-12-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/obiba/opalr/blob/HEAD/vignettes/datashield-admin.Rmd" class="external-link"><code>vignettes/datashield-admin.Rmd</code></a></small>
       <div class="hidden name"><code>datashield-admin.Rmd</code></div>
@@ -115,8 +115,8 @@ DataSHIELD using the graphical user interface.</p>
 </h2>
 <p>Setup the connection with Opal:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obiba/opalr/" class="external-link">opalr</a></span><span class="op">)</span>
-<span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">"administrator"</span>, <span class="st">"password"</span>, <span class="st">"https://opal-demo.obiba.org"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obiba/opalr/" class="external-link">opalr</a></span><span class="op">)</span></span>
+<span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">"administrator"</span>, <span class="st">"password"</span>, <span class="st">"https://opal-demo.obiba.org"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="r-packages">R Packages<a class="anchor" aria-label="anchor" href="#r-packages"></a>
@@ -127,24 +127,24 @@ identical). See <a href="https://opaldoc.obiba.org/en/latest/admin/rserver.html"
 server documentation</a>.</p>
 <p>List installed DataSHIELD R packages:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.package_descriptions.html">dsadmin.package_descriptions</a></span><span class="op">(</span><span class="va">o</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.package_descriptions.html">dsadmin.package_descriptions</a></span><span class="op">(</span><span class="va">o</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <p>Install a DataSHIELD R package from the configured CRAN repositories
 (most likely the <a href="https://cran.datashield.org/" class="external-link">DataSHIELD
 repo</a>):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.install_package.html">dsadmin.install_package</a></span><span class="op">(</span><span class="va">o</span>, pkg <span class="op">=</span> <span class="st">"dsBase"</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.install_package.html">dsadmin.install_package</a></span><span class="op">(</span><span class="va">o</span>, pkg <span class="op">=</span> <span class="st">"dsBase"</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <p>R packages which source code is one GitHub can be installed
 directly:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.install_github_package.html">dsadmin.install_github_package</a></span><span class="op">(</span><span class="va">o</span>, pkg <span class="op">=</span> <span class="st">"dsSurvival"</span>, username <span class="op">=</span> <span class="st">"neelsoumya"</span>, ref <span class="op">=</span> <span class="st">"v1.0.0"</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.install_github_package.html">dsadmin.install_github_package</a></span><span class="op">(</span><span class="va">o</span>, pkg <span class="op">=</span> <span class="st">"dsSurvival"</span>, username <span class="op">=</span> <span class="st">"neelsoumya"</span>, ref <span class="op">=</span> <span class="st">"v1.0.0"</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <p>When developing a new DataSHIELD R package, it can be built and
 installed as follow (from the root of the R package source
 directory):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.install_local_package.html">dsadmin.install_local_package</a></span><span class="op">(</span><span class="va">o</span>, <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/build.html" class="external-link">build</a></span><span class="op">(</span><span class="op">)</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.install_local_package.html">dsadmin.install_local_package</a></span><span class="op">(</span><span class="va">o</span>, <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/build.html" class="external-link">build</a></span><span class="op">(</span><span class="op">)</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <p>To remove a DataSHIELD R package:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.remove_package.html">dsadmin.remove_package</a></span><span class="op">(</span><span class="va">o</span>, pkg <span class="op">=</span> <span class="st">"dsSurvival"</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.remove_package.html">dsadmin.remove_package</a></span><span class="op">(</span><span class="va">o</span>, pkg <span class="op">=</span> <span class="st">"dsSurvival"</span>, profile <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <p>Note that removing a package does not update the DataSHIELD settings
 of the associated profiles. See the following sections to administrate
 the profiles and their settings.</p>
@@ -164,26 +164,26 @@ functions, and R option values),</li>
 </ul>
 <p>To list the DataSHIELD profiles:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.profiles.html">dsadmin.profiles</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.profiles.html">dsadmin.profiles</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></code></pre></div>
 <p>To create a new DataSHIELD profile, to initialize it the DataSHIELD
 settings as declared by the installed packages and to enable it, use the
 following.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># ensure the profile does not exist</span>
-<span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/dsadmin.profile_exists.html">dsadmin.profile_exists</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span><span class="op">)</span><span class="op">)</span>
-  <span class="fu"><a href="../reference/dsadmin.profile_delete.html">dsadmin.profile_delete</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span><span class="op">)</span>
-<span class="co"># create a profile, disabled</span>
-<span class="fu"><a href="../reference/dsadmin.profile_create.html">dsadmin.profile_create</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span>, cluster <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span>
-<span class="co"># make only dsBase and resourcer packages visible</span>
-<span class="fu"><a href="../reference/dsadmin.profile_init.html">dsadmin.profile_init</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span>, packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dsBase"</span>, <span class="st">"resourcer"</span><span class="op">)</span><span class="op">)</span>
-<span class="co"># ready to be used</span>
-<span class="fu"><a href="../reference/dsadmin.profile_enable.html">dsadmin.profile_enable</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># ensure the profile does not exist</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/dsadmin.profile_exists.html">dsadmin.profile_exists</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/dsadmin.profile_delete.html">dsadmin.profile_delete</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span><span class="op">)</span></span>
+<span><span class="co"># create a profile, disabled</span></span>
+<span><span class="fu"><a href="../reference/dsadmin.profile_create.html">dsadmin.profile_create</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span>, cluster <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span>
+<span><span class="co"># make only dsBase and resourcer packages visible</span></span>
+<span><span class="fu"><a href="../reference/dsadmin.profile_init.html">dsadmin.profile_init</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span>, packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dsBase"</span>, <span class="st">"resourcer"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># ready to be used</span></span>
+<span><span class="fu"><a href="../reference/dsadmin.profile_enable.html">dsadmin.profile_enable</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span><span class="op">)</span></span></code></pre></div>
 <p>When a DataSHIELD R package is installed but should be used only by a
 restricted group of users, proceed as follow:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.profile_perm_add.html">dsadmin.profile_perm_add</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span>, subject <span class="op">=</span> <span class="st">"testers"</span>, type <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span>
-<span class="co"># verify permissions</span>
-<span class="fu"><a href="../reference/dsadmin.profile_perm.html">dsadmin.profile_perm</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.profile_perm_add.html">dsadmin.profile_perm_add</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span>, subject <span class="op">=</span> <span class="st">"testers"</span>, type <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
+<span><span class="co"># verify permissions</span></span>
+<span><span class="fu"><a href="../reference/dsadmin.profile_perm.html">dsadmin.profile_perm</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="settings">Settings<a class="anchor" aria-label="anchor" href="#settings"></a>
@@ -199,25 +199,25 @@ also be amended afterwards.</p>
 mapping to a server side function call.</p>
 <p>To list the aggregation functions:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.get_methods.html">dsadmin.get_methods</a></span><span class="op">(</span><span class="va">o</span>, type <span class="op">=</span> <span class="st">"aggregate"</span>, profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.get_methods.html">dsadmin.get_methods</a></span><span class="op">(</span><span class="va">o</span>, type <span class="op">=</span> <span class="st">"aggregate"</span>, profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span></span></code></pre></div>
 <p>Fully custom settings can be defined (useful for developers).</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.set_method.html">dsadmin.set_method</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"hello"</span>, func <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Hello "</span>, <span class="va">x</span>, <span class="st">"!"</span><span class="op">)</span> <span class="op">}</span>, type <span class="op">=</span> <span class="st">"aggregate"</span>, profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span>
-<span class="co"># verfiy custom method </span>
-<span class="fu"><a href="../reference/dsadmin.get_method.html">dsadmin.get_method</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"hello"</span>, type <span class="op">=</span> <span class="st">"aggregate"</span>, profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.set_method.html">dsadmin.set_method</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"hello"</span>, func <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Hello "</span>, <span class="va">x</span>, <span class="st">"!"</span><span class="op">)</span> <span class="op">}</span>, type <span class="op">=</span> <span class="st">"aggregate"</span>, profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span></span>
+<span><span class="co"># verfiy custom method </span></span>
+<span><span class="fu"><a href="../reference/dsadmin.get_method.html">dsadmin.get_method</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"hello"</span>, type <span class="op">=</span> <span class="st">"aggregate"</span>, profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span></span></code></pre></div>
 <p>A simple test of our custom <code>hello()</code> function would
 be:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/datashield/DSOpal/" class="external-link">DSOpal</a></span><span class="op">)</span>
-<span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>,  url <span class="op">=</span> <span class="st">"https://opal-demo.obiba.org"</span>,
-               user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"password"</span>,
-               profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span>
-<span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span>
-<span class="va">conns</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span><span class="op">)</span>
-<span class="co"># call the hello() function on the R server</span>
-<span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.aggregate.html" class="external-link">datashield.aggregate</a></span><span class="op">(</span><span class="va">conns</span>, expr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu">hello</span><span class="op">(</span><span class="st">'friends'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">conns</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/datashield/DSOpal/" class="external-link">DSOpal</a></span><span class="op">)</span></span>
+<span><span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>,  url <span class="op">=</span> <span class="st">"https://opal-demo.obiba.org"</span>,</span>
+<span>               user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"password"</span>,</span>
+<span>               profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span></span>
+<span><span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">conns</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span><span class="op">)</span></span>
+<span><span class="co"># call the hello() function on the R server</span></span>
+<span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.aggregate.html" class="external-link">datashield.aggregate</a></span><span class="op">(</span><span class="va">conns</span>, expr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu">hello</span><span class="op">(</span><span class="st">'friends'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">conns</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="options">Options<a class="anchor" aria-label="anchor" href="#options"></a>
@@ -225,9 +225,9 @@ be:</p>
 <p>The DataSHIELD R options affects the behaviour of some methods.</p>
 <p>To modify an R option:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.set_option.html">dsadmin.set_option</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"datashield.privacyLevel"</span>, <span class="st">"10"</span>, profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span>
-<span class="co"># verify options</span>
-<span class="fu"><a href="../reference/dsadmin.get_options.html">dsadmin.get_options</a></span><span class="op">(</span><span class="va">o</span>, profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.set_option.html">dsadmin.set_option</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"datashield.privacyLevel"</span>, <span class="st">"10"</span>, profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span></span>
+<span><span class="co"># verify options</span></span>
+<span><span class="fu"><a href="../reference/dsadmin.get_options.html">dsadmin.get_options</a></span><span class="op">(</span><span class="va">o</span>, profile <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="r-parser">R Parser<a class="anchor" aria-label="anchor" href="#r-parser"></a>
@@ -239,7 +239,7 @@ language is allowed). See <a href="https://github.com/obiba/datashield4j/blob/ma
 library documentation</a> for possible values.</p>
 <p>To set the legacy R parser:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.profile_rparser.html">dsadmin.profile_rparser</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span>, rParser <span class="op">=</span> <span class="st">"v1"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.profile_rparser.html">dsadmin.profile_rparser</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"demo"</span>, rParser <span class="op">=</span> <span class="st">"v1"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -255,12 +255,12 @@ DataSHIELD service.</p>
 group(s). Groups can represent data access and DataSHIELD service
 access.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/oadmin.user_exists.html">oadmin.user_exists</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"userx"</span><span class="op">)</span><span class="op">)</span>
-  <span class="fu"><a href="../reference/oadmin.user_delete.html">oadmin.user_delete</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"userx"</span><span class="op">)</span>
-<span class="co"># generated password</span>
-<span class="va">password</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/oadmin.user_add.html">oadmin.user_add</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"userx"</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"demo"</span>, <span class="st">"datashield"</span><span class="op">)</span><span class="op">)</span>
-<span class="co"># verify user</span>
-<span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="fu"><a href="../reference/oadmin.users.html">oadmin.users</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span>, <span class="va">name</span> <span class="op">==</span> <span class="st">"userx"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/oadmin.user_exists.html">oadmin.user_exists</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"userx"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/oadmin.user_delete.html">oadmin.user_delete</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"userx"</span><span class="op">)</span></span>
+<span><span class="co"># generated password</span></span>
+<span><span class="va">password</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/oadmin.user_add.html">oadmin.user_add</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"userx"</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"demo"</span>, <span class="st">"datashield"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># verify user</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="fu"><a href="../reference/oadmin.users.html">oadmin.users</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span>, <span class="va">name</span> <span class="op">==</span> <span class="st">"userx"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="permissions">Permissions<a class="anchor" aria-label="anchor" href="#permissions"></a>
@@ -269,23 +269,23 @@ access.</p>
 individual-level data) to each tables of a project, use the
 following:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="../reference/opal.tables.html">opal.tables</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span><span class="op">)</span><span class="op">$</span><span class="va">name</span>, <span class="kw">function</span><span class="op">(</span><span class="va">table</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="../reference/opal.table_perm_add.html">opal.table_perm_add</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="va">table</span>, subject <span class="op">=</span> <span class="st">"demo"</span>, type <span class="op">=</span> <span class="st">"group"</span>, permission <span class="op">=</span> <span class="st">"view"</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span>
-<span class="co"># verify table permissions</span>
-<span class="fu"><a href="../reference/opal.table_perm.html">opal.table_perm</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM1"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="../reference/opal.tables.html">opal.tables</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span><span class="op">)</span><span class="op">$</span><span class="va">name</span>, <span class="kw">function</span><span class="op">(</span><span class="va">table</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/opal.table_perm_add.html">opal.table_perm_add</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="va">table</span>, subject <span class="op">=</span> <span class="st">"demo"</span>, type <span class="op">=</span> <span class="st">"group"</span>, permission <span class="op">=</span> <span class="st">"view"</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="co"># verify table permissions</span></span>
+<span><span class="fu"><a href="../reference/opal.table_perm.html">opal.table_perm</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM"</span>, <span class="st">"CNSIM1"</span><span class="op">)</span></span></code></pre></div>
 <p>Similarly, permissions to use all the resources of a project in a
 DataSHIELD context is even simpler:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.resources_perm_add.html">opal.resources_perm_add</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, subject <span class="op">=</span> <span class="st">"demo"</span>, type <span class="op">=</span> <span class="st">"group"</span>, permission <span class="op">=</span> <span class="st">"view"</span><span class="op">)</span>
-<span class="co"># verify permissions</span>
-<span class="fu"><a href="../reference/opal.resources_perm.html">opal.resources_perm</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/opal.resources_perm_add.html">opal.resources_perm_add</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, subject <span class="op">=</span> <span class="st">"demo"</span>, type <span class="op">=</span> <span class="st">"group"</span>, permission <span class="op">=</span> <span class="st">"view"</span><span class="op">)</span></span>
+<span><span class="co"># verify permissions</span></span>
+<span><span class="fu"><a href="../reference/opal.resources_perm.html">opal.resources_perm</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span><span class="op">)</span></span></code></pre></div>
 <p>Then grant permission to use the DataSHIELD service to a group of
 users:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/dsadmin.perm_add.html">dsadmin.perm_add</a></span><span class="op">(</span><span class="va">o</span>, subject <span class="op">=</span> <span class="st">"datashield"</span>, type <span class="op">=</span> <span class="st">"group"</span>, permission <span class="op">=</span> <span class="st">"use"</span><span class="op">)</span>
-<span class="co"># verify permissions</span>
-<span class="fu"><a href="../reference/dsadmin.perm.html">dsadmin.perm</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dsadmin.perm_add.html">dsadmin.perm_add</a></span><span class="op">(</span><span class="va">o</span>, subject <span class="op">=</span> <span class="st">"datashield"</span>, type <span class="op">=</span> <span class="st">"group"</span>, permission <span class="op">=</span> <span class="st">"use"</span><span class="op">)</span></span>
+<span><span class="co"># verify permissions</span></span>
+<span><span class="fu"><a href="../reference/dsadmin.perm.html">dsadmin.perm</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></code></pre></div>
 <p>Note that it is also possible to grant permission to access a
 specific DataSHIELD profile (see Profiles section).</p>
 </div>
@@ -296,7 +296,7 @@ specific DataSHIELD profile (see Profiles section).</p>
 <p>Good practice is to free server resources by sending a logout
 request:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></code></pre></div>
 </div>
   </div>
 
@@ -317,7 +317,7 @@ request:</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

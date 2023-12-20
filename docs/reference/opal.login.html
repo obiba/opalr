@@ -73,15 +73,15 @@ or (3) by providing a personal access token (PAT), or (4) by providing a key pai
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">opal.login</span><span class="op">(</span>
-  username <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.username"</span><span class="op">)</span>,
-  password <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.password"</span><span class="op">)</span>,
-  token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.token"</span><span class="op">)</span>,
-  url <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.url"</span><span class="op">)</span>,
-  opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.opts"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,
-  profile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.profile"</span><span class="op">)</span>,
-  restore <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">opal.login</span><span class="op">(</span></span>
+<span>  username <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.username"</span><span class="op">)</span>,</span>
+<span>  password <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.password"</span><span class="op">)</span>,</span>
+<span>  token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.token"</span><span class="op">)</span>,</span>
+<span>  url <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.url"</span><span class="op">)</span>,</span>
+<span>  opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.opts"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  profile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"opal.profile"</span><span class="op">)</span>,</span>
+<span>  restore <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -132,44 +132,44 @@ R server profile will be applied ('default'). See also <a href="opal.profiles.ht
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co">#### The below examples illustrate the different ways to login in opal ####</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># explicite username/password login</span></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span>username <span class="op">=</span> <span class="st">'administrator'</span>, password <span class="op">=</span> <span class="st">'password'</span>, </span>
-<span class="r-in">                url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co"># explicite personal access token login</span></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span>token <span class="op">=</span> <span class="st">'HYG16LO0VaX4O0UardNbiqmr2ByBpRke'</span>, </span>
-<span class="r-in">                url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># login using options and user credentials</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>opal.username <span class="op">=</span> <span class="st">'administrator'</span>,</span>
-<span class="r-in"> opal.password <span class="op">=</span> <span class="st">'password'</span>,</span>
-<span class="r-in"> opal.url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># login using options and personal access token</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>opal.token <span class="op">=</span> <span class="st">'HYG16LO0VaX4O0UardNbiqmr2ByBpRke'</span>,</span>
-<span class="r-in">        opal.url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># login using ssl key pair</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>opal.opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">          sslcert <span class="op">=</span> <span class="st">'my-publickey.pem'</span>,</span>
-<span class="r-in">          sslkey <span class="op">=</span> <span class="st">'my-privatekey.pem'</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span>url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># login with a R server profile</span></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span>username <span class="op">=</span> <span class="st">'administrator'</span>, password <span class="op">=</span> <span class="st">'password'</span>, </span>
-<span class="r-in">                url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span>, profile <span class="op">=</span> <span class="st">'default'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co">#### The below examples illustrate the different ways to login in opal ####</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># explicite username/password login</span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span>username <span class="op">=</span> <span class="st">'administrator'</span>, password <span class="op">=</span> <span class="st">'password'</span>, </span></span>
+<span class="r-in"><span>                url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># explicite personal access token login</span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span>token <span class="op">=</span> <span class="st">'HYG16LO0VaX4O0UardNbiqmr2ByBpRke'</span>, </span></span>
+<span class="r-in"><span>                url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># login using options and user credentials</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>opal.username <span class="op">=</span> <span class="st">'administrator'</span>,</span></span>
+<span class="r-in"><span> opal.password <span class="op">=</span> <span class="st">'password'</span>,</span></span>
+<span class="r-in"><span> opal.url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># login using options and personal access token</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>opal.token <span class="op">=</span> <span class="st">'HYG16LO0VaX4O0UardNbiqmr2ByBpRke'</span>,</span></span>
+<span class="r-in"><span>        opal.url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># login using ssl key pair</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>opal.opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>          sslcert <span class="op">=</span> <span class="st">'my-publickey.pem'</span>,</span></span>
+<span class="r-in"><span>          sslkey <span class="op">=</span> <span class="st">'my-privatekey.pem'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span>url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># login with a R server profile</span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu">opal.login</span><span class="op">(</span>username <span class="op">=</span> <span class="st">'administrator'</span>, password <span class="op">=</span> <span class="st">'password'</span>, </span></span>
+<span class="r-in"><span>                url <span class="op">=</span> <span class="st">'https://opal-demo.obiba.org'</span>, profile <span class="op">=</span> <span class="st">'default'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -184,7 +184,7 @@ R server profile will be applied ('default'). See also <a href="opal.profiles.ht
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -69,16 +69,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">opal.resource_extension_create</span><span class="op">(</span>
-  <span class="va">opal</span>,
-  <span class="va">project</span>,
-  <span class="va">name</span>,
-  <span class="va">provider</span>,
-  <span class="va">factory</span>,
-  <span class="va">parameters</span>,
-  description <span class="op">=</span> <span class="cn">NULL</span>,
-  credentials <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">opal.resource_extension_create</span><span class="op">(</span></span>
+<span>  <span class="va">opal</span>,</span>
+<span>  <span class="va">project</span>,</span>
+<span>  <span class="va">name</span>,</span>
+<span>  <span class="va">provider</span>,</span>
+<span>  <span class="va">factory</span>,</span>
+<span>  <span class="va">parameters</span>,</span>
+<span>  description <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  credentials <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -134,21 +134,21 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>,<span class="st">'password'</span>, url<span class="op">=</span><span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">opal.resource_extension_create</span><span class="op">(</span><span class="va">o</span>, <span class="st">'RSRC'</span>, <span class="st">'ga4gh_1000g'</span>,</span>
-<span class="r-in">  provider <span class="op">=</span> <span class="st">'dsOmics'</span>, factory <span class="op">=</span> <span class="st">'ga4gh-htsget'</span>,</span>
-<span class="r-in">  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">    host <span class="op">=</span> <span class="st">'https://htsget.ga4gh.org'</span>,</span>
-<span class="r-in">    sample <span class="op">=</span> <span class="st">'1000genomes.phase1.chr1'</span>,</span>
-<span class="r-in">    reference <span class="op">=</span> <span class="st">'1'</span>,</span>
-<span class="r-in">    start <span class="op">=</span> <span class="st">'1'</span>,</span>
-<span class="r-in">    end <span class="op">=</span> <span class="st">'100000'</span>,</span>
-<span class="r-in">    format <span class="op">=</span> <span class="st">'GA4GHVCF'</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>,<span class="st">'password'</span>, url<span class="op">=</span><span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">opal.resource_extension_create</span><span class="op">(</span><span class="va">o</span>, <span class="st">'RSRC'</span>, <span class="st">'ga4gh_1000g'</span>,</span></span>
+<span class="r-in"><span>  provider <span class="op">=</span> <span class="st">'dsOmics'</span>, factory <span class="op">=</span> <span class="st">'ga4gh-htsget'</span>,</span></span>
+<span class="r-in"><span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    host <span class="op">=</span> <span class="st">'https://htsget.ga4gh.org'</span>,</span></span>
+<span class="r-in"><span>    sample <span class="op">=</span> <span class="st">'1000genomes.phase1.chr1'</span>,</span></span>
+<span class="r-in"><span>    reference <span class="op">=</span> <span class="st">'1'</span>,</span></span>
+<span class="r-in"><span>    start <span class="op">=</span> <span class="st">'1'</span>,</span></span>
+<span class="r-in"><span>    end <span class="op">=</span> <span class="st">'100000'</span>,</span></span>
+<span class="r-in"><span>    format <span class="op">=</span> <span class="st">'GA4GHVCF'</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -163,7 +163,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

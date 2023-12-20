@@ -69,13 +69,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">opal.table_dictionary_update</span><span class="op">(</span>
-  <span class="va">opal</span>,
-  <span class="va">project</span>,
-  <span class="va">table</span>,
-  <span class="va">variables</span>,
-  categories <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">opal.table_dictionary_update</span><span class="op">(</span></span>
+<span>  <span class="va">opal</span>,</span>
+<span>  <span class="va">project</span>,</span>
+<span>  <span class="va">table</span>,</span>
+<span>  <span class="va">variables</span>,</span>
+<span>  categories <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -104,6 +104,7 @@ no categories, this parameter is optional.</p></dd>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other table functions: 
+<code><a href="opal.perms.html">opal.perms</a>()</code>,
 <code><a href="opal.resource_view_create.html">opal.resource_view_create</a>()</code>,
 <code><a href="opal.resource_view_reconnect.html">opal.resource_view_reconnect</a>()</code>,
 <code><a href="opal.table_create.html">opal.table_create</a>()</code>,
@@ -124,23 +125,23 @@ no categories, this parameter is optional.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>,<span class="st">'password'</span>, url<span class="op">=</span><span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">variables</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="op">~</span><span class="va">name</span>, <span class="op">~</span><span class="va">valueType</span>, <span class="op">~</span><span class="va">`label:en`</span>,  <span class="op">~</span><span class="va">`Namespace::Name`</span>, <span class="op">~</span><span class="va">unit</span>, <span class="op">~</span><span class="va">repeatable</span>, <span class="op">~</span><span class="va">index</span>,</span>
-<span class="r-in">  <span class="st">"mpg"</span>, <span class="st">"decimal"</span>, <span class="st">"Mpg label"</span>,  <span class="st">"Value1"</span>, <span class="st">"years"</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span>
-<span class="r-in">  <span class="st">"cyl"</span>, <span class="st">"decimal"</span>, <span class="st">"Cyl label"</span>,  <span class="st">"Value2"</span>, <span class="st">"kg/m2"</span>, <span class="fl">0</span>, <span class="fl">2</span>,</span>
-<span class="r-in">  <span class="st">"disp"</span>, <span class="st">"decimal"</span>, <span class="st">"Disp label"</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">1</span>, <span class="fl">3</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">categories</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="op">~</span><span class="va">variable</span>, <span class="op">~</span><span class="va">name</span>, <span class="op">~</span><span class="va">missing</span>, <span class="op">~</span><span class="va">`label:en`</span>, <span class="op">~</span><span class="va">`label:fr`</span>,</span>
-<span class="r-in">  <span class="st">"cyl"</span>, <span class="st">"4"</span>, <span class="fl">0</span>, <span class="st">"Four"</span>, <span class="st">"Quatre"</span>,</span>
-<span class="r-in">  <span class="st">"cyl"</span>, <span class="st">"6"</span>, <span class="fl">0</span>, <span class="st">"Six"</span>, <span class="st">"Six"</span>,</span>
-<span class="r-in">  <span class="st">"cyl"</span>, <span class="st">"8"</span>, <span class="fl">1</span>, <span class="st">"Height"</span>, <span class="st">"Huit"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu">opal.table_dictionary_update</span><span class="op">(</span><span class="va">o</span>, <span class="st">"test"</span>, <span class="st">"mtcars"</span>, <span class="va">variables</span>, <span class="va">categories</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">'administrator'</span>,<span class="st">'password'</span>, url<span class="op">=</span><span class="st">'https://opal-demo.obiba.org'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">variables</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="op">~</span><span class="va">name</span>, <span class="op">~</span><span class="va">valueType</span>, <span class="op">~</span><span class="va">`label:en`</span>,  <span class="op">~</span><span class="va">`Namespace::Name`</span>, <span class="op">~</span><span class="va">unit</span>, <span class="op">~</span><span class="va">repeatable</span>, <span class="op">~</span><span class="va">index</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"mpg"</span>, <span class="st">"decimal"</span>, <span class="st">"Mpg label"</span>,  <span class="st">"Value1"</span>, <span class="st">"years"</span>, <span class="fl">0</span>, <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"cyl"</span>, <span class="st">"decimal"</span>, <span class="st">"Cyl label"</span>,  <span class="st">"Value2"</span>, <span class="st">"kg/m2"</span>, <span class="fl">0</span>, <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"disp"</span>, <span class="st">"decimal"</span>, <span class="st">"Disp label"</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">1</span>, <span class="fl">3</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">categories</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="op">~</span><span class="va">variable</span>, <span class="op">~</span><span class="va">name</span>, <span class="op">~</span><span class="va">missing</span>, <span class="op">~</span><span class="va">`label:en`</span>, <span class="op">~</span><span class="va">`label:fr`</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"cyl"</span>, <span class="st">"4"</span>, <span class="fl">0</span>, <span class="st">"Four"</span>, <span class="st">"Quatre"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"cyl"</span>, <span class="st">"6"</span>, <span class="fl">0</span>, <span class="st">"Six"</span>, <span class="st">"Six"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"cyl"</span>, <span class="st">"8"</span>, <span class="fl">1</span>, <span class="st">"Height"</span>, <span class="st">"Huit"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">opal.table_dictionary_update</span><span class="op">(</span><span class="va">o</span>, <span class="st">"test"</span>, <span class="st">"mtcars"</span>, <span class="va">variables</span>, <span class="va">categories</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -155,7 +156,7 @@ no categories, this parameter is optional.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -71,7 +71,7 @@ column cannot be found.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dictionary.inspect</span><span class="op">(</span><span class="va">tibble</span>, id.name <span class="op">=</span> <span class="st">"id"</span>, warn <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dictionary.inspect</span><span class="op">(</span><span class="va">tibble</span>, id.name <span class="op">=</span> <span class="st">"id"</span>, warn <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -97,34 +97,34 @@ column cannot be found.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># prepare datasets of visits, several visits for one patient</span></span>
-<span class="r-in"><span class="va">visits</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in"><span class="op">~</span><span class="va">id</span>, <span class="op">~</span><span class="va">patient_id</span>, <span class="op">~</span><span class="va">sex</span>, <span class="op">~</span><span class="va">visit_date</span>,</span>
-<span class="r-in"><span class="fl">1</span>, <span class="fl">1</span>, <span class="st">"M"</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-01-01"</span><span class="op">)</span>,</span>
-<span class="r-in"><span class="fl">2</span>, <span class="fl">2</span>, <span class="st">"F"</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-01-02"</span><span class="op">)</span>,</span>
-<span class="r-in"><span class="fl">3</span>, <span class="fl">3</span>, <span class="st">"M"</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-01-03"</span><span class="op">)</span>,</span>
-<span class="r-in"><span class="fl">4</span>, <span class="fl">3</span>, <span class="st">"M"</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-01-04"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">"administrator"</span>, <span class="st">"password"</span>, url <span class="op">=</span> <span class="st">"https://opal-demo.obiba.org"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># save visits dataset</span></span>
-<span class="r-in"><span class="fu"><a href="opal.table_save.html">opal.table_save</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">visits</span>, <span class="st">"RSRC"</span>, <span class="st">"visits"</span>, type <span class="op">=</span> <span class="st">"Visit"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get visit and make it a dataset of patients </span></span>
-<span class="r-in"><span class="va">patients</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.table_get.html">opal.table_get</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"visits"</span>, id.name <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># set dataset IDs</span></span>
-<span class="r-in"><span class="va">patients</span><span class="op">$</span><span class="va">visit_id</span> <span class="op">&lt;-</span> <span class="va">patients</span><span class="op">$</span><span class="va">id</span></span>
-<span class="r-in"><span class="va">patients</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="va">patients</span><span class="op">$</span><span class="va">patient_id</span></span>
-<span class="r-in"><span class="va">patients</span><span class="op">$</span><span class="va">patient_id</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span class="r-in"><span class="va">patients</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># save patients dataset, there should be a warning that some variables are not repeatable</span></span>
-<span class="r-in"><span class="co"># while there are patients with multiple data lines</span></span>
-<span class="r-in"><span class="fu"><a href="opal.table_save.html">opal.table_save</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">patients</span>, <span class="st">"RSRC"</span>, <span class="st">"patients"</span>, type <span class="op">=</span> <span class="st">"Participant"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># prepare datasets of visits, several visits for one patient</span></span></span>
+<span class="r-in"><span><span class="va">visits</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="op">~</span><span class="va">id</span>, <span class="op">~</span><span class="va">patient_id</span>, <span class="op">~</span><span class="va">sex</span>, <span class="op">~</span><span class="va">visit_date</span>,</span></span>
+<span class="r-in"><span><span class="fl">1</span>, <span class="fl">1</span>, <span class="st">"M"</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-01-01"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="fl">2</span>, <span class="fl">2</span>, <span class="st">"F"</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-01-02"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="fl">3</span>, <span class="fl">3</span>, <span class="st">"M"</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-01-03"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="fl">4</span>, <span class="fl">3</span>, <span class="st">"M"</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-01-04"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">"administrator"</span>, <span class="st">"password"</span>, url <span class="op">=</span> <span class="st">"https://opal-demo.obiba.org"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># save visits dataset</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.table_save.html">opal.table_save</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">visits</span>, <span class="st">"RSRC"</span>, <span class="st">"visits"</span>, type <span class="op">=</span> <span class="st">"Visit"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get visit and make it a dataset of patients </span></span></span>
+<span class="r-in"><span><span class="va">patients</span> <span class="op">&lt;-</span> <span class="fu"><a href="opal.table_get.html">opal.table_get</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"RSRC"</span>, <span class="st">"visits"</span>, id.name <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># set dataset IDs</span></span></span>
+<span class="r-in"><span><span class="va">patients</span><span class="op">$</span><span class="va">visit_id</span> <span class="op">&lt;-</span> <span class="va">patients</span><span class="op">$</span><span class="va">id</span></span></span>
+<span class="r-in"><span><span class="va">patients</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="va">patients</span><span class="op">$</span><span class="va">patient_id</span></span></span>
+<span class="r-in"><span><span class="va">patients</span><span class="op">$</span><span class="va">patient_id</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span><span class="va">patients</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># save patients dataset, there should be a warning that some variables are not repeatable</span></span></span>
+<span class="r-in"><span><span class="co"># while there are patients with multiple data lines</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.table_save.html">opal.table_save</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">patients</span>, <span class="st">"RSRC"</span>, <span class="st">"patients"</span>, type <span class="op">=</span> <span class="st">"Participant"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -139,7 +139,7 @@ column cannot be found.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

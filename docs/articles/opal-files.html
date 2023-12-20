@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">Yannick
 Marcon</h4>
             
-            <h4 data-toc-skip class="date">2023-02-03</h4>
+            <h4 data-toc-skip class="date">2023-12-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/obiba/opalr/blob/HEAD/vignettes/opal-files.Rmd" class="external-link"><code>vignettes/opal-files.Rmd</code></a></small>
       <div class="hidden name"><code>opal-files.Rmd</code></div>
@@ -112,56 +112,56 @@ package exposes files management related functions:</p>
 </ul>
 <p>Setup the connection with Opal:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obiba/opalr/" class="external-link">opalr</a></span><span class="op">)</span>
-<span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">"administrator"</span>, <span class="st">"password"</span>, <span class="st">"https://opal-demo.obiba.org"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obiba/opalr/" class="external-link">opalr</a></span><span class="op">)</span></span>
+<span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.login.html">opal.login</a></span><span class="op">(</span><span class="st">"administrator"</span>, <span class="st">"password"</span>, <span class="st">"https://opal-demo.obiba.org"</span><span class="op">)</span></span></code></pre></div>
 <p>Download a file:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_download.html">opal.file_download</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/home/administrator/CNSIM.zip"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/opal.file_download.html">opal.file_download</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/home/administrator/CNSIM.zip"</span><span class="op">)</span></span></code></pre></div>
 <p>Download a file, protected by a password:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_download.html">opal.file_download</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/home/administrator/CNSIM.zip"</span>, <span class="st">"CNSIM-encrypted.zip"</span>, key<span class="op">=</span><span class="st">"ABCDEFGHIJKL"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/opal.file_download.html">opal.file_download</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/home/administrator/CNSIM.zip"</span>, <span class="st">"CNSIM-encrypted.zip"</span>, key<span class="op">=</span><span class="st">"ABCDEFGHIJKL"</span><span class="op">)</span></span></code></pre></div>
 <p>Upload the file at another location:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_upload.html">opal.file_upload</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM.zip"</span>, <span class="st">"/projects/CNSIM"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/opal.file_upload.html">opal.file_upload</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM.zip"</span>, <span class="st">"/projects/CNSIM"</span><span class="op">)</span></span></code></pre></div>
 <p>Create a folder and list folder content:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fooDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"/projects/CNSIM/foo-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">:</span><span class="fl">99999</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.file_mkdir.html">opal.file_mkdir</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">fooDir</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/projects/CNSIM"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fooDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"/projects/CNSIM/foo-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">:</span><span class="fl">99999</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/opal.file_mkdir.html">opal.file_mkdir</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">fooDir</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/projects/CNSIM"</span><span class="op">)</span></span></code></pre></div>
 <p>Move file to the new folder and list folder content:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_mv.html">opal.file_mv</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/projects/CNSIM/CNSIM.zip"</span>, <span class="va">fooDir</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">fooDir</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/opal.file_mv.html">opal.file_mv</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/projects/CNSIM/CNSIM.zip"</span>, <span class="va">fooDir</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">fooDir</span><span class="op">)</span></span></code></pre></div>
 <p>Rename the new folder and list folder content:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">barDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"/projects/CNSIM/bar-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">:</span><span class="fl">99999</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.file_mv.html">opal.file_mv</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">fooDir</span>, <span class="va">barDir</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/projects/CNSIM"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">barDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"/projects/CNSIM/bar-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">:</span><span class="fl">99999</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/opal.file_mv.html">opal.file_mv</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">fooDir</span>, <span class="va">barDir</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/projects/CNSIM"</span><span class="op">)</span></span></code></pre></div>
 <p>Extract the content of the archive file into a folder:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.file_unzip.html">opal.file_unzip</a></span><span class="op">(</span><span class="va">o</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">barDir</span>, <span class="st">"/CNSIM.zip"</span><span class="op">)</span>, <span class="va">barDir</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">out</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/opal.file_unzip.html">opal.file_unzip</a></span><span class="op">(</span><span class="va">o</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">barDir</span>, <span class="st">"/CNSIM.zip"</span><span class="op">)</span>, <span class="va">barDir</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">out</span><span class="op">)</span></span></code></pre></div>
 <p>Write a file from the Opal file system into the R server session
 workspace:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_write.html">opal.file_write</a></span><span class="op">(</span><span class="va">o</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">barDir</span>, <span class="st">"/CNSIM.zip"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"list.files()"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/opal.file_write.html">opal.file_write</a></span><span class="op">(</span><span class="va">o</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">barDir</span>, <span class="st">"/CNSIM.zip"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"list.files()"</span><span class="op">)</span></span></code></pre></div>
 <p>Read back the file into the Opal file system:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_read.html">opal.file_read</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM.zip"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">barDir</span>, <span class="st">"/ds.zip"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">barDir</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/opal.file_read.html">opal.file_read</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"CNSIM.zip"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">barDir</span>, <span class="st">"/ds.zip"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">barDir</span><span class="op">)</span></span></code></pre></div>
 <p>Remove created folder and list folder content:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/opal.file_rm.html">opal.file_rm</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">barDir</span><span class="op">)</span>
-<span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/projects/CNSIM"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/opal.file_rm.html">opal.file_rm</a></span><span class="op">(</span><span class="va">o</span>, <span class="va">barDir</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/opal.file_ls.html">opal.file_ls</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">"/projects/CNSIM"</span><span class="op">)</span></span></code></pre></div>
 <p>Good practice is to free server resources by sending a logout
 request:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># clean server side</span>
-<span class="fu"><a href="../reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span>
-<span class="co"># clean client side</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"CNSIM-encrypted.zip"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"CNSIM.zip"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># clean server side</span></span>
+<span><span class="fu"><a href="../reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
+<span><span class="co"># clean client side</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"CNSIM-encrypted.zip"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"CNSIM.zip"</span><span class="op">)</span></span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -179,7 +179,7 @@ request:</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
