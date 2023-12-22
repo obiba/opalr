@@ -232,9 +232,9 @@ opal.version_compare <- function(opal, version) {
 opal.get <- function(opal, ..., query = list(), acceptType = 'application/json', outFile = NULL, callback = NULL) {
   r <- NULL
   if (is.null(outFile))
-    r <- GET(.url(opal, ...), query = query, accept(acceptType), config = opal$config, handle = opal$handle, .verbose())
+    r <- RETRY('GET', .url(opal, ...), query = query, accept(acceptType), config = opal$config, handle = opal$handle, .verbose())
   else
-    r <- GET(.url(opal, ...), query = query, accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose())
+    r <- RETRY('GET', .url(opal, ...), query = query, accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose())
   .handleResponseOrCallback(opal, r, callback)
 }
 
