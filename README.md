@@ -35,6 +35,21 @@ opal.execute(o, 'summary(D$LAB_GLUC)')
 opal.logout(o)
 ```
 
+##  Options
+
+Some helper options can be defined to control default values and behavior:
+
+* `opal.username`, the login user name (default is `NULL`).
+* `opal.password`, the login user password (default is `NULL`).
+* `opal.token`, the login personal access token (default is `NULL`).
+* `opal.url`, the login Opal URL (default is `NULL`).
+* `opal.opts`, the curl options (default is `NULL`), see [httr::httr_options](https://httr.r-lib.org/reference/httr_options.html).
+* `opal.profile`, the login profile (R servers clustername) (default is `NULL`).
+* `opal.progress`, whether to show progress bar (default is `TRUE`).
+* `opal.progress.clear`, whether to clear progress bar after it is completed (default is `FALSE`).
+* `opal.retry.times`, the maximum number of GET requests to attempt (default is `3`, no retry when value is `1`).
+* `opal.retry.quiet`, whether to print a message displaying how long until the next request (default is `FALSE`).
+
 ## Cookbooks
 
 * How to perform [DataSHIELD Administration](https://www.obiba.org/opalr/articles/datashield-admin.html)
