@@ -262,9 +262,11 @@ opal.get <- function(opal, ..., query = list(), acceptType = 'application/json',
 opal.post <- function(opal, ..., query = list(), body = '', contentType = 'application/x-rscript', acceptType = 'application/json', outFile = NULL, callback = NULL) {
   r <- NULL
   if (is.null(outFile))
-    r <- POST(.url(opal, ...), query = query, body = body, content_type(contentType), accept(acceptType), config = opal$config, handle = opal$handle, .verbose())
+    r <- RETRY('POST', .url(opal, ...), query = query, body = body, content_type(contentType), accept(acceptType), config = opal$config, handle = opal$handle, .verbose(),
+               terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   else
-    r <- POST(.url(opal, ...), query = query, body = body, content_type(contentType), accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose())
+    r <- RETRY('POST', .url(opal, ...), query = query, body = body, content_type(contentType), accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose(),
+               terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -286,7 +288,8 @@ opal.post <- function(opal, ..., query = list(), body = '', contentType = 'appli
 #' }
 #' @export
 opal.put <- function(opal, ..., query = list(), body = '', contentType = 'application/x-rscript', callback = NULL) {
-  r <- PUT(.url(opal, ...), query = query, body = body, content_type(contentType), config = opal$config, handle = opal$handle, .verbose())
+  r <- RETRY('PUT', .url(opal, ...), query = query, body = body, content_type(contentType), config = opal$config, handle = opal$handle, .verbose(),
+             terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
 
@@ -306,7 +309,8 @@ opal.put <- function(opal, ..., query = list(), body = '', contentType = 'applic
 #' }
 #' @export
 opal.delete <- function(opal, ..., query = list(), callback = NULL) {
-  r <- DELETE(.url(opal, ...), query = query, config = opal$config, handle = opal$handle, .verbose())
+  r <- RETRY('DELETE', .url(opal, ...), query = query, config = opal$config, handle = opal$handle, .verbose(),
+             terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
 
