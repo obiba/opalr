@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">opalr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.4.1</span>
       </span>
     </div>
 
@@ -116,6 +116,33 @@
 <span><span class="fu"><a href="reference/opal.execute.html">opal.execute</a></span><span class="op">(</span><span class="va">o</span>, <span class="st">'summary(D$LAB_GLUC)'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/opal.logout.html">opal.logout</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span></code></pre>
+<div class="section level2">
+<h2 id="options">Options<a class="anchor" aria-label="anchor" href="#options"></a>
+</h2>
+<p>Some helper options can be defined to control default values and behavior:</p>
+<ul>
+<li>
+<code>opal.username</code>, the login user name (default is <code>NULL</code>).</li>
+<li>
+<code>opal.password</code>, the login user password (default is <code>NULL</code>).</li>
+<li>
+<code>opal.token</code>, the login personal access token (default is <code>NULL</code>).</li>
+<li>
+<code>opal.url</code>, the login Opal URL (default is <code>NULL</code>).</li>
+<li>
+<code>opal.opts</code>, the curl options (default is <code>NULL</code>), see <a href="https://httr.r-lib.org/reference/httr_options.html" class="external-link">httr::httr_options</a>.</li>
+<li>
+<code>opal.profile</code>, the login profile (R servers cluster name) (default is <code>NULL</code>).</li>
+<li>
+<code>opal.progress</code>, whether to show progress bar (default is <code>TRUE</code>).</li>
+<li>
+<code>opal.progress.clear</code>, whether to clear progress bar after it is completed (default is <code>FALSE</code>).</li>
+<li>
+<code>opal.retry.times</code>, the maximum number of GET requests to attempt (default is <code>3</code>, no retry when value is <code>1</code>).</li>
+<li>
+<code>opal.retry.quiet</code>, whether to print a message displaying how long until the next request (default is <code>FALSE</code>).</li>
+</ul>
+</div>
 <div class="section level2">
 <h2 id="cookbooks">Cookbooks<a class="anchor" aria-label="anchor" href="#cookbooks"></a>
 </h2>
