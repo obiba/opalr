@@ -510,9 +510,9 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   opalUrl <- url
   if (startsWith(url, "http://localhost:8080")) {
     opalUrl <- gsub("http://localhost:8080", "https://localhost:8443", url)
-    warning("Deprecation: connecting through secure http is required. Replacing http://localhost:8080 by https://localhost:8443.")
+    warning("Deprecation: connecting through secure http is required. Replacing http://localhost:8080 by https://localhost:8443.", call. = FALSE)
   } else if (startsWith(url, "http://")) {
-    stop("Deprecation: connecting through secure http is required.")
+    stop("Deprecation: connecting through secure http is required.", call. = FALSE)
   }
   urlObj <- httr::parse_url(opalUrl)
   
@@ -597,6 +597,10 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   }
   opal$uprofile <- .handleResponse(opal, r)
   opal$username <- opal$uprofile$principal
+  
+  if (isTRUE(o$uprofile$otpRequired)) {
+    warning("Enabling 2FA is required, connect to Opal web page to set up your secret.", call. = FALSE)
+  }
   
   opal
 }
