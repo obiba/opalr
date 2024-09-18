@@ -24,9 +24,9 @@ opal.logout(o)
 \seealso{
 Other taxonomy functions: 
 \code{\link{opal.taxonomies}()},
+\code{\link{opal.taxonomy}()},
 \code{\link{opal.taxonomy_download}()},
 \code{\link{opal.taxonomy_upload}()},
-\code{\link{opal.taxonomy}()},
 \code{\link{opal.terms}()},
 \code{\link{opal.vocabularies}()},
 \code{\link{opal.vocabulary}()}

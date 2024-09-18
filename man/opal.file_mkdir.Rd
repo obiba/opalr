@@ -27,6 +27,7 @@ opal.logout(o)
 }
 \seealso{
 Other file functions: 
+\code{\link{opal.file}()},
 \code{\link{opal.file_cp}()},
 \code{\link{opal.file_download}()},
 \code{\link{opal.file_ls}()},
@@ -36,7 +37,6 @@ Other file functions:
 \code{\link{opal.file_rm}()},
 \code{\link{opal.file_unzip}()},
 \code{\link{opal.file_upload}()},
-\code{\link{opal.file_write}()},
-\code{\link{opal.file}()}
+\code{\link{opal.file_write}()}
 }
 \concept{file functions}

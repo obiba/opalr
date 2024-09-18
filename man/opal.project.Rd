@@ -26,7 +26,7 @@ Other project functions:
 \code{\link{opal.project_create}()},
 \code{\link{opal.project_delete}()},
 \code{\link{opal.project_exists}()},
-\code{\link{opal.projects_databases}()},
-\code{\link{opal.projects}()}
+\code{\link{opal.projects}()},
+\code{\link{opal.projects_databases}()}
 }
 \concept{project functions}

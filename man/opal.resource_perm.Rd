@@ -30,6 +30,7 @@ opal.logout(o)
 }
 \seealso{
 Other resource functions: 
+\code{\link{opal.resource}()},
 \code{\link{opal.resource_create}()},
 \code{\link{opal.resource_delete}()},
 \code{\link{opal.resource_exists}()},
@@ -37,10 +38,9 @@ Other resource functions:
 \code{\link{opal.resource_get}()},
 \code{\link{opal.resource_perm_add}()},
 \code{\link{opal.resource_perm_delete}()},
-\code{\link{opal.resources_perm_add}()},
-\code{\link{opal.resources_perm_delete}()},
-\code{\link{opal.resources_perm}()},
 \code{\link{opal.resources}()},
-\code{\link{opal.resource}()}
+\code{\link{opal.resources_perm}()},
+\code{\link{opal.resources_perm_add}()},
+\code{\link{opal.resources_perm_delete}()}
 }
 \concept{resource functions}

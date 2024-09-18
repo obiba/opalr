@@ -43,12 +43,12 @@ Other datasource functions:
 \code{\link{opal.annotate}()},
 \code{\link{opal.annotations}()},
 \code{\link{opal.attribute_values}()},
-\code{\link{opal.datasources}()},
 \code{\link{opal.datasource}()},
-\code{\link{opal.tables}()},
+\code{\link{opal.datasources}()},
 \code{\link{opal.table}()},
+\code{\link{opal.tables}()},
 \code{\link{opal.valueset}()},
-\code{\link{opal.variables}()},
-\code{\link{opal.variable}()}
+\code{\link{opal.variable}()},
+\code{\link{opal.variables}()}
 }
 \concept{datasource functions}
