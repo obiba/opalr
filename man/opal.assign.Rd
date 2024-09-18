@@ -60,7 +60,7 @@ Other assignment functions:
 \code{\link{opal.assign.data}()},
 \code{\link{opal.assign.resource}()},
 \code{\link{opal.assign.script}()},
-\code{\link{opal.assign.table.tibble}()},
-\code{\link{opal.assign.table}()}
+\code{\link{opal.assign.table}()},
+\code{\link{opal.assign.table.tibble}()}
 }
 \concept{assignment functions}

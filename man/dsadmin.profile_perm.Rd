@@ -28,6 +28,7 @@ opal.logout(o)
 }
 \seealso{
 Other DataSHIELD profiles: 
+\code{\link{dsadmin.profile}()},
 \code{\link{dsadmin.profile_access}()},
 \code{\link{dsadmin.profile_create}()},
 \code{\link{dsadmin.profile_delete}()},
@@ -37,7 +38,6 @@ Other DataSHIELD profiles:
 \code{\link{dsadmin.profile_perm_add}()},
 \code{\link{dsadmin.profile_perm_delete}()},
 \code{\link{dsadmin.profile_rparser}()},
-\code{\link{dsadmin.profiles}()},
-\code{\link{dsadmin.profile}()}
+\code{\link{dsadmin.profiles}()}
 }
 \concept{DataSHIELD profiles}

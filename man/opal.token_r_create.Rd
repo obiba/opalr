@@ -39,11 +39,11 @@ opal.logout(o)
 }
 \seealso{
 Other token functions: 
+\code{\link{opal.token}()},
 \code{\link{opal.token_datashield_create}()},
 \code{\link{opal.token_delete}()},
 \code{\link{opal.token_renew}()},
 \code{\link{opal.token_sql_create}()},
-\code{\link{opal.tokens}()},
-\code{\link{opal.token}()}
+\code{\link{opal.tokens}()}
 }
 \concept{token functions}

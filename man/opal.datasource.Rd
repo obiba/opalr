@@ -27,11 +27,11 @@ Other datasource functions:
 \code{\link{opal.annotations}()},
 \code{\link{opal.attribute_values}()},
 \code{\link{opal.datasources}()},
-\code{\link{opal.tables}()},
 \code{\link{opal.table}()},
+\code{\link{opal.tables}()},
 \code{\link{opal.valueset}()},
+\code{\link{opal.variable}()},
 \code{\link{opal.variable_summary}()},
-\code{\link{opal.variables}()},
-\code{\link{opal.variable}()}
+\code{\link{opal.variables}()}
 }
 \concept{datasource functions}

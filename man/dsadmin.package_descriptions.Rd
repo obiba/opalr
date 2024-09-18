@@ -31,8 +31,8 @@ opal.logout(o)
 }
 \seealso{
 Other DataSHIELD functions: 
-\code{\link{dsadmin.get_methods}()},
 \code{\link{dsadmin.get_method}()},
+\code{\link{dsadmin.get_methods}()},
 \code{\link{dsadmin.get_options}()},
 \code{\link{dsadmin.install_github_package}()},
 \code{\link{dsadmin.install_local_package}()},
@@ -41,10 +41,10 @@ Other DataSHIELD functions:
 \code{\link{dsadmin.package_description}()},
 \code{\link{dsadmin.publish_package}()},
 \code{\link{dsadmin.remove_package}()},
-\code{\link{dsadmin.rm_methods}()},
 \code{\link{dsadmin.rm_method}()},
-\code{\link{dsadmin.rm_options}()},
+\code{\link{dsadmin.rm_methods}()},
 \code{\link{dsadmin.rm_option}()},
+\code{\link{dsadmin.rm_options}()},
 \code{\link{dsadmin.rm_package_methods}()},
 \code{\link{dsadmin.set_method}()},
 \code{\link{dsadmin.set_option}()},

@@ -24,10 +24,10 @@ opal.logout(o)
 }
 \seealso{
 Other project functions: 
+\code{\link{opal.project}()},
 \code{\link{opal.project_create}()},
 \code{\link{opal.project_delete}()},
 \code{\link{opal.project_exists}()},
-\code{\link{opal.projects}()},
-\code{\link{opal.project}()}
+\code{\link{opal.projects}()}
 }
 \concept{project functions}
