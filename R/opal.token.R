@@ -102,10 +102,16 @@ opal.tokens <- function(opal, df=TRUE) {
 #' }
 #' @export
 opal.token_r_create <- function(opal, name, projects = NULL, access = NULL, commands = c('export')) {
-  token <- .generateToken()
-  body <- jsonlite::toJSON(list(name = name, token = token, projects = projects, access = access, commands = commands, useR = TRUE), auto_unbox = TRUE, null = 'null')
-  ignore <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
-  token
+  if (opal.version_compare(opal,"5.1")<0) {
+    token <- .generateToken()
+    body <- jsonlite::toJSON(list(name = name, token = token, projects = projects, access = access, commands = commands, useR = TRUE), auto_unbox = TRUE, null = 'null')
+    ignore <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
+    token
+  } else {
+    body <- jsonlite::toJSON(list(name = name, projects = projects, access = access, commands = commands, useR = TRUE), auto_unbox = TRUE, null = 'null')
+    created <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
+    created$token
+  }
 }
 
 #' Create a personal access token for Datashield usage. Like for the other token functions, 
@@ -126,10 +132,16 @@ opal.token_r_create <- function(opal, name, projects = NULL, access = NULL, comm
 #' }
 #' @export
 opal.token_datashield_create <- function(opal, name, projects = NULL) {
-  token <- .generateToken()
-  body <- jsonlite::toJSON(list(name = name, token = token, projects = projects, access = 'READ_NO_VALUES', useDatashield = TRUE), auto_unbox = TRUE, null = 'null')
-  ignore <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
-  token
+  if (opal.version_compare(opal,"5.1")<0) {
+    token <- .generateToken()
+    body <- jsonlite::toJSON(list(name = name, token = token, projects = projects, access = 'READ_NO_VALUES', useDatashield = TRUE), auto_unbox = TRUE, null = 'null')
+    ignore <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
+    token
+  } else {
+    body <- jsonlite::toJSON(list(name = name, projects = projects, access = 'READ_NO_VALUES', useDatashield = TRUE), auto_unbox = TRUE, null = 'null')
+    created <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
+    created$token
+  }
 }
 
 #' Create a personal access token for SQL usage. Like for the other token functions, 
@@ -150,10 +162,16 @@ opal.token_datashield_create <- function(opal, name, projects = NULL) {
 #' }
 #' @export
 opal.token_sql_create <- function(opal, name, projects = NULL) {
-  token <- .generateToken()
-  body <- jsonlite::toJSON(list(name = name, token = token, projects = projects, access = 'READ', useSQL = TRUE), auto_unbox = TRUE, null = 'null')
-  ignore <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
-  token
+  if (opal.version_compare(opal,"5.1")<0) {
+    token <- .generateToken()
+    body <- jsonlite::toJSON(list(name = name, token = token, projects = projects, access = 'READ', useSQL = TRUE), auto_unbox = TRUE, null = 'null')
+    ignore <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
+    token
+  } else {
+    body <- jsonlite::toJSON(list(name = name, projects = projects, access = 'READ', useSQL = TRUE), auto_unbox = TRUE, null = 'null')
+    created <- opal.post(opal, "system", "subject-token", "_current", "tokens", contentType = "application/json", body = body)
+    created$token
+  }
 }
 
 #' Get a personal access token details. Like for the other token functions, 
