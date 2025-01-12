@@ -40,7 +40,9 @@ opal.resources <- function(opal, project, df=TRUE) {
     for (i in 1:n) {
       item <- res[[i]]
       name[i] <- item$name
-      url[i] <- item$resource$url
+      if (!is.null(item$resource$url)) {
+        url[i] <- item$resource$url
+      }
       if (!is.null(item$resource$format)) {
         format[i] <- item$resource$format  
       }
