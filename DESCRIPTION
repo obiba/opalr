@@ -48,6 +48,6 @@ URL: https://github.com/obiba/opalr/,
     https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008880,
     https://www.datashield.org/
 BugReports: https://github.com/obiba/opalr/issues/
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 Encoding: UTF-8
