@@ -1,7 +1,7 @@
 # Opal R
 
-[![Build Status](https://app.travis-ci.com/obiba/opalr.svg?branch=master)](https://app.travis-ci.com/github/obiba/opalr)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/opalr)](https://cran.r-project.org/package=opalr)
+[![R-CMD-check](https://github.com/obiba/opalr/actions/workflows/ci.yml/badge.svg)](https://github.com/obiba/opalr/actions/workflows/ci.yml)
 
 Opal R Client for the [Opal](https://www.obiba.org/pages/products/opal/) data warehouse. Most of the web services
 of Opal can be reached by an `opalr` function: import/export, data dictionaries, projects, tables, resources, 
