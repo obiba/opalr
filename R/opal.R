@@ -516,11 +516,10 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
 .opal.login <- function(username, password, token, url, opts = list(), profile = profile, restore = NULL) {
   if (is.null(url)) stop("opal url is required", call. = FALSE)
   opalUrl <- url
-  if (startsWith(url, "http://localhost:8080")) {
-    opalUrl <- gsub("http://localhost:8080", "https://localhost:8443", url)
-    warning("Deprecation: connecting through secure http is required. Replacing http://localhost:8080 by https://localhost:8443.", call. = FALSE)
+  if (startsWith(url, "http://localhost:")) {
+    warning("Connecting through non-secure http", call. = FALSE)
   } else if (startsWith(url, "http://")) {
-    stop("Deprecation: connecting through secure http is required.", call. = FALSE)
+    stop("Connecting through secure http is required.", call. = FALSE)
   }
   urlObj <- httr::parse_url(opalUrl)
   

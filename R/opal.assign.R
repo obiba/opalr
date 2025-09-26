@@ -125,6 +125,9 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
     }
     ignore <- .getRSessionId(opal)
     res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+    if (async) {
+      res
+    }
   }
 }
 
@@ -197,6 +200,9 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
     }
     ignore <- .getRSessionId(opal)
     res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+    if (async) {
+      res
+    }
   }
 }
 
@@ -235,6 +241,9 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
     }
     ignore <- .getRSessionId(opal)
     res <- opal.post(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+    if (async) {
+      res
+    }
   }
 }
 
@@ -269,5 +278,8 @@ opal.assign.resource <- function(opal, symbol, value, async=FALSE) {
     }
     ignore <- .getRSessionId(opal)
     res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, "resource", value, query=query)
+    if (async) {
+      res
+    }
   }
 }
