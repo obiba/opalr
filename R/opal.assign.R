@@ -123,7 +123,7 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
     if (async) {
       query["async"] <- "true"
     }
-    ignore <- .getRSessionId(opal)
+    ignore <- opal.session(opal)
     res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
     if (async) {
       res
@@ -156,7 +156,7 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
 #' }
 #' @export
 opal.assign.table.tibble <- function(opal, symbol, value, variables=NULL, missings=FALSE, identifiers=NULL, id.name='id', with.factors=FALSE, updated.name=NULL, async=FALSE) {
-  ignore <- .getRSessionId(opal)
+  ignore <- opal.session(opal)
   if (!is.na(opal$version) && opal.version_compare(opal,"2.8")<0) {
     warning("Export to tibble not available for opal ", opal$version, " (2.8.0 or higher is required)")
   } else if (with.factors && !is.na(opal$version) && opal.version_compare(opal,"2.14")<0) {
@@ -198,7 +198,7 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
     if (async) {
       query["async"] <- "true"
     }
-    ignore <- .getRSessionId(opal)
+    ignore <- opal.session(opal)
     res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
     if (async) {
       res
@@ -239,7 +239,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
     if (async) {
       query["async"] <- "true"
     }
-    ignore <- .getRSessionId(opal)
+    ignore <- opal.session(opal)
     res <- opal.post(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
     if (async) {
       res
@@ -276,7 +276,7 @@ opal.assign.resource <- function(opal, symbol, value, async=FALSE) {
     if (async) {
       query["async"] <- "true"
     }
-    ignore <- .getRSessionId(opal)
+    ignore <- opal.session(opal)
     res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, "resource", value, query=query)
     if (async) {
       res

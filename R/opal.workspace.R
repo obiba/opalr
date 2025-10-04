@@ -97,7 +97,7 @@ opal.workspace_save <- function(opal, save=TRUE) {
     warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
   } else {
     saveId <- save
-    ignore <- .getRSessionId(opal)
+    ignore <- opal.session(opal)
     if(is.logical(save) && save) {
       saveId <- opal$rid
     }

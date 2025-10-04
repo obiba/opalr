@@ -612,27 +612,17 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   opal
 }
 
-#' Extract R session Id from opal object, create a new R session if not found.
-#' @keywords internal
-.getRSessionId <- function(opal) {
-  if(is.null(opal$rid)) {
-    opal$rid <- .newSession(opal, restore = opal$restore, profile = opal$profile)
-  }
-  if(is.null(opal$rid)) {
-    stop("Remote R session not available")
-  }
-  return(opal$rid)
-}
-
 #' Create a new R session in Opal.
 #' @keywords internal
-.newSession <- function(opal, restore = NULL, profile = NULL) {
+.newSession <- function(opal, restore = NULL, profile = NULL, wait = TRUE) {
   query <- list()
   if (!is.null(restore))
     query$restore <- restore
   if (!is.null(profile))
     query$profile <- profile
-  res <- .extractJsonField(opal.post(opal, "r", "sessions", query = query), c("id"), isArray = FALSE)
+  query$wait <- ifelse(wait, "true", "false")
+  resp <- opal.post(opal, "r", "sessions", query = query)
+  res <- .extractJsonField(resp, c("id"), isArray = FALSE)
   return(res$id)
 }
 

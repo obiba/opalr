@@ -4,7 +4,7 @@
 \alias{.newSession}
 \title{Create a new R session in Opal.}
 \usage{
-.newSession(opal, restore = NULL, profile = NULL)
+.newSession(opal, restore = NULL, profile = NULL, wait = TRUE)
 }
 \description{
 Create a new R session in Opal.

@@ -24,7 +24,7 @@
 #' @export
 opal.commands <- function(opal, df=TRUE) {
   if (opal.version_compare(opal,"2.1")<0) return(NULL)
-  res <- opal.get(opal, "r", "session", .getRSessionId(opal), "commands")
+  res <- opal.get(opal, "r", "session", opal.session(opal), "commands")
   if (!df) {
     return(res)
   }
@@ -78,7 +78,7 @@ opal.command <- function(opal, id, wait=FALSE) {
   if (wait) {
     query["wait"] <- "true"
   }
-  opal.get(opal, "r", "session", .getRSessionId(opal), "command", id, query=query)
+  opal.get(opal, "r", "session", opal.session(opal), "command", id, query=query)
 }
 
 #' Remove an asynchronous command
@@ -97,7 +97,7 @@ opal.command <- function(opal, id, wait=FALSE) {
 #' @export
 opal.command_rm <- function(opal, id) {
   if (is.null(id) || opal.version_compare(opal,"2.1")<0) return()
-  ignore <- tryCatch(opal.delete(opal, "r", "session", .getRSessionId(opal), "command", id), error=function(e){})
+  ignore <- tryCatch(opal.delete(opal, "r", "session", opal.session(opal), "command", id), error=function(e){})
 }
 
 #' Remove all asynchronous commands
@@ -148,5 +148,5 @@ opal.command_result <- function(opal, id, wait=FALSE) {
       stop("Command '", cmd$script, "' failed on '", opal$name,"': ", msg, call.=FALSE)
     }
   }
-  opal.get(opal, "r", "session", .getRSessionId(opal), "command", id, "result", acceptType = "application/octet-stream")
+  opal.get(opal, "r", "session", opal.session(opal), "command", id, "result", acceptType = "application/octet-stream")
 }

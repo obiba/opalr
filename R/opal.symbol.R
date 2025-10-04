@@ -22,7 +22,7 @@
 #' }
 #' @export
 opal.symbols <- function(opal) {
-  ignore <- .getRSessionId(opal)
+  ignore <- opal.session(opal)
   opal.get(opal, "r", "session", opal$rid, "symbols", acceptType = "application/octet-stream")
 }
 
@@ -41,7 +41,7 @@ opal.symbols <- function(opal) {
 #' }
 #' @export
 opal.symbol_rm <- function(opal, symbol) {
-  ignore <- .getRSessionId(opal)
+  ignore <- opal.session(opal)
   tryCatch(opal.delete(opal, "r", "session", opal$rid, "symbol", symbol), error=function(e){})
 }
 
@@ -81,7 +81,7 @@ opal.rm <- function(opal, symbol) {
 #' }
 #' @export
 opal.symbol_save <- function(opal, symbol, destination) {
-  ignore <- .getRSessionId(opal)
+  ignore <- opal.session(opal)
   if (!is.na(opal$version) && opal.version_compare(opal,"2.8")<0) {
     stop("Saving tibble in a file is not available for opal ", opal$version, " (2.8.0 or higher is required)")
   } else {
@@ -120,7 +120,7 @@ opal.symbol_save <- function(opal, symbol, destination) {
 #' }
 #' @export
 opal.symbol_import <- function(opal, symbol, project, identifiers=NULL, policy='required', id.name='id', type='Participant', wait=TRUE) {
-  rid <- .getRSessionId(opal)
+  rid <- opal.session(opal)
   if (!is.na(opal$version) && opal.version_compare(opal,"2.8")<0) {
     warning("Importing tibble in a table not available for opal ", opal$version, " (2.8.0 or higher is required)")
   } else {

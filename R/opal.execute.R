@@ -31,7 +31,7 @@ opal.execute <- function(opal, script, async=FALSE) {
   } else {
     query <- list()
     if (async) query <- list(async="true")
-    ignore <- .getRSessionId(opal)
+    ignore <- opal.session(opal)
     opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript", acceptType = "application/octet-stream")
   }
 }
@@ -70,7 +70,7 @@ opal.execute.source <- function(opal, path, async=FALSE) {
     script <- paste0("source('", filename, "')")
     query <- list()
     if (async) query <- list(async="true")
-    ignore <- .getRSessionId(opal)
+    ignore <- opal.session(opal)
     opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript", acceptType = "application/octet-stream")
   }
 }
