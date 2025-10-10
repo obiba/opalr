@@ -26,7 +26,8 @@ opal.logout(o)
 Other session functions: 
 \code{\link{opal.session}()},
 \code{\link{opal.session_delete}()},
+\code{\link{opal.session_events}()},
 \code{\link{opal.session_get}()},
-\code{\link{opal.session_ready}()}
+\code{\link{opal.session_running}()}
 }
 \concept{session functions}
