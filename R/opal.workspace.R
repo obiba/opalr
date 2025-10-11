@@ -97,11 +97,10 @@ opal.workspace_save <- function(opal, save=TRUE) {
     warning("Workspaces are not available for opal ", opal$version, " (2.6.0 or higher is required)")
   } else {
     saveId <- save
-    ignore <- opal.session(opal)
     if(is.logical(save) && save) {
       saveId <- opal$rid
     }
-    res <- opal.post(opal, "r", "session", opal$rid, "workspaces", query=list(save=saveId))
+    res <- opal.post(opal, opal$context, "session", opal.session(opal), "workspaces", query=list(save=saveId))
     invisible(saveId)
   }
 }
@@ -125,6 +124,6 @@ opal.workspace_restore <- function(opal, ws) {
     if (length(ws) == 0) {
       stop("Workspace name is missing or empty.")
     }
-    ignore <- opal.put(opal, "r", "session", opal$rid, "workspace", ws)  
+    ignore <- opal.put(opal, opal$context, "session", opal.session(opal), "workspace", ws)  
   }
 }

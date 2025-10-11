@@ -22,8 +22,7 @@
 #' }
 #' @export
 opal.symbols <- function(opal) {
-  ignore <- opal.session(opal)
-  opal.get(opal, "r", "session", opal$rid, "symbols", acceptType = "application/octet-stream")
+  opal.get(opal, opal$context, "session", opal.session(opal), "symbols", acceptType = "application/octet-stream")
 }
 
 #' Remove a R symbol
@@ -41,8 +40,7 @@ opal.symbols <- function(opal) {
 #' }
 #' @export
 opal.symbol_rm <- function(opal, symbol) {
-  ignore <- opal.session(opal)
-  tryCatch(opal.delete(opal, "r", "session", opal$rid, "symbol", symbol), error=function(e){})
+  tryCatch(opal.delete(opal, opal$context, "session", opal.session(opal), "symbol", symbol), error=function(e){})
 }
 
 #' Remove a R symbol (deprecated)
@@ -81,7 +79,6 @@ opal.rm <- function(opal, symbol) {
 #' }
 #' @export
 opal.symbol_save <- function(opal, symbol, destination) {
-  ignore <- opal.session(opal)
   if (!is.na(opal$version) && opal.version_compare(opal,"2.8")<0) {
     stop("Saving tibble in a file is not available for opal ", opal$version, " (2.8.0 or higher is required)")
   } else {
@@ -94,7 +91,7 @@ opal.symbol_save <- function(opal, symbol, destination) {
       }
     }
     query <- list(destination=destination)
-    res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, "_save", query=query)
+    res <- opal.put(opal, opal$context, "session", opal.session(opal), "symbol", symbol, "_save", query=query)
   }
 }
 

@@ -377,8 +377,7 @@ opal.file_write <- function(opal, source, destination=NULL) {
   if (!is.null(destination)) {
     query["destination"] <- destination
   }
-  ignore <- opal.session(opal)
-  res <- opal.put(opal, "r", "session", opal$rid, "file", "_push", query=query)
+  res <- opal.put(opal, opal$context, "session", opal.session(opal), "file", "_push", query=query)
 }
 
 #' Read a file
@@ -409,8 +408,7 @@ opal.file_read <- function(opal, source, destination) {
   if (!is.null(destination)) {
     query["destination"] <- destination
   }
-  ignore <- opal.session(opal)
-  res <- opal.put(opal, "r", "session", opal$rid, "file", "_pull", query=query)
+  res <- opal.put(opal, opal$context, "session", opal.session(opal), "file", "_pull", query=query)
 }
 
 #' Unzip a zip archive file

@@ -52,7 +52,7 @@ opal.session_get <- function(opal) {
   if(is.null(opal$rid)) {
     stop("Remote R session not available")
   }
-  opal.get(opal, "r", "session", opal$rid)
+  opal.get(opal, opal$context, "session", opal$rid)
 }
 
 #' Check if the R session exists
@@ -74,7 +74,7 @@ opal.session_exists <- function(opal) {
     return(FALSE)
   }
   tryCatch({
-    opal.get(opal, "r", "session", opal$rid)
+    opal.get(opal, opal$context, "session", opal$rid)
     TRUE
   }, error = function(e) {
     FALSE
@@ -107,7 +107,7 @@ opal.session_running <- function(opal) {
   if(is.null(opal$rid)) {
     stop("Remote R session not available")
   }
-  res <- opal.get(opal, "r", "session", opal$rid)
+  res <- opal.get(opal, opal$context, "session", opal$rid)
   if (is.null(res$state)) {
     # older opal servers do not have state for the R session
     TRUE
@@ -137,7 +137,7 @@ opal.session_events <- function(opal) {
   if(is.null(opal$rid)) {
     stop("Remote R session not available")
   }
-  res <- opal.get(opal, "r", "session", opal$rid)
+  res <- opal.get(opal, opal$context, "session", opal$rid)
   events <- res$events
   eventsMatrix <- sapply(events, function(x) {
     # split each element by =
@@ -167,7 +167,7 @@ opal.session_events <- function(opal) {
 #' @export
 opal.session_delete <- function(opal) {
   if(!is.null(opal$rid)) {
-    tryCatch(opal.delete(opal, "r", "session", opal$rid), error = function(e) {})
+    tryCatch(opal.delete(opal, opal$context, "session", opal$rid), error = function(e) {})
     opal$rid <- NULL
   }
 }

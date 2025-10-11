@@ -11,7 +11,8 @@
   url,
   opts = list(),
   profile = profile,
-  restore = NULL
+  restore = NULL,
+  context = "r"
 )
 }
 \description{

@@ -31,8 +31,7 @@ opal.execute <- function(opal, script, async=FALSE) {
   } else {
     query <- list()
     if (async) query <- list(async="true")
-    ignore <- opal.session(opal)
-    opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript", acceptType = "application/octet-stream")
+    opal.post(opal, opal$context, "session", opal.session(opal), "execute", query=query, body=script, contentType="application/x-rscript", acceptType = "application/octet-stream")
   }
 }
 
@@ -70,8 +69,7 @@ opal.execute.source <- function(opal, path, async=FALSE) {
     script <- paste0("source('", filename, "')")
     query <- list()
     if (async) query <- list(async="true")
-    ignore <- opal.session(opal)
-    opal.post(opal, "r", "session", opal$rid, "execute", query=query, body=script, contentType="application/x-rscript", acceptType = "application/octet-stream")
+    opal.post(opal, opal$context, "session", opal.session(opal), "execute", query=query, body=script, contentType="application/x-rscript", acceptType = "application/octet-stream")
   }
 }
 

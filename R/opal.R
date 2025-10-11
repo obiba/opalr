@@ -25,7 +25,9 @@
 #' @param restore Workspace ID to be restored (see also opal.logout)
 #' @param profile R server profile name. This will drive the R server in which a R session will be created. If no remote R session
 #' is needed (because Opal specific operations are done), this parameter does not need to be provided. Otherwise, if missing, the default 
-#' R server profile will be applied ('default'). See also \link{opal.profiles}.
+#' R server profile will be applied ('default'). See also \link{opal.profiles}. Can be provided by "opal.profile" option.
+#' @param context Context of the R session to be created. Either "r" (default) or "datashield".
+#' 
 #' @export
 #' @examples 
 #' \dontrun{
@@ -67,12 +69,12 @@
 #' opal.logout(o)
 #'}
 opal.login <- function(username = getOption("opal.username"), password = getOption("opal.password"), token = getOption("opal.token"), url = getOption("opal.url"), 
-                       opts = getOption("opal.opts", list()), profile = getOption("opal.profile"), restore = NULL) {
+                       opts = getOption("opal.opts", list()), profile = getOption("opal.profile"), restore = NULL, context = "r") {
   if (is.null(url)) stop("opal url is required", call. = FALSE)
   if(is.list(url)){
-    lapply(url, function(u){opal.login(username, password, token, u, opts = opts, restore = restore)})
+    lapply(url, function(u){opal.login(username, password, token, u, opts = opts, profile = profile, restore = restore, context = context)})
   } else {
-    .opal.login(username, password, token, url, opts = opts, profile = profile, restore = restore)
+    .opal.login(username, password, token, url, opts = opts, profile = profile, restore = restore, context = context)
   }
 }
 
@@ -153,7 +155,7 @@ opal.profiles <- function(opal, df = TRUE) {
       list(name="default", enabled=TRUE, restrictedAccess=FALSE)
     }
   } else {
-    dtos <- opal.get(opal, "r", "profiles")
+    dtos <- opal.get(opal, opal$context, "profiles")
     if (df) {
       n <- length(dtos)
       name <- rep(NA, n)
@@ -513,7 +515,10 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
 #' Create the opal object
 #' @import httr
 #' @keywords internal
-.opal.login <- function(username, password, token, url, opts = list(), profile = profile, restore = NULL) {
+.opal.login <- function(username, password, token, url, opts = list(), profile = profile, restore = NULL, context = "r") {
+  if (context != "r" && context != "datashield") {
+    stop("R session type must be either 'r' or 'datashield'", call. = FALSE)
+  }
   if (is.null(url)) stop("opal url is required", call. = FALSE)
   opalUrl <- url
   if (startsWith(url, "http://localhost:")) {
@@ -608,6 +613,7 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   if (isTRUE(opal$uprofile$otpRequired)) {
     warning("Enabling 2FA is required, connect to Opal web page to set up your secret.", call. = FALSE)
   }
+  opal$context <- context
   
   opal
 }
@@ -621,7 +627,7 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   if (!is.null(profile))
     query$profile <- profile
   query$wait <- ifelse(wait, "true", "false")
-  resp <- opal.post(opal, "r", "sessions", query = query)
+  resp <- opal.post(opal, opal$context, "sessions", query = query)
   res <- .extractJsonField(resp, c("id"), isArray = FALSE)
   return(res$id)
 }
@@ -643,12 +649,12 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
       if(is.logical(save) && save) {
         saveId <- opal$rid
       }
-      opal.delete(opal, "r", "session", opal$rid, query = list(save = saveId))
+      opal.delete(opal, opal$context, "session", opal$rid, query = list(save = saveId))
       if(saveId !=  save) {
         return(saveId)
       }
     } else {
-      opal.delete(opal, "r", "session", opal$rid)
+      opal.delete(opal, opal$context, "session", opal$rid)
     }
   }
 }
@@ -656,7 +662,7 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
 #' Get all R session in Opal.
 #' @keywords internal
 .getSessions <- function(opal) {
-  .extractJsonField(opal.get(opal, "r", "sessions"))
+  .extractJsonField(opal.get(opal, opal$context, "sessions"))
 }
 
 #' Verbose flag

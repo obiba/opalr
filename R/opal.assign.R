@@ -123,8 +123,7 @@ opal.assign.table <- function(opal, symbol, value, variables=NULL, missings=FALS
     if (async) {
       query["async"] <- "true"
     }
-    ignore <- opal.session(opal)
-    res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+    res <- opal.put(opal, opal$context, "session", opal.session(opal), "symbol", symbol, body=body, contentType=contentType, query=query)
     if (async) {
       res
     }
@@ -198,8 +197,7 @@ opal.assign.script <- function(opal, symbol, value, async=FALSE) {
     if (async) {
       query["async"] <- "true"
     }
-    ignore <- opal.session(opal)
-    res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+    res <- opal.put(opal, opal$context, "session", opal.session(opal), "symbol", symbol, body=body, contentType=contentType, query=query)
     if (async) {
       res
     }
@@ -239,8 +237,7 @@ opal.assign.data <- function(opal, symbol, value, async=FALSE) {
     if (async) {
       query["async"] <- "true"
     }
-    ignore <- opal.session(opal)
-    res <- opal.post(opal, "r", "session", opal$rid, "symbol", symbol, body=body, contentType=contentType, query=query)
+    res <- opal.post(opal, opal$context, "session", opal.session(opal), "symbol", symbol, body=body, contentType=contentType, query=query)
     if (async) {
       res
     }
@@ -276,8 +273,7 @@ opal.assign.resource <- function(opal, symbol, value, async=FALSE) {
     if (async) {
       query["async"] <- "true"
     }
-    ignore <- opal.session(opal)
-    res <- opal.put(opal, "r", "session", opal$rid, "symbol", symbol, "resource", value, query=query)
+    res <- opal.put(opal, opal$context, "session", opal.session(opal), "symbol", symbol, "resource", value, query=query)
     if (async) {
       res
     }

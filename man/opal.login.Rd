@@ -11,7 +11,8 @@ opal.login(
   url = getOption("opal.url"),
   opts = getOption("opal.opts", list()),
   profile = getOption("opal.profile"),
-  restore = NULL
+  restore = NULL,
+  context = "r"
 )
 }
 \arguments{
@@ -28,9 +29,11 @@ Can be provided by "opal.token" option.}
 
 \item{profile}{R server profile name. This will drive the R server in which a R session will be created. If no remote R session
 is needed (because Opal specific operations are done), this parameter does not need to be provided. Otherwise, if missing, the default 
-R server profile will be applied ('default'). See also \link{opal.profiles}.}
+R server profile will be applied ('default'). See also \link{opal.profiles}. Can be provided by "opal.profile" option.}
 
 \item{restore}{Workspace ID to be restored (see also opal.logout)}
+
+\item{context}{Context of the R session to be created. Either "r" (default) or "datashield".}
 }
 \value{
 A opal object or a list of opal objects.
