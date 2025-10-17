@@ -582,6 +582,8 @@ opal.table_export <- function(opal, project, table, file, identifiers=NULL, id.n
 #' @param variables A data frame with one row per variable (column name) and then one column per property/attribute (Opal Excel format).
 #' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute (Opal Excel format). If there are
 #' no categories, this parameter is optional.
+#' @param complete A logical to indicate if the provided dictionary is complete, i.e. that the variables not included in this dictionary
+#' must be removed from the view. Otherwise (default) only the addition or the update of variables is performed.
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -601,8 +603,18 @@ opal.table_export <- function(opal, project, table, file, identifiers=NULL, id.n
 #' opal.logout(o)
 #' }
 #' @export
-opal.table_dictionary_update <- function(opal, project, table, variables, categories = NULL) {
+opal.table_dictionary_update <- function(opal, project, table, variables, categories = NULL, complete = FALSE) {
   body <- .toJSONVariables(table=table, variables = variables, categories = categories)
+  if (complete) {
+    # Get all variables and finds not in provided dictionary
+    dict <- opal.table_dictionary_get(opal, project, table)
+    toDelete <- dict$variables$name[!dict$variables$name %in% variables$name]
+    if (length(toDelete) > 0) {
+      isView <- opal.table_exists(opal, project, table, view = TRUE)
+      query <- setNames(as.list(toDelete), rep("variable", length(toDelete)))
+      opal.delete(opal, "datasource", project, ifelse(isView, "view", "table"), table, "variables", query = query)
+    }
+  }
   ignore <- opal.post(opal, "datasource", project, "table", table, "variables", contentType = "application/json", body = body)
 }
 

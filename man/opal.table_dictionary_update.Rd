@@ -9,7 +9,8 @@ opal.table_dictionary_update(
   project,
   table,
   variables,
-  categories = NULL
+  categories = NULL,
+  complete = FALSE
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ opal.table_dictionary_update(
 
 \item{categories}{A data frame with one row per category (columns variable and name) and then column per property/attribute (Opal Excel format). If there are
 no categories, this parameter is optional.}
+
+\item{complete}{A logical to indicate if the provided dictionary is complete, i.e. that the variables not included in this dictionary
+must be removed from the view. Otherwise (default) only the addition or the update of variables is performed.}
 }
 \description{
 Directly update the dictionary of a Opal table with the provided dictionary.
