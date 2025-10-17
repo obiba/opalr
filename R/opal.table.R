@@ -611,7 +611,8 @@ opal.table_dictionary_update <- function(opal, project, table, variables, catego
     toDelete <- dict$variables$name[!dict$variables$name %in% variables$name]
     if (length(toDelete) > 0) {
       isView <- opal.table_exists(opal, project, table, view = TRUE)
-      query <- setNames(as.list(toDelete), rep("variable", length(toDelete)))
+      query <- as.list(toDelete)
+      names(query) <- rep("variable", length(toDelete))
       opal.delete(opal, "datasource", project, ifelse(isView, "view", "table"), table, "variables", query = query)
     }
   }
