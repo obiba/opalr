@@ -1,10 +1,12 @@
-pandoc: 3.1.1
-pkgdown: 2.0.7
+pandoc: 3.6.3
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   datashield-admin: datashield-admin.html
   opal-files: opal-files.html
   opal-projects: opal-projects.html
   opal-rsession: opal-rsession.html
-last_built: 2024-01-12T15:11Z
-
+last_built: 2025-11-05T14:01Z
+urls:
+  reference: https://www.obiba.org/opalr/reference
+  article: https://www.obiba.org/opalr/articles
