@@ -106,6 +106,7 @@ opal.logout <- function(opal, save = FALSE) {
     
     res <- try(.rmOpalSession(opal), silent = TRUE)
     opal$sid <- NULL
+    opal$csrf <- NULL
   }
   if (!is.null(res) && length(res) > 0 && .is.verbose()) {
     return(res)
@@ -234,10 +235,10 @@ opal.version_compare <- function(opal, version) {
 opal.get <- function(opal, ..., query = list(), acceptType = 'application/json', outFile = NULL, callback = NULL) {
   r <- NULL
   if (is.null(outFile))
-    r <- RETRY('GET', .url(opal, ...), query = query, accept(acceptType), config = opal$config, handle = opal$handle, .verbose(), 
+    r <- RETRY('GET', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, accept(acceptType), config = opal$config, handle = opal$handle, .verbose(), 
                terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   else
-    r <- RETRY('GET', .url(opal, ...), query = query, accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose(), 
+    r <- RETRY('GET', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose(), 
                terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
@@ -264,10 +265,10 @@ opal.get <- function(opal, ..., query = list(), acceptType = 'application/json',
 opal.post <- function(opal, ..., query = list(), body = '', contentType = 'application/x-rscript', acceptType = 'application/json', outFile = NULL, callback = NULL) {
   r <- NULL
   if (is.null(outFile))
-    r <- RETRY('POST', .url(opal, ...), query = query, body = body, content_type(contentType), accept(acceptType), config = opal$config, handle = opal$handle, .verbose(),
+    r <- RETRY('POST', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, body = body, content_type(contentType), accept(acceptType), config = opal$config, handle = opal$handle, .verbose(),
                terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   else
-    r <- RETRY('POST', .url(opal, ...), query = query, body = body, content_type(contentType), accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose(),
+    r <- RETRY('POST', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, body = body, content_type(contentType), accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose(),
                terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
@@ -290,7 +291,7 @@ opal.post <- function(opal, ..., query = list(), body = '', contentType = 'appli
 #' }
 #' @export
 opal.put <- function(opal, ..., query = list(), body = '', contentType = 'application/x-rscript', callback = NULL) {
-  r <- RETRY('PUT', .url(opal, ...), query = query, body = body, content_type(contentType), config = opal$config, handle = opal$handle, .verbose(),
+  r <- RETRY('PUT', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, body = body, content_type(contentType), config = opal$config, handle = opal$handle, .verbose(),
              terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
@@ -311,7 +312,7 @@ opal.put <- function(opal, ..., query = list(), body = '', contentType = 'applic
 #' }
 #' @export
 opal.delete <- function(opal, ..., query = list(), callback = NULL) {
-  r <- RETRY('DELETE', .url(opal, ...), query = query, config = opal$config, handle = opal$handle, .verbose(),
+  r <- RETRY('DELETE', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, config = opal$config, handle = opal$handle, .verbose(),
              terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
@@ -367,7 +368,10 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
     opal$version <- as.character(headers[tolower('X-Opal-Version')])
   }
   if (is.null(opal$sid)) {
-    opal$sid <- .extractOpalSessionId(httr::cookies(response)) 
+    opal$sid <- .extractOpalSessionId(httr::cookies(response))
+  }
+  if (is.null(opal$csrf)) {
+    opal$csrf <- .extractOpalCSRFToken(httr::cookies(response))
   }
   
   if (response$status >= 300) {
@@ -423,6 +427,9 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   }
   if (is.null(opal$sid)) {
     opal$sid <- .extractOpalSessionId(httr::cookies(response))  
+  }
+  if (is.null(opal$csrf)) {
+    opal$csrf <- .extractOpalCSRFToken(httr::cookies(response))
   }
 
   if (response$status >= 300) {
@@ -499,6 +506,18 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
     sid <- cookies[cookies$name == "opalsid",]$value
     if (!is.na(sid)) {
       return(sid)
+    }
+  }
+  return(NULL)
+}
+
+#' Extract CSRF token from cookie data frame.
+#' @keywords internal
+.extractOpalCSRFToken <- function(cookies) {
+  if (nrow(cookies[cookies$name == "XSRF-TOKEN",])>0) {
+    token <- cookies[cookies$name == "XSRF-TOKEN",]$value
+    if (!is.na(token)) {
+      return(token)
     }
   }
   return(NULL)
@@ -594,7 +613,7 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   
   # get user profile to test sign-in
   profileUrl <- .url(opal, "system", "subject-profile", "_current")
-  r <- GET(profileUrl, config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token), handle = opal$handle, .verbose())
+  r <- GET(profileUrl, config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token, 'X-XSRF-TOKEN' = opal$csrf), handle = opal$handle, .verbose())
   if (httr::status_code(r) == 401) {
     headers <- httr::headers(r)
     optHeader <- headers[tolower('WWW-Authenticate')]
@@ -602,9 +621,9 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
       # TOTP code is required
       code <- readline(prompt = 'Enter 6-digits code: ')
       if (optHeader == 'X-Opal-TOTP')
-        r <- GET(profileUrl, config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token, 'X-Opal-TOTP' = code), handle = opal$handle, .verbose())
+        r <- GET(profileUrl, config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token, 'X-Opal-TOTP' = code, 'X-XSRF-TOKEN' = opal$csrf), handle = opal$handle, .verbose())
       else
-        r <- GET(profileUrl, config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token, 'X-Obiba-TOTP' = code), handle = opal$handle, .verbose())
+        r <- GET(profileUrl, config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token, 'X-Obiba-TOTP' = code, 'X-XSRF-TOKEN' = opal$csrf), handle = opal$handle, .verbose())
     }
   }
   opal$uprofile <- .handleResponse(opal, r)
