@@ -619,7 +619,7 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
     optHeader <- headers[tolower('WWW-Authenticate')]
     if (optHeader == 'X-Opal-TOTP' || optHeader == 'X-Obiba-TOTP') {
       # TOTP code is required
-      code <- readline(prompt = 'Enter 6-digits code: ')
+      code <- readline(prompt = paste0('[', opal$name, '] Enter 6-digits code: '))
       if (optHeader == 'X-Opal-TOTP')
         r <- GET(profileUrl, config = opal$config, httr::add_headers(Authorization = opal$authorization, 'X-Opal-Auth' = opal$token, 'X-Opal-TOTP' = code, 'X-XSRF-TOKEN' = opal$csrf), handle = opal$handle, .verbose())
       else
