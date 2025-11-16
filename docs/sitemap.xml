@@ -18,6 +18,7 @@
 <url><loc>https://www.obiba.org/opalr/reference/dot-deparse.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/dot-extractJsonField.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/dot-extractLabel.html</loc></url>
+<url><loc>https://www.obiba.org/opalr/reference/dot-extractOpalCSRFToken.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/dot-extractOpalSessionId.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/dot-getContent.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/dot-getPEMFilePath.html</loc></url>
