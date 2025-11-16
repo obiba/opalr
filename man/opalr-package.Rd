@@ -17,7 +17,7 @@ Useful links:
   \item \url{https://academic.oup.com/ije/article/46/5/1372/4102813}
   \item \url{https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008880}
   \item \url{https://datashield.org/}
-  \item Report bugs at \url{https://github.com/obiba/opalr/issues/}
+  \item Report bugs at \url{https://github.com/obiba/opalr/issues}
 }
 
 }
