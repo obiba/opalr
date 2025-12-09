@@ -52,6 +52,7 @@ opal.sql <- function(opal, query, project = NULL, id.name = '_id') {
   out <- tempfile()
   r <- httr::POST(
     .url(opal, location),
+    httr::add_headers('X-XSRF-TOKEN' = opal$csrf),
     body = list(
       query = query,
       id = id.name
