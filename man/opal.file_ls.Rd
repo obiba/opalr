@@ -27,6 +27,7 @@ Other file functions:
 \code{\link{opal.file}()},
 \code{\link{opal.file_cp}()},
 \code{\link{opal.file_download}()},
+\code{\link{opal.file_info}()},
 \code{\link{opal.file_mkdir}()},
 \code{\link{opal.file_mkdir_tmp}()},
 \code{\link{opal.file_mv}()},

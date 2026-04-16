@@ -11,12 +11,15 @@ opal.file_download(opal, source, destination = NULL, key = NULL)
 
 \item{source}{Path to the file in the Opal file system.}
 
-\item{destination}{Path to the file to be written. If ommitted, file with same name in the working directory will be written.}
+\item{destination}{Path to the file to be written. If omitted, file with same name in the working directory will be written.}
 
 \item{key}{File encryption key: downloaded file will be a zip file with content encrypted (use 7zip to decrypt).}
 }
 \description{
-Download a file or a folder from the Opal file system.
+Download a file or a folder from the Opal file system, optionally encrypted with provided key. If the file is 
+a folder and/or it is to be encrypted, the resulting downloaded file will be a zip archive file. The process
+of preparing this file bundle will be done in a background task. Then the result of this task, if successful,
+will be downloaded.
 }
 \examples{
 \dontrun{
@@ -37,6 +40,7 @@ opal.logout(o)
 Other file functions: 
 \code{\link{opal.file}()},
 \code{\link{opal.file_cp}()},
+\code{\link{opal.file_info}()},
 \code{\link{opal.file_ls}()},
 \code{\link{opal.file_mkdir}()},
 \code{\link{opal.file_mkdir_tmp}()},
