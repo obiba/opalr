@@ -12,7 +12,7 @@ opal.file_info(opal, path)
 \item{path}{Path to the file in the Opal file system.}
 }
 \description{
-Get details about file from the Opal file system.
+Get details about a file from the Opal file system.
 }
 \examples{
 \dontrun{

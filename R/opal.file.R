@@ -10,7 +10,7 @@
 
 #' Get file information
 #' 
-#' Get details about file from the Opal file system.
+#' Get details about a file from the Opal file system.
 #' 
 #' @family file functions
 #' @param opal Opal object.
@@ -96,18 +96,27 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
     stop("File is not readable")
   }
   p <- append("files", strsplit(substring(source, 2), "/")[[1]])
-  if (info$type == "FILE" && is.null(key)) {
+  if (opal.version_compare(opal,"5.7")<0) {
+    # No support for file bundle task
+    if (is.null(key)) {
+      ignore <- opal.get(opal, p, outFile = dest)
+    } else {
+      body <- paste0("key=", key)
+      ignore <- opal.post(opal, p, body=body, contentType="application/x-www-form-urlencoded", outFile = dest)
+    }
+  } else if (info$type == "FILE" && is.null(key)) {
     # Direct download of regular file, not encrypted
     ignore <- opal.get(opal, p, outFile = dest)
+  } else {
+    # Prepare file bundle
+    commandDto <- jsonlite::toJSON(list(paths = source, password = key), null="null")
+    cmd <- opal.post(opal, "shell", "commands", "_file-bundle", body=commandDto, contentType="application/json")
+    # Wait for task completion, will raise error if not a success
+    ignore <- opal.task_wait(opal, cmd$id)
+    ignore <- opal.get(opal, "shell", "command", cmd$id, "_result", outFile = dest)
+    # Delete task to free space on server
+    opal.task_delete(opal, cmd$id)
   }
-  # Prepare file bundle
-  commandDto <- jsonlite::toJSON(list(paths = source, password = key), null="null")
-  cmd <- opal.post(opal, "shell", "commands", "_file-bundle", body=commandDto, contentType="application/json")
-  # Wait for task completion, will raise error if not a success
-  ignore <- opal.task_wait(opal, cmd$id)
-  ignore <- opal.get(opal, "shell", "command", cmd$id, "_result", outFile = dest)
-  # Delete task to free space on server
-  opal.task_delete(opal, cmd$id)
 }
 
 #' Upload a file or a folder

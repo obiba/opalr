@@ -107,9 +107,10 @@ opal.task_cancel=function(opal, id) {
   ignore <- try(opal.put(opal, "shell", "command", id, "status", body='CANCELED', contentType='application/json'), silent=TRUE)
 }
 
-#' Wait for a task to complete.
+#' Wait for a task to complete or anticipate its cancellation.
 #' 
-#' The task completion is defined by its status: *SUCCEEDED*, *FAILED* or *CANCELED*.
+#' The task completion is defined by its status: *SUCCEEDED*, *FAILED* or *CANCELED*. The task being
+#' cancelled has status *CANCEL_PENDING*.
 #' 
 #' @family task functions
 #' @param opal Opal object.
