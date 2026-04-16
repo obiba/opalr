@@ -2,7 +2,7 @@
 % Please edit documentation in R/opal.task.R
 \name{opal.task_wait}
 \alias{opal.task_wait}
-\title{Wait for a task to complete.}
+\title{Wait for a task to complete or anticipate its cancellation.}
 \usage{
 opal.task_wait(opal, id, max = NULL)
 }
@@ -14,7 +14,8 @@ opal.task_wait(opal, id, max = NULL)
 \item{max}{Maximum time (in seconds) to wait for the task completion. Default is NULL (no maximum).}
 }
 \description{
-The task completion is defined by its status: *SUCCEEDED*, *FAILED* or *CANCELED*.
+The task completion is defined by its status: *SUCCEEDED*, *FAILED* or *CANCELED*. The task being
+cancelled has status *CANCEL_PENDING*.
 }
 \examples{
 \dontrun{
@@ -27,6 +28,7 @@ opal.logout(o)
 Other task functions: 
 \code{\link{opal.task}()},
 \code{\link{opal.task_cancel}()},
+\code{\link{opal.task_delete}()},
 \code{\link{opal.tasks}()}
 }
 \concept{task functions}

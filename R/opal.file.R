@@ -8,6 +8,25 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
+#' Get file information
+#' 
+#' Get details about a file from the Opal file system.
+#' 
+#' @family file functions
+#' @param opal Opal object.
+#' @param path Path to the file in the Opal file system.
+#' @examples 
+#' \dontrun{
+#' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
+#' opal.file_info(o, '/home/administrator/joins/join-src-3.csv')
+#' opal.logout(o)
+#' }
+#' @export
+opal.file_info <- function(opal, path) {
+  p <- append("files/_meta", strsplit(substring(path, 2), "/")[[1]])
+  opal.get(opal, p)
+}
+
 #' Get file content
 #' 
 #' Get file content from the Opal file system.
@@ -35,12 +54,15 @@ opal.file <- function(opal, path, key=NULL) {
 
 #' Download a file
 #' 
-#' Download a file or a folder from the Opal file system.
+#' Download a file or a folder from the Opal file system, optionally encrypted with provided key. If the file is 
+#' a folder and/or it is to be encrypted, the resulting downloaded file will be a zip archive file. The process
+#' of preparing this file bundle will be done in a background task. Then the result of this task, if successful,
+#' will be downloaded.
 #' 
 #' @family file functions
 #' @param opal Opal object.
 #' @param source Path to the file in the Opal file system.
-#' @param destination Path to the file to be written. If ommitted, file with same name in the working directory will be written.
+#' @param destination Path to the file to be written. If omitted, file with same name in the working directory will be written.
 #' @param key File encryption key: downloaded file will be a zip file with content encrypted (use 7zip to decrypt).
 #' @examples 
 #' \dontrun{
@@ -57,6 +79,7 @@ opal.file <- function(opal, path, key=NULL) {
 #' opal.logout(o)
 #' }
 #' @export
+#' @import jsonlite
 opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
   name <- basename(source)
   dest <- destination
@@ -68,12 +91,31 @@ opal.file_download <- function(opal, source, destination=NULL, key=NULL) {
   } else if (dirname(destination) != ".") {
     dir.create(dirname(destination), showWarnings=FALSE, recursive=TRUE)
   }
+  info <- opal.file_info(opal, source)
+  if (info$readable == FALSE) {
+    stop("File is not readable")
+  }
   p <- append("files", strsplit(substring(source, 2), "/")[[1]])
-  if (is.null(key)) {
+  if (opal.version_compare(opal,"5.7")<0) {
+    # No support for file bundle task
+    if (is.null(key)) {
+      ignore <- opal.get(opal, p, outFile = dest)
+    } else {
+      body <- paste0("key=", key)
+      ignore <- opal.post(opal, p, body=body, contentType="application/x-www-form-urlencoded", outFile = dest)
+    }
+  } else if (info$type == "FILE" && is.null(key)) {
+    # Direct download of regular file, not encrypted
     ignore <- opal.get(opal, p, outFile = dest)
   } else {
-    body <- paste0("key=", key)
-    ignore <- opal.post(opal, p, body=body, contentType="application/x-www-form-urlencoded", outFile = dest)
+    # Prepare file bundle
+    commandDto <- jsonlite::toJSON(list(paths = source, password = key), null="null")
+    cmd <- opal.post(opal, "shell", "commands", "_file-bundle", body=commandDto, contentType="application/json")
+    # Wait for task completion, will raise error if not a success
+    ignore <- opal.task_wait(opal, cmd$id)
+    ignore <- opal.get(opal, "shell", "command", cmd$id, "_result", outFile = dest)
+    # Delete task to free space on server
+    opal.task_delete(opal, cmd$id)
   }
 }
 
