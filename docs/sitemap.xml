@@ -137,6 +137,7 @@
 <url><loc>https://www.obiba.org/opalr/reference/opal.file.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/opal.file_cp.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/opal.file_download.html</loc></url>
+<url><loc>https://www.obiba.org/opalr/reference/opal.file_info.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/opal.file_ls.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/opal.file_mkdir.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/opal.file_mkdir_tmp.html</loc></url>
@@ -218,6 +219,7 @@
 <url><loc>https://www.obiba.org/opalr/reference/opal.tables_perm_delete.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/opal.task.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/opal.task_cancel.html</loc></url>
+<url><loc>https://www.obiba.org/opalr/reference/opal.task_delete.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/opal.task_wait.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/opal.tasks.html</loc></url>
 <url><loc>https://www.obiba.org/opalr/reference/opal.taxonomies.html</loc></url>
