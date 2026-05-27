@@ -25,10 +25,10 @@
 #' opal.logout(o)
 #' }
 #' @export
-oadmin.install_package <- function(opal, pkg, repos=NULL, profile = NULL) {
-  if(is.list(opal)){
+oadmin.install_package <- function(opal, pkg, repos = NULL, profile = NULL) {
+  if (is.list(opal)) {
     lapply(opal, function(o){oadmin.install_package(o, pkg, repos)})
-  } else if (opal.version_compare(opal, "4.0")<0) {
+  } else if (opal.version_compare(opal, "4.0") < 0) {
     # default repos
     defaultrepos <- c(getOption("repos"), "http://cran.obiba.org", "http://cloud.r-project.org")
     if (getOption("repos") != "@CRAN@") {
@@ -120,13 +120,13 @@ oadmin.installed_packages <- function(opal, profile = NULL) {
     cluster <- replicate(n, NA)
     rserver <- replicate(n, NA)
     fields <- list()
-    if (n>0) {
+    if (n > 0) {
       # scan for description fields
       for (i in 1:n) {
         for (fieldName in sapply(dtos[[i]]$description, function(f) f$key))
           if (!(fieldName %in% names(fields)))
             fields[[fieldName]] <- replicate(n, NA)
-      }
+          }
       # populate
       for (i in 1:n) {
         name[i] <- dtos[[i]]$name
@@ -134,8 +134,8 @@ oadmin.installed_packages <- function(opal, profile = NULL) {
         rserver[i] <- dtos[[i]]$rserver
         for (field in dtos[[i]]$description)
           fields[[field$key]][i] <- .nullToNA(field$value)
+        }
       }
-    }
     df <- data.frame(name = name, cluster = cluster, rserver = rserver, stringsAsFactors = FALSE)
     for (fieldName in names(fields))
       df[[fieldName]] <- fields[[fieldName]]
@@ -158,16 +158,16 @@ oadmin.installed_packages <- function(opal, profile = NULL) {
 #' }
 #' @export
 oadmin.package_description <- function(opal, pkg, fields=NULL, profile = NULL) {
-  if(is.list(opal)){
+  if (is.list(opal)) {
     lapply(opal, function(o){oadmin.package_description(o, pkg, fields=fields)})
-  } else if (opal.version_compare(opal, "4.0")<0) {
+  } else if (opal.version_compare(opal, "4.0") < 0) {
     # always query for Datashield fields
     fields <- append(c("Title","Description","Author","Maintainer","Date/Publication","AggregateMethods","AssignMethods"), fields)
     inst <- opal.execute(opal, paste('installed.packages(fields=c("', paste(fields, collapse='","') ,'"))', sep=''), FALSE)
     desc <- NULL
     for (i in 1:nrow(inst)) {
-      if(inst[i]==pkg) {
-        desc <- strsplit(inst[i,],"\n")
+      if (inst[i] == pkg) {
+        desc <- strsplit(inst[i, ], "\n")
         break
       }
     }
@@ -331,7 +331,7 @@ oadmin.install_local_package <- function(opal, path, profile = NULL) {
   tmp <- opal.file_mkdir_tmp(opal)
   opal.file_upload(opal, path, tmp)
 
-  if (opal.version_compare(opal, "4.2")<0) {
+  if (opal.version_compare(opal, "4.2") < 0) {
     opal.file_write(opal, paste0(tmp, filename))
     opal.execute(opal, paste0("install.packages('", filename, "', repos = NULL, type ='source')"))
   } else {
@@ -417,7 +417,7 @@ oadmin.r_perm_delete <- function(opal, subject, type = "user") {
   if (!(tolower(type) %in% c("user", "group"))) {
     stop("Not a valid subject type: ", type)
   }
-  if (length(subject)<1) {
+  if (length(subject) < 1) {
     stop("At least one subject is required")
   }
   for (i in 1:length(subject)) {
@@ -454,7 +454,7 @@ oadmin.system_metrics <- function(opal) {
 #' @param opal Opal connection object.
 #' @param subject A vector of subject identifiers: user names or group names (depending on the type).
 #' @param type The type of subject: user (default) or group.
-#' @param permission The permission to apply: project_add or administrate.
+#' @param permission The permission to apply: project_add, audit or administrate.
 #' @examples
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
@@ -521,7 +521,7 @@ oadmin.system_perm_delete <- function(opal, subject, type = "user") {
   if (!(tolower(type) %in% c("user", "group"))) {
     stop("Not a valid subject type: ", type)
   }
-  if (length(subject)<1) {
+  if (length(subject) < 1) {
     stop("At least one subject is required")
   }
   for (i in 1:length(subject)) {
@@ -620,7 +620,7 @@ oadmin.perm_delete <- function(opal, subject, type = "user") {
 #' }
 #' @export
 oadmin.activity <- function(opal, user = NULL, profile = NULL, from = NULL, to = NULL, df = TRUE) {
-  if (opal.version_compare(opal,"4.6")<0) {
+  if (opal.version_compare(opal, "4.6") < 0) {
     stop("R activity requires Opal 4.6 or higher.")
   }
   dtos <- opal.get(opal, "service", "r", "activity", query = list(context = "R", user = user, profile = profile, from = from, to = to))
@@ -631,7 +631,7 @@ oadmin.activity <- function(opal, user = NULL, profile = NULL, from = NULL, to =
     created <- rep(NA, n)
     updated <- rep(NA, n)
     executionTimeMillis <- rep(NA, n)
-    if (n>0) {
+    if (n > 0) {
       for (i in 1:n) {
         profile[i] <- dtos[[i]]$profile
         user[i] <- dtos[[i]]$user
@@ -669,7 +669,7 @@ oadmin.activity <- function(opal, user = NULL, profile = NULL, from = NULL, to =
 #' }
 #' @export
 oadmin.activity_summary <- function(opal, user = NULL, profile = NULL, from = NULL, to = NULL, df = TRUE) {
-  if (opal.version_compare(opal,"4.6")<0) {
+  if (opal.version_compare(opal, "4.6") < 0) {
     stop("DataSHIELD activity requires Opal 4.6 or higher.")
   }
   dtos <- opal.get(opal, "service", "r", "activity", "_summary",  query = list(context = "R", user = user, profile = profile, from = from, to = to))
@@ -681,7 +681,7 @@ oadmin.activity_summary <- function(opal, user = NULL, profile = NULL, from = NU
     end <- rep(NA, n)
     executionTimeMillis <- rep(NA, n)
     sessionsCount <- rep(NA, n)
-    if (n>0) {
+    if (n > 0) {
       for (i in 1:n) {
         profile[i] <- dtos[[i]]$profile
         user[i] <- dtos[[i]]$user
