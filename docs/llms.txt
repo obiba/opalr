@@ -1,0 +1,504 @@
+# Opal R
+
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/opalr)](https://cran.r-project.org/package=opalr)
+[![R-CMD-check](https://github.com/obiba/opalr/actions/workflows/ci.yml/badge.svg)](https://github.com/obiba/opalr/actions/workflows/ci.yml)
+
+Opal R Client for the [Opal](https://www.obiba.org/pages/products/opal/)
+data warehouse. Most of the web services of Opal can be reached by an
+`opalr` function: import/export, data dictionaries, projects, tables,
+resources, permissions, users, DataSHIELD profiles etc.
+
+See [opalr documentation](https://www.obiba.org/opalr/).
+
+Installation:
+
+    # install from CRAN
+    install.packages("opalr")
+
+    # or install latest development version
+    remotes::install_github("obiba/opalr")
+
+Basic usage:
+
+    library(opalr)
+    o <- opal.login('administrator', 'password', url = 'https://opal-demo.obiba.org')
+
+    # assign a table (as a data.frame) to a R symbol
+    opal.assign(o, 'D', 'CNSIM.CNSIM1')
+
+    # perform R operations on the server side
+    opal.execute(o, 'summary(D$GENDER)')
+    opal.execute(o, 'summary(D$LAB_GLUC)')
+
+    opal.logout(o)
+
+## Options
+
+Some helper options can be defined to control default values and
+behavior:
+
+- `opal.username`, the login user name (default is `NULL`).
+- `opal.password`, the login user password (default is `NULL`).
+- `opal.token`, the login personal access token (default is `NULL`).
+- `opal.url`, the login Opal URL (default is `NULL`).
+- `opal.opts`, the curl options (default is `NULL`), see
+  [httr::httr_options](https://httr.r-lib.org/reference/httr_options.html).
+- `opal.profile`, the login profile (R servers cluster name) (default is
+  `NULL`).
+- `opal.progress`, whether to show progress bar (default is `TRUE`).
+- `opal.progress.clear`, whether to clear progress bar after it is
+  completed (default is `FALSE`).
+- `opal.retry.times`, the maximum number of GET requests to attempt
+  (default is `3`, no retry when value is `1`).
+- `opal.retry.quiet`, whether to print a message displaying how long
+  until the next request (default is `FALSE`).
+
+## Cookbooks
+
+- How to perform [DataSHIELD
+  Administration](https://www.obiba.org/opalr/articles/datashield-admin.html)
+- How to manage [Opal
+  Files](https://www.obiba.org/opalr/articles/opal-files.html)
+- How to manage [Opal
+  Projects](https://www.obiba.org/opalr/articles/opal-projects.html)
+- How to interact with an [Opal R
+  Session](https://www.obiba.org/opalr/articles/opal-rsession.html)
+
+## DataSHIELD Client
+
+See the [DSOpal](https://datashield.github.io/DSOpal/) documentation.
+
+# Package index
+
+## All functions
+
+- [`dictionary.annotate()`](https://www.obiba.org/opalr/reference/dictionary.annotate.md)
+  : Set variable annotation with a taxonomy term
+- [`dictionary.annotate.harmo_status()`](https://www.obiba.org/opalr/reference/dictionary.annotate.harmo_status.md)
+  : Set variable annotation with Harmonization Status term
+- [`dictionary.annotations()`](https://www.obiba.org/opalr/reference/dictionary.annotations.md)
+  : List the annotations
+- [`dictionary.apply()`](https://www.obiba.org/opalr/reference/dictionary.apply.md)
+  : Apply the dictionary to a tibble
+- [`dictionary.inspect()`](https://www.obiba.org/opalr/reference/dictionary.inspect.md)
+  : Inspect the dictionary of a tibble
+- [`dsadmin.activity()`](https://www.obiba.org/opalr/reference/dsadmin.activity.md)
+  : Get DataSHIELD activity
+- [`dsadmin.activity_summary()`](https://www.obiba.org/opalr/reference/dsadmin.activity_summary.md)
+  : Get DataSHIELD activity summary
+- [`dsadmin.get_method()`](https://www.obiba.org/opalr/reference/dsadmin.get_method.md)
+  : Get a DataSHIELD method
+- [`dsadmin.get_methods()`](https://www.obiba.org/opalr/reference/dsadmin.get_methods.md)
+  : Get DataSHIELD methods
+- [`dsadmin.get_options()`](https://www.obiba.org/opalr/reference/dsadmin.get_options.md)
+  : Get the DataSHIELD options
+- [`dsadmin.install_github_package()`](https://www.obiba.org/opalr/reference/dsadmin.install_github_package.md)
+  : Install a DataSHIELD package from GitHub
+- [`dsadmin.install_local_package()`](https://www.obiba.org/opalr/reference/dsadmin.install_local_package.md)
+  : Install a DataSHIELD package from a local archive file
+- [`dsadmin.install_package()`](https://www.obiba.org/opalr/reference/dsadmin.install_package.md)
+  : Install a DataSHIELD package
+- [`dsadmin.installed_package()`](https://www.obiba.org/opalr/reference/dsadmin.installed_package.md)
+  : Check DataSHIELD package
+- [`dsadmin.log()`](https://www.obiba.org/opalr/reference/dsadmin.log.md)
+  : Get DataSHIELD logs
+- [`dsadmin.package_description()`](https://www.obiba.org/opalr/reference/dsadmin.package_description.md)
+  : Get DataSHIELD package description
+- [`dsadmin.package_descriptions()`](https://www.obiba.org/opalr/reference/dsadmin.package_descriptions.md)
+  : Get DataSHIELD package descriptions
+- [`dsadmin.perm()`](https://www.obiba.org/opalr/reference/dsadmin.perm.md)
+  : Get the DataSHIELD permissions
+- [`dsadmin.perm_add()`](https://www.obiba.org/opalr/reference/dsadmin.perm_add.md)
+  : Add or update a DataSHIELD permission
+- [`dsadmin.perm_delete()`](https://www.obiba.org/opalr/reference/dsadmin.perm_delete.md)
+  : Delete a DataSHIELD permission
+- [`dsadmin.profile()`](https://www.obiba.org/opalr/reference/dsadmin.profile.md)
+  : Get a DataSHIELD profile
+- [`dsadmin.profile_access()`](https://www.obiba.org/opalr/reference/dsadmin.profile_access.md)
+  : Restrict or open access to a DataSHIELD profile
+- [`dsadmin.profile_create()`](https://www.obiba.org/opalr/reference/dsadmin.profile_create.md)
+  : Create a DataSHIELD profile
+- [`dsadmin.profile_delete()`](https://www.obiba.org/opalr/reference/dsadmin.profile_delete.md)
+  : Delete a DataSHIELD profile
+- [`dsadmin.profile_enable()`](https://www.obiba.org/opalr/reference/dsadmin.profile_enable.md)
+  : Enable or disable a DataSHIELD profile
+- [`dsadmin.profile_exists()`](https://www.obiba.org/opalr/reference/dsadmin.profile_exists.md)
+  : Check a DataSHIELD profile exists
+- [`dsadmin.profile_init()`](https://www.obiba.org/opalr/reference/dsadmin.profile_init.md)
+  : Initialize a DataSHIELD profile
+- [`dsadmin.profile_perm()`](https://www.obiba.org/opalr/reference/dsadmin.profile_perm.md)
+  : Get the permissions of a DataSHIELD profile
+- [`dsadmin.profile_perm_add()`](https://www.obiba.org/opalr/reference/dsadmin.profile_perm_add.md)
+  : Add or update a permission on a DataSHIELD profile
+- [`dsadmin.profile_perm_delete()`](https://www.obiba.org/opalr/reference/dsadmin.profile_perm_delete.md)
+  : Delete a permission from a DataSHIELD profile
+- [`dsadmin.profile_rparser()`](https://www.obiba.org/opalr/reference/dsadmin.profile_rparser.md)
+  : Set or remove the R parser version of a DataSHIELD profile
+- [`dsadmin.profiles()`](https://www.obiba.org/opalr/reference/dsadmin.profiles.md)
+  : Get DataSHIELD profiles
+- [`dsadmin.publish_package()`](https://www.obiba.org/opalr/reference/dsadmin.publish_package.md)
+  : Publish DataSHIELD package settings
+- [`dsadmin.remove_package()`](https://www.obiba.org/opalr/reference/dsadmin.remove_package.md)
+  : Remove DataSHIELD package
+- [`dsadmin.rm_method()`](https://www.obiba.org/opalr/reference/dsadmin.rm_method.md)
+  : Remove DataSHIELD method
+- [`dsadmin.rm_methods()`](https://www.obiba.org/opalr/reference/dsadmin.rm_methods.md)
+  : Remove DataSHIELD methods.
+- [`dsadmin.rm_option()`](https://www.obiba.org/opalr/reference/dsadmin.rm_option.md)
+  : Remove a DataSHIELD option
+- [`dsadmin.rm_options()`](https://www.obiba.org/opalr/reference/dsadmin.rm_options.md)
+  : Remove all DataSHIELD options
+- [`dsadmin.rm_package_methods()`](https://www.obiba.org/opalr/reference/dsadmin.rm_package_methods.md)
+  : Remove DataSHIELD package methods
+- [`dsadmin.set_method()`](https://www.obiba.org/opalr/reference/dsadmin.set_method.md)
+  : Set DataSHIELD method
+- [`dsadmin.set_option()`](https://www.obiba.org/opalr/reference/dsadmin.set_option.md)
+  : Set DataSHIELD option
+- [`dsadmin.set_package_methods()`](https://www.obiba.org/opalr/reference/dsadmin.set_package_methods.md)
+  : Set DataSHIELD package methods
+- [`dsadmin.unpublish_package()`](https://www.obiba.org/opalr/reference/dsadmin.unpublish_package.md)
+  : Unpublish DataSHIELD package settings
+- [`oadmin.activity()`](https://www.obiba.org/opalr/reference/oadmin.activity.md)
+  : Get R activity
+- [`oadmin.activity_summary()`](https://www.obiba.org/opalr/reference/oadmin.activity_summary.md)
+  : Get R activity summary
+- [`oadmin.install_bioconductor_package()`](https://www.obiba.org/opalr/reference/oadmin.install_bioconductor_package.md)
+  : Install a package from Bioconductor
+- [`oadmin.install_cran_package()`](https://www.obiba.org/opalr/reference/oadmin.install_cran_package.md)
+  : Install a package from CRAN
+- [`oadmin.install_devtools()`](https://www.obiba.org/opalr/reference/oadmin.install_devtools.md)
+  : Install devtools package
+- [`oadmin.install_github_package()`](https://www.obiba.org/opalr/reference/oadmin.install_github_package.md)
+  : Install a package from GitHub
+- [`oadmin.install_local_package()`](https://www.obiba.org/opalr/reference/oadmin.install_local_package.md)
+  : Install a package from a local archive file
+- [`oadmin.install_package()`](https://www.obiba.org/opalr/reference/oadmin.install_package.md)
+  : Install CRAN package
+- [`oadmin.installed_devtools()`](https://www.obiba.org/opalr/reference/oadmin.installed_devtools.md)
+  : Check devtools package
+- [`oadmin.installed_package()`](https://www.obiba.org/opalr/reference/oadmin.installed_package.md)
+  : Check package is installed
+- [`oadmin.installed_packages()`](https://www.obiba.org/opalr/reference/oadmin.installed_packages.md)
+  : List installed packages
+- [`oadmin.log()`](https://www.obiba.org/opalr/reference/oadmin.log.md)
+  : Get Opal main logs
+- [`oadmin.log_rest()`](https://www.obiba.org/opalr/reference/oadmin.log_rest.md)
+  : Get Opal REST API logs
+- [`oadmin.log_sql()`](https://www.obiba.org/opalr/reference/oadmin.log_sql.md)
+  : Get Opal SQL API logs
+- [`oadmin.package_description()`](https://www.obiba.org/opalr/reference/oadmin.package_description.md)
+  : Get package description
+- [`oadmin.perm()`](https://www.obiba.org/opalr/reference/oadmin.perm.md)
+  : Get the R permissions (deprecated)
+- [`oadmin.perm_add()`](https://www.obiba.org/opalr/reference/oadmin.perm_add.md)
+  : Add or update a R permission (deprecated)
+- [`oadmin.perm_delete()`](https://www.obiba.org/opalr/reference/oadmin.perm_delete.md)
+  : Delete a R permission (deprecated)
+- [`oadmin.r_perm()`](https://www.obiba.org/opalr/reference/oadmin.r_perm.md)
+  : Get the R permissions
+- [`oadmin.r_perm_add()`](https://www.obiba.org/opalr/reference/oadmin.r_perm_add.md)
+  : Add or update a R permission
+- [`oadmin.r_perm_delete()`](https://www.obiba.org/opalr/reference/oadmin.r_perm_delete.md)
+  : Delete a R permission
+- [`oadmin.remove_package()`](https://www.obiba.org/opalr/reference/oadmin.remove_package.md)
+  : Remove package
+- [`oadmin.system_metrics()`](https://www.obiba.org/opalr/reference/oadmin.system_metrics.md)
+  : Get system metrics
+- [`oadmin.system_perm()`](https://www.obiba.org/opalr/reference/oadmin.system_perm.md)
+  : Get the System permissions
+- [`oadmin.system_perm_add()`](https://www.obiba.org/opalr/reference/oadmin.system_perm_add.md)
+  : Add or update a System permission
+- [`oadmin.system_perm_delete()`](https://www.obiba.org/opalr/reference/oadmin.system_perm_delete.md)
+  : Delete a System permission
+- [`oadmin.user_add()`](https://www.obiba.org/opalr/reference/oadmin.user_add.md)
+  : Add a user
+- [`oadmin.user_delete()`](https://www.obiba.org/opalr/reference/oadmin.user_delete.md)
+  : Delete a user
+- [`oadmin.user_enable()`](https://www.obiba.org/opalr/reference/oadmin.user_enable.md)
+  : Enable a user
+- [`oadmin.user_exists()`](https://www.obiba.org/opalr/reference/oadmin.user_exists.md)
+  : Check user exists
+- [`oadmin.user_profile_delete()`](https://www.obiba.org/opalr/reference/oadmin.user_profile_delete.md)
+  : Delete a user profile
+- [`oadmin.user_profiles()`](https://www.obiba.org/opalr/reference/oadmin.user_profiles.md)
+  : Get user profiles
+- [`oadmin.user_reset_password()`](https://www.obiba.org/opalr/reference/oadmin.user_reset_password.md)
+  : Reset user password
+- [`oadmin.users()`](https://www.obiba.org/opalr/reference/oadmin.users.md)
+  : Get the users
+- [`opal.annotate()`](https://www.obiba.org/opalr/reference/opal.annotate.md)
+  : Apply the annotations to a Opal table
+- [`opal.annotations()`](https://www.obiba.org/opalr/reference/opal.annotations.md)
+  : Get the annotations of a Opal table
+- [`opal.as_md_table()`](https://www.obiba.org/opalr/reference/opal.as_md_table.md)
+  : Array to Markdown
+- [`opal.assign()`](https://www.obiba.org/opalr/reference/opal.assign.md)
+  : Data or expression assignment
+- [`opal.assign.data()`](https://www.obiba.org/opalr/reference/opal.assign.data.md)
+  : Data assignment
+- [`opal.assign.resource()`](https://www.obiba.org/opalr/reference/opal.assign.resource.md)
+  : Resource assignment
+- [`opal.assign.script()`](https://www.obiba.org/opalr/reference/opal.assign.script.md)
+  : R script assignment
+- [`opal.assign.table()`](https://www.obiba.org/opalr/reference/opal.assign.table.md)
+  : Data assignment to a data.frame
+- [`opal.assign.table.tibble()`](https://www.obiba.org/opalr/reference/opal.assign.table.tibble.md)
+  : Data assignment to a tibble
+- [`opal.attribute_values()`](https://www.obiba.org/opalr/reference/opal.attribute_values.md)
+  : Get a vector of attribute values
+- [`opal.command()`](https://www.obiba.org/opalr/reference/opal.command.md)
+  : Get an asynchronous command
+- [`opal.command_result()`](https://www.obiba.org/opalr/reference/opal.command_result.md)
+  : Get result of an asynchronous command
+- [`opal.command_rm()`](https://www.obiba.org/opalr/reference/opal.command_rm.md)
+  : Remove an asynchronous command
+- [`opal.commands()`](https://www.obiba.org/opalr/reference/opal.commands.md)
+  : List the asynchronous commands
+- [`opal.commands_rm()`](https://www.obiba.org/opalr/reference/opal.commands_rm.md)
+  : Remove all asynchronous commands
+- [`opal.datasource()`](https://www.obiba.org/opalr/reference/opal.datasource.md)
+  : Get a datasource
+- [`opal.datasources()`](https://www.obiba.org/opalr/reference/opal.datasources.md)
+  : Get datasources
+- [`opal.delete()`](https://www.obiba.org/opalr/reference/opal.delete.md)
+  : Generic REST resource deletion.
+- [`opal.execute()`](https://www.obiba.org/opalr/reference/opal.execute.md)
+  : Execute a R script
+- [`opal.execute.source()`](https://www.obiba.org/opalr/reference/opal.execute.source.md)
+  : Execute a R file script
+- [`opal.file()`](https://www.obiba.org/opalr/reference/opal.file.md) :
+  Get file content
+- [`opal.file_cp()`](https://www.obiba.org/opalr/reference/opal.file_cp.md)
+  : Copy a file
+- [`opal.file_download()`](https://www.obiba.org/opalr/reference/opal.file_download.md)
+  : Download a file
+- [`opal.file_info()`](https://www.obiba.org/opalr/reference/opal.file_info.md)
+  : Get file information
+- [`opal.file_ls()`](https://www.obiba.org/opalr/reference/opal.file_ls.md)
+  : List content of a folder
+- [`opal.file_mkdir()`](https://www.obiba.org/opalr/reference/opal.file_mkdir.md)
+  : Make a folder
+- [`opal.file_mkdir_tmp()`](https://www.obiba.org/opalr/reference/opal.file_mkdir_tmp.md)
+  : Make a temporary folder
+- [`opal.file_mv()`](https://www.obiba.org/opalr/reference/opal.file_mv.md)
+  : Move and/or rename a file
+- [`opal.file_read()`](https://www.obiba.org/opalr/reference/opal.file_read.md)
+  : Read a file
+- [`opal.file_rm()`](https://www.obiba.org/opalr/reference/opal.file_rm.md)
+  : Remove a file
+- [`opal.file_unzip()`](https://www.obiba.org/opalr/reference/opal.file_unzip.md)
+  : Unzip a zip archive file
+- [`opal.file_upload()`](https://www.obiba.org/opalr/reference/opal.file_upload.md)
+  : Upload a file or a folder
+- [`opal.file_write()`](https://www.obiba.org/opalr/reference/opal.file_write.md)
+  : Write a file
+- [`opal.get()`](https://www.obiba.org/opalr/reference/opal.get.md) :
+  Generic REST resource getter.
+- [`opal.load_package()`](https://www.obiba.org/opalr/reference/opal.load_package.md)
+  : Load package
+- [`opal.login()`](https://www.obiba.org/opalr/reference/opal.login.md)
+  : Opal login
+- [`opal.logout()`](https://www.obiba.org/opalr/reference/opal.logout.md)
+  : Logout from Opal(s)
+- [`opal.perms()`](https://www.obiba.org/opalr/reference/opal.perms.md)
+  : Get the permissions of a subject
+- [`opal.post()`](https://www.obiba.org/opalr/reference/opal.post.md) :
+  Generic REST resource creation.
+- [`opal.profiles()`](https://www.obiba.org/opalr/reference/opal.profiles.md)
+  : List R profiles
+- [`opal.project()`](https://www.obiba.org/opalr/reference/opal.project.md)
+  : Get a project
+- [`opal.project_backup()`](https://www.obiba.org/opalr/reference/opal.project_backup.md)
+  : Backup a project
+- [`opal.project_command()`](https://www.obiba.org/opalr/reference/opal.project_command.md)
+  : Get project task
+- [`opal.project_create()`](https://www.obiba.org/opalr/reference/opal.project_create.md)
+  : Create a project
+- [`opal.project_delete()`](https://www.obiba.org/opalr/reference/opal.project_delete.md)
+  : Delete a project
+- [`opal.project_exists()`](https://www.obiba.org/opalr/reference/opal.project_exists.md)
+  : Check a project exists
+- [`opal.project_perm()`](https://www.obiba.org/opalr/reference/opal.project_perm.md)
+  : Get the permissions on a project
+- [`opal.project_perm_add()`](https://www.obiba.org/opalr/reference/opal.project_perm_add.md)
+  : Add or update a permission on a project
+- [`opal.project_perm_delete()`](https://www.obiba.org/opalr/reference/opal.project_perm_delete.md)
+  : Delete a permission from a project
+- [`opal.project_restore()`](https://www.obiba.org/opalr/reference/opal.project_restore.md)
+  : Restore a project
+- [`opal.projects()`](https://www.obiba.org/opalr/reference/opal.projects.md)
+  : Get projects
+- [`opal.projects_databases()`](https://www.obiba.org/opalr/reference/opal.projects_databases.md)
+  : Get projects databases
+- [`opal.put()`](https://www.obiba.org/opalr/reference/opal.put.md) :
+  Generic REST resource update.
+- [`opal.report()`](https://www.obiba.org/opalr/reference/opal.report.md)
+  : Opal report
+- [`opal.resource()`](https://www.obiba.org/opalr/reference/opal.resource.md)
+  : Get a resource reference of a project
+- [`opal.resource_create()`](https://www.obiba.org/opalr/reference/opal.resource_create.md)
+  : Create a resource reference in a project
+- [`opal.resource_delete()`](https://www.obiba.org/opalr/reference/opal.resource_delete.md)
+  : Delete a resource reference
+- [`opal.resource_exists()`](https://www.obiba.org/opalr/reference/opal.resource_exists.md)
+  : Check a resource reference exists
+- [`opal.resource_extension_create()`](https://www.obiba.org/opalr/reference/opal.resource_extension_create.md)
+  : Create an extended resource reference in a project
+- [`opal.resource_get()`](https://www.obiba.org/opalr/reference/opal.resource_get.md)
+  : Get the resource object of a project
+- [`opal.resource_perm()`](https://www.obiba.org/opalr/reference/opal.resource_perm.md)
+  : Get the permissions on a resource
+- [`opal.resource_perm_add()`](https://www.obiba.org/opalr/reference/opal.resource_perm_add.md)
+  : Add or update a permission on a resource
+- [`opal.resource_perm_delete()`](https://www.obiba.org/opalr/reference/opal.resource_perm_delete.md)
+  : Delete a permission from a resource
+- [`opal.resource_view_create()`](https://www.obiba.org/opalr/reference/opal.resource_view_create.md)
+  : Create an Opal view over a resource reference
+- [`opal.resource_view_reconnect()`](https://www.obiba.org/opalr/reference/opal.resource_view_reconnect.md)
+  : Reconnect an Opal view to its underlying resource
+- [`opal.resources()`](https://www.obiba.org/opalr/reference/opal.resources.md)
+  : Get the resource references of a project
+- [`opal.resources_perm()`](https://www.obiba.org/opalr/reference/opal.resources_perm.md)
+  : Get the permissions on any resource
+- [`opal.resources_perm_add()`](https://www.obiba.org/opalr/reference/opal.resources_perm_add.md)
+  : Add or update a permission on any resource
+- [`opal.resources_perm_delete()`](https://www.obiba.org/opalr/reference/opal.resources_perm_delete.md)
+  : Delete a permission from any resource
+- [`opal.rm()`](https://www.obiba.org/opalr/reference/opal.rm.md) :
+  Remove a R symbol (deprecated)
+- [`opal.session()`](https://www.obiba.org/opalr/reference/opal.session.md)
+  : Create the R session
+- [`opal.session_delete()`](https://www.obiba.org/opalr/reference/opal.session_delete.md)
+  : Delete the R session
+- [`opal.session_events()`](https://www.obiba.org/opalr/reference/opal.session_events.md)
+  : Get the events associated to the R session
+- [`opal.session_exists()`](https://www.obiba.org/opalr/reference/opal.session_exists.md)
+  : Check if the R session exists
+- [`opal.session_get()`](https://www.obiba.org/opalr/reference/opal.session_get.md)
+  : Get the R session
+- [`opal.session_running()`](https://www.obiba.org/opalr/reference/opal.session_running.md)
+  : Check if the R session is running
+- [`opal.sql()`](https://www.obiba.org/opalr/reference/opal.sql.md) :
+  Execute a SQL query on tables
+- [`opal.sql_history()`](https://www.obiba.org/opalr/reference/opal.sql_history.md)
+  : SQL query execution history
+- [`opal.symbol_import()`](https://www.obiba.org/opalr/reference/opal.symbol_import.md)
+  : Import a tibble
+- [`opal.symbol_rm()`](https://www.obiba.org/opalr/reference/opal.symbol_rm.md)
+  : Remove a R symbol
+- [`opal.symbol_save()`](https://www.obiba.org/opalr/reference/opal.symbol_save.md)
+  : Save a tibble
+- [`opal.symbols()`](https://www.obiba.org/opalr/reference/opal.symbols.md)
+  : List R symbols
+- [`opal.table()`](https://www.obiba.org/opalr/reference/opal.table.md)
+  : Get a table of a datasource
+- [`opal.table_create()`](https://www.obiba.org/opalr/reference/opal.table_create.md)
+  : Create an Opal table or view
+- [`opal.table_delete()`](https://www.obiba.org/opalr/reference/opal.table_delete.md)
+  : Delete a Opal table
+- [`opal.table_dictionary_get()`](https://www.obiba.org/opalr/reference/opal.table_dictionary_get.md)
+  : Get the dictionary of a Opal table
+- [`opal.table_dictionary_update()`](https://www.obiba.org/opalr/reference/opal.table_dictionary_update.md)
+  : Update the dictionary of a Opal table
+- [`opal.table_exists()`](https://www.obiba.org/opalr/reference/opal.table_exists.md)
+  : Check a Opal table exists
+- [`opal.table_export()`](https://www.obiba.org/opalr/reference/opal.table_export.md)
+  : Export a table as a file
+- [`opal.table_get()`](https://www.obiba.org/opalr/reference/opal.table_get.md)
+  : Get a Opal table as a tibble
+- [`opal.table_import()`](https://www.obiba.org/opalr/reference/opal.table_import.md)
+  : Import a file as table
+- [`opal.table_perm()`](https://www.obiba.org/opalr/reference/opal.table_perm.md)
+  : Get the permissions on a table
+- [`opal.table_perm_add()`](https://www.obiba.org/opalr/reference/opal.table_perm_add.md)
+  : Add or update a permission on a table
+- [`opal.table_perm_delete()`](https://www.obiba.org/opalr/reference/opal.table_perm_delete.md)
+  : Delete a permission from a table
+- [`opal.table_save()`](https://www.obiba.org/opalr/reference/opal.table_save.md)
+  : Save a local tibble as a Opal table
+- [`opal.table_truncate()`](https://www.obiba.org/opalr/reference/opal.table_truncate.md)
+  : Truncate a Opal table
+- [`opal.table_view_create()`](https://www.obiba.org/opalr/reference/opal.table_view_create.md)
+  : Create an Opal view over tables
+- [`opal.table_view_update()`](https://www.obiba.org/opalr/reference/opal.table_view_update.md)
+  : Update the table references and the entity filter of an Opal view
+- [`opal.tables()`](https://www.obiba.org/opalr/reference/opal.tables.md)
+  : Get tables of a datasource
+- [`opal.tables_perm()`](https://www.obiba.org/opalr/reference/opal.tables_perm.md)
+  : Get the permissions on any table of a project
+- [`opal.tables_perm_add()`](https://www.obiba.org/opalr/reference/opal.tables_perm_add.md)
+  : Add or update a permission on any table of a project
+- [`opal.tables_perm_delete()`](https://www.obiba.org/opalr/reference/opal.tables_perm_delete.md)
+  : Delete a permission from any table of a project
+- [`opal.task()`](https://www.obiba.org/opalr/reference/opal.task.md) :
+  Get a task
+- [`opal.task_cancel()`](https://www.obiba.org/opalr/reference/opal.task_cancel.md)
+  : Cancel a task
+- [`opal.task_delete()`](https://www.obiba.org/opalr/reference/opal.task_delete.md)
+  : Delete a task
+- [`opal.task_wait()`](https://www.obiba.org/opalr/reference/opal.task_wait.md)
+  : Wait for a task to complete or anticipate its cancellation.
+- [`opal.tasks()`](https://www.obiba.org/opalr/reference/opal.tasks.md)
+  : Get the tasks
+- [`opal.taxonomies()`](https://www.obiba.org/opalr/reference/opal.taxonomies.md)
+  : Get taxonomies
+- [`opal.taxonomy()`](https://www.obiba.org/opalr/reference/opal.taxonomy.md)
+  : Get a taxonomy
+- [`opal.taxonomy_delete()`](https://www.obiba.org/opalr/reference/opal.taxonomy_delete.md)
+  : Delete a taxonomy
+- [`opal.taxonomy_download()`](https://www.obiba.org/opalr/reference/opal.taxonomy_download.md)
+  : Download a taxonomy file
+- [`opal.taxonomy_upload()`](https://www.obiba.org/opalr/reference/opal.taxonomy_upload.md)
+  : Upload a taxonomy file
+- [`opal.terms()`](https://www.obiba.org/opalr/reference/opal.terms.md)
+  : Get the terms of a vocabulary
+- [`opal.token()`](https://www.obiba.org/opalr/reference/opal.token.md)
+  : Get a personal access token
+- [`opal.token_datashield_create()`](https://www.obiba.org/opalr/reference/opal.token_datashield_create.md)
+  : Create a personal access token for Datashield usage
+- [`opal.token_delete()`](https://www.obiba.org/opalr/reference/opal.token_delete.md)
+  : Delete a personal access token
+- [`opal.token_r_create()`](https://www.obiba.org/opalr/reference/opal.token_r_create.md)
+  : Create a personal access token for R usage
+- [`opal.token_renew()`](https://www.obiba.org/opalr/reference/opal.token_renew.md)
+  : Renew an inactive personal access token
+- [`opal.token_sql_create()`](https://www.obiba.org/opalr/reference/opal.token_sql_create.md)
+  : Create a personal access token for SQL usage
+- [`opal.tokens()`](https://www.obiba.org/opalr/reference/opal.tokens.md)
+  : Get the personal access tokens
+- [`opal.unload_package()`](https://www.obiba.org/opalr/reference/opal.unload_package.md)
+  : Unload package
+- [`opal.valueset()`](https://www.obiba.org/opalr/reference/opal.valueset.md)
+  : Get the values of an entity
+- [`opal.variable()`](https://www.obiba.org/opalr/reference/opal.variable.md)
+  : Get a variable of a table
+- [`opal.variable_summary()`](https://www.obiba.org/opalr/reference/opal.variable_summary.md)
+  : Get summary statistics of a variable of a table
+- [`opal.variables()`](https://www.obiba.org/opalr/reference/opal.variables.md)
+  : Get variables of a table
+- [`opal.version_compare()`](https://www.obiba.org/opalr/reference/opal.version_compare.md)
+  : Compare
+- [`opal.vocabularies()`](https://www.obiba.org/opalr/reference/opal.vocabularies.md)
+  : Get the vocabularies of a taxonomy
+- [`opal.vocabulary()`](https://www.obiba.org/opalr/reference/opal.vocabulary.md)
+  : Get a taxonomy vocabulary
+- [`opal.workspace_restore()`](https://www.obiba.org/opalr/reference/opal.workspace_restore.md)
+  : Restore a R workspace from a opal.
+- [`opal.workspace_rm()`](https://www.obiba.org/opalr/reference/opal.workspace_rm.md)
+  : Remove a R workspace from a opal.
+- [`opal.workspace_save()`](https://www.obiba.org/opalr/reference/opal.workspace_save.md)
+  : Save the current session in a opal R workspace.
+- [`opal.workspaces()`](https://www.obiba.org/opalr/reference/opal.workspaces.md)
+  : Get the R workspaces from a opal.
+
+# Articles
+
+### All vignettes
+
+- [DataSHIELD
+  Administration](https://www.obiba.org/opalr/articles/datashield-admin.md):
+- [Opal Files](https://www.obiba.org/opalr/articles/opal-files.md):
+- [Opal
+  Projects](https://www.obiba.org/opalr/articles/opal-projects.md):
+- [Opal R
+  Session](https://www.obiba.org/opalr/articles/opal-rsession.md):
