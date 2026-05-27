@@ -26,9 +26,9 @@ opal.logout(o)
 }
 }
 \seealso{
-Other REST functions: 
-\code{\link{opal.get}()},
-\code{\link{opal.post}()},
-\code{\link{opal.put}()}
+Other REST functions:
+\code{\link[=opal.get]{opal.get()}},
+\code{\link[=opal.post]{opal.post()}},
+\code{\link[=opal.put]{opal.put()}}
 }
 \concept{REST functions}

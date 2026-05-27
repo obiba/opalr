@@ -29,16 +29,16 @@ opal.logout(o)
 }
 }
 \seealso{
-Other administration functions: 
-\code{\link{oadmin.install_bioconductor_package}()},
-\code{\link{oadmin.install_cran_package}()},
-\code{\link{oadmin.install_devtools}()},
-\code{\link{oadmin.install_github_package}()},
-\code{\link{oadmin.install_local_package}()},
-\code{\link{oadmin.installed_devtools}()},
-\code{\link{oadmin.installed_package}()},
-\code{\link{oadmin.installed_packages}()},
-\code{\link{oadmin.package_description}()},
-\code{\link{oadmin.remove_package}()}
+Other administration functions:
+\code{\link[=oadmin.install_bioconductor_package]{oadmin.install_bioconductor_package()}},
+\code{\link[=oadmin.install_cran_package]{oadmin.install_cran_package()}},
+\code{\link[=oadmin.install_devtools]{oadmin.install_devtools()}},
+\code{\link[=oadmin.install_github_package]{oadmin.install_github_package()}},
+\code{\link[=oadmin.install_local_package]{oadmin.install_local_package()}},
+\code{\link[=oadmin.installed_devtools]{oadmin.installed_devtools()}},
+\code{\link[=oadmin.installed_package]{oadmin.installed_package()}},
+\code{\link[=oadmin.installed_packages]{oadmin.installed_packages()}},
+\code{\link[=oadmin.package_description]{oadmin.package_description()}},
+\code{\link[=oadmin.remove_package]{oadmin.remove_package()}}
 }
 \concept{administration functions}

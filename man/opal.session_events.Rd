@@ -26,11 +26,11 @@ opal.logout(o)
 }
 }
 \seealso{
-Other session functions: 
-\code{\link{opal.session}()},
-\code{\link{opal.session_delete}()},
-\code{\link{opal.session_exists}()},
-\code{\link{opal.session_get}()},
-\code{\link{opal.session_running}()}
+Other session functions:
+\code{\link[=opal.session]{opal.session()}},
+\code{\link[=opal.session_delete]{opal.session_delete()}},
+\code{\link[=opal.session_exists]{opal.session_exists()}},
+\code{\link[=opal.session_get]{opal.session_get()}},
+\code{\link[=opal.session_running]{opal.session_running()}}
 }
 \concept{session functions}

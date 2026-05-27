@@ -28,16 +28,16 @@ opal.logout(o)
 }
 }
 \seealso{
-Other datasource functions: 
-\code{\link{opal.annotate}()},
-\code{\link{opal.annotations}()},
-\code{\link{opal.attribute_values}()},
-\code{\link{opal.datasource}()},
-\code{\link{opal.datasources}()},
-\code{\link{opal.table}()},
-\code{\link{opal.tables}()},
-\code{\link{opal.valueset}()},
-\code{\link{opal.variable}()},
-\code{\link{opal.variable_summary}()}
+Other datasource functions:
+\code{\link[=opal.annotate]{opal.annotate()}},
+\code{\link[=opal.annotations]{opal.annotations()}},
+\code{\link[=opal.attribute_values]{opal.attribute_values()}},
+\code{\link[=opal.datasource]{opal.datasource()}},
+\code{\link[=opal.datasources]{opal.datasources()}},
+\code{\link[=opal.table]{opal.table()}},
+\code{\link[=opal.tables]{opal.tables()}},
+\code{\link[=opal.valueset]{opal.valueset()}},
+\code{\link[=opal.variable]{opal.variable()}},
+\code{\link[=opal.variable_summary]{opal.variable_summary()}}
 }
 \concept{datasource functions}

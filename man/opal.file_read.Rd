@@ -29,18 +29,18 @@ opal.logout(o)
 }
 }
 \seealso{
-Other file functions: 
-\code{\link{opal.file}()},
-\code{\link{opal.file_cp}()},
-\code{\link{opal.file_download}()},
-\code{\link{opal.file_info}()},
-\code{\link{opal.file_ls}()},
-\code{\link{opal.file_mkdir}()},
-\code{\link{opal.file_mkdir_tmp}()},
-\code{\link{opal.file_mv}()},
-\code{\link{opal.file_rm}()},
-\code{\link{opal.file_unzip}()},
-\code{\link{opal.file_upload}()},
-\code{\link{opal.file_write}()}
+Other file functions:
+\code{\link[=opal.file]{opal.file()}},
+\code{\link[=opal.file_cp]{opal.file_cp()}},
+\code{\link[=opal.file_download]{opal.file_download()}},
+\code{\link[=opal.file_info]{opal.file_info()}},
+\code{\link[=opal.file_ls]{opal.file_ls()}},
+\code{\link[=opal.file_mkdir]{opal.file_mkdir()}},
+\code{\link[=opal.file_mkdir_tmp]{opal.file_mkdir_tmp()}},
+\code{\link[=opal.file_mv]{opal.file_mv()}},
+\code{\link[=opal.file_rm]{opal.file_rm()}},
+\code{\link[=opal.file_unzip]{opal.file_unzip()}},
+\code{\link[=opal.file_upload]{opal.file_upload()}},
+\code{\link[=opal.file_write]{opal.file_write()}}
 }
 \concept{file functions}

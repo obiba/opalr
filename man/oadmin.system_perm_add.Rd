@@ -13,7 +13,7 @@ oadmin.system_perm_add(opal, subject, type = "user", permission)
 
 \item{type}{The type of subject: user (default) or group.}
 
-\item{permission}{The permission to apply: project_add or administrate.}
+\item{permission}{The permission to apply: project_add, audit or administrate.}
 }
 \description{
 Add or update a permission on the whole system.

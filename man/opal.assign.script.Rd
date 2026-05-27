@@ -28,11 +28,11 @@ opal.logout(o)
 }
 }
 \seealso{
-Other assignment functions: 
-\code{\link{opal.assign}()},
-\code{\link{opal.assign.data}()},
-\code{\link{opal.assign.resource}()},
-\code{\link{opal.assign.table}()},
-\code{\link{opal.assign.table.tibble}()}
+Other assignment functions:
+\code{\link[=opal.assign]{opal.assign()}},
+\code{\link[=opal.assign.data]{opal.assign.data()}},
+\code{\link[=opal.assign.resource]{opal.assign.resource()}},
+\code{\link[=opal.assign.table]{opal.assign.table()}},
+\code{\link[=opal.assign.table.tibble]{opal.assign.table.tibble()}}
 }
 \concept{assignment functions}

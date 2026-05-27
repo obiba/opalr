@@ -53,18 +53,18 @@ opal.logout(o)
 }
 }
 \seealso{
-Other resource functions: 
-\code{\link{opal.resource}()},
-\code{\link{opal.resource_create}()},
-\code{\link{opal.resource_delete}()},
-\code{\link{opal.resource_exists}()},
-\code{\link{opal.resource_get}()},
-\code{\link{opal.resource_perm}()},
-\code{\link{opal.resource_perm_add}()},
-\code{\link{opal.resource_perm_delete}()},
-\code{\link{opal.resources}()},
-\code{\link{opal.resources_perm}()},
-\code{\link{opal.resources_perm_add}()},
-\code{\link{opal.resources_perm_delete}()}
+Other resource functions:
+\code{\link[=opal.resource]{opal.resource()}},
+\code{\link[=opal.resource_create]{opal.resource_create()}},
+\code{\link[=opal.resource_delete]{opal.resource_delete()}},
+\code{\link[=opal.resource_exists]{opal.resource_exists()}},
+\code{\link[=opal.resource_get]{opal.resource_get()}},
+\code{\link[=opal.resource_perm]{opal.resource_perm()}},
+\code{\link[=opal.resource_perm_add]{opal.resource_perm_add()}},
+\code{\link[=opal.resource_perm_delete]{opal.resource_perm_delete()}},
+\code{\link[=opal.resources]{opal.resources()}},
+\code{\link[=opal.resources_perm]{opal.resources_perm()}},
+\code{\link[=opal.resources_perm_add]{opal.resources_perm_add()}},
+\code{\link[=opal.resources_perm_delete]{opal.resources_perm_delete()}}
 }
 \concept{resource functions}

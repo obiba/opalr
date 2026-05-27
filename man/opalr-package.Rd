@@ -24,6 +24,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Yannick Marcon \email{yannick.marcon@obiba.org} (\href{https://orcid.org/0000-0003-0138-2023}{ORCID})
 
+Authors:
+\itemize{
+  \item Yannick Marcon \email{yannick.marcon@obiba.org} (\href{https://orcid.org/0000-0003-0138-2023}{ORCID})
+}
+
 Other contributors:
 \itemize{
   \item Amadou Gaye (\href{https://orcid.org/0000-0002-1180-2792}{ORCID}) [contributor]

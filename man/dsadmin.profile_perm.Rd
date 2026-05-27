@@ -27,17 +27,17 @@ opal.logout(o)
 }
 }
 \seealso{
-Other DataSHIELD profiles: 
-\code{\link{dsadmin.profile}()},
-\code{\link{dsadmin.profile_access}()},
-\code{\link{dsadmin.profile_create}()},
-\code{\link{dsadmin.profile_delete}()},
-\code{\link{dsadmin.profile_enable}()},
-\code{\link{dsadmin.profile_exists}()},
-\code{\link{dsadmin.profile_init}()},
-\code{\link{dsadmin.profile_perm_add}()},
-\code{\link{dsadmin.profile_perm_delete}()},
-\code{\link{dsadmin.profile_rparser}()},
-\code{\link{dsadmin.profiles}()}
+Other DataSHIELD profiles:
+\code{\link[=dsadmin.profile]{dsadmin.profile()}},
+\code{\link[=dsadmin.profile_access]{dsadmin.profile_access()}},
+\code{\link[=dsadmin.profile_create]{dsadmin.profile_create()}},
+\code{\link[=dsadmin.profile_delete]{dsadmin.profile_delete()}},
+\code{\link[=dsadmin.profile_enable]{dsadmin.profile_enable()}},
+\code{\link[=dsadmin.profile_exists]{dsadmin.profile_exists()}},
+\code{\link[=dsadmin.profile_init]{dsadmin.profile_init()}},
+\code{\link[=dsadmin.profile_perm_add]{dsadmin.profile_perm_add()}},
+\code{\link[=dsadmin.profile_perm_delete]{dsadmin.profile_perm_delete()}},
+\code{\link[=dsadmin.profile_rparser]{dsadmin.profile_rparser()}},
+\code{\link[=dsadmin.profiles]{dsadmin.profiles()}}
 }
 \concept{DataSHIELD profiles}

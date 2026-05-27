@@ -37,25 +37,25 @@ opal.logout(o)
 }
 }
 \seealso{
-Other DataSHIELD functions: 
-\code{\link{dsadmin.get_method}()},
-\code{\link{dsadmin.get_methods}()},
-\code{\link{dsadmin.get_options}()},
-\code{\link{dsadmin.install_github_package}()},
-\code{\link{dsadmin.install_local_package}()},
-\code{\link{dsadmin.installed_package}()},
-\code{\link{dsadmin.package_description}()},
-\code{\link{dsadmin.package_descriptions}()},
-\code{\link{dsadmin.publish_package}()},
-\code{\link{dsadmin.remove_package}()},
-\code{\link{dsadmin.rm_method}()},
-\code{\link{dsadmin.rm_methods}()},
-\code{\link{dsadmin.rm_option}()},
-\code{\link{dsadmin.rm_options}()},
-\code{\link{dsadmin.rm_package_methods}()},
-\code{\link{dsadmin.set_method}()},
-\code{\link{dsadmin.set_option}()},
-\code{\link{dsadmin.set_package_methods}()},
-\code{\link{dsadmin.unpublish_package}()}
+Other DataSHIELD functions:
+\code{\link[=dsadmin.get_method]{dsadmin.get_method()}},
+\code{\link[=dsadmin.get_methods]{dsadmin.get_methods()}},
+\code{\link[=dsadmin.get_options]{dsadmin.get_options()}},
+\code{\link[=dsadmin.install_github_package]{dsadmin.install_github_package()}},
+\code{\link[=dsadmin.install_local_package]{dsadmin.install_local_package()}},
+\code{\link[=dsadmin.installed_package]{dsadmin.installed_package()}},
+\code{\link[=dsadmin.package_description]{dsadmin.package_description()}},
+\code{\link[=dsadmin.package_descriptions]{dsadmin.package_descriptions()}},
+\code{\link[=dsadmin.publish_package]{dsadmin.publish_package()}},
+\code{\link[=dsadmin.remove_package]{dsadmin.remove_package()}},
+\code{\link[=dsadmin.rm_method]{dsadmin.rm_method()}},
+\code{\link[=dsadmin.rm_methods]{dsadmin.rm_methods()}},
+\code{\link[=dsadmin.rm_option]{dsadmin.rm_option()}},
+\code{\link[=dsadmin.rm_options]{dsadmin.rm_options()}},
+\code{\link[=dsadmin.rm_package_methods]{dsadmin.rm_package_methods()}},
+\code{\link[=dsadmin.set_method]{dsadmin.set_method()}},
+\code{\link[=dsadmin.set_option]{dsadmin.set_option()}},
+\code{\link[=dsadmin.set_package_methods]{dsadmin.set_package_methods()}},
+\code{\link[=dsadmin.unpublish_package]{dsadmin.unpublish_package()}}
 }
 \concept{DataSHIELD functions}

@@ -84,8 +84,8 @@ opal.logout(o)
 }
 }
 \seealso{
-Other connection functions: 
-\code{\link{opal.logout}()},
-\code{\link{opal.profiles}()}
+Other connection functions:
+\code{\link[=opal.logout]{opal.logout()}},
+\code{\link[=opal.profiles]{opal.profiles()}}
 }
 \concept{connection functions}

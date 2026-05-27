@@ -33,23 +33,23 @@ opal.logout(o)
 }
 }
 \seealso{
-Other table functions: 
-\code{\link{opal.perms}()},
-\code{\link{opal.resource_view_create}()},
-\code{\link{opal.resource_view_reconnect}()},
-\code{\link{opal.table_create}()},
-\code{\link{opal.table_delete}()},
-\code{\link{opal.table_dictionary_get}()},
-\code{\link{opal.table_dictionary_update}()},
-\code{\link{opal.table_export}()},
-\code{\link{opal.table_get}()},
-\code{\link{opal.table_import}()},
-\code{\link{opal.table_perm}()},
-\code{\link{opal.table_perm_add}()},
-\code{\link{opal.table_perm_delete}()},
-\code{\link{opal.table_save}()},
-\code{\link{opal.table_truncate}()},
-\code{\link{opal.table_view_create}()},
-\code{\link{opal.table_view_update}()}
+Other table functions:
+\code{\link[=opal.perms]{opal.perms()}},
+\code{\link[=opal.resource_view_create]{opal.resource_view_create()}},
+\code{\link[=opal.resource_view_reconnect]{opal.resource_view_reconnect()}},
+\code{\link[=opal.table_create]{opal.table_create()}},
+\code{\link[=opal.table_delete]{opal.table_delete()}},
+\code{\link[=opal.table_dictionary_get]{opal.table_dictionary_get()}},
+\code{\link[=opal.table_dictionary_update]{opal.table_dictionary_update()}},
+\code{\link[=opal.table_export]{opal.table_export()}},
+\code{\link[=opal.table_get]{opal.table_get()}},
+\code{\link[=opal.table_import]{opal.table_import()}},
+\code{\link[=opal.table_perm]{opal.table_perm()}},
+\code{\link[=opal.table_perm_add]{opal.table_perm_add()}},
+\code{\link[=opal.table_perm_delete]{opal.table_perm_delete()}},
+\code{\link[=opal.table_save]{opal.table_save()}},
+\code{\link[=opal.table_truncate]{opal.table_truncate()}},
+\code{\link[=opal.table_view_create]{opal.table_view_create()}},
+\code{\link[=opal.table_view_update]{opal.table_view_update()}}
 }
 \concept{table functions}

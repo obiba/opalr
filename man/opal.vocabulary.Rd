@@ -24,13 +24,13 @@ opal.logout(o)
 }
 }
 \seealso{
-Other taxonomy functions: 
-\code{\link{opal.taxonomies}()},
-\code{\link{opal.taxonomy}()},
-\code{\link{opal.taxonomy_delete}()},
-\code{\link{opal.taxonomy_download}()},
-\code{\link{opal.taxonomy_upload}()},
-\code{\link{opal.terms}()},
-\code{\link{opal.vocabularies}()}
+Other taxonomy functions:
+\code{\link[=opal.taxonomies]{opal.taxonomies()}},
+\code{\link[=opal.taxonomy]{opal.taxonomy()}},
+\code{\link[=opal.taxonomy_delete]{opal.taxonomy_delete()}},
+\code{\link[=opal.taxonomy_download]{opal.taxonomy_download()}},
+\code{\link[=opal.taxonomy_upload]{opal.taxonomy_upload()}},
+\code{\link[=opal.terms]{opal.terms()}},
+\code{\link[=opal.vocabularies]{opal.vocabularies()}}
 }
 \concept{taxonomy functions}

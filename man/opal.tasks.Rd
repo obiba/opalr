@@ -22,10 +22,10 @@ opal.logout(o)
 }
 }
 \seealso{
-Other task functions: 
-\code{\link{opal.task}()},
-\code{\link{opal.task_cancel}()},
-\code{\link{opal.task_delete}()},
-\code{\link{opal.task_wait}()}
+Other task functions:
+\code{\link[=opal.task]{opal.task()}},
+\code{\link[=opal.task_cancel]{opal.task_cancel()}},
+\code{\link[=opal.task_delete]{opal.task_delete()}},
+\code{\link[=opal.task_wait]{opal.task_wait()}}
 }
 \concept{task functions}

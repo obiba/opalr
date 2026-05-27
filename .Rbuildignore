@@ -15,3 +15,5 @@
 ^pkgdown$
 ^\.github$
 ^CRAN-SUBMISSION$
+^\.positai$
+^\.claude$

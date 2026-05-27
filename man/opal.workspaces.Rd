@@ -20,9 +20,9 @@ opal.logout(o)
 }
 }
 \seealso{
-Other workspace functions: 
-\code{\link{opal.workspace_restore}()},
-\code{\link{opal.workspace_rm}()},
-\code{\link{opal.workspace_save}()}
+Other workspace functions:
+\code{\link[=opal.workspace_restore]{opal.workspace_restore()}},
+\code{\link[=opal.workspace_rm]{opal.workspace_rm()}},
+\code{\link[=opal.workspace_save]{opal.workspace_save()}}
 }
 \concept{workspace functions}

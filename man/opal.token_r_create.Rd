@@ -38,12 +38,12 @@ opal.logout(o)
 }
 }
 \seealso{
-Other token functions: 
-\code{\link{opal.token}()},
-\code{\link{opal.token_datashield_create}()},
-\code{\link{opal.token_delete}()},
-\code{\link{opal.token_renew}()},
-\code{\link{opal.token_sql_create}()},
-\code{\link{opal.tokens}()}
+Other token functions:
+\code{\link[=opal.token]{opal.token()}},
+\code{\link[=opal.token_datashield_create]{opal.token_datashield_create()}},
+\code{\link[=opal.token_delete]{opal.token_delete()}},
+\code{\link[=opal.token_renew]{opal.token_renew()}},
+\code{\link[=opal.token_sql_create]{opal.token_sql_create()}},
+\code{\link[=opal.tokens]{opal.tokens()}}
 }
 \concept{token functions}

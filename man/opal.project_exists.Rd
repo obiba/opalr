@@ -25,11 +25,11 @@ opal.logout(o)
 }
 }
 \seealso{
-Other project functions: 
-\code{\link{opal.project}()},
-\code{\link{opal.project_create}()},
-\code{\link{opal.project_delete}()},
-\code{\link{opal.projects}()},
-\code{\link{opal.projects_databases}()}
+Other project functions:
+\code{\link[=opal.project]{opal.project()}},
+\code{\link[=opal.project_create]{opal.project_create()}},
+\code{\link[=opal.project_delete]{opal.project_delete()}},
+\code{\link[=opal.projects]{opal.projects()}},
+\code{\link[=opal.projects_databases]{opal.projects_databases()}}
 }
 \concept{project functions}

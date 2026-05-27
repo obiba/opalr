@@ -22,13 +22,13 @@ opal.logout(o)
 }
 }
 \seealso{
-Other user functions: 
-\code{\link{oadmin.user_add}()},
-\code{\link{oadmin.user_delete}()},
-\code{\link{oadmin.user_enable}()},
-\code{\link{oadmin.user_exists}()},
-\code{\link{oadmin.user_profile_delete}()},
-\code{\link{oadmin.user_profiles}()},
-\code{\link{oadmin.user_reset_password}()}
+Other user functions:
+\code{\link[=oadmin.user_add]{oadmin.user_add()}},
+\code{\link[=oadmin.user_delete]{oadmin.user_delete()}},
+\code{\link[=oadmin.user_enable]{oadmin.user_enable()}},
+\code{\link[=oadmin.user_exists]{oadmin.user_exists()}},
+\code{\link[=oadmin.user_profile_delete]{oadmin.user_profile_delete()}},
+\code{\link[=oadmin.user_profiles]{oadmin.user_profiles()}},
+\code{\link[=oadmin.user_reset_password]{oadmin.user_reset_password()}}
 }
 \concept{user functions}
