@@ -88,17 +88,20 @@ opal.project <- function(opal, project) {
 #' @param opal Opal object.
 #' @param project Name of the project
 #' @param database The database name (as declared in Opal) to be used to store project's data. If not provided, the project
-#' can have views and resources but no raw tables. If the the value is a logical and is TRUE, the default database will be 
-#' selected or the first one if there is no default.
+#' can have views and resources but no raw tables. If the value is a logical and is TRUE, first the internal flag will be evaluated,
+#' otherwise the default database will be selected or the first one if there is no default.
 #' @param title The title of the project (optional).
 #' @param description The description of the project (optional).
 #' @param tags A list of tag names (optional).
 #' @param exportFolder The default location of the exported data files in the Opal file system (optional).
+#' @param internal When database is TRUE and this flag is TRUE as well, the project will be associated to an internal database (Opal 6.0+ only).
 #' @examples 
 #' \dontrun{
 #' o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 #' # with named database
 #' opal.project_create(o, 'test', database='opal_data', title='This is a test', tags=list('Test'))
+#' # with internal database
+#' opal.project_create(o, 'test_internal_db', database = TRUE, internal = TRUE)
 #' # with default database
 #' opal.project_create(o, 'test_default_db', database = TRUE)
 #' # no database, for views and resources only
@@ -106,7 +109,7 @@ opal.project <- function(opal, project) {
 #' opal.logout(o)
 #' }
 #' @export
-opal.project_create <- function(opal, project, database = NULL, title = NULL, description = NULL, tags = NULL, exportFolder = NULL) {
+opal.project_create <- function(opal, project, database = NULL, title = NULL, description = NULL, tags = NULL, exportFolder = NULL, internal = FALSE) {
   if (!opal.project_exists(opal, project)) {
     # {"name":"test","title":"This is the title","description":"This is the description","database":"opal_data","vcfStoreService":null,"exportFolder":"/home/administrator/export","tags":["DataSHIELD,","Resources"]}
     projson <- list(name = project)
@@ -114,13 +117,28 @@ opal.project_create <- function(opal, project, database = NULL, title = NULL, de
       dbs <- opal.get(opal, "system", "databases", query = list(usage = "storage"))
       dbNames <- sapply(dbs, function(db) db$name)
       if (is.logical(database)) {
-        if (database && length(dbNames)>0) {
-          projson$database <- dbNames[1]
-          # apply default db, if there is any
-          lapply(dbs, function(db) {
-            if (db$defaultStorage)
-              projson$database <- db$name
-          })
+        if (database) {
+          if (isTRUE(internal)) {
+            # specify it is an internal one
+            projson$internalDatabase <- TRUE
+          } else if (length(dbNames)>0) {
+            # apply default db, if there is any
+            for (db in dbs) {
+              if (isTRUE(db$defaultStorage)) {
+                projson$database <- db$name
+                break
+              }
+            }
+            if (is.null(projson$database)) {
+              # get first that does not have an ownerProject
+              for (db in dbs) {
+                if (is.null(db$ownerProject)) {
+                  projson$database <- db$name
+                  break
+                }
+              }
+            }
+          }
         }
       } else {
         if (!(database %in% dbNames)) {
