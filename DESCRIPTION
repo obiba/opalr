@@ -1,5 +1,5 @@
 Package: opalr
-Version: 3.6.1
+Version: 3.7.0
 Title: 'Opal' Data Repository Client and 'DataSHIELD' Utils
 Authors@R: 
     c(person(given = "Yannick",
@@ -50,4 +50,4 @@ URL: https://github.com/obiba/opalr/,
 BugReports: https://github.com/obiba/opalr/issues
 VignetteBuilder: knitr
 Encoding: UTF-8
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

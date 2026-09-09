@@ -11,7 +11,8 @@ opal.project_create(
   title = NULL,
   description = NULL,
   tags = NULL,
-  exportFolder = NULL
+  exportFolder = NULL,
+  internal = FALSE
 )
 }
 \arguments{
@@ -20,8 +21,8 @@ opal.project_create(
 \item{project}{Name of the project}
 
 \item{database}{The database name (as declared in Opal) to be used to store project's data. If not provided, the project
-can have views and resources but no raw tables. If the the value is a logical and is TRUE, the default database will be 
-selected or the first one if there is no default.}
+can have views and resources but no raw tables. If the value is a logical and is TRUE, first the internal flag will be evaluated,
+otherwise the default database will be selected or the first one if there is no default.}
 
 \item{title}{The title of the project (optional).}
 
@@ -30,6 +31,8 @@ selected or the first one if there is no default.}
 \item{tags}{A list of tag names (optional).}
 
 \item{exportFolder}{The default location of the exported data files in the Opal file system (optional).}
+
+\item{internal}{When database is TRUE and this flag is TRUE as well, the project will be associated to an internal database (Opal 6.0+ only).}
 }
 \description{
 Create a project
@@ -39,6 +42,8 @@ Create a project
 o <- opal.login('administrator','password', url='https://opal-demo.obiba.org')
 # with named database
 opal.project_create(o, 'test', database='opal_data', title='This is a test', tags=list('Test'))
+# with internal database
+opal.project_create(o, 'test_internal_db', database = TRUE, internal = TRUE)
 # with default database
 opal.project_create(o, 'test_default_db', database = TRUE)
 # no database, for views and resources only
