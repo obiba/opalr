@@ -30,13 +30,19 @@ The DataSHIELD log is structured as follows:
   \item username: DS user name
   \item r_duration: time spent by the remote R server action (all except PARSE)
   \item r_size: R result serialized object size in bytes
-  \item ds_action: DS operation (OPEN, CLOSE, PARSE, ASSIGN, AGGREGATE, LS, RM, WS_SAVE, WS_RESTORE)
+  \item ds_action: DS operation (OPEN, CLOSE, RESOLVE, PARSE, ASSIGN, AGGREGATE, LS, RM, WS_SAVE, WS_RESTORE)
 }
 
 \strong{DS operations fields}
 \itemize{
   \item OPEN: DS session opened (note: happens after successful authentication as R server session creation is deferred)
   \item CLOSE: DS session closed
+  \item RESOLVE: Table or resource access is resolved
+  \itemize{
+    \item ds_symbol: symbol name to assign
+    \item ds_table: table name to assign
+    \item ds_resource: resource name to assign
+  }
   \item PARSE: R expression parsed
   \itemize{
     \item ds_map: DS function mappings used in the R parser, separated by semicolons when several functions are called
