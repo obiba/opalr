@@ -23,9 +23,12 @@ opal.login(
 \item{token}{Personal access token (since opal 2.15). Only effective if the username or the password is NULL or empty. 
 Can be provided by "opal.token" option.}
 
-\item{url}{Opal url or list of opal urls. Can be provided by "opal.url" option. Secure http (https) connection is required.}
+\item{url}{Opal url or list of opal urls. Can be provided by "opal.url" option. Secure http (https) connection is required,
+unless the host is localhost or the "insecure.http" option is TRUE (see opts).}
 
-\item{opts}{Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.}
+\item{opts}{Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.
+The non-curl option "insecure.http" (or the "opal.insecure.http" R option) set to TRUE allows a plain http URL whose host
+is not localhost, e.g. when Opal is reached through a proxy on a private network.}
 
 \item{profile}{R server profile name. This will drive the R server in which a R session will be created. If no remote R session
 is needed (because Opal specific operations are done), this parameter does not need to be provided. Otherwise, if missing, the default 

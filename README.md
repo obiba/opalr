@@ -43,6 +43,7 @@ Some helper options can be defined to control default values and behavior:
 * `opal.password`, the login user password (default is `NULL`).
 * `opal.token`, the login personal access token (default is `NULL`).
 * `opal.url`, the login Opal URL (default is `NULL`).
+* `opal.insecure.http`, whether a plain `http://` URL is allowed for a host other than localhost (default is `FALSE`).
 * `opal.opts`, the curl options (default is `NULL`), see [httr::httr_options](https://httr.r-lib.org/reference/httr_options.html).
 * `opal.profile`, the login profile (R servers cluster name) (default is `NULL`).
 * `opal.progress`, whether to show progress bar (default is `TRUE`).

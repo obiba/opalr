@@ -20,8 +20,11 @@
 #' @param password User password in opal(s). Can be provided by "opal.password" option.
 #' @param token Personal access token (since opal 2.15). Only effective if the username or the password is NULL or empty. 
 #'  Can be provided by "opal.token" option.
-#' @param url Opal url or list of opal urls. Can be provided by "opal.url" option. Secure http (https) connection is required.
+#' @param url Opal url or list of opal urls. Can be provided by "opal.url" option. Secure http (https) connection is required,
+#'  unless the host is localhost or the "insecure.http" option is TRUE (see opts).
 #' @param opts Curl options as described by httr (call httr::httr_options() for details). Can be provided by "opal.opts" option.
+#'  The non-curl option "insecure.http" (or the "opal.insecure.http" R option) set to TRUE allows a plain http URL whose host
+#'  is not localhost, e.g. when Opal is reached through a proxy on a private network.
 #' @param restore Workspace ID to be restored (see also opal.logout)
 #' @param profile R server profile name. This will drive the R server in which a R session will be created. If no remote R session
 #' is needed (because Opal specific operations are done), this parameter does not need to be provided. Otherwise, if missing, the default 
@@ -540,7 +543,9 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
   }
   if (is.null(url)) stop("opal url is required", call. = FALSE)
   opalUrl <- url
-  if (startsWith(url, "http://localhost:")) {
+  insecure <- isTRUE(opts$insecure.http) || isTRUE(getOption("opal.insecure.http", FALSE))
+  opts$insecure.http <- NULL # not a httr/curl option
+  if (startsWith(url, "http://localhost:") || (insecure && startsWith(url, "http://"))) {
     warning("Connecting through non-secure http", call. = FALSE)
   } else if (startsWith(url, "http://")) {
     stop("Connecting through secure http is required.", call. = FALSE)
