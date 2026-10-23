@@ -238,10 +238,10 @@ opal.version_compare <- function(opal, version) {
 opal.get <- function(opal, ..., query = list(), acceptType = 'application/json', outFile = NULL, callback = NULL) {
   r <- NULL
   if (is.null(outFile))
-    r <- RETRY('GET', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, accept(acceptType), config = opal$config, handle = opal$handle, .verbose(), 
+    r <- RETRY('GET', .url(opal, ...), .headers(opal), query = query, accept(acceptType), config = opal$config, handle = opal$handle, .verbose(), 
                terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   else
-    r <- RETRY('GET', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose(), 
+    r <- RETRY('GET', .url(opal, ...), .headers(opal), query = query, accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose(), 
                terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
@@ -268,10 +268,10 @@ opal.get <- function(opal, ..., query = list(), acceptType = 'application/json',
 opal.post <- function(opal, ..., query = list(), body = '', contentType = 'application/x-rscript', acceptType = 'application/json', outFile = NULL, callback = NULL) {
   r <- NULL
   if (is.null(outFile))
-    r <- RETRY('POST', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, body = body, content_type(contentType), accept(acceptType), config = opal$config, handle = opal$handle, .verbose(),
+    r <- RETRY('POST', .url(opal, ...), .headers(opal), query = query, body = body, content_type(contentType), accept(acceptType), config = opal$config, handle = opal$handle, .verbose(),
                terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   else
-    r <- RETRY('POST', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, body = body, content_type(contentType), accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose(),
+    r <- RETRY('POST', .url(opal, ...), .headers(opal), query = query, body = body, content_type(contentType), accept(acceptType), write_disk(outFile, overwrite = TRUE), config = opal$config, handle = opal$handle, .verbose(),
                terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
@@ -294,7 +294,7 @@ opal.post <- function(opal, ..., query = list(), body = '', contentType = 'appli
 #' }
 #' @export
 opal.put <- function(opal, ..., query = list(), body = '', contentType = 'application/x-rscript', callback = NULL) {
-  r <- RETRY('PUT', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, body = body, content_type(contentType), config = opal$config, handle = opal$handle, .verbose(),
+  r <- RETRY('PUT', .url(opal, ...), .headers(opal), query = query, body = body, content_type(contentType), config = opal$config, handle = opal$handle, .verbose(),
              terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
@@ -315,7 +315,7 @@ opal.put <- function(opal, ..., query = list(), body = '', contentType = 'applic
 #' }
 #' @export
 opal.delete <- function(opal, ..., query = list(), callback = NULL) {
-  r <- RETRY('DELETE', .url(opal, ...), httr::add_headers('X-XSRF-TOKEN' = opal$csrf), query = query, config = opal$config, handle = opal$handle, .verbose(),
+  r <- RETRY('DELETE', .url(opal, ...), .headers(opal), query = query, config = opal$config, handle = opal$handle, .verbose(),
              terminate_on = 400:599, times = getOption('opal.retry.times', 3), quiet = getOption('opal.retry.quiet', FALSE))
   .handleResponseOrCallback(opal, r, callback)
 }
@@ -340,6 +340,12 @@ opal.delete <- function(opal, ..., query = list(), callback = NULL) {
 #' @keywords internal
 .authorizationHeader <- function(username, password) {
   paste("X-Opal-Auth", jsonlite::base64_enc(paste(username, password, sep = ":")))
+}
+
+#' Request headers: CSRF token, plus the personal access token (if any) so that a proxy can identify the caller on every request.
+#' @keywords internal
+.headers <- function(opal) {
+  httr::add_headers('X-XSRF-TOKEN' = opal$csrf, 'X-Opal-Auth' = opal$token)
 }
 
 #' Constructs the value for the X-Opal-Auth header

@@ -148,7 +148,7 @@ opal.file_upload <- function(opal, source, destination, all.files = TRUE) {
   doUploadFile <- function(src, dest) {
     location <- append("files", strsplit(substring(dest, 2), "/")[[1]])
     r <- httr::POST(.url(opal, location),
-                    httr::add_headers('X-XSRF-TOKEN' = opal$csrf),
+                    .headers(opal),
                     body=list(file=upload_file(src)), encode = "multipart", 
                     content_type("multipart/form-data"), accept("text/html"), 
                     config=opal$config, handle=opal$handle, .verbose())
